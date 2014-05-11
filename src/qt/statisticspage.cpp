@@ -48,7 +48,7 @@ void StatisticsPage::updateStatistics()
     uint64_t nMinWeight = 0, nMaxWeight = 0, nWeight = 0;
     pwalletMain->GetStakeWeight(*pwalletMain, nMinWeight, nMaxWeight, nWeight);
     uint64_t nNetworkWeight = GetPoSKernelPS();
-    int64_t volume = ((pindexBest->nMoneySupply)/100000000);
+    int volume = ((pindexBest->nMoneySupply)/100000000);
     int peers = this->model->getNumConnections();
     lPawrate2 = ((double)lPawrate / 1000);
     pPawrate2 = (((double)pPawrate / 1000)/1000);
@@ -87,6 +87,10 @@ void StatisticsPage::updateStatistics()
     ui->heightBox->setText(height);
     }
 
+    ui->minBox->setText(stakemin);
+    ui->maxBox->setText(stakemax);
+
+    /*
     if(nMinWeight > stakeminPrevious)
     {
         ui->minBox->setText("<b><font color=\"green\">" + stakemin + "</font></b>");
@@ -99,6 +103,7 @@ void StatisticsPage::updateStatistics()
     } else {
     ui->maxBox->setText(stakemax);
     }
+    */
 
     if(phase != stakecPrevious)
     {
