@@ -11,6 +11,10 @@ greaterThan(QT_MAJOR_VERSION, 4) {
     DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0
 }
 
+!win32 {
+QT += network
+}
+
 OBJECTS_DIR = build
 MOC_DIR = build
 UI_DIR = build
