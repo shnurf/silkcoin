@@ -26,7 +26,7 @@ public:
     int getNumConnections() const;
     int getNumBlocks() const;
     int getNumBlocksAtStartup();
-	int GetNetworkHashPS(int lookup) const;
+    int GetNetworkHashPS(int lookup) const;
     double GetDifficulty() const;
 
     QDateTime getLastBlockDate() const;

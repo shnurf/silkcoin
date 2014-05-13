@@ -39,19 +39,16 @@ void StatisticsPage::updateStatistics()
 {
     double pHardness = GetDifficulty();
     double pHardness2 = GetDifficulty(GetLastBlockIndex(pindexBest, true));
-    int pPawrate = model->GetNetworkHashPS(-1);
+    int pPawrate = GetPoWMHashPS();
     double pPawrate2 = 0.000;
     int nHeight = pindexBest->nHeight;
-    int lPawrate = 0;
-    double lPawrate2 = 0.000;
     double nSubsidy = 5000;
     uint64_t nMinWeight = 0, nMaxWeight = 0, nWeight = 0;
     pwalletMain->GetStakeWeight(*pwalletMain, nMinWeight, nMaxWeight, nWeight);
     uint64_t nNetworkWeight = GetPoSKernelPS();
     int64_t volume = ((pindexBest->nMoneySupply)/100000000);
     int peers = this->model->getNumConnections();
-    lPawrate2 = ((double)lPawrate / 1000);
-    pPawrate2 = (((double)pPawrate / 1000)/1000);
+    pPawrate2 = (double)pPawrate;
     QString height = QString::number(nHeight);
     QString stakemin = QString::number(nMinWeight);
     QString stakemax = QString::number(nNetworkWeight);
@@ -76,7 +73,8 @@ void StatisticsPage::updateStatistics()
     QString hardness = QString::number(pHardness, 'f', 6);
     QString hardness2 = QString::number(pHardness2, 'f', 6);
     QString pawrate = QString::number(pPawrate2, 'f', 3);
-    QString Qlpawrate = QString::number(lPawrate2, 'f', 3);
+    QString Qlpawrate = model->getLastBlockDate().toString();
+
     QString QPeers = QString::number(peers);
     QString qVolume = QLocale(QLocale::English).toString(volume);
 
@@ -87,13 +85,13 @@ void StatisticsPage::updateStatistics()
     ui->heightBox->setText(height);
     }
 
-    if(nMinWeight > stakeminPrevious)
+    if(0 > stakeminPrevious)
     {
         ui->minBox->setText("<b><font color=\"green\">" + stakemin + "</font></b>");
     } else {
     ui->minBox->setText(stakemin);
     }
-    if(nNetworkWeight > stakemaxPrevious)
+    if(0 > stakemaxPrevious)
     {
         ui->maxBox->setText("<b><font color=\"green\">" + stakemax + "</font></b>");
     } else {
@@ -135,20 +133,18 @@ void StatisticsPage::updateStatistics()
     
     if(pPawrate2 > netPawratePrevious)
     {
-        ui->pawrateBox->setText("<b><font color=\"green\">" + pawrate + " KH/s</font></b>");             
+        ui->pawrateBox->setText("<b><font color=\"green\">" + pawrate + " MH/s</font></b>");
     } else if(pPawrate2 < netPawratePrevious) {
-        ui->pawrateBox->setText("<b><font color=\"red\">" + pawrate + " KH/s</font></b>");        
+        ui->pawrateBox->setText("<b><font color=\"red\">" + pawrate + " MH/s</font></b>");
     } else {
         ui->pawrateBox->setText(pawrate + " MH/s");
     }
-    
-    if(lPawrate > pawratePrevious)
+
+    if(Qlpawrate != pawratePrevious)
     {
-        ui->localBox->setText("<b><font color=\"green\">" + Qlpawrate + " KH/s</font></b>");             
-    } else if(lPawrate < pawratePrevious) {
-        ui->localBox->setText("<b><font color=\"red\">" + Qlpawrate + " KH/s</font></b>");        
+        ui->localBox->setText("<b><font color=\"green\">" + Qlpawrate + "</font></b>");
     } else {
-        ui->localBox->setText(Qlpawrate + " KH/s");      
+    ui->localBox->setText(Qlpawrate);
     }
     
     if(peers > connectionPrevious)
@@ -168,10 +164,10 @@ void StatisticsPage::updateStatistics()
     } else {
         ui->volumeBox->setText(qVolume + " SC");
     }
-    updatePrevious(nHeight, nMinWeight, nNetworkWeight, phase, nSubsidy, pHardness, pHardness2, pPawrate2, lPawrate, peers, volume);
+    updatePrevious(nHeight, nMinWeight, nNetworkWeight, phase, nSubsidy, pHardness, pHardness2, pPawrate2, Qlpawrate, peers, volume);
 }
 
-void StatisticsPage::updatePrevious(int nHeight, int nMinWeight, int nNetworkWeight, QString phase, double nSubsidy, double pHardness, double pHardness2, double pPawrate2, double lPawrate, int peers, int volume)
+void StatisticsPage::updatePrevious(int nHeight, int nMinWeight, int nNetworkWeight, QString phase, double nSubsidy, double pHardness, double pHardness2, double pPawrate2, QString Qlpawrate, int peers, int volume)
 {
     heightPrevious = nHeight;
     stakeminPrevious = nMinWeight;
@@ -181,7 +177,7 @@ void StatisticsPage::updatePrevious(int nHeight, int nMinWeight, int nNetworkWei
     hardnessPrevious = pHardness;
     hardnessPrevious2 = pHardness2;
     netPawratePrevious = pPawrate2;
-    pawratePrevious = lPawrate;
+    pawratePrevious = Qlpawrate;
     connectionPrevious = peers;
     volumePrevious = volume;
 }

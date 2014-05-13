@@ -273,8 +273,8 @@ void BitcoinGUI::createActions()
     blockAction->setCheckable(true);
     tabGroup->addAction(blockAction);
 	
-    poolAction = new QAction(QIcon(":/icons/ex"), tr("&Pools/Exchanges"), this);
-    poolAction->setToolTip(tr("Pools"));
+    poolAction = new QAction(QIcon(":/icons/ex"), tr("&Market Data"), this);
+    poolAction->setToolTip(tr("Market"));
     poolAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_7));
     poolAction->setCheckable(true);
     tabGroup->addAction(poolAction);
@@ -296,8 +296,8 @@ void BitcoinGUI::createActions()
     quitAction->setToolTip(tr("Quit application"));
     quitAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
     quitAction->setMenuRole(QAction::QuitRole);
-    aboutCardAction = new QAction(tr("About Silkcoin card"), this);
-    aboutCardAction->setToolTip(tr("Show information about Silkcoin card"));
+    aboutCardAction = new QAction(tr("Silkcoin website"), this);
+    aboutCardAction->setToolTip(tr("Show information about Silkcoin"));
     aboutAction = new QAction(QIcon(":/icons/bitcoin"), tr("&About Silkcoin"), this);
     aboutAction->setToolTip(tr("Show information about Silkcoin"));
     aboutAction->setMenuRole(QAction::AboutRole);
@@ -538,7 +538,7 @@ void BitcoinGUI::optionsClicked()
 
 void BitcoinGUI::aboutCardClicked()
 {
-    QDesktopServices::openUrl(QUrl("http://www.silkcoin.com/"));
+    QDesktopServices::openUrl(QUrl("http://www.silk-coin.com/"));
 }
 
 void BitcoinGUI::aboutClicked()

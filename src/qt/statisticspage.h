@@ -18,6 +18,7 @@
 #include <QSettings>
 #include <QSlider>
 
+
 namespace Ui {
 class StatisticsPage;
 }
@@ -41,14 +42,14 @@ public:
     QString stakecPrevious;
     double rewardPrevious;
     double netPawratePrevious;
-    double pawratePrevious;
+    QString pawratePrevious;
     double hardnessPrevious;
     double hardnessPrevious2;
     
 public slots:
 
     void updateStatistics();
-    void updatePrevious(int, int, int, QString, double, double, double, double, double, int, int);
+    void updatePrevious(int, int, int, QString, double, double, double, double, QString, int, int);
 
 private slots:
 
