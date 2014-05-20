@@ -14,6 +14,7 @@ using namespace json_spirit;
 
 const QString kBaseUrl = "https://bittrex.com/api/v1/public/";
 const QString kBaseUrl2 = "http://blockchain.info/tobtc?currency=USD&value=1";
+const QString kBaseUrl3 = "https://bittrex.com/api/v1/public/getorderbook?market=BTC-SC&type=both&depth=10";
 QString lastp = "";
 QString askp = "";
 QString bidp = "";
@@ -41,14 +42,26 @@ PoolBrowser::PoolBrowser(QWidget *parent) :
     ui(new Ui::PoolBrowser)
 {
     ui->setupUi(this);
-    
+    ui->buyquan->header()->resizeSection(0,120);
+    ui->sellquan->header()->resizeSection(0,120);
     setFixedSize(400, 420);
 randomChuckNorrisJoke();
 randomChuckNorrisJoke2();
+randomChuckNorrisJoke3();
 QObject::connect(&m_nam, SIGNAL(finished(QNetworkReply*)), this, SLOT(parseNetworkResponse(QNetworkReply*)));
 QObject::connect(&m_nam2, SIGNAL(finished(QNetworkReply*)), this, SLOT(parseNetworkResponse2(QNetworkReply*)));
+QObject::connect(&m_nam3, SIGNAL(finished(QNetworkReply*)), this, SLOT(parseNetworkResponse3(QNetworkReply*)));
 connect(ui->startButton, SIGNAL(pressed()), this, SLOT( randomChuckNorrisJoke()));
 connect(ui->bittrex, SIGNAL(pressed()), this, SLOT( bittrex()));
+connect(ui->egal, SIGNAL(pressed()), this, SLOT( egaldo()));
+
+}
+void PoolBrowser::egaldo()
+{
+    QString temps = ui->egals->text();
+    double totalsc = temps.toDouble();
+    double totald = lastu * totalsc;
+    ui->egald->setText(QString::number(totald) + " $");
 
 }
 
@@ -60,12 +73,18 @@ void PoolBrowser::bittrex()
 void PoolBrowser::randomChuckNorrisJoke()
 {
     randomChuckNorrisJoke2();
+    randomChuckNorrisJoke3();
     getRequest(kBaseUrl + "/getmarketsummaries");
 }
 void PoolBrowser::randomChuckNorrisJoke2()
 {
 getRequest2(kBaseUrl2);
 }
+void PoolBrowser::randomChuckNorrisJoke3()
+{
+getRequest3(kBaseUrl3);
+}
+
 void PoolBrowser::getRequest( const QString &urlString )
 {
     QUrl url ( urlString );
@@ -77,6 +96,13 @@ void PoolBrowser::getRequest2( const QString &urlString )
     QUrl url2 ( urlString );
     QNetworkRequest req2 ( url2 );
     m_nam2.get( req2 );
+}
+
+void PoolBrowser::getRequest3( const QString &urlString )
+{
+    QUrl url3 ( urlString );
+    QNetworkRequest req3 ( url3 );
+    m_nam3.get( req3 );
 }
 
 void PoolBrowser::parseNetworkResponse( QNetworkReply *finished )
@@ -101,7 +127,7 @@ void PoolBrowser::parseNetworkResponse( QNetworkReply *finished )
     QStringList ask = bid[1].split(",\"OpenBuyOrders\":");
     QStringList openbuy = ask[1].split(",\"OpenSellOrders\":");
     QStringList opensell = openbuy[1].split(",\"PrevDay\":");
-    QStringList yest = opensell[1].split("},{");
+    QStringList yest = opensell[1].split(",\"Created\":");
 
    // 0.00000978,"Low":0.00000214,"Volume":3718261.74455189,"Last":0.00000558,
    //"BaseVolume":22.42443460,"TimeStamp":"2014-05-13T10:08:06.553","Bid":0.00000558,"Ask":0.00000559,"OpenBuyOrders":42,"OpenSellOrders":42,"PrevDay":0.00000861}
@@ -207,7 +233,7 @@ void PoolBrowser::parseNetworkResponse( QNetworkReply *finished )
     {
         yestu = ((yest[0].toDouble() - last[0].toDouble())/yest[0].toDouble())*100;
         yestus = QString::number(yestu);
-        ui->yest->setText("<b><font color=\"green\"> - " + yestus + " %</font></b>");
+        ui->yest->setText("<b><font color=\"red\"> - " + yestus + " %</font></b>");
 
     }
 
@@ -253,6 +279,57 @@ void PoolBrowser::parseNetworkResponse2(QNetworkReply *finished )
     bitcoinp = bitcoin;
     emit jokeReady2( bitcoin );
 }
+
+void PoolBrowser::parseNetworkResponse3(QNetworkReply *finished )
+{
+    if ( finished->error() != QNetworkReply::NoError )
+    {
+        // A communication error has occurred
+        emit networkError2( finished->error() );
+        return;
+    }
+
+    // QNetworkReply is a QIODevice. So we read from it just like it was a file
+    QString marketd = finished->readAll();
+    marketd = marketd.replace("{","");
+    marketd = marketd.replace("}","");
+    marketd = marketd.replace("\"","");
+    marketd = marketd.replace("],\"sell\":","");
+    marketd = marketd.replace(" ","");
+    marketd = marketd.replace("]","");
+    marketd = marketd.replace("Quantity:","");
+    marketd = marketd.replace("Rate:","");
+    QStringList marketd2 = marketd.split("["); // marketd2[1] => buy order marketd2[2] => sell
+    QStringList marketdb = marketd2[1].split(",");
+    QStringList marketds = marketd2[2].split(",");
+
+    ui->sellquan->clear();
+    ui->buyquan->clear();
+
+      ui->sellquan->setSortingEnabled(true);
+       ui->buyquan->setSortingEnabled(true);
+
+       for (int i = 1; i < 19; i++) {
+
+           QTreeWidgetItem * item = new QTreeWidgetItem();
+           item->setText(0,marketdb[i]);
+           item->setText(1,marketdb[i+1]);
+           ui->buyquan->addTopLevelItem(item);
+
+           QTreeWidgetItem * item2 = new QTreeWidgetItem();
+           item2->setText(0,marketds[i+1]);
+           item2->setText(1,marketds[i]);
+           ui->sellquan->addTopLevelItem(item2);
+
+
+           i = i + 1;
+       }
+
+    emit jokeReady3( marketd );
+
+}
+
+
 void PoolBrowser::setModel(ClientModel *model)
 {
     this->model = model;

@@ -283,7 +283,7 @@ double getTxFees(std::string txid)
     CTransaction tx;
     uint256 hashBlock = 0;
     if (!GetTransaction(hash, tx, hashBlock))
-        return 51;
+        return 0.0001;
 
     CDataStream ssTx(SER_NETWORK, PROTOCOL_VERSION);
     ssTx << tx;
@@ -360,7 +360,7 @@ void BlockBrowser::updateExplorer(bool block)
         }
         int Pawrate = getBlockHashrate(height);
         double Pawrate2 = 0.000;
-        Pawrate2 = ((double)Pawrate / 1000);
+        Pawrate2 = ((double)Pawrate / 1000000);
         std::string hash = getBlockHash(height);
         std::string merkle = getBlockMerkle(height);
         int nBits = getBlocknBits(height);
@@ -382,7 +382,7 @@ void BlockBrowser::updateExplorer(bool block)
         ui->nonceBox->setText(QNonce);
         ui->timeBox->setText(QTime);     
         ui->hardBox->setText(QHardness);
-        ui->pawBox->setText(QPawrate + " KH/s");
+        ui->pawBox->setText(QPawrate + " MH/s");
     } 
     
     if(block == false) {

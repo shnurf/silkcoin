@@ -22,6 +22,7 @@
 #include "statisticspage.h"
 #include "blockbrowser.h"
 #include "poolbrowser.h"
+#include "chatwindow.h"
 #include "bitcoinunits.h"
 #include "guiconstants.h"
 #include "askpassphrasedialog.h"
@@ -108,6 +109,7 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     // Create tabs
     overviewPage = new OverviewPage();
     statisticsPage = new StatisticsPage(this);
+    chatWindow = new ChatWindow(this);
 
 	blockBrowser = new BlockBrowser(this);
 	poolBrowser = new PoolBrowser(this);
@@ -129,6 +131,7 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     centralWidget = new QStackedWidget(this);
     centralWidget->addWidget(overviewPage);
     centralWidget->addWidget(statisticsPage);
+    centralWidget->addWidget(chatWindow);
     centralWidget->addWidget(blockBrowser);
 	centralWidget->addWidget(poolBrowser);
     centralWidget->addWidget(transactionsPage);
@@ -243,6 +246,11 @@ void BitcoinGUI::createActions()
     statisticsAction->setCheckable(true);
     tabGroup->addAction(statisticsAction);
 
+    chatAction = new QAction(QIcon(":/icons/social"), tr("&Social"), this);
+    chatAction->setToolTip(tr("View chat"));
+    chatAction->setCheckable(true);
+    tabGroup->addAction(chatAction);
+
     sendCoinsAction = new QAction(QIcon(":/icons/send"), tr("&Send coins"), this);
     sendCoinsAction->setToolTip(tr("Send coins to a Silkcoin address"));
     sendCoinsAction->setCheckable(true);
@@ -282,7 +290,8 @@ void BitcoinGUI::createActions()
 	connect(poolAction, SIGNAL(triggered()), this, SLOT(gotoPoolBrowser()));
     connect(overviewAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(overviewAction, SIGNAL(triggered()), this, SLOT(gotoOverviewPage()));
-	connect(statisticsAction, SIGNAL(triggered()), this, SLOT(gotoStatisticsPage()));
+    connect(statisticsAction, SIGNAL(triggered()), this, SLOT(gotoStatisticsPage()));
+    connect(chatAction, SIGNAL(triggered()), this, SLOT(gotoChatPage()));
     connect(sendCoinsAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(sendCoinsAction, SIGNAL(triggered()), this, SLOT(gotoSendCoinsPage()));
     connect(receiveCoinsAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
@@ -396,6 +405,7 @@ void BitcoinGUI::createToolBars()
 	toolbar->addAction(statisticsAction);
 	toolbar->addAction(blockAction);
 	toolbar->addAction(poolAction);
+    toolbar->addAction(chatAction);
 	toolbar->addAction(exportAction);
     QWidget* spacer = new QWidget();
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -464,6 +474,7 @@ void BitcoinGUI::setWalletModel(WalletModel *walletModel)
         signVerifyMessageDialog->setModel(walletModel);
 
         statisticsPage->setModel(clientModel);
+        chatWindow->setModel(clientModel);
         blockBrowser->setModel(clientModel);
         poolBrowser->setModel(clientModel);
         setEncryptionStatus(walletModel->getEncryptionStatus());
@@ -579,7 +590,7 @@ void BitcoinGUI::setNumBlocks(int count, int nTotalBlocks)
 
     if(count < nTotalBlocks)
     {
-        int nRemainingBlocks = nTotalBlocks - count;
+        //int nRemainingBlocks = nTotalBlocks - count;
         float nPercentageDone = count / (nTotalBlocks * 0.01f);
 
         if (strStatusBarWarnings.isEmpty())
@@ -793,6 +804,15 @@ void BitcoinGUI::gotoStatisticsPage()
 {
     statisticsAction->setChecked(true);
     centralWidget->setCurrentWidget(statisticsPage);
+
+    exportAction->setEnabled(false);
+    disconnect(exportAction, SIGNAL(triggered()), 0, 0);
+}
+
+void BitcoinGUI::gotoChatPage()
+{
+    chatAction->setChecked(true);
+    centralWidget->setCurrentWidget(chatWindow);
 
     exportAction->setEnabled(false);
     disconnect(exportAction, SIGNAL(triggered()), 0, 0);
