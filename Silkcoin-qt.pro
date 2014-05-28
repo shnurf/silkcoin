@@ -1,10 +1,10 @@
 TEMPLATE = app
 TARGET = silkcoin-qt
-VERSION = 1.0.7
+VERSION = 1.0.8
 INCLUDEPATH += src src/json src/qt
 DEFINES += QT_GUI BOOST_THREAD_USE_LIB BOOST_SPIRIT_THREADSAFE BOOST_THREAD_PROVIDES_GENERIC_SHARED_MUTEX_ON_WIN __NO_SYSTEM_INCLUDES
 CONFIG += no_include_pwd
-QT += core gui network widgets
+QT += core gui network
 CONFIG += static
 
 greaterThan(QT_MAJOR_VERSION, 4) {

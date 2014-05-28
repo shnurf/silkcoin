@@ -12,12 +12,12 @@
 
 using namespace json_spirit;
 
-const QString kBaseUrl = "https://bittrex.com/api/v1/public/getmarketsummaries";
+const QString kBaseUrl = "http://bittrex.com/api/v1/public/getmarketsummaries";
 const QString kBaseUrl2 = "http://blockchain.info/tobtc?currency=USD&value=1";
-const QString kBaseUrl3 = "https://bittrex.com/api/v1/public/getorderbook?market=BTC-SC&type=both&depth=50";
-const QString kBaseUrl4 = "https://poloniex.com/public?command=returnTicker";
-const QString kBaseUrl5 = "https://www.poloniex.com/public?command=returnOrderBook&currencyPair=BTC_SC";
-const QString kBaseUrl6 = "https://bittrex.com/api/v1/public/getmarkethistory?market=BTC-SC&count=100";
+const QString kBaseUrl3 = "http://bittrex.com/api/v1/public/getorderbook?market=BTC-SC&type=both&depth=50";
+const QString kBaseUrl4 = "http://poloniex.com/public?command=returnTicker";
+const QString kBaseUrl5 = "http://www.poloniex.com/public?command=returnOrderBook&currencyPair=BTC_SC";
+const QString kBaseUrl6 = "http://bittrex.com/api/v1/public/getmarkethistory?market=BTC-SC&count=100";
 
 QString bitcoinp = "";
 double bitcoin2;
