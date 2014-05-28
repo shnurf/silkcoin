@@ -1,5 +1,5 @@
 #include "bitcoinunits.h"
-
+#include "bitcoingui.h"
 #include <QStringList>
 
 BitcoinUnits::BitcoinUnits(QObject *parent):
@@ -34,7 +34,10 @@ QString BitcoinUnits::name(int unit)
 {
     switch(unit)
     {
-    case BTC: return QString("SC");
+    case BTC:
+        if (convertmode == 0) return QString("SC");
+        if (convertmode == 1) return QString("$");
+        if (convertmode == 2) return QString("BTC");
     case mBTC: return QString("mSC");
     case uBTC: return QString::fromUtf8("μSC");
     default: return QString("???");

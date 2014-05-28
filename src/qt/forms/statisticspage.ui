@@ -28,7 +28,7 @@ font-family:'Open Sans,sans-serif';</string>
     <widget class="QFrame" name="frame">
      <property name="minimumSize">
       <size>
-       <width>213</width>
+       <width>260</width>
        <height>0</height>
       </size>
      </property>
@@ -42,8 +42,8 @@ font-family:'Open Sans,sans-serif';</string>
       <property name="geometry">
        <rect>
         <x>50</x>
-        <y>370</y>
-        <width>120</width>
+        <y>360</y>
+        <width>151</width>
         <height>60</height>
        </rect>
       </property>
@@ -70,13 +70,42 @@ font-family:'Open Sans,sans-serif';</string>
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>70</y>
-        <width>191</width>
-        <height>281</height>
+        <y>40</y>
+        <width>231</width>
+        <height>211</height>
        </rect>
       </property>
       <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;Silkcoin phases:&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;Block 1 to 10k - POW/POS&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;Block 10k to 50k - Full POS&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;Block 50k to 60k - POW/POS&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;Block 60k+, full POS&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;Silkcoin phases:&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;1) Block 1 to 10k - POW/POS&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;2) Block 10k to 50k - Full POS&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;3) Block 50k to 60k - POW/POS&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;4) Block 60k+, full POS&lt;br/&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600; text-decoration: underline;&quot;&gt;Current Phase:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QProgressBar" name="progressBar">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>290</y>
+        <width>151</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="value">
+       <number>24</number>
+      </property>
+      <property name="textVisible">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="cBox">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>250</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;(1) POW - POS&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
     </widget>
@@ -84,13 +113,58 @@ font-family:'Open Sans,sans-serif';</string>
    <item row="0" column="0">
     <widget class="QFrame" name="gridFrame_2">
      <layout class="QGridLayout" name="gridLayout_4">
-      <item row="3" column="0">
+      <item row="2" column="0">
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="1" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <property name="spacing">
+         <number>7</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="label_5">
+          <property name="font">
+           <font>
+            <family>Open Sans,sans-serif</family>
+           </font>
+          </property>
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20px; font-weight:600; color:#000000;&quot;&gt;General Informations&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item row="3" column="0" rowspan="2">
        <layout class="QFormLayout" name="formLayout_2">
         <property name="fieldGrowthPolicy">
          <enum>QFormLayout::FieldsStayAtSizeHint</enum>
         </property>
         <property name="horizontalSpacing">
-         <number>139</number>
+         <number>78</number>
         </property>
         <property name="verticalSpacing">
          <number>18</number>
@@ -151,6 +225,13 @@ font-family:'Open Sans,sans-serif';</string>
          <widget class="QLabel" name="diffBox2">
           <property name="text">
            <string>0.0002</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_16">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Net Hashrate&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
         </item>
@@ -238,72 +319,20 @@ font-family:'Open Sans,sans-serif';</string>
          </widget>
         </item>
         <item row="11" column="0">
-         <widget class="QLabel" name="label_15">
+         <widget class="QLabel" name="label_17">
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Mining Phase&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Market Cap&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
         </item>
         <item row="11" column="1">
-         <widget class="QLabel" name="cBox">
+         <widget class="QLabel" name="marketcap">
           <property name="text">
-           <string>POW-POS</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="label_16">
-          <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Net Hashrate&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>0$</string>
           </property>
          </widget>
         </item>
        </layout>
-      </item>
-      <item row="1" column="0">
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
-        <property name="spacing">
-         <number>7</number>
-        </property>
-        <item>
-         <widget class="QLabel" name="label_5">
-          <property name="font">
-           <font>
-            <family>Open Sans,sans-serif</family>
-           </font>
-          </property>
-          <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20px; font-weight:600; color:#000000;&quot;&gt;General Informations&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-      <item row="2" column="0">
-       <spacer name="verticalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
       </item>
      </layout>
     </widget>

@@ -6,6 +6,7 @@
 #include "base58.h"
 #include "clientmodel.h"
 #include "bitcoinrpc.h"
+#include "poolbrowser.h"
 #include <sstream>
 #include <string>
 
@@ -32,6 +33,7 @@ double hardnessPrevious = -1;
 double hardnessPrevious2 = -1;
 int stakeminPrevious = -1;
 int stakemaxPrevious = -1;
+double marketcapPrevious = -1;
 QString stakecPrevious = "";
 
 
@@ -47,27 +49,35 @@ void StatisticsPage::updateStatistics()
     pwalletMain->GetStakeWeight(*pwalletMain, nMinWeight, nMaxWeight, nWeight);
     uint64_t nNetworkWeight = GetPoSKernelPS();
     int64_t volume = ((pindexBest->nMoneySupply)/100000000);
+    double marketcap = dollarg.toDouble() * volume;
     int peers = this->model->getNumConnections();
     pPawrate2 = (double)pPawrate;
+    ui->progressBar->setValue(nHeight);
     QString height = QString::number(nHeight);
     QString stakemin = QString::number(nMinWeight);
     QString stakemax = QString::number(nNetworkWeight);
     QString phase = "";
     if (pindexBest->nHeight < 10000)
     {
-        phase = "POW - POS";
+        phase = "<p align=\"center\">(1) POW - POS</p>";
     }
     else if (pindexBest->nHeight > 10000 && pindexBest->nHeight < 50000)
     {
-        phase = "POS";
+        phase = "<p align=\"center\">(2) POS</p>";
+        ui->progressBar->setMinimum(10000);
+        ui->progressBar->setMaximum(50000);
     }
     else if (pindexBest->nHeight > 50000 && pindexBest->nHeight < 60000)
     {
-        phase = "POW - POS";
+        phase = "<p align=\"center\">(3) POW - POS</p>";
+
+        ui->progressBar->setMinimum(50000);
+        ui->progressBar->setMaximum(60000);
     }
     else
     {
-        phase = "POS";
+        ui->progressBar->hide();
+        phase = "<p align=\"center\">(4) POS</p>";
     }
     QString subsidy = QString::number(nSubsidy, 'f', 6);
     QString hardness = QString::number(pHardness, 'f', 6);
@@ -80,6 +90,7 @@ void StatisticsPage::updateStatistics()
 
     if(nHeight > heightPrevious)
     {
+        ui->progressBar->setValue(nHeight);
         ui->heightBox->setText("<b><font color=\"green\">" + height + "</font></b>");
     } else {
     ui->heightBox->setText(height);
@@ -120,6 +131,15 @@ void StatisticsPage::updateStatistics()
         ui->diffBox->setText("<b><font color=\"red\">" + hardness + "</font></b>");
     } else {
         ui->diffBox->setText(hardness);        
+    }
+
+    if(marketcap > marketcapPrevious)
+    {
+        ui->marketcap->setText("<b><font color=\"green\">" + QString::number(marketcap) + " $</font></b>");
+    } else if(marketcap < marketcapPrevious) {
+        ui->marketcap->setText("<b><font color=\"red\">" + QString::number(marketcap) + " $</font></b>");
+    } else {
+        ui->marketcap->setText(QString::number(marketcap) + " $");
     }
 
     if(pHardness2 > hardnessPrevious2)
@@ -164,10 +184,10 @@ void StatisticsPage::updateStatistics()
     } else {
         ui->volumeBox->setText(qVolume + " SC");
     }
-    updatePrevious(nHeight, nMinWeight, nNetworkWeight, phase, nSubsidy, pHardness, pHardness2, pPawrate2, Qlpawrate, peers, volume);
+    updatePrevious(nHeight, nMinWeight, nNetworkWeight, phase, nSubsidy, pHardness, pHardness2, pPawrate2, Qlpawrate, peers, volume, marketcap);
 }
 
-void StatisticsPage::updatePrevious(int nHeight, int nMinWeight, int nNetworkWeight, QString phase, double nSubsidy, double pHardness, double pHardness2, double pPawrate2, QString Qlpawrate, int peers, int volume)
+void StatisticsPage::updatePrevious(int nHeight, int nMinWeight, int nNetworkWeight, QString phase, double nSubsidy, double pHardness, double pHardness2, double pPawrate2, QString Qlpawrate, int peers, int volume,double marketcap)
 {
     heightPrevious = nHeight;
     stakeminPrevious = nMinWeight;
@@ -180,6 +200,7 @@ void StatisticsPage::updatePrevious(int nHeight, int nMinWeight, int nNetworkWei
     pawratePrevious = Qlpawrate;
     connectionPrevious = peers;
     volumePrevious = volume;
+    marketcapPrevious = marketcap;
 }
 
 void StatisticsPage::setModel(ClientModel *model)

@@ -138,7 +138,7 @@
        <item row="10" column="1">
         <widget class="QLabel" name="pawBox">
          <property name="text">
-          <string>0000 KH/s</string>
+          <string>0000 MH/s</string>
          </property>
         </widget>
        </item>

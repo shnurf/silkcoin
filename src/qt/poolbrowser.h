@@ -11,6 +11,8 @@
 #include <QtNetwork/QtNetwork>
 
 
+extern QString bitcoing;
+extern QString dollarg;
 
 namespace Ui {
 class PoolBrowser;
@@ -30,32 +32,19 @@ public:
 
 private:
     void getRequest( const QString &url );
-    void getRequest2( const QString &url );
-    void getRequest3( const QString &url );
 
 signals:
-    void jokeReady( const QString &jokeAsJSON );
     void networkError( QNetworkReply::NetworkError err );
 
-    void jokeReady2( const QString &jokeAsJSON );
-    void networkError2( QNetworkReply::NetworkError err );
-    void jokeReady3( const QString &jokeAsJSON );
-    void networkError3( QNetworkReply::NetworkError err );
-
 public slots:
-    void parseNetworkResponse( QNetworkReply *finished );
-    void parseNetworkResponse2( QNetworkReply *finished );
-    void parseNetworkResponse3( QNetworkReply *finished );
+    void parseNetworkResponse(QNetworkReply *finished );
     void randomChuckNorrisJoke();
-    void randomChuckNorrisJoke2();
-    void randomChuckNorrisJoke3();
     void bittrex();
+    void poloniex();
     void egaldo();
 
 private:
     QNetworkAccessManager m_nam;
-    QNetworkAccessManager m_nam2;
-    QNetworkAccessManager m_nam3;
     Ui::PoolBrowser *ui;
     ClientModel *model;
 

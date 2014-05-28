@@ -12,6 +12,7 @@ class QComboBox;
 class QLineEdit;
 class QModelIndex;
 class QMenu;
+class QLabel;
 class QFrame;
 class QDateTimeEdit;
 QT_END_NAMESPACE
@@ -45,6 +46,7 @@ private:
     QTableView *transactionView;
 
     QComboBox *dateWidget;
+    QLabel *infoLabel;
     QComboBox *typeWidget;
     QLineEdit *addressWidget;
     QLineEdit *amountWidget;

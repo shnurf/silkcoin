@@ -15,6 +15,8 @@
 #include "walletmodel.h"
 #include "editaddressdialog.h"
 #include "optionsmodel.h"
+#include "tutoStackDialog.h"
+#include "tutoWriteDialog.h"
 #include "transactiondescdialog.h"
 #include "addresstablemodel.h"
 #include "transactionview.h"
@@ -67,6 +69,7 @@ extern CWallet* pwalletMain;
 extern int64_t nLastCoinStakeSearchInterval;
 extern unsigned int nTargetSpacing;
 double GetPoSKernelPS();
+int convertmode = 0;
 
 BitcoinGUI::BitcoinGUI(QWidget *parent):
     QMainWindow(parent),
@@ -144,7 +147,7 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
 
     // Status bar notification icons
     QFrame *frameBlocks = new QFrame();
-    frameBlocks->setStyleSheet("frameBlocks { background: rgb(35,35,35); }");
+    frameBlocks->setStyleSheet("frameBlocks { background: rgb(35,35,35); QToolbar { background:white;height:40px; } }");
     frameBlocks->setContentsMargins(0,0,0,0);
 
     frameBlocks->setMinimumWidth(30);
@@ -156,6 +159,7 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     labelStakingIcon = new QLabel();
     labelConnectionsIcon = new QLabel();
     labelBlocksIcon = new QLabel();
+    actionConvertIcon = new QAction(QIcon(":/icons/toolbar"), tr(""), this);
     frameBlocksLayout->addWidget(labelEncryptionIcon);
     frameBlocksLayout->addWidget(labelStakingIcon);
     frameBlocksLayout->addWidget(labelConnectionsIcon);
@@ -197,12 +201,16 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     toolbar2->setMovable( false );
     toolbar2->setObjectName("toolbar2");
     toolbar2->setFixedWidth(25);
+    toolbar2->addAction(actionConvertIcon);
     toolbar2->addWidget(frameBlocks);
+    toolbar2->setStyleSheet("QToolBar QToolButton { background:none;padding-top:10px;padding-bottom:5px; }");
     toolbar2->addWidget(progressBarLabel);
     toolbar2->addWidget(progressBar);
 
 
     syncIconMovie = new QMovie(":/movies/update_spinner", "mng", this);
+
+    connect(actionConvertIcon, SIGNAL(triggered()), this, SLOT(sConvert()));
 
     // Clicking on a transaction on the overview page simply sends you to transaction history page
     connect(overviewPage, SIGNAL(transactionClicked(QModelIndex)), this, SLOT(gotoHistoryPage()));
@@ -305,8 +313,9 @@ void BitcoinGUI::createActions()
     quitAction->setToolTip(tr("Quit application"));
     quitAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
     quitAction->setMenuRole(QAction::QuitRole);
-    aboutCardAction = new QAction(tr("Silkcoin website"), this);
-    aboutCardAction->setToolTip(tr("Show information about Silkcoin"));
+    aboutCardAction = new QAction(QIcon(":/icons/transaction_0"),tr("Silkcoin website"), this);
+    tutoStackAction = new QAction(tr("How to stake"), this);
+    tutoWriteAction = new QAction(tr("Write tutos, win SC"), this);
     aboutAction = new QAction(QIcon(":/icons/bitcoin"), tr("&About Silkcoin"), this);
     aboutAction->setToolTip(tr("Show information about Silkcoin"));
     aboutAction->setMenuRole(QAction::AboutRole);
@@ -338,6 +347,8 @@ void BitcoinGUI::createActions()
 
     connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
     connect(aboutCardAction, SIGNAL(triggered()), this, SLOT(aboutCardClicked()));
+    connect(tutoStackAction, SIGNAL(triggered()), this, SLOT(tutoStackClicked()));
+    connect(tutoWriteAction, SIGNAL(triggered()), this, SLOT(tutoWriteClicked()));
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(aboutClicked()));
     connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
     connect(optionsAction, SIGNAL(triggered()), this, SLOT(optionsClicked()));
@@ -386,6 +397,11 @@ void BitcoinGUI::createMenuBar()
 #endif
     help->addAction(aboutAction);
     help->addAction(aboutQtAction);
+
+    QMenu *tuto = appMenuBar->addMenu(tr("&Tutorials"));
+    tuto->addAction(tutoStackAction);
+    //tuto->addSeparator();
+    //tuto->addAction(tutoWriteAction);
 }
 
 void BitcoinGUI::createToolBars()
@@ -547,9 +563,42 @@ void BitcoinGUI::optionsClicked()
     dlg.exec();
 }
 
+void BitcoinGUI::sConvert()
+{
+    if (convertmode == 0)
+    {
+        actionConvertIcon->setIcon(QIcon(":/icons/dollar").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
+        convertmode = 1;
+    }
+    else if (convertmode == 1)
+    {
+        actionConvertIcon->setIcon(QIcon(":/icons/bitcoiniconn").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
+        convertmode = 2;
+    }
+    else if (convertmode == 2)
+    {
+        actionConvertIcon->setIcon(QIcon(":/icons/toolbar").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
+        convertmode = 0;
+    }
+}
+
 void BitcoinGUI::aboutCardClicked()
 {
     QDesktopServices::openUrl(QUrl("http://www.silk-coin.com/"));
+}
+
+void BitcoinGUI::tutoWriteClicked()
+{
+    tutoWriteDialog dlg;
+    dlg.setModel(clientModel);
+    dlg.exec();
+}
+
+void BitcoinGUI::tutoStackClicked()
+{
+    tutoStackDialog dlg;
+    dlg.setModel(clientModel);
+    dlg.exec();
 }
 
 void BitcoinGUI::aboutClicked()
@@ -757,18 +806,49 @@ void BitcoinGUI::incomingTransaction(const QModelIndex & parent, int start, int 
         QIcon icon = qvariant_cast<QIcon>(ttm->index(start,
                             TransactionTableModel::ToAddress, parent)
                         .data(Qt::DecorationRole));
+        if (convertmode == 0)
+        {
+            notificator->notify(Notificator::Information,
+                                (amount)<0 ? tr("Sent transaction") :
+                                             tr("Incoming transaction"),
+                                tr("Date: %1\n"
+                                   "Amount: %2\n"
+                                   "Type: %3\n"
+                                   "Address: %4\n")
+                                .arg(date)
+                                .arg(BitcoinUnits::formatWithUnit(walletModel->getOptionsModel()->getDisplayUnit(), amount, true))
+                                .arg(type)
+                                .arg(address), icon);
+        }
+        if (convertmode == 1)
+        {
+            notificator->notify(Notificator::Information,
+                                (amount)<0 ? tr("Sent transaction") :
+                                             tr("Incoming transaction"),
+                                tr("Date: %1\n"
+                                   "Amount: %2\n"
+                                   "Type: %3\n"
+                                   "Address: %4\n")
+                                .arg(date)
+                                .arg(BitcoinUnits::formatWithUnit(walletModel->getOptionsModel()->getDisplayUnit(), dollarg.toDouble()*amount, true))
+                                .arg(type)
+                                .arg(address), icon);
 
-        notificator->notify(Notificator::Information,
-                            (amount)<0 ? tr("Sent transaction") :
-                                         tr("Incoming transaction"),
-                              tr("Date: %1\n"
-                                 "Amount: %2\n"
-                                 "Type: %3\n"
-                                 "Address: %4\n")
-                              .arg(date)
-                              .arg(BitcoinUnits::formatWithUnit(walletModel->getOptionsModel()->getDisplayUnit(), amount, true))
-                              .arg(type)
-                              .arg(address), icon);
+        }
+        if (convertmode == 2)
+        {
+            notificator->notify(Notificator::Information,
+                                (amount)<0 ? tr("Sent transaction") :
+                                             tr("Incoming transaction"),
+                                tr("Date: %1\n"
+                                   "Amount: %2\n"
+                                   "Type: %3\n"
+                                   "Address: %4\n")
+                                .arg(date)
+                                .arg(BitcoinUnits::formatWithUnit(walletModel->getOptionsModel()->getDisplayUnit(), bitcoing.toDouble()*amount, true))
+                                .arg(type)
+                                .arg(address), icon);
+        }
     }
 }
 
@@ -778,7 +858,11 @@ void BitcoinGUI::gotoOverviewPage()
     centralWidget->setCurrentWidget(overviewPage);
     centralWidget->setMaximumWidth(750);
     centralWidget->setMaximumHeight(520);
-
+    actionConvertIcon->setEnabled(true);
+    actionConvertIcon->setVisible(true);
+    disconnect(actionConvertIcon, SIGNAL(triggered()), 0, 0);
+    connect(actionConvertIcon, SIGNAL(triggered()), this, SLOT(sConvert()));
+    exportAction->setVisible(false);
     exportAction->setEnabled(false);
     disconnect(exportAction, SIGNAL(triggered()), 0, 0);
 }
@@ -788,6 +872,12 @@ void BitcoinGUI::gotoPoolBrowser()
     poolAction->setChecked(true);
     centralWidget->setCurrentWidget(poolBrowser);
     exportAction->setEnabled(false);
+    actionConvertIcon->setEnabled(true);
+    actionConvertIcon->setVisible(true);
+    disconnect(actionConvertIcon, SIGNAL(triggered()), 0, 0);
+    connect(actionConvertIcon, SIGNAL(triggered()), this, SLOT(sConvert()));
+    exportAction->setVisible(false);
+
     disconnect(exportAction, SIGNAL(triggered()), 0, 0);
 }
 
@@ -795,6 +885,11 @@ void BitcoinGUI::gotoBlockBrowser()
 {
     blockAction->setChecked(true);
     centralWidget->setCurrentWidget(blockBrowser);
+    actionConvertIcon->setEnabled(true);
+    actionConvertIcon->setVisible(true);
+    disconnect(actionConvertIcon, SIGNAL(triggered()), 0, 0);
+    connect(actionConvertIcon, SIGNAL(triggered()), this, SLOT(sConvert()));
+    exportAction->setVisible(false);
 
     exportAction->setEnabled(false);
     disconnect(exportAction, SIGNAL(triggered()), 0, 0);
@@ -804,6 +899,11 @@ void BitcoinGUI::gotoStatisticsPage()
 {
     statisticsAction->setChecked(true);
     centralWidget->setCurrentWidget(statisticsPage);
+    actionConvertIcon->setEnabled(true);
+    actionConvertIcon->setVisible(true);
+    disconnect(actionConvertIcon, SIGNAL(triggered()), 0, 0);
+    connect(actionConvertIcon, SIGNAL(triggered()), this, SLOT(sConvert()));
+    exportAction->setVisible(false);
 
     exportAction->setEnabled(false);
     disconnect(exportAction, SIGNAL(triggered()), 0, 0);
@@ -813,7 +913,11 @@ void BitcoinGUI::gotoChatPage()
 {
     chatAction->setChecked(true);
     centralWidget->setCurrentWidget(chatWindow);
-
+    actionConvertIcon->setEnabled(true);
+    actionConvertIcon->setVisible(true);
+    disconnect(actionConvertIcon, SIGNAL(triggered()), 0, 0);
+    connect(actionConvertIcon, SIGNAL(triggered()), this, SLOT(sConvert()));
+    exportAction->setVisible(false);
     exportAction->setEnabled(false);
     disconnect(exportAction, SIGNAL(triggered()), 0, 0);
 }
@@ -824,7 +928,14 @@ void BitcoinGUI::gotoHistoryPage()
     historyAction->setChecked(true);
     centralWidget->setCurrentWidget(transactionsPage);
 
+    convertmode= 0;
+    actionConvertIcon->setIcon(QIcon(":/icons/toolbar").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
+    actionConvertIcon->setVisible(false);
+    actionConvertIcon->setEnabled(false);
+    disconnect(actionConvertIcon, SIGNAL(triggered()), 0, 0);
+
     exportAction->setEnabled(true);
+    exportAction->setVisible(true);
     disconnect(exportAction, SIGNAL(triggered()), 0, 0);
     connect(exportAction, SIGNAL(triggered()), transactionView, SLOT(exportClicked()));
 }
@@ -833,8 +944,13 @@ void BitcoinGUI::gotoAddressBookPage()
 {
     addressBookAction->setChecked(true);
     centralWidget->setCurrentWidget(addressBookPage);
-
+    convertmode = 0;
+    actionConvertIcon->setIcon(QIcon(":/icons/toolbar").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
+    actionConvertIcon->setEnabled(false);
+    actionConvertIcon->setVisible(false);
+    disconnect(actionConvertIcon, SIGNAL(triggered()), 0, 0);
     exportAction->setEnabled(true);
+    exportAction->setVisible(true);
     disconnect(exportAction, SIGNAL(triggered()), 0, 0);
     connect(exportAction, SIGNAL(triggered()), addressBookPage, SLOT(exportClicked()));
 }
@@ -843,8 +959,13 @@ void BitcoinGUI::gotoReceiveCoinsPage()
 {
     receiveCoinsAction->setChecked(true);
     centralWidget->setCurrentWidget(receiveCoinsPage);
-
+    convertmode = 0;
+    actionConvertIcon->setIcon(QIcon(":/icons/toolbar").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
+    actionConvertIcon->setEnabled(false);
+    actionConvertIcon->setVisible(false);
+    disconnect(actionConvertIcon, SIGNAL(triggered()), 0, 0);
     exportAction->setEnabled(true);
+    exportAction->setVisible(true);
     disconnect(exportAction, SIGNAL(triggered()), 0, 0);
     connect(exportAction, SIGNAL(triggered()), receiveCoinsPage, SLOT(exportClicked()));
 }
@@ -853,8 +974,13 @@ void BitcoinGUI::gotoSendCoinsPage()
 {
     sendCoinsAction->setChecked(true);
     centralWidget->setCurrentWidget(sendCoinsPage);
-
+    convertmode = 0;
+    actionConvertIcon->setIcon(QIcon(":/icons/toolbar").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
+    actionConvertIcon->setEnabled(false);
+    actionConvertIcon->setVisible(false);
+    disconnect(actionConvertIcon, SIGNAL(triggered()), 0, 0);
     exportAction->setEnabled(false);
+    exportAction->setVisible(false);
     disconnect(exportAction, SIGNAL(triggered()), 0, 0);
 }
 

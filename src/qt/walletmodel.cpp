@@ -5,6 +5,7 @@
 #include "transactiontablemodel.h"
 
 #include "ui_interface.h"
+#include "bitcoingui.h"
 #include "wallet.h"
 #include "walletdb.h" // for BackupWallet
 #include "base58.h"
@@ -18,7 +19,8 @@ WalletModel::WalletModel(CWallet *wallet, OptionsModel *optionsModel, QObject *p
     cachedBalance(0), cachedStake(0), cachedUnconfirmedBalance(0), cachedImmatureBalance(0),
     cachedNumTransactions(0),
     cachedEncryptionStatus(Unencrypted),
-    cachedNumBlocks(0)
+    cachedNumBlocks(0),
+    cachedconvertmode(0)
 {
     addressTableModel = new AddressTableModel(wallet, this);
     transactionTableModel = new TransactionTableModel(wallet, this);
@@ -76,7 +78,7 @@ void WalletModel::updateStatus()
 
 void WalletModel::pollBalanceChanged()
 {
-    if(nBestHeight != cachedNumBlocks)
+    if(nBestHeight != cachedNumBlocks || cachedconvertmode != convertmode)
     {
         // Balance and number of transactions might have changed
         cachedNumBlocks = nBestHeight;
@@ -91,8 +93,9 @@ void WalletModel::checkBalanceChanged()
     qint64 newUnconfirmedBalance = getUnconfirmedBalance();
     qint64 newImmatureBalance = getImmatureBalance();
 
-    if(cachedBalance != newBalance || cachedStake != newStake || cachedUnconfirmedBalance != newUnconfirmedBalance || cachedImmatureBalance != newImmatureBalance)
+    if(cachedconvertmode != convertmode || cachedBalance != newBalance || cachedStake != newStake || cachedUnconfirmedBalance != newUnconfirmedBalance || cachedImmatureBalance != newImmatureBalance)
     {
+        cachedconvertmode = convertmode;
         cachedBalance = newBalance;
         cachedStake = newStake;
         cachedUnconfirmedBalance = newUnconfirmedBalance;

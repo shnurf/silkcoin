@@ -45,11 +45,12 @@ public:
     QString pawratePrevious;
     double hardnessPrevious;
     double hardnessPrevious2;
+    double marketcapPrevious;
     
 public slots:
 
     void updateStatistics();
-    void updatePrevious(int, int, int, QString, double, double, double, double, QString, int, int);
+    void updatePrevious(int, int, int, QString, double, double, double, double, QString, int, int,double);
 
 private slots:
 

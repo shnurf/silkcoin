@@ -30,6 +30,8 @@ class QStackedWidget;
 class QUrl;
 QT_END_NAMESPACE
 
+extern int convertmode;
+
 /**
   Bitcoin GUI main class. This class represents the main window of the Bitcoin UI. It communicates with both the client and
   wallet models to give the user an up-to-date view of the current core state.
@@ -78,6 +80,7 @@ private:
     QLabel *labelStakingIcon;
     QLabel *labelConnectionsIcon;
     QLabel *labelBlocksIcon;
+    QAction *actionConvertIcon;
     QLabel *progressBarLabel;
     QProgressBar *progressBar;
 
@@ -94,6 +97,8 @@ private:
     QAction *signMessageAction;
     QAction *verifyMessageAction;
     QAction *aboutCardAction;
+    QAction *tutoStackAction;
+    QAction *tutoWriteAction;
     QAction *aboutAction;
     QAction *receiveCoinsAction;
     QAction *optionsAction;
@@ -174,6 +179,8 @@ private slots:
     /** Show configuration dialog */
     void optionsClicked();
     void aboutCardClicked();
+    void tutoStackClicked();
+    void tutoWriteClicked();
     /** Show about dialog */
     void aboutClicked();
 #ifndef Q_OS_MAC
@@ -202,6 +209,7 @@ private slots:
     void toggleHidden();
 
     void updateStakingIcon();
+    void sConvert();
 };
 
 #endif

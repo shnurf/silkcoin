@@ -3,6 +3,7 @@
 #include "bitcoinunits.h"
 
 #include "guiconstants.h"
+#include "poolbrowser.h"
 
 #include <QLabel>
 #include <QLineEdit>
@@ -15,8 +16,10 @@
 #include <qmath.h>
 
 BitcoinAmountField::BitcoinAmountField(QWidget *parent):
-        QWidget(parent), amount(0), currentUnit(-1)
+        QWidget(parent), amount(0), currentUnit(-1), label_btc(0)
 {
+    label_btc = new QLabel(this);
+    label_btc->setText("");
     amount = new QDoubleSpinBox(this);
     amount->setLocale(QLocale::c());
     amount->setDecimals(8);
@@ -31,6 +34,7 @@ BitcoinAmountField::BitcoinAmountField(QWidget *parent):
     layout->addWidget(unit);
     layout->addStretch(1);
     layout->setContentsMargins(0,0,0,0);
+    layout->addWidget(label_btc);
 
     setLayout(layout);
 
@@ -47,6 +51,7 @@ BitcoinAmountField::BitcoinAmountField(QWidget *parent):
 
 void BitcoinAmountField::setText(const QString &text)
 {
+
     if (text.isEmpty())
         amount->clear();
     else
@@ -61,6 +66,7 @@ void BitcoinAmountField::clear()
 
 bool BitcoinAmountField::validate()
 {
+
     bool valid = true;
     if (amount->value() == 0.0)
         valid = false;
@@ -75,13 +81,15 @@ bool BitcoinAmountField::validate()
 void BitcoinAmountField::setValid(bool valid)
 {
     if (valid)
+    {
         amount->setStyleSheet("");
-    else
-        amount->setStyleSheet(STYLE_INVALID);
+    }
+    else amount->setStyleSheet(STYLE_INVALID);
 }
 
 QString BitcoinAmountField::text() const
 {
+    label_btc->setText("Sending "+ (QString::number(amount->value()*dollarg.toDouble())) +" $ or "+ (QString::number(amount->value()*bitcoing.toDouble()))+ " BTC at current market rate");
     if (amount->text().isEmpty())
         return QString();
     else

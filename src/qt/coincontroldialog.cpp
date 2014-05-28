@@ -520,12 +520,13 @@ void CoinControlDialog::updateLabels(WalletModel *model, QDialog* dialog)
         if (nAfterFee < 0)
             nAfterFee = 0;
     }
-    
-    // actually update labels
+
     int nDisplayUnit = BitcoinUnits::BTC;
+
+    // actually update labels
     if (model && model->getOptionsModel())
         nDisplayUnit = model->getOptionsModel()->getDisplayUnit();
-            
+
     QLabel *l1 = dialog->findChild<QLabel *>("labelCoinControlQuantity");
     QLabel *l2 = dialog->findChild<QLabel *>("labelCoinControlAmount");
     QLabel *l3 = dialog->findChild<QLabel *>("labelCoinControlFee");
