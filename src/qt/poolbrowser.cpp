@@ -406,7 +406,7 @@ if (what == kBaseUrl6)
       ui->trades->setSortingEnabled(false);
 double highh = 0;
 double loww = 100000;
-    for (int i = 0; i < 99; i++) {
+    for (int i = 0; i < marketdb.length(); i++) {
 
         marketdb[i] = marketdb[i].replace("}","");
         marketdb[i] = marketdb[i].replace("{","");
@@ -423,7 +423,7 @@ double loww = 100000;
 
         ui->trades->addTopLevelItem(item);
 
-        x[z] = 100-z;
+        x[z] = marketdb.length() - z;
         y[z] = (dad[3].toDouble())*100000000;
 
         if (dad[3].toDouble()*100000000 > highh) highh = dad[3].toDouble()*100000000;
@@ -439,7 +439,7 @@ double loww = 100000;
        ui->customPlot->graph(0)->setPen(QPen(QColor(34, 177, 76)));
        ui->customPlot->graph(0)->setBrush(QBrush(QColor(34, 177, 76, 20)));
        // set axes ranges, so we see all data:
-      ui->customPlot->xAxis->setRange(1, 100);
+      ui->customPlot->xAxis->setRange(1, marketdb.length());
       ui->customPlot->yAxis->setRange(loww, highh);
       ui->customPlot->replot();
 

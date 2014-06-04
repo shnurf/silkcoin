@@ -16,10 +16,17 @@
 #endif
 
 #ifdef USE_UPNP
+#ifdef WIN32
 #include <miniwget.h>
 #include <miniupnpc.h>
 #include <upnpcommands.h>
 #include <upnperrors.h>
+#else
+#include <miniupnpc/miniwget.h>
+#include <miniupnpc/miniupnpc.h>
+#include <miniupnpc/upnpcommands.h>
+#include <miniupnpc/upnperrors.h>
+#endif
 #endif
 
 using namespace std;
