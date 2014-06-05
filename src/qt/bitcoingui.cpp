@@ -347,7 +347,7 @@ void BitcoinGUI::createActions()
     toolbarsend2->addAction(sendCoinsAction);
     tabGroup->addAction(sendCoinsAction);
 
-    receiveCoinsAction = new QAction(QIcon(":/icons/receiving_addresses"), tr("&Receive coins"), this);
+    receiveCoinsAction = new QAction(QIcon(":/icons/receiving_addresses"), tr("&Send / Receive"), this);
     receiveCoinsAction->setToolTip(tr("Show the list of addresses for receiving payments"));
     receiveCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_3));
     receiveCoinsAction->setCheckable(true);
