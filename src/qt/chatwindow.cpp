@@ -124,7 +124,7 @@ void ChatWindow::sendCommande()
 	}
 	else
 	{
-		currentTab()->sendData(currentTab()->parseCommande(ui->lineEdit->text()) );
+        currentTab()->sendData(currentTab()->parseCommande(ui->lineEdit->text()) );
 	}
 	ui->lineEdit->clear();
 	ui->lineEdit->setFocus();

@@ -9,16 +9,25 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>731</width>
+    <width>761</width>
     <height>509</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Digging</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="sizeConstraint">
     <enum>QLayout::SetMaximumSize</enum>
+   </property>
+   <property name="leftMargin">
+    <number>52</number>
+   </property>
+   <property name="rightMargin">
+    <number>22</number>
    </property>
    <item row="0" column="0">
     <widget class="QWidget" name="widget_5" native="true">
@@ -37,7 +46,7 @@
      <widget class="QLabel" name="label_13">
       <property name="geometry">
        <rect>
-        <x>520</x>
+        <x>500</x>
         <y>0</y>
         <width>81</width>
         <height>31</height>
@@ -50,9 +59,9 @@
      <widget class="QLabel" name="bitcoin">
       <property name="geometry">
        <rect>
-        <x>620</x>
+        <x>590</x>
         <y>0</y>
-        <width>81</width>
+        <width>71</width>
         <height>31</height>
        </rect>
       </property>
@@ -88,7 +97,7 @@
        <rect>
         <x>320</x>
         <y>0</y>
-        <width>201</width>
+        <width>181</width>
         <height>31</height>
        </rect>
       </property>
@@ -117,12 +126,15 @@
    <item row="1" column="0">
     <widget class="QTabWidget" name="All">
      <property name="styleSheet">
-      <string notr="true">background:lightgrey;</string>
+      <string notr="true">QTabWidget {background:#eae9ee;}</string>
      </property>
      <property name="currentIndex">
       <number>0</number>
      </property>
      <widget class="QWidget" name="tab_3">
+      <property name="styleSheet">
+       <string notr="true">background:#eae9ee;</string>
+      </property>
       <attribute name="title">
        <string>Bittrex</string>
       </attribute>
@@ -130,7 +142,7 @@
        <property name="geometry">
         <rect>
          <x>470</x>
-         <y>380</y>
+         <y>390</y>
          <width>120</width>
          <height>31</height>
         </rect>
@@ -155,7 +167,7 @@
        <property name="geometry">
         <rect>
          <x>340</x>
-         <y>380</y>
+         <y>390</y>
          <width>120</width>
          <height>30</height>
         </rect>
@@ -180,7 +192,7 @@
        <property name="geometry">
         <rect>
          <x>210</x>
-         <y>380</y>
+         <y>390</y>
          <width>120</width>
          <height>30</height>
         </rect>
@@ -204,9 +216,9 @@
       <widget class="QTabWidget" name="tabWidget">
        <property name="geometry">
         <rect>
-         <x>20</x>
+         <x>10</x>
          <y>10</y>
-         <width>681</width>
+         <width>671</width>
          <height>381</height>
         </rect>
        </property>
@@ -235,7 +247,7 @@ QTabBar::tab:selected, QTabBar::tab:hover {background:white;}</string>
           <rect>
            <x>-10</x>
            <y>-20</y>
-           <width>691</width>
+           <width>681</width>
            <height>381</height>
           </rect>
          </property>
@@ -617,7 +629,7 @@ QTabBar::tab:selected, QTabBar::tab:hover {background:white;}</string>
          <widget class="QTreeWidget" name="buyquan">
           <property name="geometry">
            <rect>
-            <x>360</x>
+            <x>350</x>
             <y>240</y>
             <width>311</width>
             <height>121</height>
@@ -639,7 +651,7 @@ QTabBar::tab:selected, QTabBar::tab:hover {background:white;}</string>
            <rect>
             <x>20</x>
             <y>240</y>
-            <width>331</width>
+            <width>321</width>
             <height>121</height>
            </rect>
           </property>
@@ -672,7 +684,7 @@ QTabBar::tab:selected, QTabBar::tab:hover {background:white;}</string>
          <widget class="QLabel" name="label_33">
           <property name="geometry">
            <rect>
-            <x>360</x>
+            <x>350</x>
             <y>220</y>
             <width>71</width>
             <height>16</height>
@@ -728,7 +740,7 @@ QTabBar::tab:selected, QTabBar::tab:hover {background:white;}</string>
            <rect>
             <x>10</x>
             <y>190</y>
-            <width>661</width>
+            <width>641</width>
             <height>161</height>
            </rect>
           </property>
@@ -802,7 +814,7 @@ QTabBar::tab:selected, QTabBar::tab:hover {background:white;}</string>
            <rect>
             <x>340</x>
             <y>0</y>
-            <width>341</width>
+            <width>321</width>
             <height>161</height>
            </rect>
           </property>
@@ -827,51 +839,11 @@ QTabBar::tab:selected, QTabBar::tab:hover {background:white;}</string>
       <attribute name="title">
        <string>Mintpal</string>
       </attribute>
-      <widget class="QWidget" name="layoutWidget_2">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>20</y>
-         <width>111</width>
-         <height>27</height>
-        </rect>
-       </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_5">
-        <property name="spacing">
-         <number>7</number>
-        </property>
-        <item>
-         <widget class="QLabel" name="label_7">
-          <property name="font">
-           <font>
-            <family>Open Sans,sans-serif</family>
-           </font>
-          </property>
-          <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20px; font-weight:600; color:#000000;&quot;&gt;Mintpal&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QLabel" name="yest_2">
-       <property name="geometry">
-        <rect>
-         <x>140</x>
-         <y>20</y>
-         <width>161</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:7pt;&quot;&gt;Soon..&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-      </widget>
       <widget class="QLabel" name="label_2">
        <property name="geometry">
         <rect>
-         <x>210</x>
-         <y>90</y>
+         <x>200</x>
+         <y>50</y>
          <width>301</width>
          <height>271</height>
         </rect>

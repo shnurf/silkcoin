@@ -46,6 +46,7 @@ AddressBookPage::AddressBookPage(Mode mode, Tabs tab, QWidget *parent) :
         break;
     case ForEditing:
         ui->buttonBox->setVisible(false);
+        ui->greyFrame->setStyleSheet("background:transparent;");
         break;
     }
     switch(tab)
@@ -54,10 +55,12 @@ AddressBookPage::AddressBookPage(Mode mode, Tabs tab, QWidget *parent) :
         ui->labelExplanation->setVisible(false);
         ui->deleteButton->setVisible(true);
         ui->signMessage->setVisible(false);
+        ui->greyFrame->setStyleSheet("background:transparent;");
         break;
     case ReceivingTab:
         ui->deleteButton->setVisible(false);
         ui->signMessage->setVisible(true);
+        ui->greyFrame->setStyleSheet("background:#c7c7c7;");
         break;
     }
 

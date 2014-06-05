@@ -91,8 +91,8 @@ void PoolBrowser::poloniex()
 
 void PoolBrowser::randomChuckNorrisJoke()
 {
-    getRequest(kBaseUrl);
     getRequest(kBaseUrl2);
+    getRequest(kBaseUrl);
     getRequest(kBaseUrl3);
     getRequest(kBaseUrl6);
 }
@@ -384,11 +384,14 @@ if (what == kBaseUrl6)
     // QNetworkReply is a QIODevice. So we read from it just like it was a file
     QString marketd = finished->readAll();
     marketd = marketd.replace("{\"success\":true,\"message\":\"\",\"result\":[","");
+    marketd = marketd.replace(",\"FillType\":\"FILL\"","");
+    marketd = marketd.replace(",\"FillType\":\"PARTIAL_FILL\"","");
     marketd = marketd.replace("\"","");
     marketd = marketd.replace("Id:","");
     marketd = marketd.replace("TimeStamp:","");
     marketd = marketd.replace("Quantity:","");
     marketd = marketd.replace("Price:","");
+    marketd = marketd.replace("Total:","");
     marketd = marketd.replace("Total:","");
     marketd = marketd.replace("OrderType:","");
 
@@ -423,7 +426,7 @@ double loww = 100000;
 
         ui->trades->addTopLevelItem(item);
 
-        x[z] = marketdb.length() - z;
+        x[z] = (marketdb.length())-z;
         y[z] = (dad[3].toDouble())*100000000;
 
         if (dad[3].toDouble()*100000000 > highh) highh = dad[3].toDouble()*100000000;

@@ -976,9 +976,13 @@ if (nHeight == 1)
 {
     nSubsidy = 2000000 * COIN;
 }
-else
+else if (nHeight < 50000)
 {
     nSubsidy = 5000 * COIN;
+}
+else
+{
+    nSubsidy = 2500 * COIN;
 }
 
 

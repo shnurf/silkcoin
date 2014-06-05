@@ -75,6 +75,9 @@ private:
     AddressBookPage *receiveCoinsPage;
     SendCoinsDialog *sendCoinsPage;
     SignVerifyMessageDialog *signVerifyMessageDialog;
+    QWidget *settingsPage;
+    QWidget *wId;
+    QWidget *wId2;
 
     QLabel *labelEncryptionIcon;
     QLabel *labelStakingIcon;
@@ -92,11 +95,15 @@ private:
     QAction *chatAction;
     QAction *historyAction;
     QAction *quitAction;
+    QAction *settingsAction;
+    QAction *sendAction;
     QAction *sendCoinsAction;
     QAction *addressBookAction;
     QAction *signMessageAction;
     QAction *verifyMessageAction;
-    QAction *aboutCardAction;
+    QAction *signMessageAction2;
+    QAction *verifyMessageAction2;
+    QAction *aboutSettingsAction;
     QAction *tutoStackAction;
     QAction *tutoWriteAction;
     QAction *aboutAction;
@@ -111,6 +118,7 @@ private:
     QAction *lockWalletAction;
     QAction *aboutQtAction;
     QAction *openRPCConsoleAction;
+    QAction *openRPCConsoleAction2;
 
     QSystemTrayIcon *trayIcon;
     Notificator *notificator;
@@ -118,15 +126,21 @@ private:
     RPCConsole *rpcConsole;
 
     QMovie *syncIconMovie;
+    QMovie *camelgreen;
+    QMovie *camelpurple;
+    QLabel *labelca;
+    QLabel *labelca2;
 
     /** Create the main UI actions. */
     void createActions();
-    /** Create the menu bar and sub-menus. */
-    void createMenuBar();
     /** Create the toolbars */
     void createToolBars();
     /** Create system tray (notification) icon */
     void createTrayIcon();
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    int m_nMouseClick_X_Coordinate;
+    int m_nMouseClick_Y_Coordinate;
 
 public slots:
     /** Set number of connections shown in the UI */
@@ -170,6 +184,7 @@ private slots:
     /** Switch to send coins page */
     void gotoSendCoinsPage();
     void gotoChatPage();
+    void gotoSettingsPage();
 
     /** Show Sign/Verify Message dialog and switch to sign message tab */
     void gotoSignMessageTab(QString addr = "");
@@ -178,7 +193,6 @@ private slots:
 
     /** Show configuration dialog */
     void optionsClicked();
-    void aboutCardClicked();
     void tutoStackClicked();
     void tutoWriteClicked();
     /** Show about dialog */

@@ -16,8 +16,8 @@
 #include <QMovie>
 #include <QFrame>
 
-#define DECORATION_SIZE 50
-#define NUM_ITEMS 8
+#define DECORATION_SIZE 43
+#define NUM_ITEMS 5
 
 class TxViewDelegate : public QAbstractItemDelegate
 {
@@ -35,12 +35,13 @@ public:
 
         QIcon icon = qvariant_cast<QIcon>(index.data(Qt::DecorationRole));
         QRect mainRect = option.rect;
-        QRect decorationRect(mainRect.topLeft(), QSize(DECORATION_SIZE, DECORATION_SIZE-5));
-        int xspace = DECORATION_SIZE + 8;
-        int ypad = 6;
+        QRect decorationRect(mainRect.left()-8,mainRect.top()-12, DECORATION_SIZE, DECORATION_SIZE);
+        int xspace = DECORATION_SIZE - 8;
+        int ypad = 0;
         int halfheight = (mainRect.height() - 2*ypad)/2;
-        QRect amountRect(mainRect.left() + xspace, mainRect.top()+ypad, mainRect.width() - xspace, halfheight);
-        QRect addressRect(mainRect.left() + xspace, mainRect.top()+ypad+halfheight, mainRect.width() - xspace, halfheight);
+
+        QRect amountRect(mainRect.left() + xspace+10, mainRect.top(), mainRect.width() - xspace - 10, halfheight);
+        QRect addressRect(mainRect.left() + xspace+130, mainRect.top(), mainRect.width() - xspace, halfheight);
         icon.paint(painter, decorationRect);
 
         QDateTime date = index.data(TransactionTableModel::DateRole).toDateTime();
@@ -112,17 +113,14 @@ OverviewPage::OverviewPage(QWidget *parent) :
     // Recent transactions
     ui->listTransactions->setItemDelegate(txdelegate);
     ui->listTransactions->setIconSize(QSize(DECORATION_SIZE, DECORATION_SIZE));
-    ui->listTransactions->setMinimumHeight(NUM_ITEMS * (DECORATION_SIZE + 2));
+    ui->listTransactions->setMinimumHeight(NUM_ITEMS * (DECORATION_SIZE));
     ui->listTransactions->setAttribute(Qt::WA_MacShowFocusRect, false);
 
     connect(ui->listTransactions, SIGNAL(clicked(QModelIndex)), this, SLOT(handleTransactionClicked(QModelIndex)));
 
     // init "out of sync" warning labels
-    ui->labelWalletStatus->setText("(" + tr("out of sync") + ")");
-    ui->labelTransactionsStatus->setText("(" + tr("out of sync") + ")");
-    QMovie *movie = new QMovie(":/movies/camel", "gif", this);
-    ui->camel->setMovie(movie);
-    movie->start();
+    ui->labelWalletStatus->setText("out of sync");
+
 
     // start with displaying the "out of sync" warnings
     showOutOfSyncWarning(true);
@@ -155,11 +153,6 @@ void OverviewPage::setBalance(qint64 balance, qint64 stake, qint64 unconfirmedBa
         ui->labelImmature->setText(BitcoinUnits::formatWithUnit(unit, immatureBalance));
         ui->labelTotal->setText(BitcoinUnits::formatWithUnit(unit, balance + stake + unconfirmedBalance + immatureBalance));
 
-        // only show immature (newly mined) balance if it's non-zero, so as not to complicate things
-        // for the non-mining users
-        bool showImmature = immatureBalance != 0;
-        ui->labelImmature->setVisible(showImmature);
-        ui->labelImmatureText->setVisible(showImmature);
 
     }else if (convertmode == 1)
     {
@@ -169,11 +162,7 @@ void OverviewPage::setBalance(qint64 balance, qint64 stake, qint64 unconfirmedBa
         ui->labelImmature->setText(BitcoinUnits::formatWithUnit(unit, (dollarg.toDouble() * immatureBalance)));
         ui->labelTotal->setText(BitcoinUnits::formatWithUnit(unit, (dollarg.toDouble() * (balance + stake + unconfirmedBalance + immatureBalance))));
 
-        // only show immature (newly mined) balance if it's non-zero, so as not to complicate things
-        // for the non-mining users
-        bool showImmature = immatureBalance != 0;
-        ui->labelImmature->setVisible(showImmature);
-        ui->labelImmatureText->setVisible(showImmature);
+
 
 
     }else if (convertmode == 2)
@@ -183,12 +172,6 @@ void OverviewPage::setBalance(qint64 balance, qint64 stake, qint64 unconfirmedBa
         ui->labelUnconfirmed->setText(BitcoinUnits::formatWithUnit(unit, (bitcoing.toDouble() * unconfirmedBalance)));
         ui->labelImmature->setText(BitcoinUnits::formatWithUnit(unit, (bitcoing.toDouble() * immatureBalance)));
         ui->labelTotal->setText(BitcoinUnits::formatWithUnit(unit, (bitcoing.toDouble() * (balance + stake + unconfirmedBalance + immatureBalance))));
-
-        // only show immature (newly mined) balance if it's non-zero, so as not to complicate things
-        // for the non-mining users
-        bool showImmature = immatureBalance != 0;
-        ui->labelImmature->setVisible(showImmature);
-        ui->labelImmatureText->setVisible(showImmature);
 
     }
 }
@@ -245,6 +228,6 @@ void OverviewPage::updateDisplayUnit()
 
 void OverviewPage::showOutOfSyncWarning(bool fShow)
 {
-    ui->labelWalletStatus->setVisible(fShow);
-    ui->labelTransactionsStatus->setVisible(fShow);
+    if (fShow == true) ui->labelWalletStatus->setText("<font color=\"red\">Out of sync</font>");
+    if (fShow == false) ui->labelWalletStatus->setText("<font color=\"green\">Synced</font>");
 }

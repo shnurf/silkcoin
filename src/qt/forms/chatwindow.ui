@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>747</width>
+    <width>743</width>
     <height>514</height>
    </rect>
   </property>
@@ -124,19 +124,22 @@
    <widget class="QWidget" name="hide3" native="true">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>0</x>
       <y>0</y>
-      <width>731</width>
+      <width>741</width>
       <height>511</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-family:Proxima Nova Rg;</string>
     </property>
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>20</y>
-       <width>250</width>
-       <height>27</height>
+       <y>6</y>
+       <width>731</width>
+       <height>41</height>
       </rect>
      </property>
      <layout class="QHBoxLayout" name="hide1">
@@ -145,42 +148,35 @@
       </property>
       <item>
        <widget class="QLabel" name="label_9">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="font">
          <font>
-          <family>Open Sans,sans-serif</family>
+          <family>Proxima Nova Rg</family>
          </font>
         </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20px; font-weight:600; color:#000000;&quot;&gt;Social&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;img src=&quot;:/icons/res/icons/socialt.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_4">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
       </item>
      </layout>
     </widget>
     <widget class="QLabel" name="hide2">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>60</x>
        <y>70</y>
-       <width>681</width>
-       <height>81</height>
+       <width>631</width>
+       <height>91</height>
       </rect>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Connect with our community by checking out our &lt;a href=&quot;https://bitcointalk.org/index.php?topic=599438.0&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Bitcointalk thread,&lt;/span&gt;&lt;/a&gt; or browse our dedicated forum at &lt;a href=&quot;http://www.mysilkcoin.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;MySilkcoin&lt;/span&gt;&lt;/a&gt;. We are also present on facebook, twitter, reddit and IRC.&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;You may connect to the IRC channel directly from your wallet by inputing a username beneath.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Connect with our community by checking out our &lt;/span&gt;&lt;a href=&quot;https://bitcointalk.org/index.php?topic=599438.0&quot;&gt;&lt;span style=&quot; font-size:9pt; text-decoration: underline; color:#0000ff;&quot;&gt;Bitcointalk thread,&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt; or browse our dedicated forum at &lt;/span&gt;&lt;a href=&quot;http://www.mysilkcoin.com&quot;&gt;&lt;span style=&quot; font-size:9pt; text-decoration: underline; color:#0000ff;&quot;&gt;MySilkcoin&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;. We are also present on facebook, twitter, reddit and IRC.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;You may connect to the IRC channel directly from your wallet by inputing a username beneath.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -192,7 +188,7 @@
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>100</x>
        <y>380</y>
        <width>71</width>
        <height>51</height>
@@ -211,7 +207,7 @@
     <widget class="QLabel" name="label_3">
      <property name="geometry">
       <rect>
-       <x>110</x>
+       <x>190</x>
        <y>380</y>
        <width>53</width>
        <height>51</height>
@@ -227,7 +223,7 @@
     <widget class="QLabel" name="label_4">
      <property name="geometry">
       <rect>
-       <x>180</x>
+       <x>260</x>
        <y>380</y>
        <width>41</width>
        <height>51</height>
@@ -243,9 +239,9 @@
     <widget class="QLabel" name="label_2">
      <property name="geometry">
       <rect>
-       <x>10</x>
+       <x>60</x>
        <y>160</y>
-       <width>281</width>
+       <width>291</width>
        <height>211</height>
       </rect>
      </property>
@@ -269,7 +265,7 @@
     <widget class="QLabel" name="label_5">
      <property name="geometry">
       <rect>
-       <x>320</x>
+       <x>370</x>
        <y>250</y>
        <width>61</width>
        <height>21</height>
@@ -298,16 +294,27 @@
     <widget class="QLabel" name="label_10">
      <property name="geometry">
       <rect>
-       <x>320</x>
+       <x>370</x>
        <y>200</y>
-       <width>111</width>
-       <height>16</height>
+       <width>161</width>
+       <height>21</height>
       </rect>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Connect to IRC :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Connect to IRC :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
+    <zorder>layoutWidget</zorder>
+    <zorder>hide2</zorder>
+    <zorder>label</zorder>
+    <zorder>label_3</zorder>
+    <zorder>label_4</zorder>
+    <zorder>label_2</zorder>
+    <zorder>editPseudo</zorder>
+    <zorder>label_5</zorder>
+    <zorder>buttonConnect</zorder>
+    <zorder>label_10</zorder>
+    <zorder>label_9</zorder>
    </widget>
   </widget>
   <action name="actionQuit">

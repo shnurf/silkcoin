@@ -52,18 +52,51 @@
         <file alias="social">res/icons/social.png</file>
         <file alias="bitcoiniconn">res/icons/bitcoin.png</file>
         <file alias="dollar">res/icons/dollar.png</file>
+        <file alias="mini">res/icons/mini.png</file>
+        <file alias="sctask">res/icons/silkcointask.png</file>
+        <file alias="dash">res/icons/dash.png</file>
+        <file>res/icons/balance.png</file>
+        <file>res/icons/detail.png</file>
+        <file>res/icons/recent.png</file>
+        <file>res/icons/receiveg.png</file>
+        <file>res/icons/receiver.png</file>
+        <file>res/icons/sendg.png</file>
+        <file>res/icons/sendr.png</file>
+        <file alias="actions">res/icons/actions.png</file>
+        <file>res/icons/blockt.png</file>
+        <file>res/icons/socialt.png</file>
+        <file>res/icons/statisticst.png</file>
+        <file alias="unlocki">res/icons/unlocki.png</file>
+        <file alias="locki">res/icons/locki.png</file>
+        <file alias="encrypti">res/icons/encrypti.png</file>
+        <file alias="backupi">res/icons/backupi.png</file>
+        <file alias="signi">res/icons/signi.png</file>
+        <file alias="verifyi">res/icons/verifyi.png</file>
+        <file alias="staki">res/icons/staki.png</file>
+        <file alias="passi">res/icons/passi.png</file>
+        <file alias="abouti">res/icons/abouti.png</file>
+        <file alias="debugi">res/icons/debugi.png</file>
     </qresource>
     <qresource prefix="/images">
         <file alias="about">res/images/about.png</file>
         <file alias="splash">res/images/splash.png</file>
         <file alias="vote2">res/images/vote.jpg</file>
+        <file alias="head">res/images/head.png</file>
     </qresource>
     <qresource prefix="/movies">
-        <file alias="update_spinner">res/movies/update_spinner.mng</file>
         <file alias="camel">res/movies/camel.gif</file>
+        <file alias="update_spinner">res/movies/update_spinner.gif</file>
+        <file alias="camelpurple">res/movies/camel_walkcycle.gif</file>
+        <file alias="camelgreen">res/movies/camel_walkcycle2.gif</file>
     </qresource>
     <qresource prefix="/translations">
         <file alias="en">locale/bitcoin_en.qm</file>
         <file alias="ru">locale/bitcoin_ru.qm</file>
+    </qresource>
+    <qresource prefix="/fonts">
+        <file alias="mohave">res/fonts/Mohave-SemiBold.otf</file>
+        <file alias="pbold">res/fonts/ProximaNova-Bold.otf</file>
+        <file alias="pxbold">res/fonts/ProximaNova-Extrabold.otf</file>
+        <file alias="preg">res/fonts/ProximaNova-Regular.otf</file>
     </qresource>
 </RCC>
