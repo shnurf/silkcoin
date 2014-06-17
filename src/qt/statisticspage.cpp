@@ -33,7 +33,7 @@ double hardnessPrevious = -1;
 double hardnessPrevious2 = -1;
 int stakeminPrevious = -1;
 int stakemaxPrevious = -1;
-double marketcapPrevious = -1;
+int64_t marketcapPrevious = -1;
 QString stakecPrevious = "";
 
 
@@ -49,7 +49,7 @@ void StatisticsPage::updateStatistics()
     pwalletMain->GetStakeWeight(*pwalletMain, nMinWeight, nMaxWeight, nWeight);
     uint64_t nNetworkWeight = GetPoSKernelPS();
     int64_t volume = ((pindexBest->nMoneySupply)/100000000);
-    double marketcap = dollarg.toDouble() * volume;
+    int64_t marketcap = dollarg.toDouble() * volume;
     int peers = this->model->getNumConnections();
     pPawrate2 = (double)pPawrate;
     ui->progressBar->setValue(nHeight);
@@ -187,7 +187,7 @@ void StatisticsPage::updateStatistics()
     updatePrevious(nHeight, nMinWeight, nNetworkWeight, phase, nSubsidy, pHardness, pHardness2, pPawrate2, Qlpawrate, peers, volume, marketcap);
 }
 
-void StatisticsPage::updatePrevious(int nHeight, int nMinWeight, int nNetworkWeight, QString phase, double nSubsidy, double pHardness, double pHardness2, double pPawrate2, QString Qlpawrate, int peers, int volume,double marketcap)
+void StatisticsPage::updatePrevious(int nHeight, int nMinWeight, int nNetworkWeight, QString phase, double nSubsidy, double pHardness, double pHardness2, double pPawrate2, QString Qlpawrate, int peers, int volume, int64_t marketcap)
 {
     heightPrevious = nHeight;
     stakeminPrevious = nMinWeight;

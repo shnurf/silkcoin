@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>779</width>
-    <height>517</height>
+    <height>518</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -22,6 +22,11 @@
     <height>16777215</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <family>Proxima Nova Rg</family>
+   </font>
+  </property>
   <property name="focusPolicy">
    <enum>Qt::StrongFocus</enum>
   </property>
@@ -29,8 +34,7 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">color:#505050;
-font-family:'Proxima Nova Rg';font-size:13px</string>
+   <string notr="true">color:#505050;font-family:Proxima Nova Rg;</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <property name="sizeConstraint">
@@ -47,7 +51,6 @@ font-family:'Proxima Nova Rg';font-size:13px</string>
      <property name="font">
       <font>
        <family>Proxima Nova Rg</family>
-       <pointsize>-1</pointsize>
       </font>
      </property>
      <property name="text">
@@ -81,7 +84,7 @@ font-family:'Proxima Nova Rg';font-size:13px</string>
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-image:url(:/icons/res/icons/balance.png);</string>
+        <string notr="true">background-image:url(:/icons/res/icons/balance.png);font-size:14px</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <property name="spacing">
@@ -105,6 +108,22 @@ font-family:'Proxima Nova Rg';font-size:13px</string>
             <property name="verticalSpacing">
              <number>0</number>
             </property>
+            <item row="2" column="0">
+             <widget class="QLabel" name="labelImmature">
+              <property name="toolTip">
+               <string>Mined balance that has not yet matured</string>
+              </property>
+              <property name="text">
+               <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span&gt;0 SC&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+              </property>
+             </widget>
+            </item>
             <item row="0" column="0">
              <widget class="QLabel" name="labelBalance">
               <property name="font">
@@ -126,54 +145,7 @@ font-family:'Proxima Nova Rg';font-size:13px</string>
                <string notr="true">color:#925c97;</string>
               </property>
               <property name="text">
-               <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;0 SC&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-              <property name="textInteractionFlags">
-               <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="labelStake">
-              <property name="font">
-               <font>
-                <family>Proxima Nova Rg</family>
-                <pointsize>-1</pointsize>
-               </font>
-              </property>
-              <property name="cursor">
-               <cursorShape>IBeamCursor</cursorShape>
-              </property>
-              <property name="toolTip">
-               <string>Total of coins that was staked, and do not yet count toward the current balance</string>
-              </property>
-              <property name="text">
-               <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;0 SC&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-              </property>
-              <property name="textInteractionFlags">
-               <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="labelImmature">
-              <property name="font">
-               <font>
-                <family>Proxima Nova Rg</family>
-                <pointsize>-1</pointsize>
-               </font>
-              </property>
-              <property name="toolTip">
-               <string>Mined balance that has not yet matured</string>
-              </property>
-              <property name="text">
-               <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;0 SC&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400;&quot;&gt;1456000 SC&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -192,10 +164,29 @@ font-family:'Proxima Nova Rg';font-size:13px</string>
                <string notr="true">color:#925c97;</string>
               </property>
               <property name="text">
-               <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;0 SC&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;203970 SC&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="labelStake">
+              <property name="cursor">
+               <cursorShape>IBeamCursor</cursorShape>
+              </property>
+              <property name="toolTip">
+               <string>Total of coins that was staked, and do not yet count toward the current balance</string>
+              </property>
+              <property name="text">
+               <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span&gt;0 SC&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+              <property name="textInteractionFlags">
+               <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
               </property>
              </widget>
             </item>
@@ -246,7 +237,7 @@ font-family:'Proxima Nova Rg';font-size:13px</string>
         <item>
          <widget class="QFrame" name="frame_5">
           <property name="styleSheet">
-           <string notr="true">background:transparent;color:#508f6f;</string>
+           <string notr="true">background:transparent;color:#508f6f;font-size:14px</string>
           </property>
           <widget class="QWidget" name="gridLayoutWidget_2">
            <property name="geometry">
@@ -269,12 +260,6 @@ font-family:'Proxima Nova Rg';font-size:13px</string>
             </property>
             <item row="2" column="0">
              <widget class="QLabel" name="labelActive">
-              <property name="font">
-               <font>
-                <family>Proxima Nova Rg</family>
-                <pointsize>-1</pointsize>
-               </font>
-              </property>
               <property name="cursor">
                <cursorShape>IBeamCursor</cursorShape>
               </property>
@@ -282,7 +267,7 @@ font-family:'Proxima Nova Rg';font-size:13px</string>
                <string>Total of transactions that have yet to be confirmed, and do not yet count toward the current balance</string>
               </property>
               <property name="text">
-               <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;- &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -310,12 +295,6 @@ font-family:'Proxima Nova Rg';font-size:13px</string>
             </item>
             <item row="0" column="0">
              <widget class="QLabel" name="labelUnconfirmed">
-              <property name="font">
-               <font>
-                <family>Proxima Nova Rg</family>
-                <pointsize>-1</pointsize>
-               </font>
-              </property>
               <property name="cursor">
                <cursorShape>IBeamCursor</cursorShape>
               </property>
@@ -323,7 +302,7 @@ font-family:'Proxima Nova Rg';font-size:13px</string>
                <string>Total of transactions that have yet to be confirmed, and do not yet count toward the current balance</string>
               </property>
               <property name="text">
-               <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;0 SC&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span&gt;0 SC&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -339,7 +318,7 @@ font-family:'Proxima Nova Rg';font-size:13px</string>
                <string>Total number of transactions in wallet</string>
               </property>
               <property name="text">
-               <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;right&quot;&gt;&lt;span&gt;0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -428,7 +407,7 @@ font-family:'Proxima Nova Rg';font-size:13px</string>
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">QFrame { font-size:12px;padding:5px;background-image:url(:/icons/res/icons/recent.png);padding-top:20px; }</string>
+      <string notr="true">QFrame { font-size:13px;padding:5px;background-image:url(:/icons/res/icons/recent.png);padding-top:20px; }</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_6">
       <property name="spacing">

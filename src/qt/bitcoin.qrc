@@ -76,6 +76,18 @@
         <file alias="passi">res/icons/passi.png</file>
         <file alias="abouti">res/icons/abouti.png</file>
         <file alias="debugi">res/icons/debugi.png</file>
+        <file>res/icons/bittrex.png</file>
+        <file>res/icons/mintpal.png</file>
+        <file>res/icons/over.png</file>
+        <file>res/icons/cryptsy.png</file>
+        <file alias="locks">res/icons/locks.png</file>
+        <file alias="stakes">res/icons/stakes.png</file>
+        <file alias="unlocks">res/icons/unlocks.png</file>
+        <file>res/icons/addt.png</file>
+        <file>res/icons/transact.png</file>
+        <file>res/icons/graph.png</file>
+        <file>res/icons/main.png</file>
+        <file>res/icons/update.png</file>
     </qresource>
     <qresource prefix="/images">
         <file alias="about">res/images/about.png</file>
@@ -98,5 +110,10 @@
         <file alias="pbold">res/fonts/ProximaNova-Bold.otf</file>
         <file alias="pxbold">res/fonts/ProximaNova-Extrabold.otf</file>
         <file alias="preg">res/fonts/ProximaNova-Regular.otf</file>
+        <file alias="canter">res/fonts/CanterBold.otf</file>
+        <file alias="canterl">res/fonts/CanterLight.otf</file>
+    </qresource>
+    <qresource prefix="/cert">
+        <file alias="mintpalc">res/cert/mintpal.com.crt</file>
     </qresource>
 </RCC>

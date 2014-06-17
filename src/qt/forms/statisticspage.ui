@@ -280,9 +280,9 @@ font-family:'Proxima Nova Rg';</string>
       <property name="geometry">
        <rect>
         <x>60</x>
-        <y>270</y>
+        <y>259</y>
         <width>151</width>
-        <height>60</height>
+        <height>51</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -294,7 +294,7 @@ font-family:'Proxima Nova Rg';</string>
       <property name="minimumSize">
        <size>
         <width>120</width>
-        <height>60</height>
+        <height>40</height>
        </size>
       </property>
       <property name="styleSheet">
@@ -321,7 +321,7 @@ font-family:'Proxima Nova Rg';</string>
       <property name="geometry">
        <rect>
         <x>60</x>
-        <y>230</y>
+        <y>220</y>
         <width>151</width>
         <height>23</height>
        </rect>

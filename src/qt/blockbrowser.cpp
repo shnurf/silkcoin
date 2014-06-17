@@ -39,7 +39,7 @@ int getBlockHashrate(int height)
     double timeDiff = getBlockTime(height) - getBlockTime(1);
     double timePerBlock = timeDiff / lookup;
 
-    return (boost::int64_t)(((double)getBlockHardness(height) * pow(2.0, 32)) / timePerBlock);
+    return (boost::uint64_t)(((qlonglong)getBlockHardness(height) * pow(2.0, 32)) / timePerBlock);
 }
 
 const CBlockIndex* getBlockIndex(int height)

@@ -15,9 +15,13 @@ using namespace json_spirit;
 const QString kBaseUrl = "http://bittrex.com/api/v1/public/getmarketsummaries";
 const QString kBaseUrl2 = "http://blockchain.info/tobtc?currency=USD&value=1";
 const QString kBaseUrl3 = "http://bittrex.com/api/v1/public/getorderbook?market=BTC-SC&type=both&depth=50";
-const QString kBaseUrl4 = "http://poloniex.com/public?command=returnTicker";
-const QString kBaseUrl5 = "http://www.poloniex.com/public?command=returnOrderBook&currencyPair=BTC_SC";
 const QString kBaseUrl6 = "http://bittrex.com/api/v1/public/getmarkethistory?market=BTC-SC&count=100";
+const QString kBaseUrl7 = "https://api.mintpal.com/v1/market/stats/SC/BTC";
+const QString kBaseUrl8 = "http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=225";
+const QString kBaseUrl9 = "http://pubapi.cryptsy.com/api.php?method=singleorderdata&marketid=225";
+const QString kBaseUrl4 = "https://api.mintpal.com/v1/market/trades/SC/BTC";
+const QString kBaseUrl5 = "https://api.mintpal.com/v1/market/orders/SC/BTC/SELL";
+const QString kBaseUrl10 = "https://api.mintpal.com/v1/market/orders/SC/BTC/BUY";
 
 QString bitcoinp = "";
 double bitcoin2;
@@ -25,7 +29,11 @@ double lastuG;
 QString bitcoing;
 QString dollarg;
 int mode=1;
+int o = 0;
 QString lastp = "";
+QString lastpp = "";
+QString lastpp2 = "";
+QString lastpp3 = "";
 QString askp = "";
 QString bidp = "";
 QString highp = "";
@@ -39,36 +47,46 @@ QString askp2 = "";
 QString bidp2 = "";
 QString highp2 = "";
 QString lowp2 = "";
+QString yestp = "";
+QString yestp2 = "";
 QString volumebp2 = "";
 QString volumesp2 = "";
-QString bop2 = "";
-QString sop2 = "";
+QStringList marketdbmint;
+
+QString lastp3 = "";
+QString volumebp3 = "";
+double volumesp3;
 
 PoolBrowser::PoolBrowser(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PoolBrowser)
 {
     ui->setupUi(this);
-    ui->buyquan->header()->resizeSection(0,120);
-    ui->sellquan->header()->resizeSection(0,120);
     setFixedSize(400, 420);
     ui->customPlot->addGraph();
-    ui->customPlot->setBackground(Qt::transparent);
+    ui->customPlot->setBackground(QBrush(QColor("#edf1f7")));
     ui->customPlot2->addGraph();
     ui->customPlot2->addGraph();
-    ui->customPlot2->setBackground(Qt::transparent);
-
-
+    ui->customPlot2->setBackground(QBrush(QColor("#edf1f7")));
+    ui->customPlot_2->addGraph();
+    ui->customPlot_2->setBackground(QBrush(QColor("#edf1f7")));
+    ui->customPlot2_2->addGraph();
+    ui->customPlot2_2->addGraph();
+    ui->customPlot2_2->setBackground(QBrush(QColor("#edf1f7")));
+    ui->customPlot_3->addGraph();
+    ui->customPlot_3->setBackground(QBrush(QColor("#edf1f7")));
+    ui->customPlot2_3->addGraph();
+    ui->customPlot2_3->addGraph();
+    ui->customPlot2_3->setBackground(QBrush(QColor("#edf1f7")));
 
 
 randomChuckNorrisJoke();
 QObject::connect(&m_nam, SIGNAL(finished(QNetworkReply*)), this, SLOT(parseNetworkResponse(QNetworkReply*)));
 connect(ui->startButton, SIGNAL(pressed()), this, SLOT( randomChuckNorrisJoke()));
-connect(ui->bittrex, SIGNAL(pressed()), this, SLOT( bittrex()));
-connect(ui->poloniex, SIGNAL(pressed()), this, SLOT( poloniex()));
 connect(ui->egal, SIGNAL(pressed()), this, SLOT( egaldo()));
 
 }
+
 void PoolBrowser::egaldo()
 {
     QString temps = ui->egals->text();
@@ -84,6 +102,74 @@ void PoolBrowser::bittrex()
     QDesktopServices::openUrl(QUrl("https://www.bittrex.com/Market/Index?MarketName=BTC-SC"));
 }
 
+void PoolBrowser::overv()
+{
+    double yes = (yestp.toDouble()+yestp2.toDouble())/2;
+    double average2 = (lastp.toDouble()+lastp2.toDouble()+lastp3.toDouble())/3;
+    QString average3 = QString::number((lastp.toDouble()-average2)/(average2/100),'g',2);
+    QString average4 = QString::number((lastp2.toDouble()-average2)/(average2/100),'g',2);
+    QString average5 = QString::number((lastp3.toDouble()-average2)/(average2/100),'g',2);
+
+
+    if(average3.toDouble() > 0)
+    {
+        ui->diff1->setText("<font color=\"green\">+" + average3 + " %</font>");
+    } else {
+        ui->diff1->setText("<font color=\"red\">" + average3 + " %</font>");
+        }
+    if(average4.toDouble() > 0)
+    {
+        ui->diff2->setText("<font color=\"green\">+" + average4 + " %</font>");
+    } else {
+        ui->diff2->setText("<font color=\"red\">" + average4 + " %</font>");
+        }
+    if(average5.toDouble() > 0)
+    {
+        ui->diff3->setText("<font color=\"green\">+" + average5 + " %</font>");
+    } else {
+        ui->diff3->setText("<font color=\"red\">" + average5 + " %</font>");
+        }
+    if(yes > 0)
+    {
+        ui->yest_3->setText("<font color=\"green\">+" + QString::number(yes) + " %</font>");
+    } else {
+        ui->yest_3->setText("<font color=\"red\">" + QString::number(yes) + " %</font>");
+        }
+
+
+    if(lastp > lastpp)
+    {
+        ui->last_4->setText("<font color=\"green\">" + lastp + "</font>");
+    } else if (lastp < lastp) {
+        ui->last_4->setText("<font color=\"red\">" + lastp + "</font>");
+        } else {
+    ui->last_4->setText(lastp);
+    }
+
+    if(lastp2 > lastpp2)
+    {
+        ui->last_5->setText("<font color=\"green\">" + lastp2 + "</font>");
+    } else if (lastp2 < lastpp2) {
+        ui->last_5->setText("<font color=\"red\">" + lastp2 + "</font>");
+        } else {
+    ui->last_5->setText(lastp2);
+    }
+
+    if(lastp3 > lastpp3)
+    {
+        ui->last_6->setText("<font color=\"green\">" + lastp3 + "</font>");
+    } else if (lastp3 < lastpp3) {
+        ui->last_6->setText("<font color=\"red\">" + lastp3 + "</font>");
+        } else {
+    ui->last_6->setText(lastp3);
+    }
+
+    lastpp = lastp;
+    lastpp2 = lastp2;
+    lastpp3 = lastp3;
+
+}
+
 void PoolBrowser::poloniex()
 {
     QDesktopServices::openUrl(QUrl("https://poloniex.com/exchange/btc_sc"));
@@ -91,19 +177,26 @@ void PoolBrowser::poloniex()
 
 void PoolBrowser::randomChuckNorrisJoke()
 {
+    ui->Ok->setVisible(true);
     getRequest(kBaseUrl2);
     getRequest(kBaseUrl);
     getRequest(kBaseUrl3);
+    getRequest(kBaseUrl4);
+    getRequest(kBaseUrl5);
     getRequest(kBaseUrl6);
+    getRequest(kBaseUrl7);
+    getRequest(kBaseUrl8);
+    getRequest(kBaseUrl9);
+}
+void PoolBrowser::randomChuckNorrisJoke2()
+{
+    getRequest(kBaseUrl10);
 }
 
 void PoolBrowser::getRequest( const QString &urlString )
 {
     QUrl url ( urlString );
     QNetworkRequest req ( url );
-    QSslConfiguration config = QSslConfiguration::defaultConfiguration();
-    config.setProtocol(QSsl::SslV3);
-    req.setSslConfiguration(config);
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json; charset=utf-8");
     m_nam.get(req);
 }
@@ -115,14 +208,12 @@ void PoolBrowser::parseNetworkResponse(QNetworkReply *finished )
 
     if ( finished->error() != QNetworkReply::NoError )
     {
-
         // A communication error has occurred
         emit networkError( finished->error() );
         return;
     }
 
-
-if (what == kBaseUrl)
+if (what == kBaseUrl) //Bittrexdata
 {
     double asku;
     QString askus;
@@ -160,11 +251,11 @@ if (what == kBaseUrl)
 
     if(last[0] > lastp)
     {
-        ui->last->setText("<b><font color=\"green\">" + last[0] + "</font></b>");
-        ui->lastu->setText("<b><font color=\"green\">" + lastus + " $</font></b>");
+        ui->last->setText("<font color=\"green\">" + last[0] + "</font>");
+        ui->lastu->setText("<font color=\"green\">" + lastus + " $</font>");
     } else if (last[0] < lastp) {
-        ui->last->setText("<b><font color=\"red\">" + last[0] + "</font></b>");
-         ui->lastu->setText("<b><font color=\"red\">" + lastus + " $</font></b>");
+        ui->last->setText("<font color=\"red\">" + last[0] + "</font>");
+         ui->lastu->setText("<font color=\"red\">" + lastus + " $</font>");
         } else {
     ui->last->setText(last[0]);
     ui->lastu->setText(lastus + " $");
@@ -175,11 +266,11 @@ if (what == kBaseUrl)
 
     if(ask[0] > askp)
     {
-        ui->ask->setText("<b><font color=\"green\">" + ask[0] + "</font></b>");
-        ui->asku->setText("<b><font color=\"green\">" + askus + " $</font></b>");
+        ui->ask->setText("<font color=\"green\">" + ask[0] + "</font>");
+        ui->asku->setText("<font color=\"green\">" + askus + " $</font>");
     } else if (ask[0] < askp) {
-        ui->ask->setText("<b><font color=\"red\">" + ask[0] + "</font></b>");
-        ui->asku->setText("<b><font color=\"red\">" + askus + " $</font></b>");
+        ui->ask->setText("<font color=\"red\">" + ask[0] + "</font>");
+        ui->asku->setText("<font color=\"red\">" + askus + " $</font>");
         } else {
     ui->ask->setText(ask[0]);
     ui->asku->setText(askus + " $");
@@ -191,28 +282,28 @@ if (what == kBaseUrl)
 
     if(bid[0] > bidp)
     {
-        ui->bid->setText("<b><font color=\"green\">" + bid[0] + "</font></b>");
-        ui->bidu->setText("<b><font color=\"green\">" + bidus + " $</font></b>");
+        ui->bid->setText("<font color=\"green\">" + bid[0] + "</font>");
+        ui->bidu->setText("<font color=\"green\">" + bidus + " $</font>");
     } else if (bid[0] < bidp) {
-        ui->bid->setText("<b><font color=\"red\">" + bid[0] + "</font></b>");
-        ui->bidu->setText("<b><font color=\"red\">" + bidus + " $</font></b>");
+        ui->bid->setText("<font color=\"red\">" + bid[0] + "</font>");
+        ui->bidu->setText("<font color=\"red\">" + bidus + " $</font>");
         } else {
     ui->bid->setText(bid[0]);
     ui->bidu->setText(bidus + " $");
     }
     if(high[0] > highp)
     {
-        ui->high->setText("<b><font color=\"green\">" + high[0] + "</font></b>");
+        ui->high->setText("<font color=\"green\">" + high[0] + "</font>");
     } else if (high[0] < highp) {
-        ui->high->setText("<b><font color=\"red\">" + high[0] + "</font></b>");
+        ui->high->setText("<font color=\"red\">" + high[0] + "</font>");
         } else {
     ui->high->setText(high[0]);
     }
     if(low[0] > lowp)
     {
-        ui->low->setText("<b><font color=\"green\">" + low[0] + "</font></b>");
+        ui->low->setText("<font color=\"green\">" + low[0] + "</font>");
     } else if (low[0] < lowp) {
-        ui->low->setText("<b><font color=\"red\">" + low[0] + "</font></b>");
+        ui->low->setText("<font color=\"red\">" + low[0] + "</font>");
         } else {
     ui->low->setText(low[0]);
     }
@@ -220,11 +311,11 @@ if (what == kBaseUrl)
 
     if(volume[0] > volumebp)
     {
-        ui->volumeb->setText("<b><font color=\"green\">" + volume[0] + "</font></b>");
+        ui->volumeb->setText("<font color=\"green\">" + volume[0] + "</font>");
 
     } else if (volume[0] < volumebp) {
-        ui->volumeb->setText("<b><font color=\"red\">" + volume[0] + "</font></b>");
-        ui->volumeu->setText("<b><font color=\"red\">" + volumeus + " $</font></b>");
+        ui->volumeb->setText("<font color=\"red\">" + volume[0] + "</font>");
+        ui->volumeu->setText("<font color=\"red\">" + volumeus + " $</font>");
         } else {
     ui->volumeb->setText(volume[0]);
     ui->volumeu->setText(volumeus + " $");
@@ -235,11 +326,11 @@ if (what == kBaseUrl)
 
     if(basevolume[0] > volumesp)
     {
-        ui->volumes->setText("<b><font color=\"green\">" + basevolume[0] + "</font></b>");
-        ui->volumeu->setText("<b><font color=\"green\">" + volumeus + " $</font></b>");
+        ui->volumes->setText("<font color=\"green\">" + basevolume[0] + "</font>");
+        ui->volumeu->setText("<font color=\"green\">" + volumeus + " $</font>");
     } else if (basevolume[0] < volumesp) {
-        ui->volumes->setText("<b><font color=\"red\">" + basevolume[0] + "</font></b>");
-        ui->volumeu->setText("<b><font color=\"red\">" + volumeus + " $</font></b>");
+        ui->volumes->setText("<font color=\"red\">" + basevolume[0] + "</font>");
+        ui->volumeu->setText("<font color=\"red\">" + volumeus + " $</font>");
         } else {
     ui->volumes->setText(basevolume[0]);
     ui->volumeu->setText(volumeus + " $");
@@ -250,19 +341,17 @@ if (what == kBaseUrl)
         yestu = ((last[0].toDouble() - yest[0].toDouble())/last[0].toDouble())*100;
         yestus = QString::number(yestu);
 
-        ui->yest->setText("<b><font color=\"green\"> + " + yestus + " %</font></b>");
+        ui->yest->setText("<font color=\"green\"> + " + yestus + " %</font>");
 
 
     }else
     {
         yestu = ((yest[0].toDouble() - last[0].toDouble())/yest[0].toDouble())*100;
         yestus = QString::number(yestu);
-        ui->yest->setText("<b><font color=\"red\"> - " + yestus + " %</font></b>");
+        ui->yest->setText("<font color=\"red\"> - " + yestus + " %</font>");
 
     }
 
-    ui->bo->setText(openbuy[0]);
-    ui->so->setText(opensell[0]);
 
     lastp = last[0];
     askp = ask[0];
@@ -273,9 +362,10 @@ if (what == kBaseUrl)
     volumesp = basevolume[0];
     bop = openbuy[0];
     sop = opensell[0];
+    yestp = yestus;
 }
 
-if (what == kBaseUrl2)
+if (what == kBaseUrl2) //bitcoinprice
 {
 
     // QNetworkReply is a QIODevice. So we read from it just like it was a file
@@ -284,27 +374,20 @@ if (what == kBaseUrl2)
     bitcoin = QString::number(bitcoin2);
     if(bitcoin > bitcoinp)
     {
-        ui->bitcoin->setText("<b><font color=\"green\">" + bitcoin + " $</font></b>");
+        ui->bitcoin->setText("<font color=\"green\">" + bitcoin + " $</font>");
     } else if (bitcoin < bitcoinp) {
-        ui->bitcoin->setText("<b><font color=\"red\">" + bitcoin + " $</font></b>");
+        ui->bitcoin->setText("<font color=\"red\">" + bitcoin + " $</font>");
         } else {
     ui->bitcoin->setText(bitcoin + " $");
     }
 
     bitcoinp = bitcoin;
 }
-if (what == kBaseUrl3)
+if (what == kBaseUrl3) //Bcurrent orders
 {
     // QNetworkReply is a QIODevice. So we read from it just like it was a file
     QString marketd = finished->readAll();
-    marketd = marketd.replace("{","");
-    marketd = marketd.replace("}","");
-    marketd = marketd.replace("\"","");
-    marketd = marketd.replace("],\"sell\":","");
-    marketd = marketd.replace(" ","");
-    marketd = marketd.replace("]","");
-    marketd = marketd.replace("Quantity:","");
-    marketd = marketd.replace("Rate:","");
+    marketd = marketd.replace("{","").replace("}","").replace("\"","").replace("],\"sell\":","").replace(" ","").replace("]","").replace("Quantity:","").replace("Rate:","");
     QStringList marketd2 = marketd.split("["); // marketd2[1] => buy order marketd2[2] => sell
     QStringList marketdb = marketd2[1].split(",");
     QStringList marketds = marketd2[2].split(",");
@@ -379,7 +462,7 @@ if (what == kBaseUrl3)
 
 }
 
-if (what == kBaseUrl6)
+if (what == kBaseUrl6) //Bpast orders
 {
     // QNetworkReply is a QIODevice. So we read from it just like it was a file
     QString marketd = finished->readAll();
@@ -399,12 +482,11 @@ if (what == kBaseUrl6)
 
     int z = 0;
     ui->trades->clear();
-    ui->trades->setColumnWidth(0,  60);
-        ui->trades->setColumnWidth(1,  100);
-        ui->trades->setColumnWidth(2,  100);
-        ui->trades->setColumnWidth(3,  100);
-        ui->trades->setColumnWidth(4,  180);
-        ui->trades->setColumnWidth(5,  100);
+    ui->trades->setColumnWidth(0,  55);
+        ui->trades->setColumnWidth(1,  110);
+        ui->trades->setColumnWidth(2,  90);
+        ui->trades->setColumnWidth(3,  90);
+        ui->trades->setColumnWidth(4,  160);
      QVector<double> x(100), y(100);
       ui->trades->setSortingEnabled(false);
 double highh = 0;
@@ -422,7 +504,6 @@ double loww = 100000;
         item->setText(3,dad[4]);
         QStringList temp = dad[1].replace("T"," ").split(".");
         item->setText(4,temp[0]);
-        item->setText(5,dad[0]);
 
         ui->trades->addTopLevelItem(item);
 
@@ -448,129 +529,503 @@ double loww = 100000;
 
 }
 
-//if (what == kBaseUrl4)
-//{
-//    double asku;
-//    QString askus;
-//    double lastu;
-//    QString lastus;
-//    double bidu;
-//    QString bidus;
-//    double volumeu;
-//    QString volumeus;
-//    double yestu;
-//    QString yestus;
+if (what == kBaseUrl7) //Mintpaldata
+{
+    double asku;
+    QString askus;
+    double lastu;
+    QString lastus;
+    double bidu;
+    QString bidus;
+    double volumeu;
+    QString volumeus;
+    double yestu;
+    QString yestus;
+
+    QString data = finished->readAll();
+    QString dataa = data.replace("[{","").replace("}]","").replace("\"","");
+    QStringList data2 = dataa.split("market_id:163,coin:SilkCoin,code:SC,exchange:BTC,last_price:");
+    QStringList last = data2[1].split(",yesterday_price:"); // high = high
+    QStringList yest = last[1].split(",change:");
+    QStringList yestc = yest[1].split(",24hhigh:");
+    QStringList high = yestc[1].split(",24hlow:");
+    QStringList low = high[1].split(",24hvol:");
+    QStringList volume = low[1].split(",top_bid:");
+    QStringList bid = volume[1].split(",top_ask:");
+    QString ask = bid[1];
+
+    lastu = last[0].toDouble() * bitcoin2;
+    lastus = QString::number(lastu);
+
+    if(last[0] > lastp2)
+    {
+        ui->last_2->setText("<font color=\"green\">" + last[0] + "</font>");
+        ui->lastu_2->setText("<font color=\"green\">" + lastus + " $</font>");
+    } else if (last[0] < lastp2) {
+        ui->last_2->setText("<font color=\"red\">" + last[0] + "</font>");
+         ui->lastu_2->setText("<font color=\"red\">" + lastus + " $</font>");
+        } else {
+    ui->last_2->setText(last[0]);
+    ui->lastu_2->setText(lastus + " $");
+    }
+
+    asku = ask.toDouble() * bitcoin2;
+    askus = QString::number(asku);
+
+    if(ask > askp2)
+    {
+        ui->ask_2->setText("<font color=\"green\">" + ask + "</font>");
+        ui->asku_2->setText("<font color=\"green\">" + askus + " $</font>");
+    } else if (ask < askp2) {
+        ui->ask_2->setText("<font color=\"red\">" + ask + "</font>");
+        ui->asku_2->setText("<font color=\"red\">" + askus + " $</font>");
+        } else {
+    ui->ask_2->setText(ask);
+    ui->asku_2->setText(askus + " $");
+    }
+
+    bidu = bid[0].toDouble() * bitcoin2;
+    bidus = QString::number(bidu);
 
 
-//    QString data = finished->readAll();
+    if(bid[0] > bidp2)
+    {
+        ui->bid_2->setText("<font color=\"green\">" + bid[0] + "</font>");
+        ui->bidu_2->setText("<font color=\"green\">" + bidus + " $</font>");
+    } else if (bid[0] < bidp2) {
+        ui->bid_2->setText("<font color=\"red\">" + bid[0] + "</font>");
+        ui->bidu_2->setText("<font color=\"red\">" + bidus + " $</font>");
+        } else {
+    ui->bid_2->setText(bid[0]);
+    ui->bidu_2->setText(bidus + " $");
+    }
+    if(high[0] > highp2)
+    {
+        ui->high_2->setText("<font color=\"green\">" + high[0] + "</font>");
+    } else if (high[0] < highp2) {
+        ui->high_2->setText("<font color=\"red\">" + high[0] + "</font>");
+        } else {
+    ui->high_2->setText(high[0]);
+    }
 
-//    QStringList data2 = data.split("\"BTC-SC\":{\"last\":\"");
-//    QStringList last = data2[1].split("\",\"lowestAsk\":\""); // high = high
-//    QStringList ask = last[1].split("\",\"highestBid\":\"");
-//    QStringList bid = ask[1].split("\",\"percentChange\":\"");
-//    QStringList PrevDay = bid[1].split("\",\"baseVolume\":\"");
-//    QStringList basevolume = PrevDay[1].split("\",\"quoteVolume\":\"");
-//    QStringList volume = basevolume[1].split("\",\"isFrozen\":\"");
-//ui->last->setText(data);
+    if(low[0] > lowp2)
+    {
+        ui->low_2->setText("<font color=\"green\">" + low[0] + "</font>");
+    } else if (low[0] < lowp2) {
+        ui->low_2->setText("<font color=\"red\">" + low[0] + "</font>");
+        } else {
+    ui->low_2->setText(low[0]);
+    }
 
-//    lastu = last[0].toDouble() * bitcoin2;
-//    lastus = QString::number(lastu);
+    volumeu = volume[0].toDouble() * bitcoin2;
+    volumeus = QString::number(volumeu);
 
-//    if(last[0] > lastp2)
-//    {
-//        ui->last_2->setText("<b><font color=\"green\">" + last[0] + "</font></b>");
-//        ui->last_2->setText("<b><font color=\"green\">" + lastus + " $</font></b>");
-//    } else if (last[0] < lastp2) {
-//        ui->last_2->setText("<b><font color=\"red\">" + last[0] + "</font></b>");
-//         ui->last_2->setText("<b><font color=\"red\">" + lastus + " $</font></b>");
-//        } else {
-//    ui->last_2->setText(last[0]);
-//    ui->last_2->setText(lastus + " $");
-//    }
+    if(volume[0] > volumebp2)
+    {
+        ui->volumeb_2->setText("<font color=\"green\">" + volume[0] + "</font>");
 
-//    asku = ask[0].toDouble() * bitcoin2;
-//    askus = QString::number(asku);
+    } else if (volume[0] < volumebp2) {
+        ui->volumeb_2->setText("<font color=\"red\">" + volume[0] + "</font>");
+        ui->volumeu_2->setText("<font color=\"red\">" + volumeus + " $</font>");
+        } else {
+    ui->volumeb_2->setText(volume[0]);
+    ui->volumeu_2->setText(volumeus + " $");
+    }
 
-//    if(ask[0] > askp2)
-//    {
-//        ui->ask_2->setText("<b><font color=\"green\">" + ask[0] + "</font></b>");
-//        ui->asku_2->setText("<b><font color=\"green\">" + askus + " $</font></b>");
-//    } else if (ask[0] < askp2) {
-//        ui->ask_2->setText("<b><font color=\"red\">" + ask[0] + "</font></b>");
-//        ui->asku_2->setText("<b><font color=\"red\">" + askus + " $</font></b>");
-//        } else {
-//    ui->ask_2->setText(ask[0]);
-//    ui->asku_2->setText(askus + " $");
-//    }
-
-//    bidu = bid[0].toDouble() * bitcoin2;
-//    bidus = QString::number(bidu);
-
-
-//    if(bid[0] > bidp2)
-//    {
-//        ui->bid_2->setText("<b><font color=\"green\">" + bid[0] + "</font></b>");
-//        ui->bidu_2->setText("<b><font color=\"green\">" + bidus + " $</font></b>");
-//    } else if (bid[0] < bidp2) {
-//        ui->bid_2->setText("<b><font color=\"red\">" + bid[0] + "</font></b>");
-//        ui->bidu_2->setText("<b><font color=\"red\">" + bidus + " $</font></b>");
-//        } else {
-//    ui->bid_2->setText(bid[0]);
-//    ui->bidu_2->setText(bidus + " $");
-//    }
+    // -----------------------------------------------------------------------------------------
+    quint64 basee = volume[0].toDouble()/last[0].toDouble();
+    QString basevolume = QString::number(basee);
 
 
-//    if(volume[0] > volumebp2)
-//    {
-//        ui->volumeb_2->setText("<b><font color=\"green\">" + volume[0] + "</font></b>");
-
-//    } else if (volume[0] < volumebp2) {
-//        ui->volumeb_2->setText("<b><font color=\"red\">" + volume[0] + "</font></b>");
-//        ui->volumeu_2->setText("<b><font color=\"red\">" + volumeus + " $</font></b>");
-//        } else {
-//    ui->volumeb_2->setText(volume[0]);
-//    ui->volumeu_2->setText(volumeus + " $");
-//    }
-
-//    volumeu = basevolume[0].toDouble() * bitcoin2;
-//    volumeus = QString::number(volumeu);
-
-//    if(basevolume[0] > volumesp2)
-//    {
-//        ui->volumes_2->setText("<b><font color=\"green\">" + basevolume[0] + "</font></b>");
-//        ui->volumeu_2->setText("<b><font color=\"green\">" + volumeus + " $</font></b>");
-//    } else if (basevolume[0] < volumesp2) {
-//        ui->volumes_2->setText("<b><font color=\"red\">" + basevolume[0] + "</font></b>");
-//        ui->volumeu_2->setText("<b><font color=\"red\">" + volumeus + " $</font></b>");
-//        } else {
-//    ui->volumes_2->setText(basevolume[0]);
-//    ui->volumeu_2->setText(volumeus + " $");
-//    }
-
-//    if(PrevDay[0].toDouble() > 0)
-//    {
-//        yestu = PrevDay[0].toDouble()*100;
-//        yestus = QString::number(yestu);
-
-//        ui->yest_2->setText("<b><font color=\"green\"> + " + yestus + " %</font></b>");
+    if(basevolume > volumesp2)
+    {
+        ui->volumes_2->setText("<font color=\"green\">" + basevolume + "</font>");
+        ui->volumeu_2->setText("<font color=\"green\">" + volumeus + " $</font>");
+    } else if (basevolume < volumesp2) {
+        ui->volumes_2->setText("<font color=\"red\">" + basevolume + "</font>");
+        ui->volumeu_2->setText("<font color=\"red\">" + volumeus + " $</font>");
+        } else {
+    ui->volumes_2->setText(basevolume);
+    ui->volumeu_2->setText(volumeus + " $");
+    }
 
 
-//    }else
-//    {
-//        yestu = PrevDay[0].toDouble()*100;
-//        yestus = QString::number(yestu);
-//        ui->yest_2->setText("<b><font color=\"red\">" + yestus + " %</font></b>");
 
-//    }
+    if(last[0].toDouble() > yest[0].toDouble())
+    {
+        yestu = ((last[0].toDouble() - yest[0].toDouble())/last[0].toDouble())*100;
+        yestus = QString::number(yestu);
+
+        ui->yest_2->setText("<font color=\"green\"> + " + yestus + " %</font>");
 
 
-//    lastp2 = last[0];
-//    askp2 = ask[0];
-//    bidp2 = bid[0];
-//    volumebp2 = volume[0];
-//    volumesp2 = basevolume[0];
+    }else
+    {
+        yestu = ((yest[0].toDouble() - last[0].toDouble())/yest[0].toDouble())*100;
+        yestus = QString::number(yestu);
+        ui->yest_2->setText("<font color=\"red\"> - " + yestus + " %</font>");
 
-//}
+    }
+
+    lastp2 = last[0];
+    askp2 = ask;
+    bidp2 = bid[0];
+    highp2 = high[0];
+    lowp2 = low[0];
+    volumebp2 = volume[0];
+    volumesp2 = basevolume;
+    yestp2 = yestus;
+}
+
+if (what == kBaseUrl8) //Cryptsydata
+{
+    double lastu;
+    QString lastus;
+    double volumeu;
+    QString volumeus;
+
+    QString data = finished->readAll();
+    QString dataa = data.replace("\"","");
+    QString dataa2 = dataa.replace("\\","");
+    QStringList data2 = dataa2.split(",recenttrades:[{"); // data2[0] sum, 3-recent, 4-sell, 5-buy
+    QStringList data3 = data2[1].split("}],sellorders:[{");
+    QStringList data4 = data3[1].split("}],buyorders:[{");
+    QStringList recent = data3[0].replace("id:","").replace("time:","").replace("price:","").replace("quantity:","").replace("total:","").split("},{");
+
+//-----------------------------------------------------------------
+
+    int z = 0;
+    ui->trades_3->clear();
+    ui->trades_3->setColumnWidth(0,  110);
+        ui->trades_3->setColumnWidth(1,  110);
+        ui->trades_3->setColumnWidth(2,  110);
+        ui->trades_3->setColumnWidth(3,  110);
+     QVector<double> x(100), y(100);
+      ui->trades_3->setSortingEnabled(false);
+double highh = 0;
+double loww = 100000;
+    for (int i = 0; i < recent.length(); i++) {
+
+        QStringList dad = recent[i].split(",");
+
+        QTreeWidgetItem * item = new QTreeWidgetItem();
+        item->setText(0,dad[3]);
+        item->setText(1,dad[2]);
+        item->setText(2,dad[4]);
+        item->setText(3,dad[1]);
+
+        ui->trades_3->addTopLevelItem(item);
+
+        x[z] = (recent.length())-z;
+        y[z] = (dad[2].toDouble())*100000000;
+
+        if (dad[2].toDouble()*100000000 > highh) highh = dad[2].toDouble()*100000000;
+        if (dad[2].toDouble()*100000000 < loww) loww = dad[2].toDouble()*100000000;
+
+        z = z + 1;
+    }
+
+
+       // create graph and assign data to it:
+
+       ui->customPlot_3->graph(0)->setData(x, y);
+       ui->customPlot_3->graph(0)->setPen(QPen(QColor(34, 177, 76)));
+       ui->customPlot_3->graph(0)->setBrush(QBrush(QColor(34, 177, 76, 20)));
+       // set axes ranges, so we see all data:
+      ui->customPlot_3->xAxis->setRange(1, recent.length());
+      ui->customPlot_3->yAxis->setRange(loww, highh);
+      ui->customPlot_3->replot();
+
+    //---------------------------Sum
+    QStringList first = data2[0].split("{success:1,return:{markets:{SC:{marketid:225,label:SC/BTC,lasttradeprice:");
+    QStringList last = first[1].split(",volume:");
+    QStringList volume = last[1].split(",lasttradetime:");
+    //basevolume : BTC , volume : SC
+
+    lastu = last[0].toDouble() * bitcoin2;
+    lastus = QString::number(lastu);
+
+    if(last[0] > lastp3)
+    {
+        ui->last_3->setText("<font color=\"green\">" + last[0] + "</font>");
+        ui->lastu_3->setText("<font color=\"green\">" + lastus + " $</font>");
+    } else if (last[0] < lastp3) {
+        ui->last_3->setText("<font color=\"red\">" + last[0] + "</font>");
+         ui->lastu_3->setText("<font color=\"red\">" + lastus + " $</font>");
+        } else {
+    ui->last_3->setText(last[0]);
+    ui->lastu_3->setText(lastus + " $");
+    }
+
+    double basevolume = volume[0].toDouble()*last[0].toDouble();
+// volume = sc
+
+    volumeu = basevolume * bitcoin2;
+    volumeus = QString::number(volumeu);
+
+    if(volume[0] > volumebp3)
+    {
+        ui->volumeb_3->setText("<font color=\"green\">" + volume[0] + "</font>");
+
+    } else if (volume[0] < volumebp3) {
+        ui->volumeb_3->setText("<font color=\"red\">" + volume[0] + "</font>");
+        ui->volumeu_3->setText("<font color=\"red\">" + volumeus + " $</font>");
+        } else {
+    ui->volumeb_3->setText(volume[0]);
+    ui->volumeu_3->setText(volumeus + " $");
+    }
+
+    // -----------------------------------------------------------------------------------------
+
+    if(basevolume > volumesp3)
+    {
+        ui->volumes_3->setText("<font color=\"green\">" + QString::number(basevolume) + "</font>");
+        ui->volumeu_3->setText("<font color=\"green\">" + volumeus + " $</font>");
+    } else if (basevolume < volumesp3) {
+        ui->volumes_3->setText("<font color=\"red\">" + QString::number(basevolume) + "</font>");
+        ui->volumeu_3->setText("<font color=\"red\">" + volumeus + " $</font>");
+        } else {
+    ui->volumes_3->setText(QString::number(basevolume));
+    ui->volumeu_3->setText(volumeus + " $");
+    }
+
+
+
+
+    lastp3 = last[0];
+    volumebp3 = volume[0];
+    volumesp3 = basevolume;
+
+}
+
+if (what == kBaseUrl9) //Cryptsydpeth
+{
+    QString data = finished->readAll();
+    QString dataa = data.replace("\"","");
+    QStringList dataa2 = dataa.split("[{");
+
+    QStringList marketds =  dataa2[1].replace("price:","").replace("quantity:","").replace("total:","").replace("}","").replace("{","").replace("}],buyorders:","").replace("]","").split(","); //sell
+    QStringList marketdb = dataa2[2].replace("price:","").replace("quantity:","").replace("total:","").replace("}","").replace("{","").replace("}],buyorders:","").replace("]","").split(",");
+    int mat = 50;
+    if (marketdb.length() > marketds.length()) mat = marketds.length();
+    if (marketds.length() > marketdb.length()) mat = marketdb.length();
+    int z = 0;
+    double highh2 = 0;
+    double loww2 = 100000;
+    double cumul = 0;
+    double cumul2 = 0;
+    double cumult = 0;
+    QVector<double> x_3(50), y_3(50);
+    QVector<double> x2_3(50), y2_3(50);
+    ui->sellquan_3->clear();
+    ui->buyquan_3->clear();
+     ui->sellquan_3->sortByColumn(0, Qt::AscendingOrder);
+      ui->sellquan_3->setSortingEnabled(true);
+       ui->buyquan_3->setSortingEnabled(true);
+
+
+       for (int i = 0; i < mat-1; i++) {
+
+           QTreeWidgetItem * item = new QTreeWidgetItem();
+           item->setText(0,marketdb[i]);
+           item->setText(1,marketdb[i+1]);
+           ui->buyquan_3->addTopLevelItem(item);
+
+           QTreeWidgetItem * item2 = new QTreeWidgetItem();
+           item2->setText(0,marketds[i]);
+           item2->setText(1,marketds[i+1]);
+           ui->sellquan_3->addTopLevelItem(item2);
+
+           if (marketds[i].toDouble()*100000000 > highh2) highh2 = marketds[i].toDouble()*100000000;
+           if (marketdb[i].toDouble()*100000000 < loww2) loww2 = marketdb[i].toDouble()*100000000;
+
+           cumul = marketdb[i+1].toDouble() + cumul;
+           cumul2 = marketds[i+1].toDouble() + cumul2;
+
+           x_3[z] = marketdb[i].toDouble()*100000000;
+           y_3[z] = cumul;
+           x2_3[z] = marketds[i].toDouble()*100000000;
+           y2_3[z] = cumul2;
+
+           i = i + 2;
+           z = z + 1;
+
+       }
+       if (cumul > cumul2 ) cumult=cumul;
+       if (cumul < cumul2 ) cumult=cumul2;
+
+
+
+          // create graph and assign data to it:
+
+          ui->customPlot2_3->graph(0)->setData(x_3, y_3);
+          ui->customPlot2_3->graph(1)->setData(x2_3, y2_3);
+
+          ui->customPlot2_3->graph(0)->setPen(QPen(QColor(34, 177, 76)));
+          ui->customPlot2_3->graph(0)->setBrush(QBrush(QColor(34, 177, 76, 20)));
+          ui->customPlot2_3->graph(1)->setPen(QPen(QColor(237, 24, 35)));
+          ui->customPlot2_3->graph(1)->setBrush(QBrush(QColor(237, 24, 35, 20)));
+
+          // set axes ranges, so we see all data:
+          ui->customPlot2_3->xAxis->setRange(loww2, highh2);
+          ui->customPlot2_3->yAxis->setRange(loww2, cumult);
+
+         ui->customPlot2_3->replot();
+}
+
+if (what == kBaseUrl4) //mintpalprice
+{
+
+    QString data = finished->readAll();
+    QString dataa = data.replace("\"","");
+    QStringList data3 = dataa.split("[{");
+
+    QStringList recent = data3[1].replace("time:","").replace("type:","").replace("price:","").replace("amount:","").replace("total:","").split("},{");
+
+    int z = 0;
+    ui->trades_2->clear();
+    ui->trades_2->setColumnWidth(0,  110);
+        ui->trades_2->setColumnWidth(1,  110);
+        ui->trades_2->setColumnWidth(2,  110);
+        ui->trades_2->setColumnWidth(3,  110);
+     QVector<double> x(100), y(100);
+      ui->trades_2->setSortingEnabled(false);
+double highh = 0;
+double loww = 100000;
+    for (int i = 0; i < recent.length(); i++) {
+
+        QStringList dad = recent[i].replace("}","").replace("{","").replace("]","").split(",");
+
+        QTreeWidgetItem * item = new QTreeWidgetItem();
+        item->setText(0,dad[3]);
+        item->setText(1,dad[2]);
+        item->setText(2,dad[4]);
+        item->setText(3,dad[0]);
+
+        ui->trades_2->addTopLevelItem(item);
+
+        x[z] = (recent.length())-z;
+        y[z] = (dad[2].toDouble())*100000000;
+
+        if (dad[2].toDouble()*100000000 > highh) highh = dad[2].toDouble()*100000000;
+        if (dad[2].toDouble()*100000000 < loww) loww = dad[2].toDouble()*100000000;
+
+        z = z + 1;
+    }
+
+
+       // create graph and assign data to it:
+
+       ui->customPlot_2->graph(0)->setData(x, y);
+       ui->customPlot_2->graph(0)->setPen(QPen(QColor(34, 177, 76)));
+       ui->customPlot_2->graph(0)->setBrush(QBrush(QColor(34, 177, 76, 20)));
+       // set axes ranges, so we see all data:
+      ui->customPlot_2->xAxis->setRange(1, recent.length());
+      ui->customPlot_2->yAxis->setRange(loww, highh);
+      ui->customPlot_2->replot();
+
+
+}
+
+if (what == kBaseUrl5) //mintpalbuy
+{
+    QString data = finished->readAll();
+    QString dataa = data.replace("\"","");
+    QStringList dataa2 = dataa.split("[{");
+
+    QStringList marketdb =  dataa2[1].replace("price:","").replace("amount:","").replace("total:","").replace("}","").replace("{","").replace("}],buyorders:","").replace("]","").split(","); //sell
+    marketdbmint = marketdb;
+    o = 0;
+}
+
+if (what == kBaseUrl10) //mintpalsell
+{
+    randomChuckNorrisJoke2();
+    QString data = finished->readAll();
+    QString dataa = data.replace("\"","");
+    QStringList dataa2 = dataa.split("[{");
+
+    QStringList marketdb =  dataa2[1].replace("price:","").replace("amount:","").replace("total:","").replace("}","").replace("{","").replace("}],buyorders:","").replace("]","").split(","); //sell
+    QStringList marketds = marketdbmint;
+
+    int mat = 50;
+    if (marketdb.length() > marketds.length()) mat = marketds.length();
+    if (marketds.length() > marketdb.length()) mat = marketdb.length();
+    int z = 0;
+    double highh2 = 0;
+    double loww2 = 100000;
+    double cumul = 0;
+    double cumul2 = 0;
+    double cumult = 0;
+
+    QVector<double> x_3(50), y_3(50);
+    QVector<double> x2_3(50), y2_3(50);
+    ui->sellquan_2->clear();
+    ui->buyquan_2->clear();
+     ui->sellquan_2->sortByColumn(0, Qt::AscendingOrder);
+      ui->sellquan_2->setSortingEnabled(true);
+       ui->buyquan_2->setSortingEnabled(true);
+
+
+       for (int i = 0; i < mat-1; i++) {
+
+           QTreeWidgetItem * item = new QTreeWidgetItem();
+           item->setText(0,marketdb[i]);
+           item->setText(1,marketdb[i+1]);
+           ui->buyquan_2->addTopLevelItem(item);
+
+           QTreeWidgetItem * item2 = new QTreeWidgetItem();
+           item2->setText(0,marketds[i]);
+           item2->setText(1,marketds[i+1]);
+           ui->sellquan_2->addTopLevelItem(item2);
+
+           if (marketds[i].toDouble()*100000000 > highh2) highh2 = marketds[i].toDouble()*100000000;
+           if (marketdb[i].toDouble()*100000000 < loww2) loww2 = marketdb[i].toDouble()*100000000;
+
+           cumul = marketdb[i+1].toDouble() + cumul;
+           cumul2 = marketds[i+1].toDouble() + cumul2;
+
+           x_3[z] = marketdb[i].toDouble()*100000000;
+           y_3[z] = cumul;
+           x2_3[z] = marketds[i].toDouble()*100000000;
+           y2_3[z] = cumul2;
+
+           i = i + 2;
+           z = z + 1;
+
+       }
+       if (cumul > cumul2 ) cumult=cumul;
+       if (cumul < cumul2 ) cumult=cumul2;
+
+
+
+       ui->label_8->setText(QString::number(highh2)+" "+QString::number(loww2)+" "+QString::number(x_3[1])+" "+QString::number(x_3[2]));
+          // create graph and assign data to it:
+
+          ui->customPlot2_2->graph(0)->setData(x_3, y_3);
+          ui->customPlot2_2->graph(1)->setData(x2_3, y2_3);
+
+          ui->customPlot2_2->graph(0)->setPen(QPen(QColor(34, 177, 76)));
+          ui->customPlot2_2->graph(0)->setBrush(QBrush(QColor(34, 177, 76, 20)));
+          ui->customPlot2_2->graph(1)->setPen(QPen(QColor(237, 24, 35)));
+          ui->customPlot2_2->graph(1)->setBrush(QBrush(QColor(237, 24, 35, 20)));
+
+          // set axes ranges, so we see all data:
+          ui->customPlot2_2->xAxis->setRange(loww2, highh2);
+          ui->customPlot2_2->yAxis->setRange(loww2, cumult);
+
+         ui->customPlot2_2->replot();
+
+
+}
+
+if (lastp != 0 && lastp2 != 0 && lastp3 != 0) ui->Ok->setVisible(false);
+if (o == 0)
+{
+    randomChuckNorrisJoke2();
+    o = 1;
+    overv();
+}
 
 finished->deleteLater();
 }

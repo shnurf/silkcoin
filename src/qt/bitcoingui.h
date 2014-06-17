@@ -78,6 +78,7 @@ private:
     QWidget *settingsPage;
     QWidget *wId;
     QWidget *wId2;
+    QWidget *wId3;
 
     QLabel *labelEncryptionIcon;
     QLabel *labelStakingIcon;
@@ -105,8 +106,10 @@ private:
     QAction *verifyMessageAction2;
     QAction *aboutSettingsAction;
     QAction *tutoStackAction;
+    QAction *tutoStackAction2;
     QAction *tutoWriteAction;
     QAction *aboutAction;
+    QAction *hideAction;
     QAction *receiveCoinsAction;
     QAction *optionsAction;
     QAction *toggleHideAction;
@@ -116,6 +119,8 @@ private:
     QAction *changePassphraseAction;
     QAction *unlockWalletAction;
     QAction *lockWalletAction;
+    QAction *unlockWalletAction2;
+    QAction *lockWalletAction2;
     QAction *aboutQtAction;
     QAction *openRPCConsoleAction;
     QAction *openRPCConsoleAction2;
@@ -214,6 +219,7 @@ private slots:
     void changePassphrase();
     /** Ask for passphrase to unlock wallet temporarily */
     void unlockWallet();
+    void unlockWallet2();
 
     void lockWallet();
 
