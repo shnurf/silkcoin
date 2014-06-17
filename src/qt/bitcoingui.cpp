@@ -538,7 +538,6 @@ void BitcoinGUI::createToolBars()
     wId3->setFocus();
     wId3->raise();
 
-    connect(actionConvertIcon, SIGNAL(triggered()), this, SLOT(sConvert()));
 
     QMenu *menu = new QMenu(tr("Mini"));
     menu->setStyleSheet("border:none;background:none;");

@@ -129,7 +129,7 @@ void PoolBrowser::overv()
     } else {
         ui->diff3->setText("<font color=\"red\">" + average5 + " %</font>");
         }
-    if(yes > 0)
+    if((yestp.toDouble()+yestp2.toDouble()) > 0)
     {
         ui->yest_3->setText("<font color=\"green\">+" + QString::number(yes) + " %</font>");
     } else {
@@ -362,7 +362,8 @@ if (what == kBaseUrl) //Bittrexdata
     volumesp = basevolume[0];
     bop = openbuy[0];
     sop = opensell[0];
-    yestp = yestus;
+    if(last[0].toDouble() > yest[0].toDouble()) yestp = yestus;
+    if(last[0].toDouble() < yest[0].toDouble()) yestp = yestus.prepend("-");
 }
 
 if (what == kBaseUrl2) //bitcoinprice
@@ -674,7 +675,8 @@ if (what == kBaseUrl7) //Mintpaldata
     lowp2 = low[0];
     volumebp2 = volume[0];
     volumesp2 = basevolume;
-    yestp2 = yestus;
+    if(last[0].toDouble() > yest[0].toDouble()) yestp2 = yestus;
+    if(last[0].toDouble() < yest[0].toDouble()) yestp2 = yestus.prepend("-");
 }
 
 if (what == kBaseUrl8) //Cryptsydata
@@ -940,7 +942,6 @@ if (what == kBaseUrl5) //mintpalbuy
 
 if (what == kBaseUrl10) //mintpalsell
 {
-    randomChuckNorrisJoke2();
     QString data = finished->readAll();
     QString dataa = data.replace("\"","");
     QStringList dataa2 = dataa.split("[{");

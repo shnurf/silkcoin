@@ -24,7 +24,7 @@
     <enum>QLayout::SetMaximumSize</enum>
    </property>
    <property name="leftMargin">
-    <number>30</number>
+    <number>0</number>
    </property>
    <property name="rightMargin">
     <number>0</number>
@@ -35,7 +35,7 @@
       <enum>Qt::LeftToRight</enum>
      </property>
      <property name="styleSheet">
-      <string notr="true">#All QTabBar::tab {border:none;height:80px;margin-top:-20px;padding-bottom:20px;padding-right:10px;}
+      <string notr="true">#All QTabBar::tab {border:none;height:80px;margin-top:-20px;padding-bottom:20px;padding-right:60px;margin-left:-20px}
 QTabWidget::tab-bar {alignment:center;border:0px;}
 QTabWidget::pane {border:none;}
 #tab QTabWidget::pane,#tab_3 QTabWidget::pane,#tab_4 QTabWidget::pane, #tab_2 QTabWidget::pane {border:none;border-left:1px solid #95a5a6;}</string>
@@ -3234,9 +3234,9 @@ QTabBar::tab:last {margin-right:100px;}</string>
      <widget class="QLabel" name="label_31">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>11</y>
-        <width>111</width>
+        <x>30</x>
+        <y>10</y>
+        <width>131</width>
         <height>20</height>
        </rect>
       </property>
