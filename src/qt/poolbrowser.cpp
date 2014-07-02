@@ -17,8 +17,8 @@ const QString kBaseUrl2 = "http://blockchain.info/tobtc?currency=USD&value=1";
 const QString kBaseUrl3 = "http://bittrex.com/api/v1/public/getorderbook?market=BTC-SC&type=both&depth=50";
 const QString kBaseUrl6 = "http://bittrex.com/api/v1/public/getmarkethistory?market=BTC-SC&count=100";
 const QString kBaseUrl7 = "https://api.mintpal.com/v1/market/stats/SC/BTC";
-const QString kBaseUrl8 = "http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=225";
-const QString kBaseUrl9 = "http://pubapi.cryptsy.com/api.php?method=singleorderdata&marketid=225";
+const QString kBaseUrl8 = "1"; // temp fix
+const QString kBaseUrl9 = "1"; // temp fix
 const QString kBaseUrl4 = "https://api.mintpal.com/v1/market/trades/SC/BTC";
 const QString kBaseUrl5 = "https://api.mintpal.com/v1/market/orders/SC/BTC/SELL";
 const QString kBaseUrl10 = "https://api.mintpal.com/v1/market/orders/SC/BTC/BUY";
