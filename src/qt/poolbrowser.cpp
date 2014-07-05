@@ -6,10 +6,11 @@
 #include "clientmodel.h"
 #include "bitcoinrpc.h"
 
-#include <QDesktopServices>
-#include <QString>
 #include <sstream>
 #include <string>
+
+#include <QDesktopServices>
+#include <QString>
 
 using namespace json_spirit;
 
@@ -33,65 +34,56 @@ const QString apiMintpalBuy = "https://api.mintpal.com/v1/market/orders/SC/BTC/B
 
 //Common Globals
 int mode=1;
-double _lastScUsd;
-double _dBtcPriceCurrent;
-QString _qsBtcPriceCurrent;
-QString _btcPricePrev = "";
-QString _lastBtcUsd;
+double _dScPriceLast = 0;
+double _dBtcPriceCurrent = 0;
+double _dBtcPriceLast = 0;
 
 //Bittrex Globals
-QString _askLast_Bittrex = "";
-QString _baseVolumeLast_Bittrex = "";
-QString _bidLast_Bittrex = "";
-QString _highLast_Bittrex = "";
-QString _openingBuy_Bittrex = "";
-QString _openingSell_Bittrex = "";
-QString _priceClose_Bittrex = "";
-QString _priceLastLast_Bittrex = "";
-QString _priceLast_Bittrex = "";
-QString _volumeLast_Bittrex = "";
+BittrexMarketSummary* _bittrexMarketSummary = new BittrexMarketSummary();
+BittrexTrades* _bittrexTrades = new BittrexTrades();
+BittrexOrders* _bittrexOrders = new BittrexOrders();
 
 //Cryptsy Globals
 double _baseVolumeLast_Cryptsy;
 QString _priceLastLast_Cryptsy = "";
 QString _priceLast_Cryptsy = "";
 QString _volumeLast_Cryptsy = "";
+double _priceCurrent_Cryptsy = 0;
 
 //Mintpal Globals
 QString _askLast_Mintpal = "";
 QString _baseVolumeLast_Mintpal = "";
 QString _bidLast_Mintpal = "";
 QString _highLast_Mintpal = "";
-QString _lowLast_Bittrex = "";
 QString _lowLast_Mintpal = "";
 QString _priceClose_Mintpal = "";
 QString _priceLastLast_Mintpal = "";
 QString _priceLast_Mintpal = "";
 QString _volumeLast_Mintpal = "";
 QStringList _apiResponseSells_Mintpal;
+double _priceCurrent_Mintpal = 0;
 
-PoolBrowser::PoolBrowser(QWidget *parent) : QWidget(parent), ui(new Ui::PoolBrowser)
+PoolBrowser::PoolBrowser(QWidget* parent) : QWidget(parent), ui(new Ui::PoolBrowser)
 {
-    //One time primer to ensure Coinbase has enough
-    //time to respond to avoid the need to refreshfee
+    //TODO: Complete multi-threading so we don't have to call this as a primer
     getRequest(apiCoinbasePrice);
 
     ui->setupUi(this);
     setFixedSize(400, 420);
 
-    ui->customPlot->addGraph();
-    ui->customPlot->setBackground(QBrush(QColor("#edf1f7")));
+    ui->qCustomPlotBittrexTrades->addGraph();
+    ui->qCustomPlotBittrexTrades->setBackground(QBrush(QColor("#edf1f7")));
 
-    ui->customPlot2->addGraph();
-    ui->customPlot2->addGraph();
-    ui->customPlot2->setBackground(QBrush(QColor("#edf1f7")));
+    ui->qCustomPlotBittrexOrderDepth->addGraph();
+    ui->qCustomPlotBittrexOrderDepth->addGraph();
+    ui->qCustomPlotBittrexOrderDepth->setBackground(QBrush(QColor("#edf1f7")));
 
-    ui->customPlot_2->addGraph();
-    ui->customPlot_2->setBackground(QBrush(QColor("#edf1f7")));
+    ui->qCustomPlotMintpalTrades->addGraph();
+    ui->qCustomPlotMintpalTrades->setBackground(QBrush(QColor("#edf1f7")));
 
-    ui->customPlot2_2->addGraph();
-    ui->customPlot2_2->addGraph();
-    ui->customPlot2_2->setBackground(QBrush(QColor("#edf1f7")));
+    ui->qCustomPlotMintpalTrades->addGraph();
+    ui->qCustomPlotMintpalTrades->addGraph();
+    ui->qCustomPlotMintpalTrades->setBackground(QBrush(QColor("#edf1f7")));
 
     ui->customPlot_3->addGraph();
     ui->customPlot_3->setBackground(QBrush(QColor("#edf1f7")));
@@ -100,20 +92,25 @@ PoolBrowser::PoolBrowser(QWidget *parent) : QWidget(parent), ui(new Ui::PoolBrow
     ui->customPlot2_3->addGraph();
     ui->customPlot2_3->setBackground(QBrush(QColor("#edf1f7")));
 
-    pollApis();
+    QObject::connect(&m_nam, SIGNAL(finished(QNetworkReply*)), this, SLOT(parseNetworkResponse(QNetworkReply*)), Qt::AutoConnection);
 
-    QObject::connect(&m_nam, SIGNAL(finished(QNetworkReply*)), this, SLOT(parseNetworkResponse(QNetworkReply*)));
-    connect(ui->startButton, SIGNAL(pressed()), this, SLOT( pollApis()));
-    connect(ui->egal, SIGNAL(pressed()), this, SLOT( egaldo()));
+    //One time primer
+    pollAPIs();
 }
 
-void PoolBrowser::egaldo()
+void PoolBrowser::on_btnConvertSilkoin_clicked()
 {
-    QString silkcoinQty = ui->egals->text();
-    double totalUsd = _lastScUsd * silkcoinQty.toDouble();
-    double totalBtc = _qsBtcPriceCurrent.toDouble() * silkcoinQty.toDouble();
+    double silkcoinQty = ui->txtConvertSilkcoinQty->text().toDouble();
+    double totalBtc = _bittrexMarketSummary->getLastCurrent(double()) * silkcoinQty;
+    double totalUsd = totalBtc * _dBtcPriceCurrent;
 
-    ui->egald->setText(QString::number(totalUsd, 'f', 2) + " $ / "+QString::number(totalBtc, 'f', 2)+" BTC");
+    ui->lblConvertSilkcoinResults->setText("$" + QString::number(totalUsd, 'f', 2) +
+                                           "  /  B"+ QString::number(totalBtc, 'f', 8));
+
+}
+void PoolBrowser::on_btnUpdateMarketData_clicked()
+{
+    pollAPIs();
 }
 
 void PoolBrowser::openBittrex()
@@ -125,111 +122,73 @@ void PoolBrowser::openPoloniex()
     QDesktopServices::openUrl(QUrl("https://poloniex.com/exchange/btc_sc"));
 }
 
-void PoolBrowser::processOverview()
+void PoolBrowser::pollAPIs()
 {
-    double yes = (_priceClose_Bittrex.toDouble() + _priceClose_Mintpal.toDouble()) / 2;
-    double average2 = (_priceLast_Bittrex.toDouble() + _priceLast_Mintpal.toDouble() + _priceLast_Cryptsy.toDouble()) / 3;
-    QString average3 = QString::number((_priceLast_Bittrex.toDouble() - average2) / (average2 / 100),'f',2);
-    QString average4 = QString::number((_priceLast_Mintpal.toDouble() - average2) / (average2 / 100),'f',2);
-    QString average5 = QString::number((_priceLast_Cryptsy.toDouble() - average2) / (average2 / 100),'f',2);
-
-    if (average3.toDouble() > 0) {
-        ui->diff1->setText("<font color=\"green\">+" + average3 + " %</font>");
-    }
-    else {
-        ui->diff1->setText("<font color=\"red\">" + average3 + " %</font>");
-    }
-
-    if (average4.toDouble() > 0) {
-        ui->diff2->setText("<font color=\"green\">+" + average4 + " %</font>");
-    }
-    else {
-        ui->diff2->setText("<font color=\"red\">" + average4 + " %</font>");
-    }
-
-    if (average5.toDouble() > 0) {
-        ui->diff3->setText("<font color=\"green\">+" + average5 + " %</font>");
-    }
-    else {
-        ui->diff3->setText("<font color=\"red\">" + average5 + " %</font>");
-    }
-
-    if ((_priceClose_Bittrex.toDouble()+_priceClose_Mintpal.toDouble()) > 0) {
-        ui->yest_3->setText("<font color=\"green\">+" + QString::number(yes, 'f', 2) + " %</font>");
-    }
-    else {
-        ui->yest_3->setText("<font color=\"red\">" + QString::number(yes, 'f', 2) + " %</font>");
-    }
-
-    if (_priceLast_Bittrex > _priceLastLast_Bittrex) {
-        ui->last_4->setText("<font color=\"green\">" + _priceLast_Bittrex + "</font>");
-    }
-    else if (_priceLast_Bittrex < _priceLast_Bittrex) {
-        ui->last_4->setText("<font color=\"red\">" + _priceLast_Bittrex + "</font>");
-    }
-    else {
-        ui->last_4->setText(_priceLast_Bittrex);
-    }
-
-    if (_priceLast_Mintpal > _priceLastLast_Mintpal) {
-        ui->last_5->setText("<font color=\"green\">" + _priceLast_Mintpal + "</font>");
-    }
-    else if (_priceLast_Mintpal < _priceLastLast_Mintpal) {
-        ui->last_5->setText("<font color=\"red\">" + _priceLast_Mintpal + "</font>");
-    }
-    else {
-        ui->last_5->setText(_priceLast_Mintpal);
-    }
-
-    if (_priceLast_Cryptsy > _priceLastLast_Cryptsy) {
-        ui->last_6->setText("<font color=\"green\">" + _priceLast_Cryptsy + "</font>");
-    }
-    else if (_priceLast_Cryptsy < _priceLastLast_Cryptsy) {
-        ui->last_6->setText("<font color=\"red\">" + _priceLast_Cryptsy + "</font>");
-    }
-    else {
-        ui->last_6->setText(_priceLast_Cryptsy);
-    }
-
-    _priceLastLast_Bittrex = _priceLast_Bittrex;
-    _priceLastLast_Mintpal = _priceLast_Mintpal;
-    _priceLastLast_Cryptsy = _priceLast_Cryptsy;
-}
-
-void PoolBrowser::pollApis()
-{
-    ui->Ok->setVisible(true);
+    ui->iconOverviewUpdateWait->setVisible(true);
 
     getRequest(apiCoinbasePrice);
 
     getRequest(apiBittrexMarketSummary);
-    getRequest(apiMintpalTrades);
+    getRequest(apiBittrexTrades);
     getRequest(apiBittrexOrders);
 
     getRequest(apiCryptsyTrades);
     getRequest(apiCryptsyOrders);
 
-    getRequest(apiBittrexTrades);
-    getRequest(apiMintpalStats);
-    getRequest(apiMintpalBuy);
-    getRequest(apiMintpalSell);
+    //getRequest(apiMintpalStats);
+    //getRequest(apiMintpalTrades);
+    //getRequest(apiMintpalSell);
+    //getRequest(apiMintpalBuy);
 }
 
-void PoolBrowser::getRequest( const QString &urlString )
+void PoolBrowser::processOverview()
 {
-    QUrl url ( urlString );
-    QNetworkRequest req ( url );
+    double averageBittrexCurrent = _bittrexMarketSummary->getLastCurrent(double()) > 0 ? _bittrexMarketSummary->getLastCurrent(double()) : 0.00000001;
+    double averageCryptsyCurrent = 0; //_cryptsyMarketSummary->getLastCurrent(double()) > 0 ? _cryptsyMarketSummary->getLastCurrent(double()) : 0.00000001;
+    double averageMintpalCurrent = 0; //_mintpalMarketSummary->getLastCurrent(double()) > 0 ? _mintpalMarketSummary->getLastCurrent(double()) : 0.00000001;
+    double averageAllCurrent = (averageBittrexCurrent + averageCryptsyCurrent + averageMintpalCurrent) / 1;
+
+    double averageBittrexLast = _bittrexMarketSummary->getLastPrev(double()) > 0 ? _bittrexMarketSummary->getLastPrev(double()) : 0.00000001;
+    double averageCryptsyLast = 0; //_cryptsyMarketSummary->getLastPrev(double()) > 0 ? _cryptsyMarketSummary->getLastPrev(double()) : 0.00000001;
+    double averageMintpalLast = 0; //_mintpalMarketSummary->getLastPrev(double()) > 0 ? _mintpalMarketSummary->getLastPrev(double()) : 0.00000001;
+
+    double averageAllLast = (averageBittrexLast + averageCryptsyLast + averageMintpalLast) / 1;
+
+    updateLabel(ui->lblOverviewScAvgPrice,
+                averageAllCurrent,
+                averageAllLast,
+                QString("B"),
+                8);
+
+    updateLabel(ui->lblOverviewBittrexBtc,
+                _bittrexMarketSummary->getLastCurrent(double()),
+                _bittrexMarketSummary->getLastPrev(double()),
+                QString("B"),
+                8);
+
+    updateLabel(ui->lblOverviewBittrexPerc,
+                _bittrexMarketSummary->getLastCurrent(double()),
+                averageAllCurrent,
+                QString(""),
+                QString("%"),
+                2);
+}
+
+void PoolBrowser::getRequest(const QString &urlString)
+{
+    QUrl url (urlString);
+    QNetworkRequest req (url);
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json; charset=utf-8");
     m_nam.get(req);
 }
 
-void PoolBrowser::parseNetworkResponse(QNetworkReply *response)
+void PoolBrowser::parseNetworkResponse(QNetworkReply* response)
 {
     QUrl apiCall = response->url();
 
-    if ( response->error() != QNetworkReply::NoError ) {
-        // A communication error has occurred
-        emit networkError( response->error() );
+    if (response->error() != QNetworkReply::NoError) {
+        //Communication error has occurred
+        emit networkError(response->error());
         return;
     }
 
@@ -245,8 +204,8 @@ void PoolBrowser::parseNetworkResponse(QNetworkReply *response)
     else if (apiCall == apiMintpalBuy) { mintpalBuy(response); }
     else { }  //Sould NEVER get here unless something went completely awry
 
-    if (_priceLast_Bittrex != 0 && _priceLast_Mintpal != 0 && _priceLast_Cryptsy != 0) {
-        ui->Ok->setVisible(false);
+    if (_bittrexMarketSummary->getLastPrev(double()) != 0) { // && _priceLast_Mintpal != 0 && _priceLast_Cryptsy != 0) {
+        ui->iconOverviewUpdateWait->setVisible(false);
     }
 
     processOverview();
@@ -255,8 +214,8 @@ void PoolBrowser::parseNetworkResponse(QNetworkReply *response)
 }
 
 /*************************************************************************************
- * Method: PoolBrowser::bittrexMarketSummary
- * Parameter(s): QNetworkReply *response
+ * Method: PoolBrowser::coinbasePrice
+ * Parameter(s): QNetworkReply* response
  *
  * Unauthenticated resource that returns BTC to fiat (and vice versus) exchange rates in various currencies.
  * It has keys for both btc_to_xxx and xxx_to_btc so you can convert either way.
@@ -265,31 +224,31 @@ void PoolBrowser::parseNetworkResponse(QNetworkReply *response)
  *
  * Response: {"btc_to_pgk":"28.152994","btc_to_gyd":"2743.906541","btc_to_mmk":"11611.550858", ... ,"brl_to_btc":"0.037652"}
  *************************************************************************************/
-void PoolBrowser::coinbasePrice(QNetworkReply *response)
+void PoolBrowser::coinbasePrice(QNetworkReply* response)
 {
+    mValue jsonResponse = new mValue();
     QString apiResponse = response->readAll();
-    QStringList btcPrices = apiResponse.split(",\"btc_to_usd\":", QString::KeepEmptyParts);
 
-    QString btcPrice = btcPrices[1].split(",", QString::KeepEmptyParts)[0].replace("\"", "");
-    _dBtcPriceCurrent = btcPrice.toDouble();
-    btcPrice = QString::number(_dBtcPriceCurrent, 'f', 2);
+    //Make sure the response is valid
+    if(!read_string(apiResponse.toStdString(), jsonResponse)) { return; }
 
-    if (btcPrice > _btcPricePrev) {
-        ui->bitcoin->setText("<font color=\"green\">" + btcPrice + " $</font>");
-    }
-    else if (btcPrice < _btcPricePrev) {
-        ui->bitcoin->setText("<font color=\"red\">" + btcPrice + " $</font>");
-    }
-    else {
-        ui->bitcoin->setText(btcPrice + " $");
-    }
+    mObject jsonObject = jsonResponse.get_obj();
 
-    _btcPricePrev = btcPrice;
+    _dBtcPriceCurrent =  QString::fromStdString(getPairValue(jsonObject, "btc_to_usd").get_str()).toDouble();
+
+    updateLabel(ui->lblOverviewBtcUsdPrice,
+                _dBtcPriceCurrent,
+                _dBtcPriceLast,
+                QString('$'),
+                2);
+
+    _dBtcPriceLast = _dBtcPriceCurrent;
+    _dScPriceLast = _dBtcPriceCurrent * _bittrexMarketSummary->getLastCurrent(double());
 }
 
 /*************************************************************************************
  * Method: PoolBrowser::bittrexMarketSummary
- * Parameter(s): QNetworkReply *response
+ * Parameter(s): QNetworkReply* response
  *
  * Used to get the last 24 hour summary of all active exchanges
  *
@@ -318,158 +277,147 @@ void PoolBrowser::coinbasePrice(QNetworkReply *response)
  * 	]
  * }
  *************************************************************************************/
-void PoolBrowser::bittrexMarketSummary(QNetworkReply *response)
+void PoolBrowser::bittrexMarketSummary(QNetworkReply* response)
 {
-    double dAsk, dLast, dBid, dVolume, dClose;
-    QString qsAsk, qsLast, qsBid, qsVolume, qsClose;
-
     QString apiResponse = response->readAll();
-    QStringList qslApiResponse = apiResponse.split("{\"MarketName\":\"BTC-SC\",\"High\":", QString::KeepEmptyParts);
 
-    QStringList qslHigh = qslApiResponse[1].split(",\"Low\":", QString::KeepEmptyParts);
-    QStringList qslLow = qslHigh[1].split(",\"Volume\":", QString::KeepEmptyParts);
-    QStringList qslVolume = qslLow[1].split(",\"Last\":", QString::KeepEmptyParts);
-    QStringList qslLast = qslVolume[1].split(",\"BaseVolume\":", QString::KeepEmptyParts);
-    QStringList qslBaseVolume = qslLast[1].split(",\"TimeStamp\":\"", QString::KeepEmptyParts);
-    QStringList qslTme = qslBaseVolume[1].split("\",\"Bid\":", QString::KeepEmptyParts);
-    QStringList qslBid = qslTme[1].split(",\"Ask\":", QString::KeepEmptyParts);
-    QStringList qslAsk = qslBid[1].split(",\"OpenBuyOrders\":", QString::KeepEmptyParts);
-    QStringList qslOpeningBuy = qslAsk[1].split(",\"OpenSellOrders\":", QString::KeepEmptyParts);
-    QStringList qslOpeningSell = qslOpeningBuy[1].split(",\"PrevDay\":", QString::KeepEmptyParts);
-    QStringList qslClose = qslOpeningSell[1].split(",\"Created\":", QString::KeepEmptyParts);
+    apiResponse.replace("{\"success\":true,\"message\":\"\",\"result\":[", "").replace("]}","").replace("},{", "}{");
 
-    dLast = qslLast[0].toDouble() * _dBtcPriceCurrent;
-    _lastScUsd = dLast;
-    qsLast = QString::number(dLast, 'f', 8);
-    _lastBtcUsd = qsLast;
-    _qsBtcPriceCurrent = qslLast[0];
+    QStringList qslApiResponse = apiResponse.split("{", QString::SkipEmptyParts);
 
-    if (qslLast[0] > _priceLast_Bittrex) {
-        ui->last->setText("<font color=\"green\">" + qslLast[0] + "</font>");
-        ui->lastu->setText("<font color=\"green\">" + qsLast + " $</font>");
-    }
-    else if (qslLast[0] < _priceLast_Bittrex) {
-        ui->last->setText("<font color=\"red\">" + qslLast[0] + "</font>");
-        ui->lastu->setText("<font color=\"red\">" + qsLast + " $</font>");
-    }
-    else {
-        ui->last->setText(qslLast[0]);
-        ui->lastu->setText(qsLast + " $");
-    }
+    for(int i = 0; i < qslApiResponse.count(); i++){
+        mValue jsonResponse = new mValue();
 
-    dAsk = qslAsk[0].toDouble() * _dBtcPriceCurrent;
-    qsAsk = QString::number(dAsk, 'f', 8);
+        //Fix missing leading brace caused by split string, otherwise it will not be recognized an an mObject
+        qslApiResponse[i].replace("\"MarketName", "{\"MarketName");
 
-    if (qslAsk[0] > _askLast_Bittrex) {
-        ui->ask->setText("<font color=\"green\">" + qslAsk[0] + "</font>");
-        ui->asku->setText("<font color=\"green\">" + qsAsk + " $</font>");
-    }
-    else if (qslAsk[0] < _askLast_Bittrex) {
-        ui->ask->setText("<font color=\"red\">" + qslAsk[0] + "</font>");
-        ui->asku->setText("<font color=\"red\">" + qsAsk + " $</font>");
-    }
-    else {
-        ui->ask->setText(qslAsk[0]);
-        ui->asku->setText(qsAsk + " $");
+        //json_spirit does not handle null so make it "null"
+        qslApiResponse[i].replace("null", "\"null\"");
+
+        //Make sure the response is valid
+        if(read_string(qslApiResponse[i].toStdString(), jsonResponse)) {
+            mObject jsonObject = jsonResponse.get_obj();
+
+            if (getPairValue(jsonObject, "MarketName").get_str() == "BTC-SC") {
+                try {
+                    _bittrexMarketSummary->setHighCurrent(getPairValue(jsonObject, "High").get_real());
+                    _bittrexMarketSummary->setLowCurrent(getPairValue(jsonObject, "Low").get_real());
+                    _bittrexMarketSummary->setVolumeCurrent(getPairValue(jsonObject, "Volume").get_real());
+                    _bittrexMarketSummary->setLastCurrent(getPairValue(jsonObject, "Last").get_real());
+                    _bittrexMarketSummary->setBaseVolumeCurrent(getPairValue(jsonObject, "BaseVolume").get_real());
+                    _bittrexMarketSummary->setTimeStamp(getPairValue(jsonObject, "TimeStamp").get_str());
+                    _bittrexMarketSummary->setBidCurrent(getPairValue(jsonObject, "Bid").get_real());
+                    _bittrexMarketSummary->setAskCurrent(getPairValue(jsonObject, "Ask").get_real());
+                    _bittrexMarketSummary->setPrevDayCurrent(getPairValue(jsonObject, "PrevDay").get_real());
+                }
+                catch (exception) {} //API did not return all needed data so skip processing market summary
+
+                break;
+            }
+        }
     }
 
-    dBid = qslBid[0].toDouble() * _dBtcPriceCurrent;
-    qsBid = QString::number(dBid, 'f', 8);
+    updateLabel(ui->lblBittrexHighBtc,
+                _bittrexMarketSummary->getHighCurrent(double()),
+                _bittrexMarketSummary->getHighPrev(double()),
+                QString("B"),
+                8);
 
-    if (qslBid[0] > _bidLast_Bittrex) {
-        ui->bid->setText("<font color=\"green\">" + qslBid[0] + "</font>");
-        ui->bidu->setText("<font color=\"green\">" + qsBid + " $</font>");
-    }
-    else if (qslBid[0] < _bidLast_Bittrex) {
-        ui->bid->setText("<font color=\"red\">" + qslBid[0] + "</font>");
-        ui->bidu->setText("<font color=\"red\">" + qsBid + " $</font>");
-    }
-    else {
-        ui->bid->setText(qslBid[0]);
-        ui->bidu->setText(qsBid + " $");
-    }
+    updateLabel(ui->lblBittrexLowBtc,
+                _bittrexMarketSummary->getLowCurrent(double()),
+                _bittrexMarketSummary->getLowPrev(double()),
+                QString("B"),
+                8);
 
-    if (qslHigh[0] > _highLast_Bittrex) {
-        ui->high->setText("<font color=\"green\">" + qslHigh[0] + "</font>");
-    }
-    else if (qslHigh[0] < _highLast_Bittrex) {
-        ui->high->setText("<font color=\"red\">" + qslHigh[0] + "</font>");
-    }
-    else {
-        ui->high->setText(qslHigh[0]);
-    }
+    updateLabel(ui->lblBittrexCloseBtc,
+                _bittrexMarketSummary->getPrevDayCurrent(double()),
+                _bittrexMarketSummary->getPrevDayPrev(double()),
+                QString("B"),
+                8);
 
-    if (qslLow[0] > _lowLast_Bittrex) {
-        ui->low->setText("<font color=\"green\">" + qslLow[0] + "</font>");
-    }
-    else if (qslLow[0] < _lowLast_Bittrex) {
-        ui->low->setText("<font color=\"red\">" + qslLow[0] + "</font>");
-    }
-    else {
-        ui->low->setText(qslLow[0]);
-    }
+    double changeCurrent = (_bittrexMarketSummary->getLastCurrent(double()) - _bittrexMarketSummary->getPrevDayCurrent(double())) / _bittrexMarketSummary->getPrevDayCurrent(double()) * 100;
+    double changeLast  = (_bittrexMarketSummary->getLastPrev(double()) - _bittrexMarketSummary->getPrevDayCurrent(double())) / _bittrexMarketSummary->getPrevDayCurrent(double()) * 100;
 
-    if (qslVolume[0] > _volumeLast_Bittrex) {
-        ui->volumeb->setText("<font color=\"green\">" + qslVolume[0] + "</font>");
-    }
-    else if (qslVolume[0] < _volumeLast_Bittrex) {
-        ui->volumeb->setText("<font color=\"red\">" + qslVolume[0] + "</font>");
-        ui->volumeu->setText("<font color=\"red\">" + qsVolume + " $</font>");
-    }
-    else {
-        ui->volumeb->setText(qslVolume[0]);
-        ui->volumeu->setText(qsVolume + " $");
-    }
+    QString changeDirection = _bittrexMarketSummary->getLastCurrent(double()) > _bittrexMarketSummary->getPrevDayCurrent(double())
+            ? QString("+") : _bittrexMarketSummary->getLastCurrent(double()) < _bittrexMarketSummary->getPrevDayCurrent(double())
+            ? QString("") : QString("");
 
-    dVolume = qslBaseVolume[0].toDouble() * _dBtcPriceCurrent;
-    qsVolume = QString::number(dVolume, 'f', 2);
+    updateLabel(ui->lblBittrexChangePerc,
+                changeCurrent,
+                changeLast,
+                changeDirection,
+                QString("%"),
+                2);
 
-    if (qslBaseVolume[0] > _baseVolumeLast_Bittrex) {
-        ui->volumes->setText("<font color=\"green\">" + qslBaseVolume[0] + "</font>");
-        ui->volumeu->setText("<font color=\"green\">" + qsVolume + " $</font>");
-    }
-    else if (qslBaseVolume[0] < _baseVolumeLast_Bittrex) {
-        ui->volumes->setText("<font color=\"red\">" + qslBaseVolume[0] + "</font>");
-        ui->volumeu->setText("<font color=\"red\">" + qsVolume + " $</font>");
-    }
-    else {
-        ui->volumes->setText(qslBaseVolume[0]);
-        ui->volumeu->setText(qsVolume + " $");
-    }
+    updateLabel(ui->lblBittrexVolumeUsd,
+                _bittrexMarketSummary->getBaseVolumeCurrent(double()) * _dBtcPriceCurrent,
+                _bittrexMarketSummary->getBaseVolumePrev(double()) * _dBtcPriceCurrent,
+                QString(""),
+                2);
 
-    if (qslLast[0].toDouble() > qslClose[0].toDouble()) {
-        dClose = ((qslLast[0].toDouble() - qslClose[0].toDouble())/qslLast[0].toDouble()) * 100;
-        qsClose = QString::number(dClose, 'f', 2);
+    updateLabel(ui->lblBittrexVolumeSc,
+                _bittrexMarketSummary->getVolumeCurrent(double()),
+                _bittrexMarketSummary->getVolumePrev(double()),
+                QString(""),
+                8);
 
-        ui->yest->setText("<font color=\"green\"> + " + qsClose + " %</font>");
-    }
-    else {
-        dClose = ((qslClose[0].toDouble() - qslLast[0].toDouble())/qslClose[0].toDouble()) * 100;
-        qsClose = QString::number(dClose, 'f', 2);
-        ui->yest->setText("<font color=\"red\"> - " + qsClose + " %</font>");
-    }
+    updateLabel(ui->lblBittrexVolumeBtc,
+                _bittrexMarketSummary->getBaseVolumeCurrent(double()),
+                _bittrexMarketSummary->getBaseVolumePrev(double()),
+                QString(""),
+                8);
 
-    _priceLast_Bittrex = qslLast[0];
-    _askLast_Bittrex = qslAsk[0];
-    _bidLast_Bittrex = qslBid[0];
-    _highLast_Bittrex = qslHigh[0];
-    _lowLast_Bittrex = qslLow[0];
-    _volumeLast_Bittrex = qslVolume[0];
-    _baseVolumeLast_Bittrex = qslBaseVolume[0];
-    _openingBuy_Bittrex = qslOpeningBuy[0];
-    _openingSell_Bittrex = qslOpeningSell[0];
+    updateLabel(ui->lblBittrexLastBtc,
+                _bittrexMarketSummary->getLastCurrent(double()),
+                _bittrexMarketSummary->getLastPrev(double()),
+                QString("B"),
 
-    _priceClose_Bittrex = qslLast[0].toDouble() > qslClose[0].toDouble()
-            ? qsClose : qslLast[0].toDouble() < qslClose[0].toDouble()
-            ? qsClose.prepend("-") : qsClose;
+                8);
 
-    //Update conversion price automatically
-    ui->egal->click();
+    updateLabel(ui->lblBittrexLastUsd,
+                _bittrexMarketSummary->getLastCurrent(double()) * _dBtcPriceCurrent,
+                _bittrexMarketSummary->getLastPrev(double()) * _dBtcPriceCurrent,
+                QString("$"),
+                8);
+
+    updateLabel(ui->lblBittrexAskBtc,
+                _bittrexMarketSummary->getAskCurrent(double()),
+                _bittrexMarketSummary->getAskPrev(double()),
+                QString("B"),
+                8);
+
+    updateLabel(ui->lblBittrexAskUsd,
+                _bittrexMarketSummary->getAskCurrent(double()) * _dBtcPriceCurrent,
+                _bittrexMarketSummary->getAskPrev(double()) * _dBtcPriceCurrent,
+                QString("$"),
+                8);
+
+    updateLabel(ui->lblBittrexBidBtc,
+                _bittrexMarketSummary->getBidCurrent(double()),
+                _bittrexMarketSummary->getBidPrev(double()),
+                QString("B"),
+                8);
+
+    updateLabel(ui->lblBittrexBidUsd,
+                _bittrexMarketSummary->getBidCurrent(double()) * _dBtcPriceCurrent,
+                _bittrexMarketSummary->getBidPrev(double()) * _dBtcPriceCurrent,
+                QString("$"),
+                8);
+
+    _bittrexMarketSummary->setAskPrev(_bittrexMarketSummary->getAskCurrent(double()));
+    _bittrexMarketSummary->setBaseVolumePrev(_bittrexMarketSummary->getBaseVolumeCurrent(double()));
+    _bittrexMarketSummary->setBidPrev(_bittrexMarketSummary->getBidCurrent(double()));
+    _bittrexMarketSummary->setHighPrev(_bittrexMarketSummary->getHighCurrent(double()));
+    _bittrexMarketSummary->setLowPrev(_bittrexMarketSummary->getLowCurrent(double()));
+    _bittrexMarketSummary->setPrevDayPrev(_bittrexMarketSummary->getPrevDayCurrent(double()));
+    _bittrexMarketSummary->setLastPrev(_bittrexMarketSummary->getLastCurrent(double()));
+    _bittrexMarketSummary->setVolumePrev(_bittrexMarketSummary->getVolumeCurrent(double()));
+
+    _dScPriceLast = _dBtcPriceCurrent * _bittrexMarketSummary->getLastCurrent(double());
 }
-
 /*************************************************************************************
  * Method: PoolBrowser::bittrexTrades
- * Parameter(s): QNetworkReply *response
+ * Parameter(s): QNetworkReply* response
  *
  * Used to retrieve the latest trades that have occurred for a specific market
  * Parameter(s):
@@ -513,118 +461,127 @@ void PoolBrowser::bittrexMarketSummary(QNetworkReply *response)
  * 	]
  * }
  *************************************************************************************/
-void PoolBrowser::bittrexTrades(QNetworkReply *response)
+void PoolBrowser::bittrexTrades(QNetworkReply* response)
 {
-    // QNetworkReply is a QIODevice. So we read from it just like it was a file
+    int z = 0;
+    double high, low = 100000;
+
+    ui->tblBittrexTrades->clear();
+    ui->tblBittrexTrades->setColumnWidth(0, 60);
+    ui->tblBittrexTrades->setColumnWidth(1, 110);
+    ui->tblBittrexTrades->setColumnWidth(2, 110);
+    ui->tblBittrexTrades->setColumnWidth(3, 100);
+    ui->tblBittrexTrades->setColumnWidth(4, 160);
+    ui->tblBittrexTrades->setSortingEnabled(false);
+
     QString apiResponse = response->readAll();
 
-    apiResponse = apiResponse.replace("{\"success\":true,\"message\":\"\",\"result\":[", "");
-    apiResponse = apiResponse.replace(",\"FillType\":\"FILL\"", "");
-    apiResponse = apiResponse.replace(",\"FillType\":\"PARTIAL_FILL\"", "");
-    apiResponse = apiResponse.replace("\"", "");
-    apiResponse = apiResponse.replace("Id:", "");
-    apiResponse = apiResponse.replace("TimeStamp:", "");
-    apiResponse = apiResponse.replace("Quantity:", "");
-    apiResponse = apiResponse.replace("Price:", "");
-    apiResponse = apiResponse.replace("Total:", "");
-    apiResponse = apiResponse.replace("OrderType:", "");
+    apiResponse.replace("{\"success\":true,\"message\":\"\",\"result\":[", "").replace("]}","").replace("},{", "}{");
 
-    QStringList qslTrades = apiResponse.split("},{", QString::KeepEmptyParts);
+    QStringList qslApiResponse = apiResponse.split("{", QString::SkipEmptyParts);
 
-    //Prevent overflow by limiting trade data to no more than 100
-    //Bittrex API states this can go as high as 100, but it never returns more than 50
-    //Setting it to 100 to match other markets in case Bittrex changes the API
-    int tradeCount = qslTrades.length() > 100
-            ? 100 : qslTrades.length();
-
-    int z = 0;
-
-    ui->BittrexTradesTable->clear();
-    ui->BittrexTradesTable->setColumnWidth(0, 110);
-    ui->BittrexTradesTable->setColumnWidth(1, 110);
-    ui->BittrexTradesTable->setColumnWidth(2, 110);
-    ui->BittrexTradesTable->setColumnWidth(3, 110);
-    ui->BittrexTradesTable->setColumnWidth(4, 110);
-    ui->BittrexTradesTable->setSortingEnabled(false);
-
+    int tradeCount = qslApiResponse.count();
     QVector<double> xAxis(tradeCount), yAxis(tradeCount);
 
-    double high = 0;
-    double low = 100000;
+    for(int i = 0; i < tradeCount; i++){
+        mValue jsonResponse = new mValue();
 
-    for (int i = 0; i < tradeCount; i++) {
-        qslTrades[i].replace("{", "").replace("}", "");
-        QStringList qslTrade = qslTrades[i].split(",", QString::KeepEmptyParts);
-        QTreeWidgetItem * item = new QTreeWidgetItem();
+        //Fix missing leading brace caused by split string, otherwise it will not be recognized an an mObject
+        qslApiResponse[i].replace("\"Id", "{\"Id");
 
-        item->setText(0, qslTrade[5] == "BUY" ? "Buy" : qslTrade[5] ==  "SELL" ? "Sell" : "Unknown");
-        item->setText(1, qslTrade[3]);
-        item->setText(2, qslTrade[2]);
-        item->setText(3, qslTrade[4]);
+        //json_spirit does not handle null so make it "null"
+        qslApiResponse[i].replace("null", "\"null\"");
 
-        QString time = qslTrade[1].split("T", QString::KeepEmptyParts)[1];
-        time.truncate(time.indexOf(".", 0));
-        item->setText(4, time);
+        //Make sure the response is valid
+        if(read_string(qslApiResponse[i].toStdString(), jsonResponse)) {
+            mObject jsonObject = jsonResponse.get_obj();
 
-        ui->BittrexTradesTable->addTopLevelItem(item);
+            try
+            {
+                _bittrexTrades->setId(getPairValue(jsonObject, "Id").get_real());
+                _bittrexTrades->setTimeStamp(getPairValue(jsonObject, "TimeStamp").get_str());
+                _bittrexTrades->setQuantity(getPairValue(jsonObject, "Quantity").get_real());
+                _bittrexTrades->setPrice(getPairValue(jsonObject, "Price").get_real());
+                _bittrexTrades->setTotal(getPairValue(jsonObject, "Total").get_real());
+                _bittrexTrades->setFillType(getPairValue(jsonObject, "FillType").get_str());
+                _bittrexTrades->setOrderType(getPairValue(jsonObject, "OrderType").get_str());
+            }
+            catch (exception) {} //API did not return all needed data so skip this trade
 
-        xAxis[z] = (tradeCount) - z;
-        yAxis[z] = (qslTrade[3].toDouble()) * 100000000;
+            QTreeWidgetItem * qtTrades = new QTreeWidgetItem();
 
-        if (qslTrade[3].toDouble() * 100000000 > high) {
-            high = qslTrade[3].toDouble() * 100000000;
+            qtTrades->setText(0, _bittrexTrades->getOrderType());
+            qtTrades->setText(1, _bittrexTrades->getPrice(QString()));
+            qtTrades->setText(2, _bittrexTrades->getQuantity(QString()));
+            qtTrades->setText(3, _bittrexTrades->getTotal(QString()));
+            qtTrades->setText(4, _bittrexTrades->getTimeStamp());
+
+            ui->tblBittrexTrades->addTopLevelItem(qtTrades);
+
+            xAxis[z] = tradeCount - z;
+            yAxis[z] = _bittrexTrades->getPrice(double()) * 100000000;
+
+            high = _bittrexTrades->getPrice(double()) > high ? _bittrexTrades->getPrice(double()) : high;
+            low = _bittrexTrades->getPrice(double()) < low ? _bittrexTrades->getPrice(double()) : low;
+
+            z++;
         }
-
-        if (qslTrade[3].toDouble() * 100000000 < low) {
-            low = qslTrade[3].toDouble() * 100000000;
-        }
-
-        z++;
     }
 
-    // create graph and assign data to it:
-    ui->customPlot->graph(0)->setData(xAxis, yAxis);
-    ui->customPlot->graph(0)->setPen(QPen(QColor(34, 177, 76)));
-    ui->customPlot->graph(0)->setBrush(QBrush(QColor(34, 177, 76, 20)));
+    high *=  100000000;
+    low *=  100000000;
+
+    ui->qCustomPlotBittrexTrades->graph(0)->setData(xAxis, yAxis);
+    ui->qCustomPlotBittrexTrades->graph(0)->setPen(QPen(QColor(34, 177, 76)));
+    ui->qCustomPlotBittrexTrades->graph(0)->setBrush(QBrush(QColor(34, 177, 76, 20)));
 
     // set axes ranges, so we see all data:
-    ui->customPlot->xAxis->setRange(1, tradeCount);
-    ui->customPlot->yAxis->setRange(low, high);
+    ui->qCustomPlotBittrexTrades->xAxis->setRange(1, tradeCount);
+    ui->qCustomPlotBittrexTrades->yAxis->setRange(low, high);
 
-    ui->customPlot->replot();
+    ui->qCustomPlotBittrexTrades->replot();
+
 }
-void PoolBrowser::bittrexOrders(QNetworkReply *response)
+/*************************************************************************************
+ * Method: PoolBrowser::bittrexOrders
+ * Parameter(s): QNetworkReply* response
+ *
+ * Used to get retrieve the orderbook for a given market
+ *
+ * Parameters:
+ * market	(required)	a string literal for the market (ex: BTC-LTC)
+ * type	(required)	buy, sell or both to identify the type of orderbook to return.
+ * depth	(optional)	defaults to 20 - how deep of an order book to retrieve. Max is 100
+ *
+ * Response
+ *     {
+ * 	"success" : true,
+ * 	"message" : "",
+ * 	"result" : {
+ * 		"buy" : [{
+ * 				"Quantity" : 12.37000000,
+ * 				"Rate" : 0.02525000
+ * 			}
+ * 		],
+ * 		"sell" : [{
+ * 				"Quantity" : 32.55412402,
+ * 				"Rate" : 0.02540000
+ * 			}, {
+ * 				"Quantity" : 60.00000000,
+ * 				"Rate" : 0.02550000
+ * 			}, {
+ * 				"Quantity" : 60.00000000,
+ * 				"Rate" : 0.02575000
+ * 			}, {
+ * 				"Quantity" : 84.00000000,
+ * 				"Rate" : 0.02600000
+ * 			}
+ * 		]
+ * 	}
+ * }
+ ************************************************************************************/
+void PoolBrowser::bittrexOrders(QNetworkReply* response)
 {
-    QString apiResponse = response->readAll();
-
-    apiResponse = apiResponse.replace("{", "");
-    apiResponse = apiResponse.replace("}", "");
-    apiResponse = apiResponse.replace("\"", "");
-    apiResponse = apiResponse.replace("],\"sell\":", "");
-    apiResponse = apiResponse.replace(" ", "");
-    apiResponse = apiResponse.replace("]", "");
-    apiResponse = apiResponse.replace("Quantity:", "");
-    apiResponse = apiResponse.replace("Rate:", "");
-
-    QStringList apiResponseOrders = apiResponse.split("[");
-    QStringList apiResponseBuys = apiResponseOrders[1].split(",");
-    QStringList apiResponseSells = apiResponseOrders[2].split(",");
-
-    //Use shortest depth as limit and use buy length if they are the same
-    int depth = apiResponseBuys.length() > apiResponseSells.length()
-            ? apiResponseSells.length() : apiResponseSells.length() > apiResponseBuys.length()
-            ? apiResponseBuys.length() : apiResponseBuys.length();
-
-    //Prevent overflow by limiting depth to 100
-    //Also check for odd number of trades and drop the last one
-    //To avoid an overflow when there are less than 100 trades
-    depth = depth > 100
-            ? 100 : depth % 2 == 1
-            ? depth -1 : depth;
-
-    //Nothing to process...
-    if (depth == 0){ return; }
-
     int z = 0;
     double high = 0;
     double low = 100000;
@@ -632,76 +589,131 @@ void PoolBrowser::bittrexOrders(QNetworkReply *response)
     double sumSells = 0;
     double sumHighest = 0;
 
+    ui->qTreeWidgetBittrexBuy->clear();
+    ui->qTreeWidgetBittrexBuy->sortByColumn(0, Qt::DescendingOrder);
+    ui->qTreeWidgetBittrexBuy->setSortingEnabled(true);
+
+    ui->qTreeWidgetBittrexSell->clear();
+    ui->qTreeWidgetBittrexSell->sortByColumn(0, Qt::AscendingOrder);
+    ui->qTreeWidgetBittrexSell->setSortingEnabled(true);
+
+    QString apiResponse = response->readAll();
+
+    apiResponse.replace("{\"success\":true,\"message\":\"\",\"result\":{\"buy\":[", "");
+    QStringList qslApiResponse = apiResponse.split("],\"sell\":[");
+
+    QStringList qslApiResponseBuys = qslApiResponse[0].replace("},{", "}{").split("{", QString::SkipEmptyParts);
+    QStringList qslApiResponseSells = qslApiResponse[1].replace("]}}","").replace("},{", "}{").split("{", QString::SkipEmptyParts);
+
+    //Use shorest depth as limit and use buy length if they are the same
+    int depth = qslApiResponseBuys.length() > qslApiResponseSells.length()
+            ? qslApiResponseSells.length() : qslApiResponseSells.length() > qslApiResponseBuys.length()
+            ? qslApiResponseBuys.length() : qslApiResponseBuys.length();
+
+    //Prevent overflow by limiting depth to 50
+    //Also check for odd number of orders and drop the last one
+    //To avoid an overflow when there are less than 50 orders
+    depth = depth > 50
+            ? 50 : depth % 2 == 1
+            ? depth - 1 : depth;
+
     QVector<double> xAxisBuys(depth), yAxisBuys(depth);
     QVector<double> xAxisSells(depth), yAxisSells(depth);
 
-    ui->sellquan->clear();
-    ui->buyquan->clear();
-    ui->sellquan->sortByColumn(0, Qt::AscendingOrder);
-    ui->sellquan->setSortingEnabled(true);
-    ui->buyquan->setSortingEnabled(true);
+    for(int i = 0; i < depth; i++){
+        mValue jsonResponse = new mValue();
 
-    for (int i = 0; i < depth; i++) {
-        QTreeWidgetItem * item = new QTreeWidgetItem();
+        //Fix missing leading brace caused by split string, otherwise it will not be recognized an an mObject
+        qslApiResponseBuys[i].replace("\"Quantity", "{\"Quantity");
+        qslApiResponseSells[i].replace("\"Quantity", "{\"Quantity");
 
-        item->setText(0,apiResponseBuys[i + 1]);
-        item->setText(1,apiResponseBuys[i]);
+        //json_spirit does not handle null so make it "null"
+        qslApiResponseBuys[i].replace("null", "\"null\"");
+        qslApiResponseSells[i].replace("null", "\"null\"");
 
-        ui->buyquan->addTopLevelItem(item);
+        //Make sure the response is valid
+        if(read_string(qslApiResponseBuys[i].toStdString(), jsonResponse)) {
+            mObject jsonObjectBuys = jsonResponse.get_obj();
 
-        QTreeWidgetItem * item2 = new QTreeWidgetItem();
+            try
+            {
+                _bittrexOrders->setQuantity(getPairValue(jsonObjectBuys, "Quantity").get_real());
+                _bittrexOrders->setPrice(getPairValue(jsonObjectBuys, "Rate").get_real());
+                _bittrexOrders->setOrderType("Buy");
+            }
+            catch (exception) {} //API did not return all needed data so skip this order
 
-        item2->setText(0,apiResponseSells[i + 1]);
-        item2->setText(1,apiResponseSells[i]);
+            QTreeWidgetItem * qtBuys = new QTreeWidgetItem();
 
-        ui->sellquan->addTopLevelItem(item2);
+            qtBuys->setText(0, _bittrexOrders->getPrice(QString()));
+            qtBuys->setText(1, _bittrexOrders->getQuantity(QString()));
 
-        if (apiResponseSells[i + 1].toDouble() * 100000000 > high) {
-            high = apiResponseSells[i + 1].toDouble() * 100000000;
+            ui->qTreeWidgetBittrexBuy->addTopLevelItem(qtBuys);
+
+            sumBuys += _bittrexOrders->getQuantity(double());
+            xAxisBuys[z] = _bittrexOrders->getPrice(double()) * 100000000;
+            yAxisBuys[z] = sumBuys;
         }
 
-        if (apiResponseBuys[i + 1].toDouble() * 100000000 < low) {
-            low = apiResponseBuys[i + 1].toDouble() * 100000000;
+        high = _bittrexOrders->getPrice(double()) > high ? _bittrexOrders->getPrice(double()) : high;
+        low = _bittrexOrders->getPrice(double()) < low ? _bittrexOrders->getPrice(double()) : low;
+
+        //Make sure the response is valid
+        if(read_string(qslApiResponseSells[i].toStdString(), jsonResponse)) {
+            mObject jsonObjectSells = jsonResponse.get_obj();
+
+            try
+            {
+                _bittrexOrders->setQuantity(getPairValue(jsonObjectSells, "Quantity").get_real());
+                _bittrexOrders->setPrice(getPairValue(jsonObjectSells, "Rate").get_real());
+                _bittrexOrders->setOrderType("Sell");
+            }
+            catch (exception) {} //API did not return all needed data so skip this order
+
+            QTreeWidgetItem * qtSells = new QTreeWidgetItem();
+
+            qtSells->setText(0, _bittrexOrders->getPrice(QString()));
+            qtSells->setText(1, _bittrexOrders->getQuantity(QString()));
+
+            ui->qTreeWidgetBittrexSell->addTopLevelItem(qtSells);
+
+            sumSells += _bittrexOrders->getQuantity(double());
+            xAxisSells[z] = _bittrexOrders->getPrice(double()) * 100000000;
+            yAxisSells[z] = sumSells;
         }
 
-        xAxisBuys[z] = apiResponseBuys[i + 1].toDouble() * 100000000;
-        yAxisBuys[z] = sumBuys;
+        high = _bittrexOrders->getPrice(double()) > high ? _bittrexOrders->getPrice(double()) : high;
+        low = _bittrexOrders->getPrice(double()) < low ? _bittrexOrders->getPrice(double()) : low;
 
-        xAxisSells[z] = apiResponseSells[i + 1].toDouble() * 100000000;
-        yAxisSells[z] = sumSells;
-
-        sumBuys = apiResponseBuys[i].toDouble() + sumBuys;
-        sumSells = apiResponseSells[i].toDouble() + sumSells;
-
-        i++;
         z++;
     }
 
+    high *=  100000000;
+    low *=  100000000;
+
     sumHighest = sumBuys > sumSells ? sumBuys : sumBuys < sumSells ? sumSells : sumBuys;
 
-    // create graph and assign data to it:
-    ui->customPlot2->graph(0)->setData(xAxisBuys, yAxisBuys);
-    ui->customPlot2->graph(1)->setData(xAxisSells, yAxisSells);
+    ui->qCustomPlotBittrexOrderDepth->graph(0)->setData(xAxisBuys, yAxisBuys);
+    ui->qCustomPlotBittrexOrderDepth->graph(1)->setData(xAxisSells, yAxisSells);
 
-    ui->customPlot2->graph(0)->setPen(QPen(QColor(34, 177, 76)));
-    ui->customPlot2->graph(0)->setBrush(QBrush(QColor(34, 177, 76, 20)));
-    ui->customPlot2->graph(1)->setPen(QPen(QColor(237, 24, 35)));
-    ui->customPlot2->graph(1)->setBrush(QBrush(QColor(237, 24, 35, 20)));
+    ui->qCustomPlotBittrexOrderDepth->graph(0)->setPen(QPen(QColor(34, 177, 76)));
+    ui->qCustomPlotBittrexOrderDepth->graph(0)->setBrush(QBrush(QColor(34, 177, 76, 20)));
+    ui->qCustomPlotBittrexOrderDepth->graph(1)->setPen(QPen(QColor(237, 24, 35)));
+    ui->qCustomPlotBittrexOrderDepth->graph(1)->setBrush(QBrush(QColor(237, 24, 35, 20)));
 
-    // set axes ranges, so we see all data:
-    ui->customPlot2->xAxis->setRange(low, high);
-    ui->customPlot2->yAxis->setRange(low, sumHighest);
+    ui->qCustomPlotBittrexOrderDepth->xAxis->setRange(low, high);
+    ui->qCustomPlotBittrexOrderDepth->yAxis->setRange(low, sumHighest);
 
-    ui->customPlot2->replot();
+    ui->qCustomPlotBittrexOrderDepth->replot();
 }
 
 /*************************************************************************************
  * Method: PoolBrowser::cryptsyTrades
- * Parameter(s): QNetworkReply *response
+ * Parameter(s): QNetworkReply* response
  *
  * General Market Data (Single Market - Realtime):
  *************************************************************************************/
-void PoolBrowser::cryptsyTrades(QNetworkReply *response)
+void PoolBrowser::cryptsyTrades(QNetworkReply* response)
 {
     double dLast, dVolume;
     QString qsLast, qsVolume;
@@ -725,8 +737,6 @@ void PoolBrowser::cryptsyTrades(QNetworkReply *response)
 
     QStringList qslTrades = qslTemp[0].split("},{", QString::KeepEmptyParts);
     qslTrades += qslTemp[1].split("},{", QString::KeepEmptyParts);
-
-    //-----------------------------------------------------------------
 
     int z = 0;
 
@@ -777,12 +787,10 @@ void PoolBrowser::cryptsyTrades(QNetworkReply *response)
         z++;
     }
 
-    // create graph and assign data to it:
     ui->customPlot_3->graph(0)->setData(xAxis, yAxis);
     ui->customPlot_3->graph(0)->setPen(QPen(QColor(34, 177, 76)));
     ui->customPlot_3->graph(0)->setBrush(QBrush(QColor(34, 177, 76, 20)));
 
-    // set axes ranges, so we see all data:
     ui->customPlot_3->xAxis->setRange(1, tradeCount);
     ui->customPlot_3->yAxis->setRange(low, high);
 
@@ -825,8 +833,6 @@ void PoolBrowser::cryptsyTrades(QNetworkReply *response)
         ui->volumeu_3->setText(qsVolume + " $");
     }
 
-    // -----------------------------------------------------------------------------------------
-
     if (baseVolume > _baseVolumeLast_Cryptsy) {
         ui->volumes_3->setText("<font color=\"green\">" + QString::number(baseVolume, 'f', 2) + "</font>");
         ui->volumeu_3->setText("<font color=\"green\">" + qsVolume + " $</font>");
@@ -846,11 +852,11 @@ void PoolBrowser::cryptsyTrades(QNetworkReply *response)
 }
 /*************************************************************************************
  * Method: PoolBrowser::cryptsyOrders
- * Parameter(s): QNetworkReply *response
+ * Parameter(s): QNetworkReply* response
  *
  * General Orderbook Data (Single Market - Realtime):
  *************************************************************************************/
-void PoolBrowser::cryptsyOrders(QNetworkReply *response)
+void PoolBrowser::cryptsyOrders(QNetworkReply* response)
 {
     QString apiResponse = response->readAll();
     apiResponse = apiResponse.replace("\"", "");
@@ -870,15 +876,14 @@ void PoolBrowser::cryptsyOrders(QNetworkReply *response)
             ? 150 : depth % 2 == 1
             ? depth -1 : depth;
 
-
     //Nothing to process...
     if (depth == 0){ return; }
 
     int z = 0;
     double high = 0;
     double low = 100000;
-    double sumHighs = 0;
-    double sumLows = 0;
+    double sumBuys = 0;
+    double sumSells = 0;
     double sumHighest = 0;
 
     //Shave off space for the non-used data fields
@@ -916,22 +921,21 @@ void PoolBrowser::cryptsyOrders(QNetworkReply *response)
             low = apiResponseBuys[i].toDouble() * 100000000;
         }
 
-        sumHighs = apiResponseBuys[i + 1].toDouble() + sumHighs;
-        sumLows = apiResponseSells[i + 1].toDouble() + sumLows;
+        sumBuys += apiResponseBuys[i + 1].toDouble();
+        sumSells += apiResponseSells[i + 1].toDouble();
 
         xAxisBuys[z] = apiResponseBuys[i].toDouble() * 100000000;
-        yAxisBuys[z] = sumHighs;
+        yAxisBuys[z] = sumBuys;
 
         xAxisSells[z] = apiResponseSells[i].toDouble() * 100000000;
-        yAxisSells[z] = sumLows;
+        yAxisSells[z] = sumSells;
 
         i += 2;
         z++;
     }
 
-    sumHighest = sumHighs > sumLows ? sumHighs : sumHighs < sumLows ? sumLows : sumHighs;
+    sumHighest = sumBuys > sumSells ? sumBuys : sumBuys < sumSells ? sumSells : sumBuys;
 
-    // create graph and assign data to it:
     ui->customPlot2_3->graph(0)->setData(xAxisBuys, yAxisBuys);
     ui->customPlot2_3->graph(1)->setData(xAxisSells, yAxisSells);
     ui->customPlot2_3->graph(0)->setPen(QPen(QColor(34, 177, 76)));
@@ -939,7 +943,6 @@ void PoolBrowser::cryptsyOrders(QNetworkReply *response)
     ui->customPlot2_3->graph(1)->setPen(QPen(QColor(237, 24, 35)));
     ui->customPlot2_3->graph(1)->setBrush(QBrush(QColor(237, 24, 35, 20)));
 
-    // set axes ranges, so we see all data:
     ui->customPlot2_3->xAxis->setRange(low, high);
     ui->customPlot2_3->yAxis->setRange(low, sumHighest);
 
@@ -948,7 +951,7 @@ void PoolBrowser::cryptsyOrders(QNetworkReply *response)
 
 /*************************************************************************************
  * Method: PoolBrowser::mintpalStats
- * Parameter(s): QNetworkReply *response
+ * Parameter(s): QNetworkReply* response
  *
  * Provides the statistics for a single market. Data refreshes every minute.
  *
@@ -967,10 +970,10 @@ void PoolBrowser::cryptsyOrders(QNetworkReply *response)
  *   "top_ask":"0.04600005"
  * }]
  *************************************************************************************/
-void PoolBrowser::mintpalStats(QNetworkReply *response)
+void PoolBrowser::mintpalStats(QNetworkReply* response)
 {
-    double dAsk, dLast, dBid, dVolume, dClose;
-    QString qsAsk, qsLast, qsBid, qsVolume, qsClose;
+    double dAsk, dLast, dBid, dVolume, dClose = 0;
+    QString qsAsk, qsLast, qsBid, qsVolume, qsClose = "";
 
     QString apiResponse = response->readAll();
     apiResponse = apiResponse.replace("[{", "").replace("}]", "").replace("\"", "");
@@ -1069,31 +1072,30 @@ void PoolBrowser::mintpalStats(QNetworkReply *response)
         ui->volumeu_2->setText(qsVolume + " $");
     }
 
-    // -----------------------------------------------------------------------------------------
-    quint64 basee = qslVolume[0].toDouble() / qslLast[0].toDouble();
-    QString basevolume = QString::number(basee, 'f', 2);
+    quint64 base = qslVolume[0].toDouble() / qslLast[0].toDouble();
+    QString baseVolume = QString::number(base, 'f', 2);
 
-    if (basevolume > _baseVolumeLast_Mintpal) {
-        ui->volumes_2->setText("<font color=\"green\">" + basevolume + "</font>");
+    if (baseVolume > _baseVolumeLast_Mintpal) {
+        ui->volumes_2->setText("<font color=\"green\">" + baseVolume + "</font>");
         ui->volumeu_2->setText("<font color=\"green\">" + qsVolume + " $</font>");
     }
-    else if (basevolume < _baseVolumeLast_Mintpal) {
-        ui->volumes_2->setText("<font color=\"red\">" + basevolume + "</font>");
+    else if (baseVolume < _baseVolumeLast_Mintpal) {
+        ui->volumes_2->setText("<font color=\"red\">" + baseVolume + "</font>");
         ui->volumeu_2->setText("<font color=\"red\">" + qsVolume + " $</font>");
     }
     else {
-        ui->volumes_2->setText(basevolume);
+        ui->volumes_2->setText(baseVolume);
         ui->volumeu_2->setText(qsVolume + " $");
     }
 
     if (qslLast[0].toDouble() > qslCloseChange[0].toDouble()) {
-        dClose = ((qslLast[0].toDouble() - qslCloseChange[0].toDouble())/qslLast[0].toDouble()) * 100;
+        dClose = ((qslLast[0].toDouble() - qslCloseChange[0].toDouble()) / qslLast[0].toDouble()) * 100;
         qsClose = QString::number(dClose, 'f', 2);
 
         ui->yest_2->setText("<font color=\"green\"> + " + qsClose + " %</font>");
     }
     else {
-        dClose = ((qslCloseChange[0].toDouble() - qslLast[0].toDouble())/qslCloseChange[0].toDouble()) * 100;
+        dClose = ((qslCloseChange[0].toDouble() - qslLast[0].toDouble()) / qslCloseChange[0].toDouble()) * 100;
         qsClose = QString::number(dClose, 'f', 2);
 
         ui->yest_2->setText("<font color=\"red\"> - " + qsClose + " %</font>");
@@ -1105,7 +1107,7 @@ void PoolBrowser::mintpalStats(QNetworkReply *response)
     _highLast_Mintpal = qslHigh[0];
     _lowLast_Mintpal = qslLow[0];
     _volumeLast_Mintpal = qslVolume[0];
-    _baseVolumeLast_Mintpal = basevolume;
+    _baseVolumeLast_Mintpal = baseVolume;
 
     _priceClose_Mintpal = qslLast[0].toDouble() > qslCloseChange[0].toDouble()
             ? qsClose : qslLast[0].toDouble() < qslCloseChange[0].toDouble()
@@ -1113,7 +1115,7 @@ void PoolBrowser::mintpalStats(QNetworkReply *response)
 }
 /*************************************************************************************
  * Method: PoolBrowser::mintpalTrades
- * Parameter(s): QNetworkReply *response
+ * Parameter(s): QNetworkReply* response
  *
  * Fetches the last 100 trades for a given market.
  *
@@ -1130,7 +1132,7 @@ void PoolBrowser::mintpalStats(QNetworkReply *response)
  *   ...
  * }]
  *************************************************************************************/
-void PoolBrowser::mintpalTrades(QNetworkReply *response)
+void PoolBrowser::mintpalTrades(QNetworkReply* response)
 {
     QString apiResponse = response->readAll();
     apiResponse = apiResponse.replace("\"", "");
@@ -1161,7 +1163,7 @@ void PoolBrowser::mintpalTrades(QNetworkReply *response)
         QStringList qsTrade = qslTrades[i].replace("}", "").replace("{", "").replace("]", "").split(",", QString::KeepEmptyParts);
         QTreeWidgetItem * item = new QTreeWidgetItem();
 
-        item->setText(0, qsTrade[1] == "0" ? "Buy" : "Sell");
+        item->setText(0, qsTrade[1] == "0" ? "Buy" : qsTrade[1] == "1" ? "Sell" : "Unknown");
         item->setText(1, qsTrade[2]);
         item->setText(2, qsTrade[3]);
         item->setText(3, qsTrade[4]);
@@ -1189,20 +1191,18 @@ void PoolBrowser::mintpalTrades(QNetworkReply *response)
         z++;
     }
 
-    // create graph and assign data to it:
-    ui->customPlot_2->graph(0)->setData(xAxis, yAxis);
-    ui->customPlot_2->graph(0)->setPen(QPen(QColor(34, 177, 76)));
-    ui->customPlot_2->graph(0)->setBrush(QBrush(QColor(34, 177, 76, 20)));
+    ui->qCustomPlotMintpalTrades->graph(0)->setData(xAxis, yAxis);
+    ui->qCustomPlotMintpalTrades->graph(0)->setPen(QPen(QColor(34, 177, 76)));
+    ui->qCustomPlotMintpalTrades->graph(0)->setBrush(QBrush(QColor(34, 177, 76, 20)));
 
-    // set axes ranges, so we see all data:
-    ui->customPlot_2->xAxis->setRange(1, tradeCount);
-    ui->customPlot_2->yAxis->setRange(low, high);
+    ui->qCustomPlotMintpalTrades->xAxis->setRange(1, tradeCount);
+    ui->qCustomPlotMintpalTrades->yAxis->setRange(low, high);
 
-    ui->customPlot_2->replot();
+    ui->qCustomPlotMintpalTrades->replot();
 }
 /*************************************************************************************
  * Method: PoolBrowser::mintpalSell
- * Parameter(s): QNetworkReply *response
+ * Parameter(s): QNetworkReply* response
  *
  * Fetches the 50 best priced orders of a given type for a given market.
  *
@@ -1218,7 +1218,7 @@ void PoolBrowser::mintpalTrades(QNetworkReply *response)
  *  ...
  * }]
  *************************************************************************************/
-void PoolBrowser::mintpalSell(QNetworkReply *response)
+void PoolBrowser::mintpalSell(QNetworkReply* response)
 {
     QString apiResponse = response->readAll();
     apiResponse = apiResponse.replace("\"", "");
@@ -1230,7 +1230,7 @@ void PoolBrowser::mintpalSell(QNetworkReply *response)
 }
 /*************************************************************************************
  * Method: PoolBrowser::mintpalBuy
- * Parameter(s): QNetworkReply *response
+ * Parameter(s): QNetworkReply* response
  *
  * Fetches the 50 best priced orders of a given type for a given market.
  *
@@ -1246,7 +1246,7 @@ void PoolBrowser::mintpalSell(QNetworkReply *response)
  *  ...
  * }]
  *************************************************************************************/
-void PoolBrowser::mintpalBuy(QNetworkReply *response)
+void PoolBrowser::mintpalBuy(QNetworkReply* response)
 {
     QString responseData = response->readAll();
     responseData = responseData.replace("\"", "");
@@ -1289,19 +1289,19 @@ void PoolBrowser::mintpalBuy(QNetworkReply *response)
     ui->buyquan_2->setSortingEnabled(true);
 
     for (int i = 0; i < depth; i++) {
-        QTreeWidgetItem * item = new QTreeWidgetItem();
+        QTreeWidgetItem * qtBuys = new QTreeWidgetItem();
 
-        item->setText(0,marketDataBuys[i]);
-        item->setText(1,marketDataBuys[i + 1]);
+        qtBuys->setText(0,marketDataBuys[i]);
+        qtBuys->setText(1,marketDataBuys[i + 1]);
 
-        ui->buyquan_2->addTopLevelItem(item);
+        ui->buyquan_2->addTopLevelItem(qtBuys);
 
-        QTreeWidgetItem * item2 = new QTreeWidgetItem();
+        QTreeWidgetItem * qtSells = new QTreeWidgetItem();
 
-        item2->setText(0,marketDataSells[i]);
-        item2->setText(1,marketDataSells[i + 1]);
+        qtSells->setText(0,marketDataSells[i]);
+        qtSells->setText(1,marketDataSells[i + 1]);
 
-        ui->sellquan_2->addTopLevelItem(item2);
+        ui->sellquan_2->addTopLevelItem(qtSells);
 
         if (marketDataSells[i].toDouble() * 100000000 > high) {
             high = marketDataSells[i].toDouble() * 100000000;
@@ -1325,19 +1325,56 @@ void PoolBrowser::mintpalBuy(QNetworkReply *response)
 
     sumHighest = sumBuys > sumSells ? sumBuys : sumBuys < sumSells ? sumSells : sumBuys;
 
-    // create graph and assign data to it:
-    ui->customPlot2_2->graph(0)->setData(xAxisBuys, yAxisBuys);
-    ui->customPlot2_2->graph(1)->setData(xAxisSells, yAxisSells);
-    ui->customPlot2_2->graph(0)->setPen(QPen(QColor(34, 177, 76)));
-    ui->customPlot2_2->graph(0)->setBrush(QBrush(QColor(34, 177, 76, 20)));
-    ui->customPlot2_2->graph(1)->setPen(QPen(QColor(237, 24, 35)));
-    ui->customPlot2_2->graph(1)->setBrush(QBrush(QColor(237, 24, 35, 20)));
+    ui->qCustomPlotMintpalTrades->graph(0)->setData(xAxisBuys, yAxisBuys);
+    ui->qCustomPlotMintpalTrades->graph(1)->setData(xAxisSells, yAxisSells);
+    ui->qCustomPlotMintpalTrades->graph(0)->setPen(QPen(QColor(34, 177, 76)));
+    ui->qCustomPlotMintpalTrades->graph(0)->setBrush(QBrush(QColor(34, 177, 76, 20)));
+    ui->qCustomPlotMintpalTrades->graph(1)->setPen(QPen(QColor(237, 24, 35)));
+    ui->qCustomPlotMintpalTrades->graph(1)->setBrush(QBrush(QColor(237, 24, 35, 20)));
 
-    // set axes ranges, so we see all data:
-    ui->customPlot2_2->xAxis->setRange(low, high);
-    ui->customPlot2_2->yAxis->setRange(low, sumHighest);
+    ui->qCustomPlotMintpalTrades->xAxis->setRange(low, high);
+    ui->qCustomPlotMintpalTrades->yAxis->setRange(low, sumHighest);
 
-    ui->customPlot2_2->replot();
+    ui->qCustomPlotMintpalTrades->replot();
+}
+
+const mValue& PoolBrowser::getPairValue(const mObject& obj, const string& name)
+{
+    mObject::const_iterator iter = obj.find(name);
+
+    assert(iter != obj.end());
+    assert(iter->first == name);
+
+    return iter->second;
+}
+
+void PoolBrowser::updateLabel(QLabel* qLabel, double d1, double d2, QString prefix, int decimalPlaces)
+{
+    qLabel->setText("");
+
+    if (d1 > d2) {
+        qLabel->setText(prefix + "<font color=\"green\"><b>" + QString::number(d1, 'f', decimalPlaces) + "</b></font>");
+    }
+    else if (d1 < d2) {
+        qLabel->setText(prefix + "<font color=\"red\"><b>" + QString::number(d1, 'f', decimalPlaces) + "</b></font>");
+    }
+    else {
+        qLabel->setText(prefix + QString::number(d1, 'f', decimalPlaces));
+    }
+}
+void PoolBrowser::updateLabel(QLabel* qLabel, double d1, double d2, QString prefix, QString suffix, int decimalPlaces)
+{
+    qLabel->setText("");
+
+    if (d1 > d2) {
+        qLabel->setText(prefix + "<font color=\"green\"><b>" + QString::number(d1, 'f', decimalPlaces) + suffix + "</b></font>");
+    }
+    else if (d1 < d2) {
+        qLabel->setText(prefix + "<font color=\"red\"><b>" + QString::number(d1, 'f', decimalPlaces) + suffix + "</b></font>");
+    }
+    else {
+        qLabel->setText(prefix + QString::number(d1, 'f', decimalPlaces) + suffix);
+    }
 }
 
 void PoolBrowser::setModel(ClientModel *model)

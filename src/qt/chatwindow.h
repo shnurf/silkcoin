@@ -22,8 +22,6 @@
 #include "clientmodel.h"
 #include "serveur.h"
 
-
-
 namespace Ui
 {
     class ChatWindowClass;
@@ -53,14 +51,12 @@ public:
         void disconnectFromServer();
         void tabClosing(int index);
 
-
 private:
 	Ui::ChatWindowClass *ui;
     ClientModel *model;
     QMap<QString,Serveur *> serveurs;
 	bool joining;
 	void closeEvent(QCloseEvent *event);
-
 };
 
 #endif // CHATWINDOW_H

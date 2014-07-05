@@ -15,9 +15,6 @@ int nGotIRCAddresses = 0;
 
 void ThreadIRCSeed2(void* parg);
 
-
-
-
 #pragma pack(push, 1)
 struct ircaddr
 {
@@ -53,11 +50,6 @@ bool DecodeAddress(string str, CService& addr)
     addr = CService(tmp.ip, ntohs(tmp.port));
     return true;
 }
-
-
-
-
-
 
 static bool Send(SOCKET hSocket, const char* pszSend)
 {
@@ -310,8 +302,8 @@ void ThreadIRCSeed2(void* parg)
 
             // Channel number is always 0 for initial release
             //int channel_number = 0;
-            Send(hSocket, strprintf("JOIN #silkcoin%02d\r", channel_number).c_str());
-            Send(hSocket, strprintf("WHO #silkcoin%02d\r", channel_number).c_str());
+            Send(hSocket, strprintf("JOIN #silkcoin\r", channel_number).c_str());
+            Send(hSocket, strprintf("WHO #silkcoin\r", channel_number).c_str());
         }
 
         int64_t nStart = GetTime();

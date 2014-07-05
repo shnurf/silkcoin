@@ -955,7 +955,7 @@ void BitcoinGUI::incomingTransaction(const QModelIndex & parent, int start, int 
                                    "Type: %3\n"
                                    "Address: %4\n")
                                 .arg(date)
-                                .arg(BitcoinUnits::formatWithUnit(walletModel->getOptionsModel()->getDisplayUnit(), _lastBtcUsd.toDouble()*amount, true))
+                                .arg(BitcoinUnits::formatWithUnit(walletModel->getOptionsModel()->getDisplayUnit(), _dBtcPriceLast * amount, true))
                                 .arg(type)
                                 .arg(address), icon);
 
@@ -970,7 +970,7 @@ void BitcoinGUI::incomingTransaction(const QModelIndex & parent, int start, int 
                                    "Type: %3\n"
                                    "Address: %4\n")
                                 .arg(date)
-                                .arg(BitcoinUnits::formatWithUnit(walletModel->getOptionsModel()->getDisplayUnit(), _qsBtcPriceCurrent.toDouble()*amount, true))
+                                .arg(BitcoinUnits::formatWithUnit(walletModel->getOptionsModel()->getDisplayUnit(), _dBtcPriceCurrent * amount, true))
                                 .arg(type)
                                 .arg(address), icon);
         }
