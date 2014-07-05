@@ -10,15 +10,14 @@
 #include <QObject>
 #include <QtNetwork/QtNetwork>
 
-
-extern QString bitcoing;
-extern QString dollarg;
+extern QString _qsBtcPriceCurrent;
+extern QString _lastBtcUsd;
 
 namespace Ui {
 class PoolBrowser;
 }
-class ClientModel;
 
+class ClientModel;
 
 class PoolBrowser : public QWidget
 {
@@ -31,25 +30,38 @@ public:
     void setModel(ClientModel *model);
 
 private:
-    void getRequest( const QString &url );
+    void getRequest(const QString &url);
 
 signals:
-    void networkError( QNetworkReply::NetworkError err );
+    void networkError(QNetworkReply::NetworkError err);
 
 public slots:
-    void parseNetworkResponse(QNetworkReply *finished );
-    void randomChuckNorrisJoke();
-    void randomChuckNorrisJoke2();
-    void bittrex();
-    void poloniex();
+    void parseNetworkResponse(QNetworkReply *response);
+
+    //API Call Methods
+    void coinbasePrice(QNetworkReply *response);
+    void bittrexMarketSummary(QNetworkReply *response);
+    void bittrexTrades(QNetworkReply *response);
+    void bittrexOrders(QNetworkReply *response);
+    void cryptsyTrades(QNetworkReply *response);
+    void cryptsyOrders(QNetworkReply *response);
+    void mintpalStats(QNetworkReply *response);
+    void mintpalTrades(QNetworkReply *response);
+    void mintpalSell(QNetworkReply *response);
+    void mintpalBuy(QNetworkReply *response);
+
+    void pollApis();
+
+    void openBittrex();
+    void openPoloniex();
+    void processOverview();
+
     void egaldo();
-    void overv();
 
 private:
     QNetworkAccessManager m_nam;
     Ui::PoolBrowser *ui;
     ClientModel *model;
-
 };
 
 #endif // POOLBROWSER_H

@@ -131,7 +131,7 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     mylabel2->setStyleSheet("margin-bottom:20px;");
     vbox->addWidget(mylabel2);
     vbox->addWidget(transactionView);
-    vbox->setContentsMargins(52,21,22,10);
+    vbox->setContentsMargins(52, 21, 22, 10);
     transactionsPage->setLayout(vbox);
 
     //Create sett toolbar
@@ -379,7 +379,7 @@ void BitcoinGUI::createActions()
     vbox4->addWidget(toolbarsend);
     vbox4->addWidget(toolbarsend2);
     wId2->setFixedSize(793,46);
-    wId2->move(207,-1);
+    wId2->move(150,-1); //Michael (207, -1)
     wId2->setLayout(vbox4);
     wId2->setFocus();
     wId2->hide();
@@ -955,7 +955,7 @@ void BitcoinGUI::incomingTransaction(const QModelIndex & parent, int start, int 
                                    "Type: %3\n"
                                    "Address: %4\n")
                                 .arg(date)
-                                .arg(BitcoinUnits::formatWithUnit(walletModel->getOptionsModel()->getDisplayUnit(), dollarg.toDouble()*amount, true))
+                                .arg(BitcoinUnits::formatWithUnit(walletModel->getOptionsModel()->getDisplayUnit(), _lastBtcUsd.toDouble()*amount, true))
                                 .arg(type)
                                 .arg(address), icon);
 
@@ -970,7 +970,7 @@ void BitcoinGUI::incomingTransaction(const QModelIndex & parent, int start, int 
                                    "Type: %3\n"
                                    "Address: %4\n")
                                 .arg(date)
-                                .arg(BitcoinUnits::formatWithUnit(walletModel->getOptionsModel()->getDisplayUnit(), bitcoing.toDouble()*amount, true))
+                                .arg(BitcoinUnits::formatWithUnit(walletModel->getOptionsModel()->getDisplayUnit(), _qsBtcPriceCurrent.toDouble()*amount, true))
                                 .arg(type)
                                 .arg(address), icon);
         }

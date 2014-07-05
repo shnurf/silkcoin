@@ -73,8 +73,8 @@ public:
         painter->setPen(foreground);
         QString amountText ="";
         if (convertmode == 0) amountText = BitcoinUnits::formatWithUnit(unit, amount, true);
-        if (convertmode == 1) amountText = BitcoinUnits::formatWithUnit(unit, (dollarg.toDouble() *amount), true);
-        if (convertmode == 2) amountText = BitcoinUnits::formatWithUnit(unit, (bitcoing.toDouble() *amount), true);
+        if (convertmode == 1) amountText = BitcoinUnits::formatWithUnit(unit, (_lastBtcUsd.toDouble() *amount), true);
+        if (convertmode == 2) amountText = BitcoinUnits::formatWithUnit(unit, (_qsBtcPriceCurrent.toDouble() *amount), true);
 
         if(!confirmed)
         {
@@ -156,22 +156,22 @@ void OverviewPage::setBalance(qint64 balance, qint64 stake, qint64 unconfirmedBa
 
     }else if (convertmode == 1)
     {
-        ui->labelBalance->setText(BitcoinUnits::formatWithUnit(unit, (dollarg.toDouble() * balance)));
-        ui->labelStake->setText(BitcoinUnits::formatWithUnit(unit, (dollarg.toDouble() * stake)));
-        ui->labelUnconfirmed->setText(BitcoinUnits::formatWithUnit(unit, (dollarg.toDouble() * unconfirmedBalance)));
-        ui->labelImmature->setText(BitcoinUnits::formatWithUnit(unit, (dollarg.toDouble() * immatureBalance)));
-        ui->labelTotal->setText(BitcoinUnits::formatWithUnit(unit, (dollarg.toDouble() * (balance + stake + unconfirmedBalance + immatureBalance))));
+        ui->labelBalance->setText(BitcoinUnits::formatWithUnit(unit, (_lastBtcUsd.toDouble() * balance)));
+        ui->labelStake->setText(BitcoinUnits::formatWithUnit(unit, (_lastBtcUsd.toDouble() * stake)));
+        ui->labelUnconfirmed->setText(BitcoinUnits::formatWithUnit(unit, (_lastBtcUsd.toDouble() * unconfirmedBalance)));
+        ui->labelImmature->setText(BitcoinUnits::formatWithUnit(unit, (_lastBtcUsd.toDouble() * immatureBalance)));
+        ui->labelTotal->setText(BitcoinUnits::formatWithUnit(unit, (_lastBtcUsd.toDouble() * (balance + stake + unconfirmedBalance + immatureBalance))));
 
 
 
 
     }else if (convertmode == 2)
     {
-        ui->labelBalance->setText(BitcoinUnits::formatWithUnit(unit, (bitcoing.toDouble() * balance)));
-        ui->labelStake->setText(BitcoinUnits::formatWithUnit(unit, (bitcoing.toDouble() * stake)));
-        ui->labelUnconfirmed->setText(BitcoinUnits::formatWithUnit(unit, (bitcoing.toDouble() * unconfirmedBalance)));
-        ui->labelImmature->setText(BitcoinUnits::formatWithUnit(unit, (bitcoing.toDouble() * immatureBalance)));
-        ui->labelTotal->setText(BitcoinUnits::formatWithUnit(unit, (bitcoing.toDouble() * (balance + stake + unconfirmedBalance + immatureBalance))));
+        ui->labelBalance->setText(BitcoinUnits::formatWithUnit(unit, (_qsBtcPriceCurrent.toDouble() * balance)));
+        ui->labelStake->setText(BitcoinUnits::formatWithUnit(unit, (_qsBtcPriceCurrent.toDouble() * stake)));
+        ui->labelUnconfirmed->setText(BitcoinUnits::formatWithUnit(unit, (_qsBtcPriceCurrent.toDouble() * unconfirmedBalance)));
+        ui->labelImmature->setText(BitcoinUnits::formatWithUnit(unit, (_qsBtcPriceCurrent.toDouble() * immatureBalance)));
+        ui->labelTotal->setText(BitcoinUnits::formatWithUnit(unit, (_qsBtcPriceCurrent.toDouble() * (balance + stake + unconfirmedBalance + immatureBalance))));
 
     }
 }
