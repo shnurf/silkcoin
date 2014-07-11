@@ -116,23 +116,6 @@ void StatisticsPage::updateStatistics()
     ui->cBox->setText(phase);
     }
 
-    
-    if(nSubsidy < rewardPrevious)
-    {
-        ui->rewardBox->setText("<font color=\"red\">" + subsidy + "</font>");
-    } else {
-    ui->rewardBox->setText(subsidy);
-    }
-    
-    if(pHardness > hardnessPrevious)
-    {
-        ui->diffBox->setText("<font color=\"green\">" + hardness + "</font>");
-    } else if(pHardness < hardnessPrevious) {
-        ui->diffBox->setText("<font color=\"red\">" + hardness + "</font>");
-    } else {
-        ui->diffBox->setText(hardness);        
-    }
-
     if(marketcap > marketcapPrevious)
     {
         ui->marketcap->setText("<font color=\"green\">" + QString::number(marketcap) + " $</font>");
@@ -151,20 +134,11 @@ void StatisticsPage::updateStatistics()
         ui->diffBox2->setText(hardness2);
     }
     
-    if(pPawrate2 > netPawratePrevious)
-    {
-        ui->pawrateBox->setText("<font color=\"green\">" + pawrate + " MH/s</font>");
-    } else if(pPawrate2 < netPawratePrevious) {
-        ui->pawrateBox->setText("<font color=\"red\">" + pawrate + " MH/s</font>");
-    } else {
-        ui->pawrateBox->setText(pawrate + " MH/s");
-    }
-
     if(Qlpawrate != pawratePrevious)
     {
         ui->localBox->setText("<font color=\"green\">" + Qlpawrate + "</font>");
     } else {
-    ui->localBox->setText(Qlpawrate);
+        ui->localBox->setText(Qlpawrate);
     }
     
     if(peers > connectionPrevious)

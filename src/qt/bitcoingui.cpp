@@ -379,7 +379,7 @@ void BitcoinGUI::createActions()
     vbox4->addWidget(toolbarsend);
     vbox4->addWidget(toolbarsend2);
     wId2->setFixedSize(793,46);
-    wId2->move(150,-1); //Michael (207, -1)
+    wId2->move(207,-1);
     wId2->setLayout(vbox4);
     wId2->setFocus();
     wId2->hide();

@@ -375,16 +375,6 @@ QTabWidget::pane {border:none;}
           <string>B0.00000000</string>
          </property>
         </widget>
-        <zorder>qWidgetOverviewCryptsy</zorder>
-        <zorder>qWidgetOverviewBittrex</zorder>
-        <zorder>lblOverviewBittrexBtc</zorder>
-        <zorder>lblOverviewCryptsyBtc</zorder>
-        <zorder>qWidgetOverviewMintpal</zorder>
-        <zorder>lblOverviewBtcPrice</zorder>
-        <zorder>lblOverviewBtcUsdPrice</zorder>
-        <zorder>lblOverviewHeader</zorder>
-        <zorder>lblOverviewScAvg</zorder>
-        <zorder>lblOverviewScAvgPrice</zorder>
        </widget>
       </widget>
      </widget>
@@ -513,7 +503,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
             <string notr="true">border:none;</string>
            </property>
            <property name="text">
-            <string>0.00000000 B</string>
+            <string>B0.00000000</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -532,7 +522,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
             <string notr="true">border:none;</string>
            </property>
            <property name="text">
-            <string>0.00000000 $</string>
+            <string>$0.00000000</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -574,7 +564,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
             </rect>
            </property>
            <property name="text">
-            <string>0.00000000 B</string>
+            <string>B0.00000000</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -590,7 +580,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
             </rect>
            </property>
            <property name="text">
-            <string>0.00000000 $</string>
+            <string>$0.00000000</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -638,7 +628,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
             <string notr="true">border:none;</string>
            </property>
            <property name="text">
-            <string>0.00000000 B</string>
+            <string>B0.00000000</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -657,7 +647,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
             <string notr="true">border:none;</string>
            </property>
            <property name="text">
-            <string>0.00000000 $</string>
+            <string>$0.00000000</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -677,7 +667,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <string notr="true">font-weight:600;font-size:17px;</string>
           </property>
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:17px;&quot;&gt;0 %&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;0.00%&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -1117,7 +1107,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;BITTREX&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
-         <widget class="QLabel" name="lblBittrexChangeHeader">
+         <widget class="QLabel" name="lblBittrexChange">
           <property name="geometry">
            <rect>
             <x>240</x>
@@ -1175,7 +1165,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
          <zorder>lblBittrexBuyHeader</zorder>
          <zorder>qTreeWidgetBittrexBuy</zorder>
          <zorder>lblBittrexHeader</zorder>
-         <zorder>lblBittrexChangeHeader</zorder>
+         <zorder>lblBittrexChange</zorder>
          <zorder>imgBittrexSell</zorder>
          <zorder>imgBittrexBuy</zorder>
          <zorder>lblBittrexCloseBtc</zorder>
@@ -1205,7 +1195,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
          <property name="styleSheet">
           <string notr="true">Font-family:Myriad Pro;color:#61696c;font-size:12px;</string>
          </property>
-         <widget class="QScrollArea" name="scrollArea">
+         <widget class="QScrollArea" name="scrollAreaBittrex">
           <property name="geometry">
            <rect>
             <x>10</x>
@@ -1229,7 +1219,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
           <property name="widgetResizable">
            <bool>true</bool>
           </property>
-          <widget class="QWidget" name="scrollAreaWidgetContents">
+          <widget class="QWidget" name="scrollAreaWidgetContentsBittrex">
            <property name="geometry">
             <rect>
              <x>0</x>
@@ -1422,7 +1412,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
        <property name="usesScrollButtons">
         <bool>true</bool>
        </property>
-       <widget class="QWidget" name="marketDataMintpal">
+       <widget class="QWidget" name="qWidgetMintpalMarketData">
         <property name="styleSheet">
          <string notr="true">border:none;background:#edf1f7;</string>
         </property>
@@ -1433,7 +1423,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
         <attribute name="title">
          <string/>
         </attribute>
-        <widget class="QWidget" name="view1_2" native="true">
+        <widget class="QWidget" name="qWidgetMintpalMain" native="true">
          <property name="geometry">
           <rect>
            <x>-10</x>
@@ -1451,7 +1441,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
          <property name="styleSheet">
           <string notr="true">Font-family:Myriad Pro;color:#61696c;font-size:12px;</string>
          </property>
-         <widget class="QWidget" name="Last_4" native="true">
+         <widget class="QWidget" name="qWidgetMintpalAsk" native="true">
           <property name="geometry">
            <rect>
             <x>240</x>
@@ -1463,7 +1453,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
           <property name="styleSheet">
            <string notr="true">border-right:1px solid #bdc3c7;</string>
           </property>
-          <widget class="QLabel" name="label_5">
+          <widget class="QLabel" name="lblMintpalAskHeader">
            <property name="geometry">
             <rect>
              <x>0</x>
@@ -1479,7 +1469,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Ask&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
-          <widget class="QLabel" name="ask_2">
+          <widget class="QLabel" name="lblMintpalAskBtc">
            <property name="geometry">
             <rect>
              <x>10</x>
@@ -1492,13 +1482,13 @@ QTabBar::tab:last {margin-right:100px;}</string>
             <string notr="true">border:none;</string>
            </property>
            <property name="text">
-            <string>0.00000000 B</string>
+            <string>B0.00000000</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
            </property>
           </widget>
-          <widget class="QLabel" name="asku_2">
+          <widget class="QLabel" name="lblMintpalAskUsd">
            <property name="geometry">
             <rect>
              <x>10</x>
@@ -1511,14 +1501,14 @@ QTabBar::tab:last {margin-right:100px;}</string>
             <string notr="true">border:none;</string>
            </property>
            <property name="text">
-            <string>0.00000000 $</string>
+            <string>$0.00000000</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
            </property>
           </widget>
          </widget>
-         <widget class="QWidget" name="Last_5" native="true">
+         <widget class="QWidget" name="qWidgetMintpalLast_2" native="true">
           <property name="geometry">
            <rect>
             <x>360</x>
@@ -1527,7 +1517,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
             <height>81</height>
            </rect>
           </property>
-          <widget class="QLabel" name="label_12">
+          <widget class="QLabel" name="lblMintpalBidHeader">
            <property name="geometry">
             <rect>
              <x>0</x>
@@ -1543,7 +1533,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Bid&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
-          <widget class="QLabel" name="bid_2">
+          <widget class="QLabel" name="lblMintpalBidBtc">
            <property name="geometry">
             <rect>
              <x>10</x>
@@ -1553,13 +1543,13 @@ QTabBar::tab:last {margin-right:100px;}</string>
             </rect>
            </property>
            <property name="text">
-            <string>0.00000000 B</string>
+            <string>B0.00000000</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
            </property>
           </widget>
-          <widget class="QLabel" name="bidu_2">
+          <widget class="QLabel" name="lblMintpalBidUsd">
            <property name="geometry">
             <rect>
              <x>10</x>
@@ -1569,14 +1559,14 @@ QTabBar::tab:last {margin-right:100px;}</string>
             </rect>
            </property>
            <property name="text">
-            <string>0.00000000 $</string>
+            <string>$0.00000000</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
            </property>
           </widget>
          </widget>
-         <widget class="QWidget" name="Last_6" native="true">
+         <widget class="QWidget" name="qWidgetMintpalLast" native="true">
           <property name="geometry">
            <rect>
             <x>120</x>
@@ -1588,7 +1578,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
           <property name="styleSheet">
            <string notr="true">border-right:1px solid #bdc3c7;</string>
           </property>
-          <widget class="QLabel" name="label_2">
+          <widget class="QLabel" name="lblMintpalLastHeader">
            <property name="geometry">
             <rect>
              <x>0</x>
@@ -1604,7 +1594,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Last&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
-          <widget class="QLabel" name="last_2">
+          <widget class="QLabel" name="lblMintpalLastBtc">
            <property name="geometry">
             <rect>
              <x>10</x>
@@ -1617,13 +1607,13 @@ QTabBar::tab:last {margin-right:100px;}</string>
             <string notr="true">border:none;</string>
            </property>
            <property name="text">
-            <string>0.00000000 B</string>
+            <string>B0.00000000</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
            </property>
           </widget>
-          <widget class="QLabel" name="lastu_2">
+          <widget class="QLabel" name="lblMintpalLastUsd">
            <property name="geometry">
             <rect>
              <x>10</x>
@@ -1636,14 +1626,14 @@ QTabBar::tab:last {margin-right:100px;}</string>
             <string notr="true">border:none;</string>
            </property>
            <property name="text">
-            <string>0.00000000 $</string>
+            <string>$0.00000000</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
            </property>
           </widget>
          </widget>
-         <widget class="QLabel" name="yest_2">
+         <widget class="QLabel" name="lblMintpalChangePerc">
           <property name="geometry">
            <rect>
             <x>230</x>
@@ -1656,13 +1646,13 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <string notr="true">font-weight:600;font-size:17px;</string>
           </property>
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:17px; font-weight:600;&quot;&gt;+ 0 %&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;0.00%&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLabel" name="label_32">
+         <widget class="QLabel" name="lblMintpalSellHeader">
           <property name="geometry">
            <rect>
             <x>300</x>
@@ -1681,7 +1671,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:400; color:#f2594b;&quot;&gt;Sell&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
-         <widget class="QTreeWidget" name="sellquan_2">
+         <widget class="QTreeWidget" name="qTreeWidgetMintpalSell">
           <property name="geometry">
            <rect>
             <x>300</x>
@@ -1789,11 +1779,11 @@ QTabBar::tab:last {margin-right:100px;}</string>
            </property>
           </column>
          </widget>
-         <widget class="QLabel" name="label_15">
+         <widget class="QLabel" name="lblMintpalHigh">
           <property name="geometry">
            <rect>
-            <x>90</x>
-            <y>110</y>
+            <x>80</x>
+            <y>100</y>
             <width>31</width>
             <height>21</height>
            </rect>
@@ -1802,11 +1792,11 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;High&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
-         <widget class="QLabel" name="high_2">
+         <widget class="QLabel" name="lblMintpalHighBtc">
           <property name="geometry">
            <rect>
             <x>130</x>
-            <y>110</y>
+            <y>100</y>
             <width>91</width>
             <height>21</height>
            </rect>
@@ -1815,11 +1805,11 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <string>0.000000000</string>
           </property>
          </widget>
-         <widget class="QLabel" name="label_22">
+         <widget class="QLabel" name="lblMintpalLow">
           <property name="geometry">
            <rect>
-            <x>90</x>
-            <y>130</y>
+            <x>80</x>
+            <y>120</y>
             <width>31</width>
             <height>21</height>
            </rect>
@@ -1828,11 +1818,11 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Low&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
-         <widget class="QLabel" name="low_2">
+         <widget class="QLabel" name="lblMintpalLowBtc">
           <property name="geometry">
            <rect>
             <x>130</x>
-            <y>130</y>
+            <y>120</y>
             <width>91</width>
             <height>21</height>
            </rect>
@@ -1841,7 +1831,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <string>0.000000000</string>
           </property>
          </widget>
-         <widget class="QFrame" name="frame_3">
+         <widget class="QFrame" name="imgMintpalSell">
           <property name="geometry">
            <rect>
             <x>510</x>
@@ -1866,7 +1856,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <string notr="true">background-color:#f2594b;</string>
           </property>
          </widget>
-         <widget class="QLabel" name="buyy_2">
+         <widget class="QLabel" name="lblMintpalBuyHeader">
           <property name="geometry">
            <rect>
             <x>30</x>
@@ -1885,7 +1875,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:400; color:#7cc576;&quot;&gt;Buy&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
-         <widget class="QFrame" name="buy_2">
+         <widget class="QFrame" name="imgMintpalBuy">
           <property name="geometry">
            <rect>
             <x>230</x>
@@ -1910,7 +1900,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <string notr="true">background-color:#7cc576;</string>
           </property>
          </widget>
-         <widget class="QTreeWidget" name="buyquan_2">
+         <widget class="QTreeWidget" name="qTreeWidgetMintpalBuy">
           <property name="geometry">
            <rect>
             <x>30</x>
@@ -1993,7 +1983,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
            </property>
           </column>
          </widget>
-         <widget class="QLabel" name="label_24">
+         <widget class="QLabel" name="lblMintpalHeader">
           <property name="geometry">
            <rect>
             <x>210</x>
@@ -2015,7 +2005,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Mintpal&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
-         <widget class="QLabel" name="label_25">
+         <widget class="QLabel" name="lblMintpalChange">
           <property name="geometry">
            <rect>
             <x>240</x>
@@ -2028,7 +2018,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:9pt; font-weight:600;&quot;&gt;Change&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
-         <widget class="QLabel" name="volumeb_2">
+         <widget class="QLabel" name="lblMintpalVolumeBtc">
           <property name="geometry">
            <rect>
             <x>440</x>
@@ -2038,10 +2028,10 @@ QTabBar::tab:last {margin-right:100px;}</string>
            </rect>
           </property>
           <property name="text">
-           <string>0</string>
+           <string>0000.00000000</string>
           </property>
          </widget>
-         <widget class="QLabel" name="label_19">
+         <widget class="QLabel" name="lblMintpalVolumeUsdHeader">
           <property name="geometry">
            <rect>
             <x>350</x>
@@ -2054,7 +2044,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Volume USD&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
-         <widget class="QLabel" name="label_20">
+         <widget class="QLabel" name="lblMintpalVolumeScHeader">
           <property name="geometry">
            <rect>
             <x>350</x>
@@ -2067,7 +2057,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Volume SC&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
-         <widget class="QLabel" name="volumes_2">
+         <widget class="QLabel" name="lblMintpalVolumeSc">
           <property name="geometry">
            <rect>
             <x>440</x>
@@ -2077,10 +2067,10 @@ QTabBar::tab:last {margin-right:100px;}</string>
            </rect>
           </property>
           <property name="text">
-           <string>0000</string>
+           <string>000000.00000000</string>
           </property>
          </widget>
-         <widget class="QLabel" name="label_21">
+         <widget class="QLabel" name="lblMintpalVolumeBtcHeader">
           <property name="geometry">
            <rect>
             <x>350</x>
@@ -2093,7 +2083,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Volume BTC&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
-         <widget class="QLabel" name="volumeu_2">
+         <widget class="QLabel" name="lblMintpalVolumeUsd">
           <property name="geometry">
            <rect>
             <x>440</x>
@@ -2103,34 +2093,62 @@ QTabBar::tab:last {margin-right:100px;}</string>
            </rect>
           </property>
           <property name="text">
-           <string>0000 $</string>
+           <string>00000.00</string>
           </property>
          </widget>
-         <zorder>Last_4</zorder>
-         <zorder>Last_5</zorder>
-         <zorder>Last_6</zorder>
-         <zorder>yest_2</zorder>
-         <zorder>label_32</zorder>
-         <zorder>sellquan_2</zorder>
-         <zorder>label_15</zorder>
-         <zorder>high_2</zorder>
-         <zorder>label_22</zorder>
-         <zorder>low_2</zorder>
-         <zorder>frame_3</zorder>
-         <zorder>buyy_2</zorder>
-         <zorder>buyquan_2</zorder>
-         <zorder>label_24</zorder>
-         <zorder>label_25</zorder>
-         <zorder>volumeb_2</zorder>
-         <zorder>label_19</zorder>
-         <zorder>label_20</zorder>
-         <zorder>volumes_2</zorder>
-         <zorder>label_21</zorder>
-         <zorder>volumeu_2</zorder>
-         <zorder>buy_2</zorder>
+         <widget class="QLabel" name="lblMintpalCloseBtc">
+          <property name="geometry">
+           <rect>
+            <x>130</x>
+            <y>140</y>
+            <width>91</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>0.000000000</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="lblMintpalClose">
+          <property name="geometry">
+           <rect>
+            <x>80</x>
+            <y>140</y>
+            <width>41</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Close&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+         <zorder>qWidgetMintpalAsk</zorder>
+         <zorder>qWidgetMintpalLast_2</zorder>
+         <zorder>qWidgetMintpalLast</zorder>
+         <zorder>lblMintpalChangePerc</zorder>
+         <zorder>lblMintpalSellHeader</zorder>
+         <zorder>qTreeWidgetMintpalSell</zorder>
+         <zorder>lblMintpalHigh</zorder>
+         <zorder>lblMintpalHighBtc</zorder>
+         <zorder>lblMintpalLow</zorder>
+         <zorder>lblMintpalLowBtc</zorder>
+         <zorder>imgMintpalSell</zorder>
+         <zorder>lblMintpalBuyHeader</zorder>
+         <zorder>qTreeWidgetMintpalBuy</zorder>
+         <zorder>lblMintpalHeader</zorder>
+         <zorder>lblMintpalChange</zorder>
+         <zorder>lblMintpalVolumeBtc</zorder>
+         <zorder>lblMintpalVolumeUsdHeader</zorder>
+         <zorder>lblMintpalVolumeScHeader</zorder>
+         <zorder>lblMintpalVolumeSc</zorder>
+         <zorder>lblMintpalVolumeBtcHeader</zorder>
+         <zorder>lblMintpalVolumeUsd</zorder>
+         <zorder>imgMintpalBuy</zorder>
+         <zorder>lblMintpalCloseBtc</zorder>
+         <zorder>lblMintpalClose</zorder>
         </widget>
        </widget>
-       <widget class="QWidget" name="graphsMintpal">
+       <widget class="QWidget" name="qWidgetMintpalGraphs">
         <property name="styleSheet">
          <string notr="true">background:#edf1f7;</string>
         </property>
@@ -2141,7 +2159,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
         <attribute name="title">
          <string/>
         </attribute>
-        <widget class="QFrame" name="view2_2">
+        <widget class="QFrame" name="qWidgetMintpalGraphsMain">
          <property name="geometry">
           <rect>
            <x>0</x>
@@ -2153,7 +2171,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
          <property name="styleSheet">
           <string notr="true">Font-family:Myriad Pro;color:#61696c;font-size:12px;</string>
          </property>
-         <widget class="QScrollArea" name="scrollArea_2">
+         <widget class="QScrollArea" name="scrollAreaMintpal">
           <property name="geometry">
            <rect>
             <x>10</x>
@@ -2177,10 +2195,10 @@ QTabBar::tab:last {margin-right:100px;}</string>
           <property name="widgetResizable">
            <bool>true</bool>
           </property>
-          <widget class="QWidget" name="scrollAreaWidgetContents_2">
+          <widget class="QWidget" name="scrollAreaWidgetContentsMintpal">
            <property name="geometry">
             <rect>
-             <x>-1094</x>
+             <x>0</x>
              <y>0</y>
              <width>1635</width>
              <height>366</height>
@@ -2195,7 +2213,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
-           <widget class="QLabel" name="label_7">
+           <widget class="QLabel" name="lblMintpalTrades">
             <property name="geometry">
              <rect>
               <x>0</x>
@@ -2234,7 +2252,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
              <string notr="true">background:#edf1f7</string>
             </property>
            </widget>
-           <widget class="QLabel" name="label_8">
+           <widget class="QLabel" name="lblMintpalOrderDepth">
             <property name="geometry">
              <rect>
               <x>600</x>
@@ -2247,7 +2265,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Order depth &lt;/span&gt;- Volume/Satoshi&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
-           <widget class="QTreeWidget" name="MintpalTradesTable">
+           <widget class="QTreeWidget" name="tblMintpalTrades">
             <property name="geometry">
              <rect>
               <x>1100</x>
@@ -2370,7 +2388,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
        <property name="usesScrollButtons">
         <bool>true</bool>
        </property>
-       <widget class="QWidget" name="marketDataCryptsy">
+       <widget class="QWidget" name="qWidgetCryptsyMarketData">
         <property name="styleSheet">
          <string notr="true">border:none;background:#edf1f7;</string>
         </property>
@@ -2381,7 +2399,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
         <attribute name="title">
          <string/>
         </attribute>
-        <widget class="QWidget" name="view1_3" native="true">
+        <widget class="QWidget" name="qWidgetCryptsyMain" native="true">
          <property name="geometry">
           <rect>
            <x>-10</x>
@@ -2399,7 +2417,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
          <property name="styleSheet">
           <string notr="true">Font-family:Myriad Pro;color:#61696c;font-size:12px;</string>
          </property>
-         <widget class="QWidget" name="Last_7" native="true">
+         <widget class="QWidget" name="qWidgetCryptsyLast" native="true">
           <property name="geometry">
            <rect>
             <x>240</x>
@@ -2411,7 +2429,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
           <property name="styleSheet">
            <string notr="true">border-right:1px solid #bdc3c7;</string>
           </property>
-          <widget class="QLabel" name="lastu_3">
+          <widget class="QLabel" name="lblCryptsyLastUsd">
            <property name="geometry">
             <rect>
              <x>10</x>
@@ -2424,13 +2442,13 @@ QTabBar::tab:last {margin-right:100px;}</string>
             <string notr="true">border:none;</string>
            </property>
            <property name="text">
-            <string>0.00000000 $</string>
+            <string>$0.00000000</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
            </property>
           </widget>
-          <widget class="QLabel" name="label_28">
+          <widget class="QLabel" name="lblCryptsyLastHeader">
            <property name="geometry">
             <rect>
              <x>0</x>
@@ -2446,7 +2464,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Last&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
-          <widget class="QLabel" name="last_3">
+          <widget class="QLabel" name="lblCryptsyLastBtc">
            <property name="geometry">
             <rect>
              <x>10</x>
@@ -2459,37 +2477,14 @@ QTabBar::tab:last {margin-right:100px;}</string>
             <string notr="true">border:none;</string>
            </property>
            <property name="text">
-            <string>0.00000000 B</string>
+            <string>B0.00000000</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
            </property>
           </widget>
          </widget>
-         <widget class="QWidget" name="Last_8" native="true">
-          <property name="geometry">
-           <rect>
-            <x>360</x>
-            <y>180</y>
-            <width>16</width>
-            <height>81</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QWidget" name="Last_9" native="true">
-          <property name="geometry">
-           <rect>
-            <x>210</x>
-            <y>180</y>
-            <width>21</width>
-            <height>81</height>
-           </rect>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">border-right:1px solid #bdc3c7;</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_33">
+         <widget class="QLabel" name="lblCryptsySellHeader">
           <property name="geometry">
            <rect>
             <x>300</x>
@@ -2508,7 +2503,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:400; color:#f2594b;&quot;&gt;Sell&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
-         <widget class="QTreeWidget" name="sellquan_3">
+         <widget class="QTreeWidget" name="qTreeWidgetCryptsySell">
           <property name="geometry">
            <rect>
             <x>300</x>
@@ -2616,7 +2611,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
            </property>
           </column>
          </widget>
-         <widget class="QLabel" name="label_34">
+         <widget class="QLabel" name="lblCryptsyVolumeBtcHeader">
           <property name="geometry">
            <rect>
             <x>250</x>
@@ -2629,23 +2624,23 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Volume BTC&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
-         <widget class="QLabel" name="volumes_3">
+         <widget class="QLabel" name="lblCryptsyVolumeBtc">
           <property name="geometry">
            <rect>
-            <x>250</x>
-            <y>140</y>
-            <width>81</width>
+            <x>230</x>
+            <y>130</y>
+            <width>121</width>
             <height>20</height>
            </rect>
           </property>
           <property name="text">
-           <string>0</string>
+           <string>00000.00000000</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QFrame" name="frame_4">
+         <widget class="QFrame" name="imgCryptsySell">
           <property name="geometry">
            <rect>
             <x>510</x>
@@ -2670,7 +2665,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <string notr="true">background-color:#f2594b;</string>
           </property>
          </widget>
-         <widget class="QLabel" name="buyy_3">
+         <widget class="QLabel" name="lblCryptsyBuyHeader">
           <property name="geometry">
            <rect>
             <x>30</x>
@@ -2689,7 +2684,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:400; color:#7cc576;&quot;&gt;Buy&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
-         <widget class="QFrame" name="buy_3">
+         <widget class="QFrame" name="imgCryptsyBuy">
           <property name="geometry">
            <rect>
             <x>230</x>
@@ -2714,7 +2709,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <string notr="true">background-color:#7cc576;</string>
           </property>
          </widget>
-         <widget class="QTreeWidget" name="buyquan_3">
+         <widget class="QTreeWidget" name="qTreeWidgetCryptsyBuy">
           <property name="geometry">
            <rect>
             <x>30</x>
@@ -2806,7 +2801,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
            </property>
           </column>
          </widget>
-         <widget class="QLabel" name="label_38">
+         <widget class="QLabel" name="lblCryptsyHeader">
           <property name="geometry">
            <rect>
             <x>210</x>
@@ -2828,11 +2823,11 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Cryptsy&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
-         <widget class="QLabel" name="volumeu_3">
+         <widget class="QLabel" name="lblCryptsyVolumeUsd">
           <property name="geometry">
            <rect>
             <x>80</x>
-            <y>190</y>
+            <y>180</y>
             <width>101</width>
             <height>16</height>
            </rect>
@@ -2841,13 +2836,13 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <string notr="true">border:none</string>
           </property>
           <property name="text">
-           <string>0000 $</string>
+           <string>0000.00</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLabel" name="label_35">
+         <widget class="QLabel" name="lblCryptsyVolumeUsdHeader">
           <property name="geometry">
            <rect>
             <x>90</x>
@@ -2863,11 +2858,11 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Volume USD&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
-         <widget class="QLabel" name="volumeb_3">
+         <widget class="QLabel" name="lblCryptsyVolumeSc">
           <property name="geometry">
            <rect>
             <x>400</x>
-            <y>190</y>
+            <y>180</y>
             <width>131</width>
             <height>16</height>
            </rect>
@@ -2879,7 +2874,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
-         <widget class="QLabel" name="label_29">
+         <widget class="QLabel" name="lblCryptsyVolumeScHeader">
           <property name="geometry">
            <rect>
             <x>430</x>
@@ -2892,25 +2887,23 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Volume SC&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
-         <zorder>Last_7</zorder>
-         <zorder>Last_8</zorder>
-         <zorder>Last_9</zorder>
-         <zorder>label_33</zorder>
-         <zorder>sellquan_3</zorder>
-         <zorder>label_34</zorder>
-         <zorder>volumes_3</zorder>
-         <zorder>frame_4</zorder>
-         <zorder>buyy_3</zorder>
-         <zorder>buyquan_3</zorder>
-         <zorder>label_38</zorder>
-         <zorder>volumeu_3</zorder>
-         <zorder>label_35</zorder>
-         <zorder>volumeb_3</zorder>
-         <zorder>label_29</zorder>
-         <zorder>buy_3</zorder>
+         <zorder>qWidgetCryptsyLast</zorder>
+         <zorder>lblCryptsySellHeader</zorder>
+         <zorder>qTreeWidgetCryptsySell</zorder>
+         <zorder>lblCryptsyVolumeBtcHeader</zorder>
+         <zorder>lblCryptsyVolumeBtc</zorder>
+         <zorder>imgCryptsySell</zorder>
+         <zorder>lblCryptsyBuyHeader</zorder>
+         <zorder>qTreeWidgetCryptsyBuy</zorder>
+         <zorder>lblCryptsyHeader</zorder>
+         <zorder>lblCryptsyVolumeUsd</zorder>
+         <zorder>lblCryptsyVolumeUsdHeader</zorder>
+         <zorder>lblCryptsyVolumeSc</zorder>
+         <zorder>lblCryptsyVolumeScHeader</zorder>
+         <zorder>imgCryptsyBuy</zorder>
         </widget>
        </widget>
-       <widget class="QWidget" name="graphsCryptsy">
+       <widget class="QWidget" name="qWidgetCryptsyGraphs">
         <property name="styleSheet">
          <string notr="true">background:#edf1f7;</string>
         </property>
@@ -2921,7 +2914,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
         <attribute name="title">
          <string/>
         </attribute>
-        <widget class="QFrame" name="view2_3">
+        <widget class="QFrame" name="qWidgetCryptsyGraphsMain">
          <property name="geometry">
           <rect>
            <x>0</x>
@@ -2933,7 +2926,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
          <property name="styleSheet">
           <string notr="true">Font-family:Myriad Pro;color:#61696c;font-size:12px;</string>
          </property>
-         <widget class="QScrollArea" name="scrollArea_3">
+         <widget class="QScrollArea" name="scrollAreaCryptsy">
           <property name="geometry">
            <rect>
             <x>10</x>
@@ -2957,7 +2950,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
           <property name="widgetResizable">
            <bool>true</bool>
           </property>
-          <widget class="QWidget" name="scrollAreaWidgetContents_3">
+          <widget class="QWidget" name="scrollAreaWidgetContentsCryptsy">
            <property name="geometry">
             <rect>
              <x>0</x>
@@ -2975,7 +2968,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <property name="styleSheet">
             <string notr="true"/>
            </property>
-           <widget class="QLabel" name="label_40">
+           <widget class="QLabel" name="lblCryptsyTrades">
             <property name="geometry">
              <rect>
               <x>0</x>
@@ -2988,7 +2981,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Price chart, &lt;/span&gt;last 50 trades - Satoshi/trade&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
-           <widget class="QCustomPlot" name="customPlot_3" native="true">
+           <widget class="QCustomPlot" name="qCustomPlotCryptsyTrades" native="true">
             <property name="geometry">
              <rect>
               <x>0</x>
@@ -3001,7 +2994,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
              <string notr="true">background:#edf1f7</string>
             </property>
            </widget>
-           <widget class="QCustomPlot" name="customPlot2_3" native="true">
+           <widget class="QCustomPlot" name="qCustomPlotCryptsyOrderDepth" native="true">
             <property name="geometry">
              <rect>
               <x>550</x>
@@ -3014,7 +3007,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
              <string notr="true">background:#edf1f7</string>
             </property>
            </widget>
-           <widget class="QLabel" name="label_41">
+           <widget class="QLabel" name="lblCryptsyOrderDepth">
             <property name="geometry">
              <rect>
               <x>600</x>
@@ -3027,7 +3020,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Order depth &lt;/span&gt;- Volume/Satoshi&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
-           <widget class="QTreeWidget" name="CryptsyTradesTable">
+           <widget class="QTreeWidget" name="tblCryptsyTrades">
             <property name="geometry">
              <rect>
               <x>1100</x>

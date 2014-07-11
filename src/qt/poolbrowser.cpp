@@ -27,10 +27,10 @@ const QString apiCryptsyTrades = "http://pubapi.cryptsy.com/api.php?method=singl
 const QString apiCryptsyOrders = "http://pubapi.cryptsy.com/api.php?method=singleorderdata&marketid=225";
 
 //Mintpal API
-const QString apiMintpalStats = "https://api.mintpal.com/v1/market/stats/SC/BTC";
+const QString apiMintpalMarketSummary = "https://api.mintpal.com/v1/market/stats/SC/BTC";
 const QString apiMintpalTrades = "https://api.mintpal.com/v1/market/trades/SC/BTC";
-const QString apiMintpalSell = "https://api.mintpal.com/v1/market/orders/SC/BTC/SELL";
-const QString apiMintpalBuy = "https://api.mintpal.com/v1/market/orders/SC/BTC/BUY";
+const QString apiMintpalOrdersSell = "https://api.mintpal.com/v1/market/orders/SC/BTC/SELL";
+const QString apiMintpalOrdersBuy = "https://api.mintpal.com/v1/market/orders/SC/BTC/BUY";
 
 //Common Globals
 int mode=1;
@@ -44,24 +44,14 @@ BittrexTrades* _bittrexTrades = new BittrexTrades();
 BittrexOrders* _bittrexOrders = new BittrexOrders();
 
 //Cryptsy Globals
-double _baseVolumeLast_Cryptsy;
-QString _priceLastLast_Cryptsy = "";
-QString _priceLast_Cryptsy = "";
-QString _volumeLast_Cryptsy = "";
-double _priceCurrent_Cryptsy = 0;
+CryptsyTrades* _cryptsyTrades = new CryptsyTrades();
+CryptsyOrders* _cryptsyOrders = new CryptsyOrders();
 
 //Mintpal Globals
-QString _askLast_Mintpal = "";
-QString _baseVolumeLast_Mintpal = "";
-QString _bidLast_Mintpal = "";
-QString _highLast_Mintpal = "";
-QString _lowLast_Mintpal = "";
-QString _priceClose_Mintpal = "";
-QString _priceLastLast_Mintpal = "";
-QString _priceLast_Mintpal = "";
-QString _volumeLast_Mintpal = "";
-QStringList _apiResponseSells_Mintpal;
-double _priceCurrent_Mintpal = 0;
+MintpalMarketSummary* _mintpalMarketSummary = new MintpalMarketSummary();
+MintpalTrades* _mintpalTrades = new MintpalTrades();
+MintpalOrders* _mintpalOrders = new MintpalOrders();
+QStringList _mintpalApiResponseOrdersSell;
 
 PoolBrowser::PoolBrowser(QWidget* parent) : QWidget(parent), ui(new Ui::PoolBrowser)
 {
@@ -78,19 +68,19 @@ PoolBrowser::PoolBrowser(QWidget* parent) : QWidget(parent), ui(new Ui::PoolBrow
     ui->qCustomPlotBittrexOrderDepth->addGraph();
     ui->qCustomPlotBittrexOrderDepth->setBackground(QBrush(QColor("#edf1f7")));
 
+    ui->qCustomPlotCryptsyTrades->addGraph();
+    ui->qCustomPlotCryptsyTrades->setBackground(QBrush(QColor("#edf1f7")));
+
+    ui->qCustomPlotCryptsyOrderDepth->addGraph();
+    ui->qCustomPlotCryptsyOrderDepth->addGraph();
+    ui->qCustomPlotCryptsyOrderDepth->setBackground(QBrush(QColor("#edf1f7")));
+
     ui->qCustomPlotMintpalTrades->addGraph();
     ui->qCustomPlotMintpalTrades->setBackground(QBrush(QColor("#edf1f7")));
 
-    ui->qCustomPlotMintpalTrades->addGraph();
-    ui->qCustomPlotMintpalTrades->addGraph();
-    ui->qCustomPlotMintpalTrades->setBackground(QBrush(QColor("#edf1f7")));
-
-    ui->customPlot_3->addGraph();
-    ui->customPlot_3->setBackground(QBrush(QColor("#edf1f7")));
-
-    ui->customPlot2_3->addGraph();
-    ui->customPlot2_3->addGraph();
-    ui->customPlot2_3->setBackground(QBrush(QColor("#edf1f7")));
+    ui->qCustomPlotMintpalOrderDepth->addGraph();
+    ui->qCustomPlotMintpalOrderDepth->addGraph();
+    ui->qCustomPlotMintpalOrderDepth->setBackground(QBrush(QColor("#edf1f7")));
 
     QObject::connect(&m_nam, SIGNAL(finished(QNetworkReply*)), this, SLOT(parseNetworkResponse(QNetworkReply*)), Qt::AutoConnection);
 
@@ -135,24 +125,24 @@ void PoolBrowser::pollAPIs()
     getRequest(apiCryptsyTrades);
     getRequest(apiCryptsyOrders);
 
-    //getRequest(apiMintpalStats);
-    //getRequest(apiMintpalTrades);
-    //getRequest(apiMintpalSell);
-    //getRequest(apiMintpalBuy);
+    getRequest(apiMintpalMarketSummary);
+    getRequest(apiMintpalTrades);
+    getRequest(apiMintpalOrdersSell);
+    getRequest(apiMintpalOrdersBuy);
 }
 
 void PoolBrowser::processOverview()
 {
     double averageBittrexCurrent = _bittrexMarketSummary->getLastCurrent(double()) > 0 ? _bittrexMarketSummary->getLastCurrent(double()) : 0.00000001;
-    double averageCryptsyCurrent = 0; //_cryptsyMarketSummary->getLastCurrent(double()) > 0 ? _cryptsyMarketSummary->getLastCurrent(double()) : 0.00000001;
-    double averageMintpalCurrent = 0; //_mintpalMarketSummary->getLastCurrent(double()) > 0 ? _mintpalMarketSummary->getLastCurrent(double()) : 0.00000001;
-    double averageAllCurrent = (averageBittrexCurrent + averageCryptsyCurrent + averageMintpalCurrent) / 1;
+    double averageCryptsyCurrent = _cryptsyTrades->getLastCurrent(double()) > 0 ? _cryptsyTrades->getLastCurrent(double()) : 0.00000001;
+    double averageMintpalCurrent = _mintpalMarketSummary->getLastCurrent(double()) > 0 ? _mintpalMarketSummary->getLastCurrent(double()) : 0.00000001;
+    double averageAllCurrent = (averageBittrexCurrent + averageCryptsyCurrent + averageMintpalCurrent) / 3;
 
     double averageBittrexLast = _bittrexMarketSummary->getLastPrev(double()) > 0 ? _bittrexMarketSummary->getLastPrev(double()) : 0.00000001;
-    double averageCryptsyLast = 0; //_cryptsyMarketSummary->getLastPrev(double()) > 0 ? _cryptsyMarketSummary->getLastPrev(double()) : 0.00000001;
-    double averageMintpalLast = 0; //_mintpalMarketSummary->getLastPrev(double()) > 0 ? _mintpalMarketSummary->getLastPrev(double()) : 0.00000001;
+    double averageCryptsyLast = _cryptsyTrades->getLastPrev(double()) > 0 ? _cryptsyTrades->getLastPrev(double()) : 0.00000001;
+    double averageMintpalLast = _mintpalMarketSummary->getLastPrev(double()) > 0 ? _mintpalMarketSummary->getLastPrev(double()) : 0.00000001;
 
-    double averageAllLast = (averageBittrexLast + averageCryptsyLast + averageMintpalLast) / 1;
+    double averageAllLast = (averageBittrexLast + averageCryptsyLast + averageMintpalLast) / 3;
 
     updateLabel(ui->lblOverviewScAvgPrice,
                 averageAllCurrent,
@@ -167,8 +157,34 @@ void PoolBrowser::processOverview()
                 8);
 
     updateLabel(ui->lblOverviewBittrexPerc,
-                _bittrexMarketSummary->getLastCurrent(double()),
-                averageAllCurrent,
+                (_bittrexMarketSummary->getLastCurrent(double()) - averageAllCurrent) / averageAllCurrent * 100,
+                0,
+                QString(""),
+                QString("%"),
+                2);
+
+    updateLabel(ui->lblOverviewCryptsyBtc,
+                _cryptsyTrades->getLastCurrent(double()),
+                _cryptsyTrades->getLastPrev(double()),
+                QString("B"),
+                8);
+
+    updateLabel(ui->lblOverviewCryptsyPerc,
+                (_cryptsyTrades->getLastCurrent(double()) - averageAllCurrent) / averageAllCurrent * 100,
+                0,
+                QString(""),
+                QString("%"),
+                2);
+
+    updateLabel(ui->lblOverviewMintpalBtc,
+                _mintpalMarketSummary->getLastCurrent(double()),
+                _mintpalMarketSummary->getLastPrev(double()),
+                QString("B"),
+                8);
+
+    updateLabel(ui->lblOverviewMintpalPerc,
+                (_mintpalMarketSummary->getLastCurrent(double()) - averageAllCurrent) / averageAllCurrent * 100,
+                0,
                 QString(""),
                 QString("%"),
                 2);
@@ -198,13 +214,15 @@ void PoolBrowser::parseNetworkResponse(QNetworkReply* response)
     else if (apiCall == apiBittrexOrders) { bittrexOrders(response); }
     else if (apiCall == apiCryptsyTrades) { cryptsyTrades(response); }
     else if (apiCall == apiCryptsyOrders) { cryptsyOrders(response); }
-    else if (apiCall == apiMintpalStats) { mintpalStats(response); }
+    else if (apiCall == apiMintpalMarketSummary) { mintpalMarketSummary(response); }
     else if (apiCall == apiMintpalTrades) { mintpalTrades(response); }
-    else if (apiCall == apiMintpalSell) { mintpalSell(response); }
-    else if (apiCall == apiMintpalBuy) { mintpalBuy(response); }
+    else if (apiCall == apiMintpalOrdersSell) { mintpalOrdersSell(response); }
+    else if (apiCall == apiMintpalOrdersBuy) { mintpalOrdersBuy(response); }
     else { }  //Sould NEVER get here unless something went completely awry
 
-    if (_bittrexMarketSummary->getLastPrev(double()) != 0) { // && _priceLast_Mintpal != 0 && _priceLast_Cryptsy != 0) {
+    if (_bittrexMarketSummary->getLastPrev(double()) > 0 &&
+            _cryptsyTrades->getLastCurrent(double()) > 0 &&
+            _mintpalMarketSummary->getLastCurrent(double()) > 0) {
         ui->iconOverviewUpdateWait->setVisible(false);
     }
 
@@ -281,7 +299,7 @@ void PoolBrowser::bittrexMarketSummary(QNetworkReply* response)
 {
     QString apiResponse = response->readAll();
 
-    apiResponse.replace("{\"success\":true,\"message\":\"\",\"result\":[", "").replace("]}","").replace("},{", "}{");
+    apiResponse = apiResponse.replace("{\"success\":true,\"message\":\"\",\"result\":[", "").replace("]}","").replace("},{", "}{");
 
     QStringList qslApiResponse = apiResponse.split("{", QString::SkipEmptyParts);
 
@@ -359,13 +377,13 @@ void PoolBrowser::bittrexMarketSummary(QNetworkReply* response)
                 _bittrexMarketSummary->getVolumeCurrent(double()),
                 _bittrexMarketSummary->getVolumePrev(double()),
                 QString(""),
-                8);
+                4);
 
     updateLabel(ui->lblBittrexVolumeBtc,
                 _bittrexMarketSummary->getBaseVolumeCurrent(double()),
                 _bittrexMarketSummary->getBaseVolumePrev(double()),
                 QString(""),
-                8);
+                4);
 
     updateLabel(ui->lblBittrexLastBtc,
                 _bittrexMarketSummary->getLastCurrent(double()),
@@ -476,7 +494,7 @@ void PoolBrowser::bittrexTrades(QNetworkReply* response)
 
     QString apiResponse = response->readAll();
 
-    apiResponse.replace("{\"success\":true,\"message\":\"\",\"result\":[", "").replace("]}","").replace("},{", "}{");
+    apiResponse = apiResponse.replace("{\"success\":true,\"message\":\"\",\"result\":[", "").replace("]}","").replace("},{", "}{");
 
     QStringList qslApiResponse = apiResponse.split("{", QString::SkipEmptyParts);
 
@@ -535,7 +553,6 @@ void PoolBrowser::bittrexTrades(QNetworkReply* response)
     ui->qCustomPlotBittrexTrades->graph(0)->setPen(QPen(QColor(34, 177, 76)));
     ui->qCustomPlotBittrexTrades->graph(0)->setBrush(QBrush(QColor(34, 177, 76, 20)));
 
-    // set axes ranges, so we see all data:
     ui->qCustomPlotBittrexTrades->xAxis->setRange(1, tradeCount);
     ui->qCustomPlotBittrexTrades->yAxis->setRange(low, high);
 
@@ -599,7 +616,7 @@ void PoolBrowser::bittrexOrders(QNetworkReply* response)
 
     QString apiResponse = response->readAll();
 
-    apiResponse.replace("{\"success\":true,\"message\":\"\",\"result\":{\"buy\":[", "");
+    apiResponse = apiResponse.replace("{\"success\":true,\"message\":\"\",\"result\":{\"buy\":[", "");
     QStringList qslApiResponse = apiResponse.split("],\"sell\":[");
 
     QStringList qslApiResponseBuys = qslApiResponse[0].replace("},{", "}{").split("{", QString::SkipEmptyParts);
@@ -715,140 +732,127 @@ void PoolBrowser::bittrexOrders(QNetworkReply* response)
  *************************************************************************************/
 void PoolBrowser::cryptsyTrades(QNetworkReply* response)
 {
-    double dLast, dVolume;
-    QString qsLast, qsVolume;
-
-    QString apiResponse = response->readAll();
-
-    apiResponse = apiResponse.replace("{\"success\":1,\"return\":{\"markets\":{\"SC\":{\"marketid\":\"225\",\"label\":\"SC\\/BTC\",", "");
-    apiResponse = apiResponse.replace(",\"primaryname\":\"SilkCoin\",\"primarycode\":\"SC\",\"secondaryname\":\"BitCoin\",\"secondarycode\":\"BTC\"", "");
-    apiResponse = apiResponse.replace("lasttradetime\":", "LastTradeTime:");
-    apiResponse = apiResponse.replace("lasttradeprice\":", "LastTradePrice:");
-    apiResponse = apiResponse.replace("\"", "");
-    apiResponse = apiResponse.replace("id:", "");
-    apiResponse = apiResponse.replace("time:", "");
-    apiResponse = apiResponse.replace("type:", "");
-    apiResponse = apiResponse.replace("price:", "");
-    apiResponse = apiResponse.replace("quantity:", "");
-    apiResponse = apiResponse.replace("total:", "");
-
-    QStringList qslApiResponse = apiResponse.split(",recenttrades:[{", QString::KeepEmptyParts);
-    QStringList qslTemp = qslApiResponse[1].split("}],sellorders:[{", QString::KeepEmptyParts);
-
-    QStringList qslTrades = qslTemp[0].split("},{", QString::KeepEmptyParts);
-    qslTrades += qslTemp[1].split("},{", QString::KeepEmptyParts);
-
     int z = 0;
-
-    ui->CryptsyTradesTable->clear();
-    ui->CryptsyTradesTable->setColumnWidth(0, 110);
-    ui->CryptsyTradesTable->setColumnWidth(1, 110);
-    ui->CryptsyTradesTable->setColumnWidth(2, 110);
-    ui->CryptsyTradesTable->setColumnWidth(3, 110);
-    ui->CryptsyTradesTable->setColumnWidth(4, 110);
-    ui->CryptsyTradesTable->setSortingEnabled(false);
-
     double high = 0;
     double low = 100000;
 
+    ui->tblCryptsyTrades->clear();
+    ui->tblCryptsyTrades->setColumnWidth(0, 60);
+    ui->tblCryptsyTrades->setColumnWidth(1, 110);
+    ui->tblCryptsyTrades->setColumnWidth(2, 110);
+    ui->tblCryptsyTrades->setColumnWidth(3, 100);
+    ui->tblCryptsyTrades->setColumnWidth(4, 160);
+    ui->tblCryptsyTrades->setSortingEnabled(false);
+
+    QString apiResponse = response->readAll();
+
+    QStringList qslApiResponse = apiResponse.replace("{\"success\":1,\"return\":{\"markets\":{\"SC\":", "").replace(",\"recenttrades\":", "}").replace("]}}}}","").replace("},{", "}{").split("[");
+    QString apiResponseMarketSummary = qslApiResponse[0].replace("\\", "");
+    QStringList qslApiResponseTrades = qslApiResponse[1].split("{", QString::SkipEmptyParts);
+
+    mValue jsonResponseMarketSummary = new mValue();
+    if(!read_string(apiResponseMarketSummary.toStdString(), jsonResponseMarketSummary)) { return; }
+    mObject jsonObjectMarketSummary = jsonResponseMarketSummary.get_obj();
+
+    _cryptsyTrades->setLastCurrent(getPairValue(jsonObjectMarketSummary, "lasttradeprice").get_str());
+    _cryptsyTrades->setVolumeCurrent(getPairValue(jsonObjectMarketSummary, "volume").get_str());
+
+    int tradeCount = qslApiResponseTrades.count();
+
     //Prevent overflow by limiting trade data to no more than 100
-    int tradeCount = qslTrades.length() > 100
-            ? 100 : qslTrades.length();
+    tradeCount = tradeCount > 100
+            ? 100 : tradeCount % 2 == 1
+              ? tradeCount - 1 : tradeCount;
 
     QVector<double> xAxis(tradeCount), yAxis(tradeCount);
 
-    for (int i = 0; i < tradeCount; i++) {
-        qslTrades[i].replace("{", "").replace("}", "");
-        QStringList qslTrade = qslTrades[i].split(",", QString::KeepEmptyParts);
+    for(int i = 0; i < tradeCount; i++){
+        mValue jsonResponse = new mValue();
 
-        QTreeWidgetItem * qtTrades = new QTreeWidgetItem();
+        //Fix missing leading brace caused by split string, otherwise it will not be recognized an an mObject
+        qslApiResponseTrades[i].replace("\"id", "{\"id");
 
-        qtTrades->setText(0, qslTrade[2]);
-        qtTrades->setText(1, qslTrade[3]);
-        qtTrades->setText(2, qslTrade[4]);
-        qtTrades->setText(3, qslTrade[5]);
+        //json_spirit does not handle null so make it "null"
+        qslApiResponseTrades[i].replace("null", "\"null\"");
 
-        QStringList temp = qslTrade[1].split(" ", QString::KeepEmptyParts);
-        qtTrades->setText(4, temp[1]);
+        //Make sure the response is valid
+        if(read_string(qslApiResponseTrades[i].toStdString(), jsonResponse)) {
+            mObject jsonObject = jsonResponse.get_obj();
 
-        ui->CryptsyTradesTable->addTopLevelItem(qtTrades);
+            try
+            {
+                _cryptsyTrades->setId(getPairValue(jsonObject, "id").get_str());
+                _cryptsyTrades->setTimeStamp(getPairValue(jsonObject, "time").get_str());
+                _cryptsyTrades->setPrice(getPairValue(jsonObject, "price").get_str());
+                _cryptsyTrades->setQuantity(getPairValue(jsonObject, "quantity").get_str());
+                _cryptsyTrades->setTotal(getPairValue(jsonObject, "total").get_str());
+                _cryptsyTrades->setOrderType(getPairValue(jsonObject, "type").get_str());
+            }
+            catch (exception) {} //API did not return all needed data so skip this trade
+            QTreeWidgetItem * qtTrades = new QTreeWidgetItem();
 
-        xAxis[z] = (tradeCount) - z;
-        yAxis[z] = (qslTrade[3].toDouble()) * 100000000;
+            qtTrades->setText(0, _cryptsyTrades->getOrderType());
+            qtTrades->setText(1, _cryptsyTrades->getPrice(QString()));
+            qtTrades->setText(2, _cryptsyTrades->getQuantity(QString()));
+            qtTrades->setText(3, _cryptsyTrades->getTotal(QString()));
+            qtTrades->setText(4, _cryptsyTrades->getTimeStamp());
 
-        if (qslTrade[3].toDouble() * 100000000 > high) {
-            high = qslTrade[3].toDouble() * 100000000;
+            ui->tblCryptsyTrades->addTopLevelItem(qtTrades);
+
+            xAxis[z] = tradeCount - z;
+            yAxis[z] = _cryptsyTrades->getPrice(double()) * 100000000;
+
+            high = _cryptsyTrades->getPrice(double()) > high ? _cryptsyTrades->getPrice(double()) : high;
+            low = _cryptsyTrades->getPrice(double()) < low ? _cryptsyTrades->getPrice(double()) : low;
+
+            z++;
         }
-
-        if (qslTrade[3].toDouble() * 100000000 < low) {
-            low = qslTrade[3].toDouble() * 100000000;
-        }
-
-        z++;
     }
 
-    ui->customPlot_3->graph(0)->setData(xAxis, yAxis);
-    ui->customPlot_3->graph(0)->setPen(QPen(QColor(34, 177, 76)));
-    ui->customPlot_3->graph(0)->setBrush(QBrush(QColor(34, 177, 76, 20)));
+    high *=  100000000;
+    low *=  100000000;
 
-    ui->customPlot_3->xAxis->setRange(1, tradeCount);
-    ui->customPlot_3->yAxis->setRange(low, high);
+    updateLabel(ui->lblCryptsyVolumeSc,
+                _cryptsyTrades->getVolumeCurrent(double()),
+                _cryptsyTrades->getVolumePrev(double()),
+                QString(""),
+                4);
 
-    ui->customPlot_3->replot();
+    updateLabel(ui->lblCryptsyVolumeBtc,
+                _cryptsyTrades->getVolumeCurrent(double()) * _cryptsyTrades->getLastCurrent(double()),
+                _cryptsyTrades->getVolumePrev(double()) * _cryptsyTrades->getLastCurrent(double()),
+                QString(""),
+                4);
 
-    QStringList qslSplit = apiResponse.split("LastTradePrice:", QString::KeepEmptyParts);
-    QStringList qslLast = qslSplit[1].split(",volume:", QString::KeepEmptyParts);
-    QStringList qslVolume = qslLast[1].split(",LastTradeTime:", QString::KeepEmptyParts);
+    updateLabel(ui->lblCryptsyVolumeUsd,
+                _cryptsyTrades->getVolumeCurrent(double()) * _cryptsyTrades->getLastCurrent(double()) * _dBtcPriceCurrent,
+                _cryptsyTrades->getVolumePrev(double()) * _cryptsyTrades->getLastCurrent(double()) * _dBtcPriceCurrent,
+                QString(""),
+                4);
 
-    dLast = qslLast[0].toDouble() * _dBtcPriceCurrent;
-    qsLast = QString::number(dLast, 'f', 8);
+    updateLabel(ui->lblCryptsyLastBtc,
+                _cryptsyTrades->getLastCurrent(double()),
+                _cryptsyTrades->getLastPrev(double()),
+                QString("B"),
+                8);
 
-    if (qslLast[0] > _priceLast_Cryptsy) {
-        ui->last_3->setText("<font color=\"green\">" + qslLast[0] + "</font>");
-        ui->lastu_3->setText("<font color=\"green\">" + qsLast + " $</font>");
-    }
-    else if (qslLast[0] < _priceLast_Cryptsy) {
-        ui->last_3->setText("<font color=\"red\">" + qslLast[0] + "</font>");
-        ui->lastu_3->setText("<font color=\"red\">" + qsLast + " $</font>");
-    }
-    else {
-        ui->last_3->setText(qslLast[0]);
-        ui->lastu_3->setText(qsLast + " $");
-    }
+    updateLabel(ui->lblCryptsyLastUsd,
+                _cryptsyTrades->getLastCurrent(double()) * _dBtcPriceCurrent,
+                _cryptsyTrades->getLastPrev(double()) * _dBtcPriceCurrent,
+                QString("$"),
+                8);
 
-    double baseVolume = qslVolume[0].toDouble() * qslLast[0].toDouble();
+    ui->qCustomPlotCryptsyTrades->graph(0)->setData(xAxis, yAxis);
+    ui->qCustomPlotCryptsyTrades->graph(0)->setPen(QPen(QColor(34, 177, 76)));
+    ui->qCustomPlotCryptsyTrades->graph(0)->setBrush(QBrush(QColor(34, 177, 76, 20)));
 
-    dVolume = baseVolume * _dBtcPriceCurrent;
-    qsVolume = QString::number(dVolume, 'f', 4);
+    ui->qCustomPlotCryptsyTrades->xAxis->setRange(1, tradeCount);
+    ui->qCustomPlotCryptsyTrades->yAxis->setRange(low, high);
 
-    if (qslVolume[0] > _volumeLast_Cryptsy) {
-        ui->volumeb_3->setText("<font color=\"green\">" + qslVolume[0] + "</font>");
-    }
-    else if (qslVolume[0] < _volumeLast_Cryptsy) {
-        ui->volumeb_3->setText("<font color=\"red\">" + qslVolume[0] + "</font>");
-        ui->volumeu_3->setText("<font color=\"red\">" + qsVolume + " $</font>");
-    }
-    else {
-        ui->volumeb_3->setText(qslVolume[0]);
-        ui->volumeu_3->setText(qsVolume + " $");
-    }
+    ui->qCustomPlotCryptsyTrades->replot();
 
-    if (baseVolume > _baseVolumeLast_Cryptsy) {
-        ui->volumes_3->setText("<font color=\"green\">" + QString::number(baseVolume, 'f', 2) + "</font>");
-        ui->volumeu_3->setText("<font color=\"green\">" + qsVolume + " $</font>");
-    }
-    else if (baseVolume < _baseVolumeLast_Cryptsy) {
-        ui->volumes_3->setText("<font color=\"red\">" + QString::number(baseVolume, 'f', 2) + "</font>");
-        ui->volumeu_3->setText("<font color=\"red\">" + qsVolume + " $</font>");
-    }
-    else {
-        ui->volumes_3->setText(QString::number(baseVolume, 'f', 2));
-        ui->volumeu_3->setText(qsVolume + " $");
-    }
-
-    _priceLast_Cryptsy = qslLast[0];
-    _volumeLast_Cryptsy = qslVolume[0];
-    _baseVolumeLast_Cryptsy = baseVolume;
+    _cryptsyTrades->setLastPrev(_cryptsyTrades->getLastCurrent(QString()).toStdString());
+    _cryptsyTrades->setVolumePrev(_cryptsyTrades->getVolumeCurrent(QString()).toStdString());
 }
 /*************************************************************************************
  * Method: PoolBrowser::cryptsyOrders
@@ -858,27 +862,6 @@ void PoolBrowser::cryptsyTrades(QNetworkReply* response)
  *************************************************************************************/
 void PoolBrowser::cryptsyOrders(QNetworkReply* response)
 {
-    QString apiResponse = response->readAll();
-    apiResponse = apiResponse.replace("\"", "");
-    QStringList qslApiResponse = apiResponse.split("[", QString::KeepEmptyParts);
-    QStringList apiResponseSells = qslApiResponse[1].replace("price:", "").replace("quantity:", "").replace("total:", "").replace("}", "").replace("{", "").replace("}],buyorders:", "").replace("]", "").split(",", QString::KeepEmptyParts);
-    QStringList apiResponseBuys = qslApiResponse[2].replace("price:", "").replace("quantity:", "").replace("total:", "").replace("}", "").replace("{", "").replace("}],buyorders:", "").replace("]", "").split(",", QString::KeepEmptyParts);
-
-    //Use shorest depth as limit and use buy length if they are the same
-    int depth = apiResponseBuys.length() > apiResponseSells.length()
-            ? apiResponseSells.length() : apiResponseSells.length() > apiResponseBuys.length()
-            ? apiResponseBuys.length() : apiResponseBuys.length();
-
-    //Prevent overflow by limiting depth to 150
-    //Also check for odd number of trades and drop the last one
-    //To avoid an overflow when there are less than 150 trades
-    depth = depth > 150
-            ? 150 : depth % 2 == 1
-            ? depth -1 : depth;
-
-    //Nothing to process...
-    if (depth == 0){ return; }
-
     int z = 0;
     double high = 0;
     double low = 100000;
@@ -886,67 +869,124 @@ void PoolBrowser::cryptsyOrders(QNetworkReply* response)
     double sumSells = 0;
     double sumHighest = 0;
 
-    //Shave off space for the non-used data fields
-    int adjustedDepth = depth / 3;
+    ui->qTreeWidgetCryptsyBuy->clear();
+    ui->qTreeWidgetCryptsyBuy->sortByColumn(0, Qt::DescendingOrder);
+    ui->qTreeWidgetCryptsyBuy->setSortingEnabled(true);
 
-    QVector<double> xAxisBuys(adjustedDepth), yAxisBuys(adjustedDepth);
-    QVector<double> xAxisSells(adjustedDepth), yAxisSells(adjustedDepth);
+    ui->qTreeWidgetCryptsySell->clear();
+    ui->qTreeWidgetCryptsySell->sortByColumn(0, Qt::AscendingOrder);
+    ui->qTreeWidgetCryptsySell->setSortingEnabled(true);
 
-    ui->sellquan_3->clear();
-    ui->buyquan_3->clear();
-    ui->sellquan_3->sortByColumn(0, Qt::AscendingOrder);
-    ui->sellquan_3->setSortingEnabled(true);
-    ui->buyquan_3->setSortingEnabled(true);
+    QString apiResponse = response->readAll();
 
-    for (int i = 0; i < depth; i++) {
-        QTreeWidgetItem * qtBuys = new QTreeWidgetItem();
+    apiResponse = apiResponse.replace("{\"success\":1,\"return\":{\"SC\":{\"marketid\":\"225\",\"label\":\"SC\\/BTC\",\"primaryname\":\"SilkCoin\",\"primarycode\":\"SC\",\"secondaryname\":\"BitCoin\",\"secondarycode\":\"BTC\",\"sellorders\":[", "");
+    QStringList qslApiResponse = apiResponse.split("],\"buyorders\":[");
 
-        qtBuys->setText(0, apiResponseBuys[i]);
-        qtBuys->setText(1, apiResponseBuys[i + 1]);
+    QStringList qslApiResponseSells = qslApiResponse[0].replace("},{", "}{").split("{", QString::SkipEmptyParts);
+    QStringList qslApiResponseBuys = qslApiResponse[1].replace("]}}}","").replace("},{", "}{").split("{", QString::SkipEmptyParts);
 
-        ui->buyquan_3->addTopLevelItem(qtBuys);
+    //Use shorest depth as limit and use buy length if they are the same
+    int depth = qslApiResponseBuys.length() > qslApiResponseSells.length()
+            ? qslApiResponseSells.length() : qslApiResponseSells.length() > qslApiResponseBuys.length()
+            ? qslApiResponseBuys.length() : qslApiResponseBuys.length();
 
-        QTreeWidgetItem * qtSells = new QTreeWidgetItem();
+    //Prevent overflow by limiting depth to 50
+    //Also check for odd number of orders and drop the last one
+    //To avoid an overflow when there are less than 50 orders
+    depth = depth > 50
+            ? 50 : depth % 2 == 1
+            ? depth - 1 : depth;
 
-        qtSells->setText(0, apiResponseSells[i]);
-        qtSells->setText(1, apiResponseSells[i + 1]);
+    QVector<double> xAxisBuys(depth), yAxisBuys(depth);
+    QVector<double> xAxisSells(depth), yAxisSells(depth);
 
-        ui->sellquan_3->addTopLevelItem(qtSells);
+    for(int i = 0; i < depth; i++){
+        mValue jsonResponse = new mValue();
 
-        if (apiResponseSells[i].toDouble() * 100000000 > high) {
-            high = apiResponseSells[i].toDouble() * 100000000;
+        //Fix missing leading brace caused by split string, otherwise it will not be recognized an an mObject
+        qslApiResponseBuys[i].replace("\"price", "{\"price");
+        qslApiResponseSells[i].replace("\"price", "{\"price");
+
+        //json_spirit does not handle null so make it "null"
+        qslApiResponseBuys[i].replace("null", "\"null\"");
+        qslApiResponseSells[i].replace("null", "\"null\"");
+
+        //Make sure the response is valid
+        if(read_string(qslApiResponseBuys[i].toStdString(), jsonResponse)) {
+            mObject jsonObjectBuys = jsonResponse.get_obj();
+
+            try
+            {
+                _cryptsyOrders->setQuantity(getPairValue(jsonObjectBuys, "quantity").get_str());
+                _cryptsyOrders->setPrice(getPairValue(jsonObjectBuys, "price").get_str());
+                _cryptsyOrders->setOrderType("Buy");
+            }
+            catch (exception) {} //API did not return all needed data so skip this order
+
+            QTreeWidgetItem * qtBuys = new QTreeWidgetItem();
+
+            qtBuys->setText(0, _cryptsyOrders->getPrice(QString()));
+            qtBuys->setText(1, _cryptsyOrders->getQuantity(QString()));
+
+            ui->qTreeWidgetCryptsyBuy->addTopLevelItem(qtBuys);
+
+            sumBuys += _cryptsyOrders->getQuantity(double());
+            xAxisBuys[z] = _cryptsyOrders->getPrice(double()) * 100000000;
+            yAxisBuys[z] = sumBuys;
         }
 
-        if (apiResponseBuys[i].toDouble() * 100000000 < low) {
-            low = apiResponseBuys[i].toDouble() * 100000000;
+        high = _cryptsyOrders->getPrice(double()) > high ? _cryptsyOrders->getPrice(double()) : high;
+        low = _cryptsyOrders->getPrice(double()) < low ? _cryptsyOrders->getPrice(double()) : low;
+
+        string WTF = qslApiResponseSells[i].toStdString();
+
+        //Make sure the response is valid
+        if(read_string(qslApiResponseSells[i].toStdString(), jsonResponse)) {
+            mObject jsonObjectSells = jsonResponse.get_obj();
+
+            try
+            {
+                _cryptsyOrders->setQuantity(getPairValue(jsonObjectSells, "quantity").get_str());
+                _cryptsyOrders->setPrice(getPairValue(jsonObjectSells, "price").get_str());
+                _cryptsyOrders->setOrderType("Sell");
+            }
+            catch (exception) {} //API did not return all needed data so skip this order
+
+            QTreeWidgetItem * qtSells = new QTreeWidgetItem();
+
+            qtSells->setText(0, _cryptsyOrders->getPrice(QString()));
+            qtSells->setText(1, _cryptsyOrders->getQuantity(QString()));
+
+            ui->qTreeWidgetCryptsySell->addTopLevelItem(qtSells);
+
+            sumSells += _cryptsyOrders->getQuantity(double());
+            xAxisSells[z] = _cryptsyOrders->getPrice(double()) * 100000000;
+            yAxisSells[z] = sumSells;
         }
 
-        sumBuys += apiResponseBuys[i + 1].toDouble();
-        sumSells += apiResponseSells[i + 1].toDouble();
+        high = _cryptsyOrders->getPrice(double()) > high ? _cryptsyOrders->getPrice(double()) : high;
+        low = _cryptsyOrders->getPrice(double()) < low ? _cryptsyOrders->getPrice(double()) : low;
 
-        xAxisBuys[z] = apiResponseBuys[i].toDouble() * 100000000;
-        yAxisBuys[z] = sumBuys;
-
-        xAxisSells[z] = apiResponseSells[i].toDouble() * 100000000;
-        yAxisSells[z] = sumSells;
-
-        i += 2;
         z++;
     }
 
+    high *=  100000000;
+    low *=  100000000;
+
     sumHighest = sumBuys > sumSells ? sumBuys : sumBuys < sumSells ? sumSells : sumBuys;
 
-    ui->customPlot2_3->graph(0)->setData(xAxisBuys, yAxisBuys);
-    ui->customPlot2_3->graph(1)->setData(xAxisSells, yAxisSells);
-    ui->customPlot2_3->graph(0)->setPen(QPen(QColor(34, 177, 76)));
-    ui->customPlot2_3->graph(0)->setBrush(QBrush(QColor(34, 177, 76, 20)));
-    ui->customPlot2_3->graph(1)->setPen(QPen(QColor(237, 24, 35)));
-    ui->customPlot2_3->graph(1)->setBrush(QBrush(QColor(237, 24, 35, 20)));
+    ui->qCustomPlotCryptsyOrderDepth->graph(0)->setData(xAxisBuys, yAxisBuys);
+    ui->qCustomPlotCryptsyOrderDepth->graph(1)->setData(xAxisSells, yAxisSells);
 
-    ui->customPlot2_3->xAxis->setRange(low, high);
-    ui->customPlot2_3->yAxis->setRange(low, sumHighest);
+    ui->qCustomPlotCryptsyOrderDepth->graph(0)->setPen(QPen(QColor(34, 177, 76)));
+    ui->qCustomPlotCryptsyOrderDepth->graph(0)->setBrush(QBrush(QColor(34, 177, 76, 20)));
+    ui->qCustomPlotCryptsyOrderDepth->graph(1)->setPen(QPen(QColor(237, 24, 35)));
+    ui->qCustomPlotCryptsyOrderDepth->graph(1)->setBrush(QBrush(QColor(237, 24, 35, 20)));
 
-    ui->customPlot2_3->replot();
+    ui->qCustomPlotCryptsyOrderDepth->xAxis->setRange(low, high);
+    ui->qCustomPlotCryptsyOrderDepth->yAxis->setRange(low, sumHighest);
+
+    ui->qCustomPlotCryptsyOrderDepth->replot();
 }
 
 /*************************************************************************************
@@ -970,148 +1010,125 @@ void PoolBrowser::cryptsyOrders(QNetworkReply* response)
  *   "top_ask":"0.04600005"
  * }]
  *************************************************************************************/
-void PoolBrowser::mintpalStats(QNetworkReply* response)
+void PoolBrowser::mintpalMarketSummary(QNetworkReply* response)
 {
-    double dAsk, dLast, dBid, dVolume, dClose = 0;
-    QString qsAsk, qsLast, qsBid, qsVolume, qsClose = "";
 
     QString apiResponse = response->readAll();
-    apiResponse = apiResponse.replace("[{", "").replace("}]", "").replace("\"", "");
 
-    QStringList qslApiResponse = apiResponse.split("market_id:163,coin:SilkCoin,code:SC,exchange:BTC,last_price:", QString::KeepEmptyParts);
-    QStringList qslLast = qslApiResponse[1].split(",yesterday_price:", QString::KeepEmptyParts);
-    QStringList qslCloseChange = qslLast[1].split(",change:", QString::KeepEmptyParts);
-    QStringList qslClose = qslCloseChange[1].split(",24hhigh:", QString::KeepEmptyParts);
-    QStringList qslHigh = qslClose[1].split(",24hlow:", QString::KeepEmptyParts);
-    QStringList qslLow = qslHigh[1].split(",24hvol:", QString::KeepEmptyParts);
-    QStringList qslVolume = qslLow[1].split(",top_bid:", QString::KeepEmptyParts);
-    QStringList qslBidHigh = qslVolume[1].split(",top_ask:", QString::KeepEmptyParts);
-    QString qsAskHigh = qslBidHigh[1];
+    apiResponse = apiResponse.replace("[", "").replace("]","");
 
-    dLast = qslLast[0].toDouble() * _dBtcPriceCurrent;
-    qsLast = QString::number(dLast, 'f', 8);
+    mValue jsonResponse = new mValue();
 
-    if (qslLast[0] > _priceLast_Mintpal) {
-        ui->last_2->setText("<font color=\"green\">" + qslLast[0] + "</font>");
-        ui->lastu_2->setText("<font color=\"green\">" + qsLast + " $</font>");
-    }
-    else if (qslLast[0] < _priceLast_Mintpal) {
-        ui->last_2->setText("<font color=\"red\">" + qslLast[0] + "</font>");
-        ui->lastu_2->setText("<font color=\"red\">" + qsLast + " $</font>");
-    }
-    else {
-        ui->last_2->setText(qslLast[0]);
-        ui->lastu_2->setText(qsLast + " $");
-    }
+    //Make sure the response is valid
+    if(read_string(apiResponse.toStdString(), jsonResponse)) {
+        mObject jsonObject = jsonResponse.get_obj();
 
-    dAsk = qsAskHigh.toDouble() * _dBtcPriceCurrent;
-    qsAsk = QString::number(dAsk, 'f', 8);
-
-    if (qsAsk > _askLast_Mintpal) {
-        ui->ask_2->setText("<font color=\"green\">" + qsAsk + "</font>");
-        ui->asku_2->setText("<font color=\"green\">" + qsAsk + " $</font>");
-    }
-    else if (qsAsk < _askLast_Mintpal) {
-        ui->ask_2->setText("<font color=\"red\">" + qsAsk + "</font>");
-        ui->asku_2->setText("<font color=\"red\">" + qsAsk + " $</font>");
-    }
-    else {
-        ui->ask_2->setText(qsAsk);
-        ui->asku_2->setText(qsAsk + " $");
-    }
-
-    dBid = qslBidHigh[0].toDouble() * _dBtcPriceCurrent;
-    qsBid = QString::number(dBid, 'f', 8);
-
-    if (qslBidHigh[0] > _bidLast_Mintpal) {
-        ui->bid_2->setText("<font color=\"green\">" + qslBidHigh[0] + "</font>");
-        ui->bidu_2->setText("<font color=\"green\">" + qsBid + " $</font>");
-    }
-    else if (qslBidHigh[0] < _bidLast_Mintpal) {
-        ui->bid_2->setText("<font color=\"red\">" + qslBidHigh[0] + "</font>");
-        ui->bidu_2->setText("<font color=\"red\">" + qsBid + " $</font>");
-    }
-    else {
-        ui->bid_2->setText(qslBidHigh[0]);
-        ui->bidu_2->setText(qsBid + " $");
-    }
-
-    if (qslHigh[0] > _highLast_Mintpal) {
-        ui->high_2->setText("<font color=\"green\">" + qslHigh[0] + "</font>");
-    }
-    else if (qslHigh[0] < _highLast_Mintpal) {
-        ui->high_2->setText("<font color=\"red\">" + qslHigh[0] + "</font>");
-    }
-    else {
-        ui->high_2->setText(qslHigh[0]);
-    }
-
-    if (qslLow[0] > _lowLast_Mintpal) {
-        ui->low_2->setText("<font color=\"green\">" + qslLow[0] + "</font>");
-    }
-    else if (qslLow[0] < _lowLast_Mintpal) {
-        ui->low_2->setText("<font color=\"red\">" + qslLow[0] + "</font>");
-    }
-    else {
-        ui->low_2->setText(qslLow[0]);
-    }
-
-    dVolume = qslVolume[0].toDouble() * _dBtcPriceCurrent;
-    qsVolume = QString::number(dVolume, 'f', 2);
-
-    if (qslVolume[0] > _volumeLast_Mintpal) {
-        ui->volumeb_2->setText("<font color=\"green\">" + qslVolume[0] + "</font>");
+        try {
+            _mintpalMarketSummary->setHighCurrent(getPairValue(jsonObject, "24hhigh").get_str());
+            _mintpalMarketSummary->setLowCurrent(getPairValue(jsonObject, "24hlow").get_str());
+            _mintpalMarketSummary->setVolumeCurrent(getPairValue(jsonObject, "24hvol").get_str());
+            _mintpalMarketSummary->setLastCurrent(getPairValue(jsonObject, "last_price").get_str());
+            _mintpalMarketSummary->setBaseVolumeCurrent(getPairValue(jsonObject, "24hvol").get_str());
+            _mintpalMarketSummary->setBidCurrent(getPairValue(jsonObject, "top_bid").get_str());
+            _mintpalMarketSummary->setAskCurrent(getPairValue(jsonObject, "top_ask").get_str());
+            _mintpalMarketSummary->setPrevDayCurrent(getPairValue(jsonObject, "yesterday_price").get_str());
+            _mintpalMarketSummary->setChangeCurrent(getPairValue(jsonObject, "change").get_str());
+       }
+        catch (exception) {} //API did not return all needed data so skip processing market summary
 
     }
-    else if (qslVolume[0] < _volumeLast_Mintpal) {
-        ui->volumeb_2->setText("<font color=\"red\">" + qslVolume[0] + "</font>");
-        ui->volumeu_2->setText("<font color=\"red\">" + qsVolume + " $</font>");
-    }
-    else {
-        ui->volumeb_2->setText(qslVolume[0]);
-        ui->volumeu_2->setText(qsVolume + " $");
-    }
 
-    quint64 base = qslVolume[0].toDouble() / qslLast[0].toDouble();
-    QString baseVolume = QString::number(base, 'f', 2);
+    updateLabel(ui->lblMintpalHighBtc,
+                _mintpalMarketSummary->getHighCurrent(double()),
+                _mintpalMarketSummary->getHighPrev(double()),
+                QString("B"),
+                8);
 
-    if (baseVolume > _baseVolumeLast_Mintpal) {
-        ui->volumes_2->setText("<font color=\"green\">" + baseVolume + "</font>");
-        ui->volumeu_2->setText("<font color=\"green\">" + qsVolume + " $</font>");
-    }
-    else if (baseVolume < _baseVolumeLast_Mintpal) {
-        ui->volumes_2->setText("<font color=\"red\">" + baseVolume + "</font>");
-        ui->volumeu_2->setText("<font color=\"red\">" + qsVolume + " $</font>");
-    }
-    else {
-        ui->volumes_2->setText(baseVolume);
-        ui->volumeu_2->setText(qsVolume + " $");
-    }
+    updateLabel(ui->lblMintpalLowBtc,
+                _mintpalMarketSummary->getLowCurrent(double()),
+                _mintpalMarketSummary->getLowPrev(double()),
+                QString("B"),
+                8);
 
-    if (qslLast[0].toDouble() > qslCloseChange[0].toDouble()) {
-        dClose = ((qslLast[0].toDouble() - qslCloseChange[0].toDouble()) / qslLast[0].toDouble()) * 100;
-        qsClose = QString::number(dClose, 'f', 2);
+    updateLabel(ui->lblMintpalCloseBtc,
+                _mintpalMarketSummary->getPrevDayCurrent(double()),
+                _mintpalMarketSummary->getPrevDayPrev(double()),
+                QString("B"),
+                8);
 
-        ui->yest_2->setText("<font color=\"green\"> + " + qsClose + " %</font>");
-    }
-    else {
-        dClose = ((qslCloseChange[0].toDouble() - qslLast[0].toDouble()) / qslCloseChange[0].toDouble()) * 100;
-        qsClose = QString::number(dClose, 'f', 2);
+    updateLabel(ui->lblMintpalChangePerc,
+                _mintpalMarketSummary->getChangeCurrent(double()),
+                _mintpalMarketSummary->getChangePrev(double()),
+                QString(""),
+                QString("%"),
+                2);
 
-        ui->yest_2->setText("<font color=\"red\"> - " + qsClose + " %</font>");
-    }
+    updateLabel(ui->lblMintpalVolumeUsd,
+                _mintpalMarketSummary->getBaseVolumeCurrent(double()) * _dBtcPriceCurrent,
+                _mintpalMarketSummary->getBaseVolumePrev(double()) * _dBtcPriceCurrent,
+                QString(""),
+                2);
 
-    _priceLast_Mintpal = qslLast[0];
-    _askLast_Mintpal = qsAsk;
-    _bidLast_Mintpal = qslBidHigh[0];
-    _highLast_Mintpal = qslHigh[0];
-    _lowLast_Mintpal = qslLow[0];
-    _volumeLast_Mintpal = qslVolume[0];
-    _baseVolumeLast_Mintpal = baseVolume;
+    updateLabel(ui->lblMintpalVolumeSc,
+                _mintpalMarketSummary->getVolumeCurrent(double()) / _mintpalMarketSummary->getLastCurrent(double()),
+                _mintpalMarketSummary->getVolumePrev(double()) / _mintpalMarketSummary->getLastCurrent(double()),
+                QString(""),
+                4);
 
-    _priceClose_Mintpal = qslLast[0].toDouble() > qslCloseChange[0].toDouble()
-            ? qsClose : qslLast[0].toDouble() < qslCloseChange[0].toDouble()
-            ? qsClose.prepend("-") : qsClose;
+    updateLabel(ui->lblMintpalVolumeBtc,
+                _mintpalMarketSummary->getBaseVolumeCurrent(double()),
+                _mintpalMarketSummary->getBaseVolumePrev(double()),
+                QString(""),
+                4);
+
+    updateLabel(ui->lblMintpalLastBtc,
+                _mintpalMarketSummary->getLastCurrent(double()),
+                _mintpalMarketSummary->getLastPrev(double()),
+                QString("B"),
+
+                8);
+
+    updateLabel(ui->lblMintpalLastUsd,
+                _mintpalMarketSummary->getLastCurrent(double()) * _dBtcPriceCurrent,
+                _mintpalMarketSummary->getLastPrev(double()) * _dBtcPriceCurrent,
+                QString("$"),
+                8);
+
+    updateLabel(ui->lblMintpalAskBtc,
+                _mintpalMarketSummary->getAskCurrent(double()),
+                _mintpalMarketSummary->getAskPrev(double()),
+                QString("B"),
+                8);
+
+    updateLabel(ui->lblMintpalAskUsd,
+                _mintpalMarketSummary->getAskCurrent(double()) * _dBtcPriceCurrent,
+                _mintpalMarketSummary->getAskPrev(double()) * _dBtcPriceCurrent,
+                QString("$"),
+                8);
+
+    updateLabel(ui->lblMintpalBidBtc,
+                _mintpalMarketSummary->getBidCurrent(double()),
+                _mintpalMarketSummary->getBidPrev(double()),
+                QString("B"),
+                8);
+
+    updateLabel(ui->lblMintpalBidUsd,
+                _mintpalMarketSummary->getBidCurrent(double()) * _dBtcPriceCurrent,
+                _mintpalMarketSummary->getBidPrev(double()) * _dBtcPriceCurrent,
+                QString("$"),
+                8);
+
+    _mintpalMarketSummary->setAskPrev(_mintpalMarketSummary->getAskCurrent(double()));
+    _mintpalMarketSummary->setBaseVolumePrev(_mintpalMarketSummary->getBaseVolumeCurrent(double()));
+    _mintpalMarketSummary->setBidPrev(_mintpalMarketSummary->getBidCurrent(double()));
+    _mintpalMarketSummary->setChangePrev(_mintpalMarketSummary->getChangeCurrent(double()));
+    _mintpalMarketSummary->setHighPrev(_mintpalMarketSummary->getHighCurrent(double()));
+    _mintpalMarketSummary->setLowPrev(_mintpalMarketSummary->getLowCurrent(double()));
+    _mintpalMarketSummary->setPrevDayPrev(_mintpalMarketSummary->getPrevDayCurrent(double()));
+    _mintpalMarketSummary->setLastPrev(_mintpalMarketSummary->getLastCurrent(double()));
+    _mintpalMarketSummary->setVolumePrev(_mintpalMarketSummary->getVolumeCurrent(double()));
+
+    _dScPriceLast = _dBtcPriceCurrent * _mintpalMarketSummary->getLastCurrent(double());
 }
 /*************************************************************************************
  * Method: PoolBrowser::mintpalTrades
@@ -1134,62 +1151,71 @@ void PoolBrowser::mintpalStats(QNetworkReply* response)
  *************************************************************************************/
 void PoolBrowser::mintpalTrades(QNetworkReply* response)
 {
-    QString apiResponse = response->readAll();
-    apiResponse = apiResponse.replace("\"", "");
-    QStringList qslTemp = apiResponse.split("[{", QString::KeepEmptyParts);
-    QStringList qslTrades = qslTemp[1].replace("time:", "").replace("type:", "").replace("price:", "").replace("amount:", "").replace("total:", "").split("},{", QString::KeepEmptyParts);
-
-    //Prevent overflow by limiting trade data to no more than 100
-    int tradeCount = qslTrades.length() > 100
-            ? 100 : qslTrades.length();
-
     int z = 0;
+    double high, low = 100000;
 
-    ui->MintpalTradesTable->clear();
-    ui->MintpalTradesTable->setColumnWidth(0, 110);
-    ui->MintpalTradesTable->setColumnWidth(1, 110);
-    ui->MintpalTradesTable->setColumnWidth(2, 110);
-    ui->MintpalTradesTable->setColumnWidth(3, 110);
-    ui->MintpalTradesTable->setColumnWidth(4, 110);
+    ui->tblMintpalTrades->clear();
+    ui->tblMintpalTrades->setColumnWidth(0, 60);
+    ui->tblMintpalTrades->setColumnWidth(1, 110);
+    ui->tblMintpalTrades->setColumnWidth(2, 110);
+    ui->tblMintpalTrades->setColumnWidth(3, 100);
+    ui->tblMintpalTrades->setColumnWidth(4, 160);
+    ui->tblMintpalTrades->setSortingEnabled(false);
 
+    QString apiResponse = response->readAll();
+
+    apiResponse = apiResponse.replace("{\"count\":100,\"trades\":[", "").replace("]}","").replace("},{", "}{");
+
+    QStringList qslApiResponse = apiResponse.split("{", QString::SkipEmptyParts);
+
+    int tradeCount = qslApiResponse.count();
     QVector<double> xAxis(tradeCount), yAxis(tradeCount);
 
-    ui->MintpalTradesTable->setSortingEnabled(false);
+    for(int i = 0; i < tradeCount; i++){
+        mValue jsonResponse = new mValue();
 
-    double high = 0;
-    double low = 100000;
+        //Fix missing leading brace caused by split string, otherwise it will not be recognized an an mObject
+        qslApiResponse[i].replace("\"time", "{\"time");
 
-    for (int i = 0; i < tradeCount; i++) {
-        QStringList qsTrade = qslTrades[i].replace("}", "").replace("{", "").replace("]", "").split(",", QString::KeepEmptyParts);
-        QTreeWidgetItem * item = new QTreeWidgetItem();
+        //json_spirit does not handle null so make it "null"
+        qslApiResponse[i].replace("null", "\"null\"");
 
-        item->setText(0, qsTrade[1] == "0" ? "Buy" : qsTrade[1] == "1" ? "Sell" : "Unknown");
-        item->setText(1, qsTrade[2]);
-        item->setText(2, qsTrade[3]);
-        item->setText(3, qsTrade[4]);
+        //Make sure the response is valid
+        if(read_string(qslApiResponse[i].toStdString(), jsonResponse)) {
+            mObject jsonObject = jsonResponse.get_obj();
 
-        string sTime = qsTrade[0].toStdString();
-        unsigned int uTime = atoi(sTime);
-        const QDateTime qdtTime = QDateTime::fromTime_t(uTime);
-        const QString qsTime = qdtTime.time().toString(Qt::TextDate);
+            try
+            {
+                _mintpalTrades->setTimeStamp(getPairValue(jsonObject, "time").get_str());
+                _mintpalTrades->setQuantity(getPairValue(jsonObject, "amount").get_str());
+                _mintpalTrades->setPrice(getPairValue(jsonObject, "price").get_str());
+                _mintpalTrades->setTotal(getPairValue(jsonObject, "total").get_str());
+                _mintpalTrades->setOrderType(getPairValue(jsonObject, "type").get_real());
+            }
+            catch (exception) {} //API did not return all needed data so skip this trade
 
-        item->setText(4, qsTime);
+            QTreeWidgetItem * qtTrades = new QTreeWidgetItem();
 
-        ui->MintpalTradesTable->addTopLevelItem(item);
+            qtTrades->setText(0, _mintpalTrades->getOrderType());
+            qtTrades->setText(1, _mintpalTrades->getPrice(QString()));
+            qtTrades->setText(2, _mintpalTrades->getQuantity(QString()));
+            qtTrades->setText(3, _mintpalTrades->getTotal(QString()));
+            qtTrades->setText(4, _mintpalTrades->getTimeStamp());
 
-        xAxis[z] = (tradeCount) - z;
-        yAxis[z] = (qsTrade[2].toDouble()) * 100000000;
+            ui->tblMintpalTrades->addTopLevelItem(qtTrades);
 
-        if (qsTrade[2].toDouble() * 100000000 > high) {
-            high = qsTrade[2].toDouble() * 100000000;
+            xAxis[z] = tradeCount - z;
+            yAxis[z] = _mintpalTrades->getPrice(double()) * 100000000;
+
+            high = _mintpalTrades->getPrice(double()) > high ? _mintpalTrades->getPrice(double()) : high;
+            low = _mintpalTrades->getPrice(double()) < low ? _mintpalTrades->getPrice(double()) : low;
+
+            z++;
         }
-
-        if (qsTrade[2].toDouble() * 100000000 < low) {
-            low = qsTrade[2].toDouble() * 100000000;
-        }
-
-        z++;
     }
+
+    high *=  100000000;
+    low *=  100000000;
 
     ui->qCustomPlotMintpalTrades->graph(0)->setData(xAxis, yAxis);
     ui->qCustomPlotMintpalTrades->graph(0)->setPen(QPen(QColor(34, 177, 76)));
@@ -1218,15 +1244,13 @@ void PoolBrowser::mintpalTrades(QNetworkReply* response)
  *  ...
  * }]
  *************************************************************************************/
-void PoolBrowser::mintpalSell(QNetworkReply* response)
+void PoolBrowser::mintpalOrdersSell(QNetworkReply* response)
 {
     QString apiResponse = response->readAll();
-    apiResponse = apiResponse.replace("\"", "");
 
-    QStringList qslApiResponse = apiResponse.split("[{", QString::KeepEmptyParts);
-    QStringList apiResponseSells = qslApiResponse[1].replace("price:", "").replace("amount:", "").replace("total:", "").replace("}", "").replace("{", "").split(",", QString::KeepEmptyParts);
-
-    _apiResponseSells_Mintpal = apiResponseSells;
+    apiResponse = apiResponse.replace("]}" ,"");
+    QStringList qslApiResponse = apiResponse.split("\"orders\":[");
+    _mintpalApiResponseOrdersSell = qslApiResponse[1].replace("},{", "}{").split("{", QString::SkipEmptyParts);
 }
 /*************************************************************************************
  * Method: PoolBrowser::mintpalBuy
@@ -1246,29 +1270,8 @@ void PoolBrowser::mintpalSell(QNetworkReply* response)
  *  ...
  * }]
  *************************************************************************************/
-void PoolBrowser::mintpalBuy(QNetworkReply* response)
+void PoolBrowser::mintpalOrdersBuy(QNetworkReply* response)
 {
-    QString responseData = response->readAll();
-    responseData = responseData.replace("\"", "");
-    QStringList responseDataList = responseData.split("[{", QString::KeepEmptyParts);
-    QStringList marketDataBuys = responseDataList[1].replace("price:", "").replace("amount:", "").replace("total:", "").replace("}", "").replace("{", "").split(",", QString::KeepEmptyParts);
-    QStringList marketDataSells = _apiResponseSells_Mintpal;
-
-    //Use shorest depth as limit and use buy length if they are the same
-    int depth = marketDataBuys.length() > marketDataSells.length()
-            ? marketDataSells.length() : marketDataSells.length() > marketDataBuys.length()
-            ? marketDataBuys.length() : marketDataBuys.length();
-
-    //Prevent overflow by limiting depth to 150
-    //Also check for odd number of trades and drop the last one
-    //To avoid an overflow when there are less than 150 trades
-    depth = depth > 150
-            ? 150 : depth % 2 == 1
-            ? depth -1 : depth;
-
-    //Nothing to process...
-    if (depth == 0){ return; }
-
     int z = 0;
     double high = 0;
     double low = 100000;
@@ -1276,66 +1279,121 @@ void PoolBrowser::mintpalBuy(QNetworkReply* response)
     double sumSells = 0;
     double sumHighest = 0;
 
-    //Shave off space for the non-used data fields
-    int adjustedDepth = depth / 3;
+    ui->qTreeWidgetMintpalBuy->clear();
+    ui->qTreeWidgetMintpalBuy->sortByColumn(0, Qt::DescendingOrder);
+    ui->qTreeWidgetMintpalBuy->setSortingEnabled(true);
 
-    QVector<double> xAxisBuys(adjustedDepth), yAxisBuys(adjustedDepth);
-    QVector<double> xAxisSells(adjustedDepth), yAxisSells(adjustedDepth);
+    ui->qTreeWidgetMintpalSell->clear();
+    ui->qTreeWidgetMintpalSell->sortByColumn(0, Qt::AscendingOrder);
+    ui->qTreeWidgetMintpalSell->setSortingEnabled(true);
 
-    ui->sellquan_2->clear();
-    ui->buyquan_2->clear();
-    ui->sellquan_2->sortByColumn(0, Qt::AscendingOrder);
-    ui->sellquan_2->setSortingEnabled(true);
-    ui->buyquan_2->setSortingEnabled(true);
+    QString apiResponse = response->readAll();
 
-    for (int i = 0; i < depth; i++) {
-        QTreeWidgetItem * qtBuys = new QTreeWidgetItem();
+    apiResponse = apiResponse.replace("]}" ,"");
+    QStringList qslApiResponse = apiResponse.split("\"orders\":[");
+    QStringList qslApiResponseBuys = qslApiResponse[1].replace("},{", "}{").split("{", QString::SkipEmptyParts);
+    QStringList qslApiResponseSells = _mintpalApiResponseOrdersSell;
 
-        qtBuys->setText(0,marketDataBuys[i]);
-        qtBuys->setText(1,marketDataBuys[i + 1]);
+    //Use shorest depth as limit and use buy length if they are the same
+    int depth = qslApiResponseBuys.length() > qslApiResponseSells.length()
+            ? qslApiResponseSells.length() : qslApiResponseSells.length() > qslApiResponseBuys.length()
+            ? qslApiResponseBuys.length() : qslApiResponseBuys.length();
 
-        ui->buyquan_2->addTopLevelItem(qtBuys);
+    //Prevent overflow by limiting depth to 50
+    //Also check for odd number of orders and drop the last one
+    //To avoid an overflow when there are less than 50 orders
+    depth = depth > 50
+            ? 50 : depth % 2 == 1
+            ? depth - 1 : depth;
 
-        QTreeWidgetItem * qtSells = new QTreeWidgetItem();
+    QVector<double> xAxisBuys(depth), yAxisBuys(depth);
+    QVector<double> xAxisSells(depth), yAxisSells(depth);
 
-        qtSells->setText(0,marketDataSells[i]);
-        qtSells->setText(1,marketDataSells[i + 1]);
+    for(int i = 0; i < depth; i++){
+        mValue jsonResponse = new mValue();
 
-        ui->sellquan_2->addTopLevelItem(qtSells);
+        //Fix missing leading brace caused by split string, otherwise it will not be recognized an an mObject
+        qslApiResponseBuys[i].replace("\"price", "{\"price");
+        qslApiResponseSells[i].replace("\"price", "{\"price");
 
-        if (marketDataSells[i].toDouble() * 100000000 > high) {
-            high = marketDataSells[i].toDouble() * 100000000;
+        //json_spirit does not handle null so make it "null"
+        qslApiResponseBuys[i].replace("null", "\"null\"");
+        qslApiResponseSells[i].replace("null", "\"null\"");
+
+        //Make sure the response is valid
+        if(read_string(qslApiResponseBuys[i].toStdString(), jsonResponse)) {
+            mObject jsonObjectBuys = jsonResponse.get_obj();
+
+            try
+            {
+                _mintpalOrders->setQuantity(getPairValue(jsonObjectBuys, "amount").get_str());
+                _mintpalOrders->setPrice(getPairValue(jsonObjectBuys, "price").get_str());
+                _mintpalOrders->setOrderType("Buy");
+            }
+            catch (exception) {} //API did not return all needed data so skip this order
+
+            QTreeWidgetItem * qtBuys = new QTreeWidgetItem();
+
+            qtBuys->setText(0, _mintpalOrders->getPrice(QString()));
+            qtBuys->setText(1, _mintpalOrders->getQuantity(QString()));
+
+            ui->qTreeWidgetMintpalBuy->addTopLevelItem(qtBuys);
+
+            sumBuys += _mintpalOrders->getQuantity(double());
+            xAxisBuys[z] = _mintpalOrders->getPrice(double()) * 100000000;
+            yAxisBuys[z] = sumBuys;
         }
 
-        if (marketDataBuys[i].toDouble() * 100000000 < low) {
-            low = marketDataBuys[i].toDouble() * 100000000;
+        high = _mintpalOrders->getPrice(double()) > high ? _mintpalOrders->getPrice(double()) : high;
+        low = _mintpalOrders->getPrice(double()) < low ? _mintpalOrders->getPrice(double()) : low;
+
+        //Make sure the response is valid
+        if(read_string(qslApiResponseSells[i].toStdString(), jsonResponse)) {
+            mObject jsonObjectSells = jsonResponse.get_obj();
+
+            try
+            {
+                _mintpalOrders->setQuantity(getPairValue(jsonObjectSells, "amount").get_str());
+                _mintpalOrders->setPrice(getPairValue(jsonObjectSells, "price").get_str());
+                _mintpalOrders->setOrderType("Sell");
+            }
+            catch (exception) {} //API did not return all needed data so skip this order
+
+            QTreeWidgetItem * qtSells = new QTreeWidgetItem();
+
+            qtSells->setText(0, _mintpalOrders->getPrice(QString()));
+            qtSells->setText(1, _mintpalOrders->getQuantity(QString()));
+
+            ui->qTreeWidgetMintpalSell->addTopLevelItem(qtSells);
+
+            sumSells += _mintpalOrders->getQuantity(double());
+            xAxisSells[z] = _mintpalOrders->getPrice(double()) * 100000000;
+            yAxisSells[z] = sumSells;
         }
 
-        sumBuys += marketDataBuys[i + 1].toDouble();
-        sumSells += marketDataSells[i + 1].toDouble();
+        high = _mintpalOrders->getPrice(double()) > high ? _mintpalOrders->getPrice(double()) : high;
+        low = _mintpalOrders->getPrice(double()) < low ? _mintpalOrders->getPrice(double()) : low;
 
-        xAxisBuys[z] = marketDataBuys[i].toDouble() * 100000000;
-        yAxisBuys[z] = sumBuys;
-        xAxisSells[z] = marketDataSells[i].toDouble() * 100000000;
-        yAxisSells[z] = sumSells;
-
-        i += 2;
         z++;
     }
 
+    high *=  100000000;
+    low *=  100000000;
+
     sumHighest = sumBuys > sumSells ? sumBuys : sumBuys < sumSells ? sumSells : sumBuys;
 
-    ui->qCustomPlotMintpalTrades->graph(0)->setData(xAxisBuys, yAxisBuys);
-    ui->qCustomPlotMintpalTrades->graph(1)->setData(xAxisSells, yAxisSells);
-    ui->qCustomPlotMintpalTrades->graph(0)->setPen(QPen(QColor(34, 177, 76)));
-    ui->qCustomPlotMintpalTrades->graph(0)->setBrush(QBrush(QColor(34, 177, 76, 20)));
-    ui->qCustomPlotMintpalTrades->graph(1)->setPen(QPen(QColor(237, 24, 35)));
-    ui->qCustomPlotMintpalTrades->graph(1)->setBrush(QBrush(QColor(237, 24, 35, 20)));
+    ui->qCustomPlotMintpalOrderDepth->graph(0)->setData(xAxisBuys, yAxisBuys);
+    ui->qCustomPlotMintpalOrderDepth->graph(0)->setPen(QPen(QColor(34, 177, 76)));
+    ui->qCustomPlotMintpalOrderDepth->graph(0)->setBrush(QBrush(QColor(34, 177, 76, 20)));
 
-    ui->qCustomPlotMintpalTrades->xAxis->setRange(low, high);
-    ui->qCustomPlotMintpalTrades->yAxis->setRange(low, sumHighest);
+    ui->qCustomPlotMintpalOrderDepth->graph(1)->setData(xAxisSells, yAxisSells);
+    ui->qCustomPlotMintpalOrderDepth->graph(1)->setPen(QPen(QColor(237, 24, 35)));
+    ui->qCustomPlotMintpalOrderDepth->graph(1)->setBrush(QBrush(QColor(237, 24, 35, 20)));
 
-    ui->qCustomPlotMintpalTrades->replot();
+    ui->qCustomPlotMintpalOrderDepth->xAxis->setRange(low, high);
+    ui->qCustomPlotMintpalOrderDepth->yAxis->setRange(low, sumHighest);
+
+    ui->qCustomPlotMintpalOrderDepth->replot();
 }
 
 const mValue& PoolBrowser::getPairValue(const mObject& obj, const string& name)
