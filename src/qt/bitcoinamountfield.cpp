@@ -89,7 +89,7 @@ void BitcoinAmountField::setValid(bool valid)
 
 QString BitcoinAmountField::text() const
 {
-    label_btc->setText("Sending "+ (QString::number(amount->value()*dollarg.toDouble())) +" $ or "+ (QString::number(amount->value()*bitcoing.toDouble()))+ " BTC at current market rate");
+    label_btc->setText("Sending "+ (QString::number(amount->value() * _dBtcPriceLast)) +" $ or "+ (QString::number(amount->value() * _dBtcPriceCurrent))+ " BTC at current market rate");
     if (amount->text().isEmpty())
         return QString();
     else

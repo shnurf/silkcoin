@@ -209,10 +209,12 @@ const char* GetOpName(opcodetype opcode);
 
 inline std::string ValueString(const std::vector<unsigned char>& vch)
 {
-    if (vch.size() <= 4)
+    if (vch.size() <= 4) {
         return strprintf("%d", CBigNum(vch).getint());
-    else
+    }
+    else {
         return HexStr(vch);
+    }
 }
 
 inline std::string StackString(const std::vector<std::vector<unsigned char> >& vStack)

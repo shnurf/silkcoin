@@ -131,7 +131,7 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     mylabel2->setStyleSheet("margin-bottom:20px;");
     vbox->addWidget(mylabel2);
     vbox->addWidget(transactionView);
-    vbox->setContentsMargins(52,21,22,10);
+    vbox->setContentsMargins(52, 21, 22, 10);
     transactionsPage->setLayout(vbox);
 
     //Create sett toolbar
@@ -955,7 +955,7 @@ void BitcoinGUI::incomingTransaction(const QModelIndex & parent, int start, int 
                                    "Type: %3\n"
                                    "Address: %4\n")
                                 .arg(date)
-                                .arg(BitcoinUnits::formatWithUnit(walletModel->getOptionsModel()->getDisplayUnit(), dollarg.toDouble()*amount, true))
+                                .arg(BitcoinUnits::formatWithUnit(walletModel->getOptionsModel()->getDisplayUnit(), _dBtcPriceLast * amount, true))
                                 .arg(type)
                                 .arg(address), icon);
 
@@ -970,7 +970,7 @@ void BitcoinGUI::incomingTransaction(const QModelIndex & parent, int start, int 
                                    "Type: %3\n"
                                    "Address: %4\n")
                                 .arg(date)
-                                .arg(BitcoinUnits::formatWithUnit(walletModel->getOptionsModel()->getDisplayUnit(), bitcoing.toDouble()*amount, true))
+                                .arg(BitcoinUnits::formatWithUnit(walletModel->getOptionsModel()->getDisplayUnit(), _dBtcPriceCurrent * amount, true))
                                 .arg(type)
                                 .arg(address), icon);
         }
