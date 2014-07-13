@@ -33,7 +33,7 @@ const QString apiMintpalOrdersSell = "https://api.mintpal.com/v1/market/orders/S
 const QString apiMintpalOrdersBuy = "https://api.mintpal.com/v1/market/orders/SC/BTC/BUY";
 
 //Common Globals
-int mode=1;
+//int mode=1;
 double _dScPriceLast = 0;
 double _dBtcPriceCurrent = 0;
 double _dBtcPriceLast = 0;
@@ -133,14 +133,14 @@ void PoolBrowser::pollAPIs()
 
 void PoolBrowser::processOverview()
 {
-    double averageBittrexCurrent = _bittrexMarketSummary->getLastCurrent(double()) > 0 ? _bittrexMarketSummary->getLastCurrent(double()) : 0.00000001;
+    double averageBittrexCurrent = _bittrexMarketSummary->getAskCurrent(double()) > 0 ? _bittrexMarketSummary->getAskCurrent(double()) : 0.00000001;
     double averageCryptsyCurrent = _cryptsyTrades->getLastCurrent(double()) > 0 ? _cryptsyTrades->getLastCurrent(double()) : 0.00000001;
-    double averageMintpalCurrent = _mintpalMarketSummary->getLastCurrent(double()) > 0 ? _mintpalMarketSummary->getLastCurrent(double()) : 0.00000001;
+    double averageMintpalCurrent = _mintpalMarketSummary->getAskCurrent(double()) > 0 ? _mintpalMarketSummary->getAskCurrent(double()) : 0.00000001;
     double averageAllCurrent = (averageBittrexCurrent + averageCryptsyCurrent + averageMintpalCurrent) / 3;
 
-    double averageBittrexLast = _bittrexMarketSummary->getLastPrev(double()) > 0 ? _bittrexMarketSummary->getLastPrev(double()) : 0.00000001;
+    double averageBittrexLast = _bittrexMarketSummary->getAskPrev(double()) > 0 ? _bittrexMarketSummary->getAskPrev(double()) : 0.00000001;
     double averageCryptsyLast = _cryptsyTrades->getLastPrev(double()) > 0 ? _cryptsyTrades->getLastPrev(double()) : 0.00000001;
-    double averageMintpalLast = _mintpalMarketSummary->getLastPrev(double()) > 0 ? _mintpalMarketSummary->getLastPrev(double()) : 0.00000001;
+    double averageMintpalLast = _mintpalMarketSummary->getAskPrev(double()) > 0 ? _mintpalMarketSummary->getAskPrev(double()) : 0.00000001;
 
     double averageAllLast = (averageBittrexLast + averageCryptsyLast + averageMintpalLast) / 3;
 
@@ -151,13 +151,13 @@ void PoolBrowser::processOverview()
                 8);
 
     updateLabel(ui->lblOverviewBittrexBtc,
-                _bittrexMarketSummary->getLastCurrent(double()),
-                _bittrexMarketSummary->getLastPrev(double()),
+                _bittrexMarketSummary->getAskCurrent(double()),
+                _bittrexMarketSummary->getAskPrev(double()),
                 QString("B"),
                 8);
 
     updateLabel(ui->lblOverviewBittrexPerc,
-                (_bittrexMarketSummary->getLastCurrent(double()) - averageAllCurrent) / averageAllCurrent * 100,
+                (_bittrexMarketSummary->getAskCurrent(double()) - averageAllCurrent) / averageAllCurrent * 100,
                 0,
                 QString(""),
                 QString("%"),
@@ -177,13 +177,13 @@ void PoolBrowser::processOverview()
                 2);
 
     updateLabel(ui->lblOverviewMintpalBtc,
-                _mintpalMarketSummary->getLastCurrent(double()),
-                _mintpalMarketSummary->getLastPrev(double()),
+                _mintpalMarketSummary->getAskCurrent(double()),
+                _mintpalMarketSummary->getAskPrev(double()),
                 QString("B"),
                 8);
 
     updateLabel(ui->lblOverviewMintpalPerc,
-                (_mintpalMarketSummary->getLastCurrent(double()) - averageAllCurrent) / averageAllCurrent * 100,
+                (_mintpalMarketSummary->getAskCurrent(double()) - averageAllCurrent) / averageAllCurrent * 100,
                 0,
                 QString(""),
                 QString("%"),
@@ -482,7 +482,8 @@ void PoolBrowser::bittrexMarketSummary(QNetworkReply* response)
 void PoolBrowser::bittrexTrades(QNetworkReply* response)
 {
     int z = 0;
-    double high, low = 100000;
+    double high = 0;
+    double low = 100000;
 
     ui->tblBittrexTrades->clear();
     ui->tblBittrexTrades->setColumnWidth(0, 60);
@@ -1152,7 +1153,8 @@ void PoolBrowser::mintpalMarketSummary(QNetworkReply* response)
 void PoolBrowser::mintpalTrades(QNetworkReply* response)
 {
     int z = 0;
-    double high, low = 100000;
+    double high = 0;
+    double low = 100000;
 
     ui->tblMintpalTrades->clear();
     ui->tblMintpalTrades->setColumnWidth(0, 60);

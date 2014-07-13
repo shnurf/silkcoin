@@ -35,7 +35,7 @@
       <enum>Qt::LeftToRight</enum>
      </property>
      <property name="styleSheet">
-      <string notr="true">#All QTabBar::tab {border:none;height:80px;margin-top:-20px;padding-bottom:20px;padding-right:60px;margin-left:-20px}
+      <string notr="true">#All QTabBar::tab {border:none;height:80px;margin-top:-20px;padding-bottom:20px;padding-right:20px;margin-left:20px}
 QTabWidget::tab-bar {alignment:center;border:0px;}
 QTabWidget::pane {border:none;}
 #tab QTabWidget::pane,#tab_3 QTabWidget::pane,#tab_4 QTabWidget::pane, #tab_2 QTabWidget::pane {border:none;border-left:1px solid #95a5a6;}</string>
@@ -91,9 +91,9 @@ QTabWidget::pane {border:none;}
         <property name="geometry">
          <rect>
           <x>-10</x>
-          <y>0</y>
-          <width>651</width>
-          <height>401</height>
+          <y>-50</y>
+          <width>681</width>
+          <height>441</height>
          </rect>
         </property>
         <property name="font">
@@ -330,8 +330,8 @@ QTabWidget::pane {border:none;}
         <widget class="QLabel" name="lblOverviewHeader">
          <property name="geometry">
           <rect>
-           <x>200</x>
-           <y>0</y>
+           <x>210</x>
+           <y>50</y>
            <width>161</width>
            <height>41</height>
           </rect>
