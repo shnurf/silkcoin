@@ -539,7 +539,7 @@ void CoinControlDialog::updateLabels(WalletModel *model, QDialog* dialog) {
 
     // turn labels "red"
     l5->setStyleSheet((nBytes >= 10000) ? "color:red;" : "");               // Bytes >= 10000
-    l6->setStyleSheet((dPriority <= 576000) ? "color:red;" : "");         // Priority < "medium"
+    l6->setStyleSheet((dPriority <= 576000) ? "color:red;" : "");           // Priority < "medium"
     l7->setStyleSheet((fLowOutput) ? "color:red;" : "");                    // Low Output = "yes"
     l8->setStyleSheet((nChange > 0 && nChange < CENT) ? "color:red;" : ""); // Change < 0.01BTC
 
@@ -576,7 +576,7 @@ void CoinControlDialog::updateView() {
         nDisplayUnit = model->getOptionsModel()->getDisplayUnit();
     }
 
-    map<QString, vector<COutput>> mapCoins;
+    map<QString, vector<COutput> > mapCoins;
     model->listCoins(mapCoins);
 
     BOOST_FOREACH(PAIRTYPE(QString, vector<COutput>) coins, mapCoins) {

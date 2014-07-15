@@ -91,7 +91,7 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     QFontDatabase::addApplicationFont(":/fonts/pxbold");
     QFontDatabase::addApplicationFont(":/fonts/mohave");
     setWindowTitle(tr("Silkcoin") + " " + tr("Wallet"));
-    qApp->setStyleSheet("QMainWindow { background:rgb(237,241,247);font-family:'Proxima Nova Rg'; } #toolbar2 { border:none;width:28px; background:rgb(156, 141, 84); }");
+    qApp->setStyleSheet("QMainWindow { font-family:'Proxima Nova Rg'; } #toolbar2 { border:none;width:28px; background:rgb(101, 88, 108); }");
 #ifndef Q_OS_MAC
     qApp->setWindowIcon(QIcon(":icons/bitcoin"));
     setWindowIcon(QIcon(":icons/bitcoin"));
@@ -884,7 +884,7 @@ void BitcoinGUI::incomingTransaction(const QModelIndex & parent, int start, int 
         QString date = ttm->index(start, TransactionTableModel::Date, parent).data().toString();
         QString type = ttm->index(start, TransactionTableModel::Type, parent).data().toString();
         QString address = ttm->index(start, TransactionTableModel::ToAddress, parent).data().toString();
-        QIcon icon = qvariant_cast<QIcon>(ttm->index(start, TransactionTableModel::ToAddress, parent)data(Qt::DecorationRole));
+        QIcon icon = qvariant_cast<QIcon>(ttm->index(start, TransactionTableModel::ToAddress, parent).data(Qt::DecorationRole));
 
         if (convertmode == 0) {
             notificator->notify(Notificator::Information,

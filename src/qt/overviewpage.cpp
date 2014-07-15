@@ -123,6 +123,8 @@ OverviewPage::OverviewPage(QWidget *parent) :
 
     // start with displaying the "out of sync" warnings
     showOutOfSyncWarning(true);
+
+    //this->setStyleSheet("QWidget {background-image:url(:/icons/res/icons/receiveg.png}");
 }
 
 void OverviewPage::handleTransactionClicked(const QModelIndex &index) {
@@ -151,19 +153,18 @@ void OverviewPage::setBalance(qint64 balance, qint64 stake, qint64 unconfirmedBa
         ui->labelTotal->setText(BitcoinUnits::formatWithUnit(unit, balance + stake + unconfirmedBalance + immatureBalance));
 
     } else if (convertmode == 1) {
-        ui->labelBalance->setText(BitcoinUnits::formatWithUnit(unit, (_dBtcPriceLast * balance)));
-        ui->labelStake->setText(BitcoinUnits::formatWithUnit(unit, (_dBtcPriceLast * stake)));
-        ui->labelUnconfirmed->setText(BitcoinUnits::formatWithUnit(unit, (_dBtcPriceLast * unconfirmedBalance)));
-        ui->labelImmature->setText(BitcoinUnits::formatWithUnit(unit, (_dBtcPriceLast * immatureBalance)));
-        ui->labelTotal->setText(BitcoinUnits::formatWithUnit(unit, (_dBtcPriceLast * (balance + stake + unconfirmedBalance + immatureBalance))));
+        ui->labelBalance->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast * balance)));
+        ui->labelStake->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast * stake)));
+        ui->labelUnconfirmed->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast * unconfirmedBalance)));
+        ui->labelImmature->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast * immatureBalance)));
+        ui->labelTotal->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast * (balance + stake + unconfirmedBalance + immatureBalance))));
 
     } else if (convertmode == 2) {
-        ui->labelBalance->setText(BitcoinUnits::formatWithUnit(unit, (_dBtcPriceCurrent * balance)));
-        ui->labelStake->setText(BitcoinUnits::formatWithUnit(unit, (_dBtcPriceCurrent * stake)));
-        ui->labelUnconfirmed->setText(BitcoinUnits::formatWithUnit(unit, (_dBtcPriceCurrent * unconfirmedBalance)));
-        ui->labelImmature->setText(BitcoinUnits::formatWithUnit(unit, (_dBtcPriceCurrent * immatureBalance)));
-        ui->labelTotal->setText(BitcoinUnits::formatWithUnit(unit, (_dBtcPriceCurrent * (balance + stake + unconfirmedBalance + immatureBalance))));
-
+        ui->labelBalance->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast / _dBtcPriceLast * balance)));
+        ui->labelStake->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast / _dBtcPriceLast * stake)));
+        ui->labelUnconfirmed->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast / _dBtcPriceLast * unconfirmedBalance)));
+        ui->labelImmature->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast / _dBtcPriceLast * immatureBalance)));
+        ui->labelTotal->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast / _dBtcPriceLast * (balance + stake + unconfirmedBalance + immatureBalance))));
     }
 }
 

@@ -1657,7 +1657,7 @@ QCPMarginGroup::~QCPMarginGroup() {
   this margin group to synchronize margin sides.
 */
 bool QCPMarginGroup::isEmpty() const {
-    QHashIterator<QCP::MarginSide, QList<QCPLayoutElement*>> it(mChildren);
+    QHashIterator<QCP::MarginSide, QList<QCPLayoutElement*> > it(mChildren);
 
     while (it.hasNext()) {
         it.next();
@@ -1676,7 +1676,7 @@ bool QCPMarginGroup::isEmpty() const {
 */
 void QCPMarginGroup::clear() {
     // make all children remove themselves from this margin group:
-    QHashIterator<QCP::MarginSide, QList<QCPLayoutElement*>> it(mChildren);
+    QHashIterator<QCP::MarginSide, QList<QCPLayoutElement*> > it(mChildren);
 
     while (it.hasNext()) {
         it.next();
@@ -11793,7 +11793,7 @@ QList<QCPAxis*> QCPAxisRect::axes(QCPAxis::AxisTypes types) const {
 */
 QList<QCPAxis*> QCPAxisRect::axes() const {
     QList<QCPAxis*> result;
-    QHashIterator<QCPAxis::AxisType, QList<QCPAxis*>> it(mAxes);
+    QHashIterator<QCPAxis::AxisType, QList<QCPAxis*> > it(mAxes);
 
     while (it.hasNext()) {
         it.next();
@@ -11864,7 +11864,7 @@ QList<QCPAxis*> QCPAxisRect::addAxes(QCPAxis::AxisTypes types) {
 */
 bool QCPAxisRect::removeAxis(QCPAxis *axis) {
     // don't access axis->axisType() to provide safety when axis is an invalid pointer, rather go through all axis containers:
-    QHashIterator<QCPAxis::AxisType, QList<QCPAxis*>> it(mAxes);
+    QHashIterator<QCPAxis::AxisType, QList<QCPAxis*> > it(mAxes);
 
     while (it.hasNext()) {
         it.next();

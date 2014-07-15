@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>OverviewPage</class>
  <widget class="QWidget" name="OverviewPage">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -33,8 +36,11 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
+  </property>
   <property name="styleSheet">
-   <string notr="true">background-image:url(:/images/res/images/background.png);color:#505050;font-family:Proxima Nova Rg;</string>
+   <string notr="true">background-image:url(:/images/background.png);color:#505050;font-family:Proxima Nova Rg;</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <property name="sizeConstraint">
