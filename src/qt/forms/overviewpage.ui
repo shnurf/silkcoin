@@ -37,10 +37,10 @@
    <string>Form</string>
   </property>
   <property name="autoFillBackground">
-   <bool>true</bool>
+   <bool>false</bool>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-image:url(:/images/background.png);color:#505050;font-family:Proxima Nova Rg;</string>
+   <string notr="true">background-image:url(:/images/res/images/background.png);</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <property name="sizeConstraint">
@@ -134,7 +134,6 @@
              <widget class="QLabel" name="labelBalance">
               <property name="font">
                <font>
-                <family>Proxima Nova Rg</family>
                 <pointsize>-1</pointsize>
                </font>
               </property>
