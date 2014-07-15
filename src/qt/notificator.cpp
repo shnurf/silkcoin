@@ -96,8 +96,8 @@ class FreedesktopImage {
     int bitsPerSample;
     QByteArray image;
 
-    friend QDBusArgument &operator<<(QDBusArgument &a, const FreedesktopImage &i);
-    friend const QDBusArgument &operator>>(const QDBusArgument &a, FreedesktopImage &i);
+    friend QDBusArgument &operator << (QDBusArgument &a, const FreedesktopImage &i);
+    friend const QDBusArgument &operator >> (const QDBusArgument &a, FreedesktopImage &i);
 };
 
 Q_DECLARE_METATYPE(FreedesktopImage);
@@ -129,14 +129,14 @@ FreedesktopImage::FreedesktopImage(const QImage &img):
     }
 }
 
-QDBusArgument &operator<<(QDBusArgument &a, const FreedesktopImage &i) {
+QDBusArgument &operator << (QDBusArgument &a, const FreedesktopImage &i) {
     a.beginStructure();
     a << i.width << i.height << i.stride << i.hasAlpha << i.bitsPerSample << i.channels << i.image;
     a.endStructure();
     return a;
 }
 
-const QDBusArgument &operator>>(const QDBusArgument &a, FreedesktopImage &i) {
+const QDBusArgument &operator >> (const QDBusArgument &a, FreedesktopImage &i) {
     a.beginStructure();
     a >> i.width >> i.height >> i.stride >> i.hasAlpha >> i.bitsPerSample >> i.channels >> i.image;
     a.endStructure();
