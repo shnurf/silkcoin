@@ -91,7 +91,7 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     QFontDatabase::addApplicationFont(":/fonts/pxbold");
     QFontDatabase::addApplicationFont(":/fonts/mohave");
     setWindowTitle(tr("Silkcoin") + " " + tr("Wallet"));
-    qApp->setStyleSheet("QMainWindow { font-family:'Proxima Nova Rg'; } #toolbar2 { border:none;width:28px; background:rgb(101, 88, 108); }");
+    qApp->setStyleSheet("QMainWindow { background:rgb(237, 241, 247); font-family:'Proxima Nova Rg'; } #toolbar2 { border:none;width:28px; background:rgb(101, 88, 108); }");
 #ifndef Q_OS_MAC
     qApp->setWindowIcon(QIcon(":icons/bitcoin"));
     setWindowIcon(QIcon(":icons/bitcoin"));
@@ -251,7 +251,6 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     toolbar2->addWidget(labelBlocksIcon);
     toolbar2->setStyleSheet("#toolbar2 QToolButton { border:none;padding:0px;margin:0px;height:20px;width:28px;margin-top:36px; }");
 
-
     syncIconMovie = new QMovie(":/movies/update_spinner", "gif", this);
 
     connect(actionConvertIcon, SIGNAL(triggered()), this, SLOT(sConvert()));
@@ -376,8 +375,6 @@ void BitcoinGUI::createActions() {
     wId2->setFocus();
     wId2->hide();
 
-
-
     connect(blockAction, SIGNAL(triggered()), this, SLOT(gotoBlockBrowser()));
     connect(poolAction, SIGNAL(triggered()), this, SLOT(gotoPoolBrowser()));
     connect(overviewAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
@@ -429,13 +426,10 @@ void BitcoinGUI::createActions() {
     openRPCConsoleAction = new QAction(QIcon(":/icons/debugi"), tr(""), this);
     openRPCConsoleAction->setToolTip(tr("Open debugging and diagnostic console"));
 
-
-
     signMessageAction2 = new QAction(QIcon(":/icons/edit"), tr("Sign &message..."), this);
     verifyMessageAction2 = new QAction(QIcon(":/icons/transaction_0"), tr("&Verify message..."), this);
     openRPCConsoleAction2 = new QAction(QIcon(":/icons/debugwindow"), tr("&Debug window"), this);
     openRPCConsoleAction2->setToolTip(tr("Open debugging and diagnostic console"));
-
 
     appMenuBar->addAction(exportAction);
     appMenuBar->addAction(signMessageAction);
@@ -475,8 +469,6 @@ void BitcoinGUI::createActions() {
     connect(verifyMessageAction2, SIGNAL(triggered()), this, SLOT(gotoVerifyMessageTab()));
 }
 
-
-
 void BitcoinGUI::createToolBars() {
     QLabel *mylabel = new QLabel(this);
     mylabel->setPixmap(QPixmap(":images/head"));
@@ -505,11 +497,10 @@ void BitcoinGUI::createToolBars() {
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     toolbar->addWidget(spacer);
     spacer->setObjectName("spacer");
-    toolbar->setStyleSheet("#toolbar { font-weight:600;border:none;height:100%;padding-top:20px; background: rgb(37,40,46); text-align: left; color: white;min-width:180px;max-width:180px;} QToolBar QToolButton:hover {background:rgb(28,29,33);} QToolBar QToolButton:checked {background:rgba(28,29,33,100);}  QToolBar QToolButton { font-weight:600;font-size:10px;font-family:'Century Gothic';padding-left:20px;padding-right:181px;padding-top:5px;padding-bottom:5px; width:100%; color: white; text-align: left; background:transparent;text-transform:uppercase; }");
+    toolbar->setStyleSheet("#toolbar { font-weight:600;border:none;height:100%;padding-top:20px; background: rgb(37, 40, 46); text-align: left; color: white;min-width:180px;max-width:180px;} QToolBar QToolButton:hover {background:rgb(28, 29, 33);} QToolBar QToolButton:checked {background:rgba(28, 29, 33, 100);}  QToolBar QToolButton { font-weight:600;font-size:10px;font-family:'Century Gothic';padding-left:20px;padding-right:181px;padding-top:5px;padding-bottom:5px; width:100%; color: white; text-align: left; background:transparent;text-transform:uppercase; }");
 
     wId = new QWidget(this);
     wId3 = new QWidget(this);
-
 
     QToolBar *toolbars = addToolBar(tr("Settings2"));
     addToolBar(Qt::RightToolBarArea, toolbars);
@@ -524,11 +515,10 @@ void BitcoinGUI::createToolBars() {
     vbox5->addWidget(toolbars);
     vbox5->setContentsMargins(0, 0, 0, 0);
     wId3->setFixedSize(250, 30);
-    wId3->move(260, 10);
+    wId3->move(260, 15);
     wId3->setLayout(vbox5);
     wId3->setFocus();
     wId3->raise();
-
 
     QMenu *menu = new QMenu(tr("Mini"));
     menu->setStyleSheet("border:none;background:none;");
