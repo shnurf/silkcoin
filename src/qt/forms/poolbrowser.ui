@@ -2427,7 +2427,8 @@ QTabBar::tab:last {margin-right:100px;}</string>
            </rect>
           </property>
           <property name="styleSheet">
-           <string notr="true">border-right:1px solid #bdc3c7;</string>
+           <string notr="true">border-right:1px solid #bdc3c7;
+border-left:1px solid #bdc3c7;</string>
           </property>
           <widget class="QLabel" name="lblCryptsyLastUsd">
            <property name="geometry">
@@ -2451,9 +2452,9 @@ QTabBar::tab:last {margin-right:100px;}</string>
           <widget class="QLabel" name="lblCryptsyLastHeader">
            <property name="geometry">
             <rect>
-             <x>0</x>
+             <x>10</x>
              <y>0</y>
-             <width>101</width>
+             <width>91</width>
              <height>31</height>
             </rect>
            </property>

@@ -6,25 +6,20 @@
 
 tutoStackDialog::tutoStackDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::tutoStackDialog)
-{
+    ui(new Ui::tutoStackDialog) {
     ui->setupUi(this);
 }
 
-void tutoStackDialog::setModel(ClientModel *model)
-{
-    if(model)
-    {
+void tutoStackDialog::setModel(ClientModel *model) {
+    if (model) {
         ui->versionLabel->setText(model->formatFullVersion());
     }
 }
 
-tutoStackDialog::~tutoStackDialog()
-{
+tutoStackDialog::~tutoStackDialog() {
     delete ui;
 }
 
-void tutoStackDialog::on_buttonBox_accepted()
-{
+void tutoStackDialog::on_buttonBox_accepted() {
     close();
 }

@@ -8,32 +8,31 @@ class QModelIndex;
 QT_END_NAMESPACE
 
 namespace Ui {
-    class OverviewPage;
+class OverviewPage;
 }
 class WalletModel;
 class TxViewDelegate;
 class TransactionFilterProxy;
 
 /** Overview ("home") page widget */
-class OverviewPage : public QWidget
-{
+class OverviewPage : public QWidget {
     Q_OBJECT
 
-public:
+  public:
     explicit OverviewPage(QWidget *parent = 0);
     ~OverviewPage();
 
     void setModel(WalletModel *model);
     void showOutOfSyncWarning(bool fShow);
 
-public slots:
+  public slots:
     void setBalance(qint64 balance, qint64 stake, qint64 unconfirmedBalance, qint64 immatureBalance);
     void setNumTransactions(int count);
 
-signals:
+  signals:
     void transactionClicked(const QModelIndex &index);
 
-private:
+  private:
     Ui::OverviewPage *ui;
     WalletModel *model;
     qint64 currentBalance;
@@ -44,7 +43,7 @@ private:
     TxViewDelegate *txdelegate;
     TransactionFilterProxy *filter;
 
-private slots:
+  private slots:
     void updateDisplayUnit();
     void handleTransactionClicked(const QModelIndex &index);
 };

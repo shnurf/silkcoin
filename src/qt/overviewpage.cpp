@@ -19,29 +19,26 @@
 #define DECORATION_SIZE 43
 #define NUM_ITEMS 5
 
-class TxViewDelegate : public QAbstractItemDelegate
-{
+class TxViewDelegate : public QAbstractItemDelegate {
     Q_OBJECT
-public:
-    TxViewDelegate(): QAbstractItemDelegate(), unit(BitcoinUnits::BTC)
-    {
+  public:
+    TxViewDelegate(): QAbstractItemDelegate(), unit(BitcoinUnits::BTC) {
 
     }
 
     inline void paint(QPainter *painter, const QStyleOptionViewItem &option,
-                      const QModelIndex &index ) const
-    {
+                      const QModelIndex &index) const {
         painter->save();
 
         QIcon icon = qvariant_cast<QIcon>(index.data(Qt::DecorationRole));
         QRect mainRect = option.rect;
-        QRect decorationRect(mainRect.left()-8,mainRect.top()-12, DECORATION_SIZE, DECORATION_SIZE);
+        QRect decorationRect(mainRect.left() - 8, mainRect.top() - 12, DECORATION_SIZE, DECORATION_SIZE);
         int xspace = DECORATION_SIZE - 8;
         int ypad = 0;
-        int halfheight = (mainRect.height() - 2*ypad)/2;
+        int halfheight = (mainRect.height() - 2 * ypad) / 2;
 
-        QRect amountRect(mainRect.left() + xspace+10, mainRect.top(), mainRect.width() - xspace - 10, halfheight);
-        QRect addressRect(mainRect.left() + xspace+130, mainRect.top(), mainRect.width() - xspace, halfheight);
+        QRect amountRect(mainRect.left() + xspace + 10, mainRect.top(), mainRect.width() - xspace - 10, halfheight);
+        QRect addressRect(mainRect.left() + xspace + 130, mainRect.top(), mainRect.width() - xspace, halfheight);
         icon.paint(painter, decorationRect);
 
         QDateTime date = index.data(TransactionTableModel::DateRole).toDateTime();
@@ -50,47 +47,51 @@ public:
         bool confirmed = index.data(TransactionTableModel::ConfirmedRole).toBool();
         QVariant value = index.data(Qt::ForegroundRole);
         QColor foreground = option.palette.color(QPalette::Text);
-        if(qVariantCanConvert<QColor>(value))
-        {
+
+        if (qVariantCanConvert<QColor>(value)) {
             foreground = qvariant_cast<QColor>(value);
         }
 
         painter->setPen(foreground);
-        painter->drawText(addressRect, Qt::AlignLeft|Qt::AlignVCenter, address);
+        painter->drawText(addressRect, Qt::AlignLeft | Qt::AlignVCenter, address);
 
-        if(amount < 0)
-        {
+        if (amount < 0) {
             foreground = COLOR_NEGATIVE;
-        }
-        else if(!confirmed)
-        {
+        } else if (!confirmed) {
             foreground = COLOR_UNCONFIRMED;
-        }
-        else
-        {
+        } else {
             foreground = option.palette.color(QPalette::Text);
         }
-        painter->setPen(foreground);
-        QString amountText ="";
-        if (convertmode == 0) amountText = BitcoinUnits::formatWithUnit(unit, amount, true);
-        if (convertmode == 1) amountText = BitcoinUnits::formatWithUnit(unit, (_dBtcPriceLast * amount), true);
-        if (convertmode == 2) amountText = BitcoinUnits::formatWithUnit(unit, (_dBtcPriceCurrent * amount), true);
 
-        if(!confirmed)
-        {
+        painter->setPen(foreground);
+        QString amountText = "";
+
+        if (convertmode == 0) {
+            amountText = BitcoinUnits::formatWithUnit(unit, amount, true);
+        }
+
+        if (convertmode == 1) {
+            amountText = BitcoinUnits::formatWithUnit(unit, (_dScPriceLast * amount), true);
+        }
+
+        if (convertmode == 2) {
+            amountText = BitcoinUnits::formatWithUnit(unit, (_dScPriceLast / _dBtcPriceLast * amount), true);
+        }
+
+        if (!confirmed) {
             amountText = QString("[") + amountText + QString("]");
         }
-        painter->drawText(amountRect, Qt::AlignRight|Qt::AlignVCenter, amountText);
+
+        painter->drawText(amountRect, Qt::AlignRight | Qt::AlignVCenter, amountText);
 
         painter->setPen(option.palette.color(QPalette::Text));
-        painter->drawText(amountRect, Qt::AlignLeft|Qt::AlignVCenter, GUIUtil::dateTimeStr(date));
+        painter->drawText(amountRect, Qt::AlignLeft | Qt::AlignVCenter, GUIUtil::dateTimeStr(date));
 
         painter->restore();
     }
 
-    inline QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
-    {
-        return QSize(DECORATION_SIZE, DECORATION_SIZE-5);
+    inline QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
+        return QSize(DECORATION_SIZE, DECORATION_SIZE - 5);
     }
 
     int unit;
@@ -106,8 +107,7 @@ OverviewPage::OverviewPage(QWidget *parent) :
     currentUnconfirmedBalance(-1),
     currentImmatureBalance(-1),
     txdelegate(new TxViewDelegate()),
-    filter(0)
-{
+    filter(0) {
     ui->setupUi(this);
 
     // Recent transactions
@@ -121,52 +121,43 @@ OverviewPage::OverviewPage(QWidget *parent) :
     // init "out of sync" warning labels
     ui->labelWalletStatus->setText("out of sync");
 
-
     // start with displaying the "out of sync" warnings
     showOutOfSyncWarning(true);
 }
 
-void OverviewPage::handleTransactionClicked(const QModelIndex &index)
-{
-    if(filter)
+void OverviewPage::handleTransactionClicked(const QModelIndex &index) {
+    if (filter) {
         emit transactionClicked(filter->mapToSource(index));
+    }
 }
 
-OverviewPage::~OverviewPage()
-{
+OverviewPage::~OverviewPage() {
     delete ui;
 }
 
-void OverviewPage::setBalance(qint64 balance, qint64 stake, qint64 unconfirmedBalance, qint64 immatureBalance)
-{
+void OverviewPage::setBalance(qint64 balance, qint64 stake, qint64 unconfirmedBalance, qint64 immatureBalance) {
 
     int unit = model->getOptionsModel()->getDisplayUnit();
     currentBalance = balance;
     currentStake = stake;
     currentUnconfirmedBalance = unconfirmedBalance;
     currentImmatureBalance = immatureBalance;
-    if (convertmode == 0)
-    {
+
+    if (convertmode == 0) {
         ui->labelBalance->setText(BitcoinUnits::formatWithUnit(unit, balance));
         ui->labelStake->setText(BitcoinUnits::formatWithUnit(unit, stake));
         ui->labelUnconfirmed->setText(BitcoinUnits::formatWithUnit(unit, unconfirmedBalance));
         ui->labelImmature->setText(BitcoinUnits::formatWithUnit(unit, immatureBalance));
         ui->labelTotal->setText(BitcoinUnits::formatWithUnit(unit, balance + stake + unconfirmedBalance + immatureBalance));
 
-
-    }else if (convertmode == 1)
-    {
+    } else if (convertmode == 1) {
         ui->labelBalance->setText(BitcoinUnits::formatWithUnit(unit, (_dBtcPriceLast * balance)));
         ui->labelStake->setText(BitcoinUnits::formatWithUnit(unit, (_dBtcPriceLast * stake)));
         ui->labelUnconfirmed->setText(BitcoinUnits::formatWithUnit(unit, (_dBtcPriceLast * unconfirmedBalance)));
         ui->labelImmature->setText(BitcoinUnits::formatWithUnit(unit, (_dBtcPriceLast * immatureBalance)));
         ui->labelTotal->setText(BitcoinUnits::formatWithUnit(unit, (_dBtcPriceLast * (balance + stake + unconfirmedBalance + immatureBalance))));
 
-
-
-
-    }else if (convertmode == 2)
-    {
+    } else if (convertmode == 2) {
         ui->labelBalance->setText(BitcoinUnits::formatWithUnit(unit, (_dBtcPriceCurrent * balance)));
         ui->labelStake->setText(BitcoinUnits::formatWithUnit(unit, (_dBtcPriceCurrent * stake)));
         ui->labelUnconfirmed->setText(BitcoinUnits::formatWithUnit(unit, (_dBtcPriceCurrent * unconfirmedBalance)));
@@ -176,16 +167,14 @@ void OverviewPage::setBalance(qint64 balance, qint64 stake, qint64 unconfirmedBa
     }
 }
 
-void OverviewPage::setNumTransactions(int count)
-{
+void OverviewPage::setNumTransactions(int count) {
     ui->labelNumTransactions->setText(QLocale::system().toString(count));
 }
 
-void OverviewPage::setModel(WalletModel *model)
-{
+void OverviewPage::setModel(WalletModel *model) {
     this->model = model;
-    if(model && model->getOptionsModel())
-    {
+
+    if (model && model->getOptionsModel()) {
         // Set up transaction list
         filter = new TransactionFilterProxy();
         filter->setSourceModel(model->getTransactionTableModel());
@@ -212,12 +201,11 @@ void OverviewPage::setModel(WalletModel *model)
     updateDisplayUnit();
 }
 
-void OverviewPage::updateDisplayUnit()
-{
-    if(model && model->getOptionsModel())
-    {
-        if(currentBalance != -1)
+void OverviewPage::updateDisplayUnit() {
+    if (model && model->getOptionsModel()) {
+        if (currentBalance != -1) {
             setBalance(currentBalance, model->getStake(), currentUnconfirmedBalance, currentImmatureBalance);
+        }
 
         // Update txdelegate->unit with the current unit
         txdelegate->unit = model->getOptionsModel()->getDisplayUnit();
@@ -226,8 +214,12 @@ void OverviewPage::updateDisplayUnit()
     }
 }
 
-void OverviewPage::showOutOfSyncWarning(bool fShow)
-{
-    if (fShow == true) ui->labelWalletStatus->setText("<font color=\"red\">Out of sync</font>");
-    if (fShow == false) ui->labelWalletStatus->setText("<font color=\"green\">Synced</font>");
+void OverviewPage::showOutOfSyncWarning(bool fShow) {
+    if (fShow == true) {
+        ui->labelWalletStatus->setText("<font color=\"red\">Out of sync</font>");
+    }
+
+    if (fShow == false) {
+        ui->labelWalletStatus->setText("<font color=\"green\">Synced</font>");
+    }
 }

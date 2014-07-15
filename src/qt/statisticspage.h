@@ -24,16 +24,15 @@ class StatisticsPage;
 }
 class ClientModel;
 
-class StatisticsPage : public QWidget
-{
+class StatisticsPage : public QWidget {
     Q_OBJECT
 
-public:
+  public:
     explicit StatisticsPage(QWidget *parent = 0);
     ~StatisticsPage();
-    
+
     void setModel(ClientModel *model);
-    
+
     int heightPrevious;
     int connectionPrevious;
     int volumePrevious;
@@ -46,18 +45,18 @@ public:
     double hardnessPrevious;
     double hardnessPrevious2;
     int64_t marketcapPrevious;
-    
-public slots:
+
+  public slots:
 
     void updateStatistics();
-    void updatePrevious(int, int, int, QString, double, double, double, double, QString, int, int,int64_t);
+    void updatePrevious(int, int, int, QString, double, double, double, double, QString, int, int, int64_t);
 
-private slots:
+  private slots:
 
-private:
+  private:
     Ui::StatisticsPage *ui;
     ClientModel *model;
-    
+
 };
 
 #endif // STATISTICSPAGE_H

@@ -9,11 +9,10 @@
    This can be changed to a tree once the settings become sufficiently
    complex.
  */
-class OptionsModel : public QAbstractListModel
-{
+class OptionsModel : public QAbstractListModel {
     Q_OBJECT
 
-public:
+  public:
     explicit OptionsModel(QObject *parent = 0);
 
     enum OptionID {
@@ -52,9 +51,11 @@ public:
     int getDisplayUnit();
     bool getDisplayAddresses();
     bool getCoinControlFeatures();
-    QString getLanguage() { return language; }
+    QString getLanguage() {
+        return language;
+    }
 
-private:
+  private:
     int nDisplayUnit;
     bool bDisplayAddresses;
     bool fMinimizeToTray;
@@ -62,7 +63,7 @@ private:
     bool fCoinControlFeatures;
     QString language;
 
-signals:
+  signals:
     void displayUnitChanged(int unit);
     void transactionFeeChanged(qint64);
     void reserveBalanceChanged(qint64);
