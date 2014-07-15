@@ -22,41 +22,39 @@
 #include "clientmodel.h"
 #include "serveur.h"
 
-namespace Ui
-{
-    class ChatWindowClass;
+namespace Ui {
+class ChatWindowClass;
 }
 
-class ChatWindow : public QWidget
-{
+class ChatWindow : public QWidget {
     Q_OBJECT
 
-public:
+  public:
     ChatWindow(QWidget *parent = 0);
     ~ChatWindow();
     void setModel(ClientModel *model);
     Serveur * currentTab();
-	signals:
-		void changeTab();
+  signals:
+    void changeTab();
 
-	public slots:
-		void sendCommande();
-        void connecte();
-		void closeTab();
+  public slots:
+    void sendCommande();
+    void connecte();
+    void closeTab();
 
-		void tabChanged(int index);
+    void tabChanged(int index);
 
-		void tabJoined();
-		void tabJoining();
-        void disconnectFromServer();
-        void tabClosing(int index);
+    void tabJoined();
+    void tabJoining();
+    void disconnectFromServer();
+    void tabClosing(int index);
 
-private:
-	Ui::ChatWindowClass *ui;
+  private:
+    Ui::ChatWindowClass *ui;
     ClientModel *model;
-    QMap<QString,Serveur *> serveurs;
-	bool joining;
-	void closeEvent(QCloseEvent *event);
+    QMap<QString, Serveur *> serveurs;
+    bool joining;
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // CHATWINDOW_H

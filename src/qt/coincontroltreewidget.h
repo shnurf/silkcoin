@@ -5,13 +5,13 @@
 #include <QTreeWidget>
 
 class CoinControlTreeWidget : public QTreeWidget {
-Q_OBJECT
+    Q_OBJECT
 
-public:
+  public:
     explicit CoinControlTreeWidget(QWidget *parent = 0);
-    
-protected:
-  virtual void  keyPressEvent(QKeyEvent *event);
+
+  protected:
+    virtual void  keyPressEvent(QKeyEvent *event);
 };
 
 #endif // COINCONTROLTREEWIDGET_H

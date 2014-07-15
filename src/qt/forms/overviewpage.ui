@@ -34,7 +34,7 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">color:#505050;font-family:Proxima Nova Rg;</string>
+   <string notr="true">background-image:url(:/images/res/images/background.png);color:#505050;font-family:Proxima Nova Rg;</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <property name="sizeConstraint">

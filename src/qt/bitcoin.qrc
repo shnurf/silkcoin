@@ -94,6 +94,7 @@
         <file alias="splash">res/images/splash.png</file>
         <file alias="vote2">res/images/vote.jpg</file>
         <file alias="head">res/images/head.png</file>
+        <file>res/images/background.png</file>
     </qresource>
     <qresource prefix="/movies">
         <file alias="camel">res/movies/camel.gif</file>

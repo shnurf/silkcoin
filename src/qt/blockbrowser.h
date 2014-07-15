@@ -40,28 +40,27 @@ class BlockBrowser;
 }
 class ClientModel;
 
-class BlockBrowser : public QWidget
-{
+class BlockBrowser : public QWidget {
     Q_OBJECT
 
-public:
+  public:
     explicit BlockBrowser(QWidget *parent = 0);
     ~BlockBrowser();
-    
+
     void setModel(ClientModel *model);
-    
-public slots:
-    
+
+  public slots:
+
     void blockClicked();
     void txClicked();
     void updateExplorer(bool);
 
-private slots:
+  private slots:
 
-private:
+  private:
     Ui::BlockBrowser *ui;
     ClientModel *model;
-    
+
 };
 
 #endif // BLOCKBROWSER_H

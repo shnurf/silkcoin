@@ -15,8 +15,7 @@ static const int64_t nClientStartupTime = GetTime();
 
 ClientModel::ClientModel(OptionsModel *optionsModel, QObject *parent) :
     QObject(parent), optionsModel(optionsModel),
-    cachedNumBlocks(0), cachedNumBlocksOfPeers(0), pollTimer(0)
-{
+    cachedNumBlocks(0), cachedNumBlocksOfPeers(0), pollTimer(0) {
     numBlocksAtStartup = -1;
 
     pollTimer = new QTimer(this);
@@ -27,44 +26,41 @@ ClientModel::ClientModel(OptionsModel *optionsModel, QObject *parent) :
     subscribeToCoreSignals();
 }
 
-ClientModel::~ClientModel()
-{
+ClientModel::~ClientModel() {
     unsubscribeFromCoreSignals();
 }
 
-int ClientModel::getNumConnections() const
-{
+int ClientModel::getNumConnections() const {
     return vNodes.size();
 }
 
-int ClientModel::getNumBlocks() const
-{
+int ClientModel::getNumBlocks() const {
     return nBestHeight;
 }
 
-int ClientModel::getNumBlocksAtStartup()
-{
-    if (numBlocksAtStartup == -1) numBlocksAtStartup = getNumBlocks();
+int ClientModel::getNumBlocksAtStartup() {
+    if (numBlocksAtStartup == -1) {
+        numBlocksAtStartup = getNumBlocks();
+    }
+
     return numBlocksAtStartup;
 }
 
-QDateTime ClientModel::getLastBlockDate() const
-{
-    if (pindexBest)
+QDateTime ClientModel::getLastBlockDate() const {
+    if (pindexBest) {
         return QDateTime::fromTime_t(pindexBest->GetBlockTime());
-    else
-        return QDateTime::fromTime_t(1398947338); // Genesis block's time
+    } else {
+        return QDateTime::fromTime_t(1398947338);    // Genesis block's time
+    }
 }
 
-void ClientModel::updateTimer()
-{
+void ClientModel::updateTimer() {
     // Some quantities (such as number of blocks) change so fast that we don't want to be notified for each change.
     // Periodically check and update with a timer.
     int newNumBlocks = getNumBlocks();
     int newNumBlocksOfPeers = getNumBlocksOfPeers();
 
-    if(cachedNumBlocks != newNumBlocks || cachedNumBlocksOfPeers != newNumBlocksOfPeers)
-    {
+    if (cachedNumBlocks != newNumBlocks || cachedNumBlocksOfPeers != newNumBlocksOfPeers) {
         cachedNumBlocks = newNumBlocks;
         cachedNumBlocksOfPeers = newNumBlocksOfPeers;
 
@@ -72,21 +68,18 @@ void ClientModel::updateTimer()
     }
 }
 
-void ClientModel::updateNumConnections(int numConnections)
-{
+void ClientModel::updateNumConnections(int numConnections) {
     emit numConnectionsChanged(numConnections);
 }
 
-void ClientModel::updateAlert(const QString &hash, int status)
-{
+void ClientModel::updateAlert(const QString &hash, int status) {
     // Show error message notification for new alert
-    if(status == CT_NEW)
-    {
+    if (status == CT_NEW) {
         uint256 hash_256;
         hash_256.SetHex(hash.toStdString());
         CAlert alert = CAlert::getAlertByHash(hash_256);
-        if(!alert.IsNull())
-        {
+
+        if (!alert.IsNull()) {
             emit error(tr("Network Alert"), QString::fromStdString(alert.strStatusBar), false);
         }
     }
@@ -96,22 +89,26 @@ void ClientModel::updateAlert(const QString &hash, int status)
     emit numBlocksChanged(getNumBlocks(), getNumBlocksOfPeers());
 }
 
-int ClientModel::GetNetworkHashPS(int lookup) const
-{
-    if (pindexBest == NULL)
+int ClientModel::GetNetworkHashPS(int lookup) const {
+    if (pindexBest == NULL) {
         return 0;
+    }
 
     // If lookup is -1, then use blocks since last difficulty change.
-    if (lookup <= 0)
+    if (lookup <= 0) {
         lookup = pindexBest->nHeight;
+    }
 
     // If lookup is larger than chain, then set it to chain length.
-    if (lookup > pindexBest->nHeight)
+    if (lookup > pindexBest->nHeight) {
         lookup = pindexBest->nHeight;
+    }
 
     CBlockIndex* pindexPrev = pindexBest;
-    for (int i = 0; i < lookup; i++)
+
+    for (int i = 0; i < lookup; i++) {
         pindexPrev = pindexPrev->pprev;
+    }
 
     double timeDiff = pindexBest->GetBlockTime() - pindexPrev->GetBlockTime();
     double timePerBlock = timeDiff / lookup;
@@ -120,25 +117,25 @@ int ClientModel::GetNetworkHashPS(int lookup) const
 }
 
 // Litecoin: copied from bitcoinrpc.cpp.
-double ClientModel::GetDifficulty() const
-{
+double ClientModel::GetDifficulty() const {
     // Floating point number that is a multiple of the minimum difficulty,
     // minimum difficulty = 1.0.
 
-    if (pindexBest == NULL)
+    if (pindexBest == NULL) {
         return 1.0;
+    }
+
     int nShift = (pindexBest->nBits >> 24) & 0xff;
 
     double dDiff =
         (double)0x0000ffff / (double)(pindexBest->nBits & 0x00ffffff);
 
-    while (nShift < 29)
-    {
+    while (nShift < 29) {
         dDiff *= 256.0;
         nShift++;
     }
-    while (nShift > 29)
-    {
+
+    while (nShift > 29) {
         dDiff /= 256.0;
         nShift--;
     }
@@ -147,83 +144,69 @@ double ClientModel::GetDifficulty() const
 }
 
 
-bool ClientModel::isTestNet() const
-{
+bool ClientModel::isTestNet() const {
     return fTestNet;
 }
 
-bool ClientModel::inInitialBlockDownload() const
-{
+bool ClientModel::inInitialBlockDownload() const {
     return IsInitialBlockDownload();
 }
 
-int ClientModel::getNumBlocksOfPeers() const
-{
+int ClientModel::getNumBlocksOfPeers() const {
     return GetNumBlocksOfPeers();
 }
 
-QString ClientModel::getStatusBarWarnings() const
-{
+QString ClientModel::getStatusBarWarnings() const {
     return QString::fromStdString(GetWarnings("statusbar"));
 }
 
-OptionsModel *ClientModel::getOptionsModel()
-{
+OptionsModel *ClientModel::getOptionsModel() {
     return optionsModel;
 }
 
-QString ClientModel::formatFullVersion() const
-{
+QString ClientModel::formatFullVersion() const {
     return QString::fromStdString(FormatFullVersion());
 }
 
-QString ClientModel::formatBuildDate() const
-{
+QString ClientModel::formatBuildDate() const {
     return QString::fromStdString(CLIENT_DATE);
 }
 
-QString ClientModel::clientName() const
-{
+QString ClientModel::clientName() const {
     return QString::fromStdString(CLIENT_NAME);
 }
 
-QString ClientModel::formatClientStartupTime() const
-{
+QString ClientModel::formatClientStartupTime() const {
     return QDateTime::fromTime_t(nClientStartupTime).toString();
 }
 
 // Handlers for core signals
-static void NotifyBlocksChanged(ClientModel *clientmodel)
-{
+static void NotifyBlocksChanged(ClientModel *clientmodel) {
     // This notification is too frequent. Don't trigger a signal.
     // Don't remove it, though, as it might be useful later.
 }
 
-static void NotifyNumConnectionsChanged(ClientModel *clientmodel, int newNumConnections)
-{
+static void NotifyNumConnectionsChanged(ClientModel *clientmodel, int newNumConnections) {
     // Too noisy: OutputDebugStringF("NotifyNumConnectionsChanged %i\n", newNumConnections);
     QMetaObject::invokeMethod(clientmodel, "updateNumConnections", Qt::QueuedConnection,
                               Q_ARG(int, newNumConnections));
 }
 
-static void NotifyAlertChanged(ClientModel *clientmodel, const uint256 &hash, ChangeType status)
-{
+static void NotifyAlertChanged(ClientModel *clientmodel, const uint256 &hash, ChangeType status) {
     OutputDebugStringF("NotifyAlertChanged %s status=%i\n", hash.GetHex().c_str(), status);
     QMetaObject::invokeMethod(clientmodel, "updateAlert", Qt::QueuedConnection,
                               Q_ARG(QString, QString::fromStdString(hash.GetHex())),
                               Q_ARG(int, status));
 }
 
-void ClientModel::subscribeToCoreSignals()
-{
+void ClientModel::subscribeToCoreSignals() {
     // Connect signals to client
     uiInterface.NotifyBlocksChanged.connect(boost::bind(NotifyBlocksChanged, this));
     uiInterface.NotifyNumConnectionsChanged.connect(boost::bind(NotifyNumConnectionsChanged, this, _1));
     uiInterface.NotifyAlertChanged.connect(boost::bind(NotifyAlertChanged, this, _1, _2));
 }
 
-void ClientModel::unsubscribeFromCoreSignals()
-{
+void ClientModel::unsubscribeFromCoreSignals() {
     // Disconnect signals from client
     uiInterface.NotifyBlocksChanged.disconnect(boost::bind(NotifyBlocksChanged, this));
     uiInterface.NotifyNumConnectionsChanged.disconnect(boost::bind(NotifyNumConnectionsChanged, this, _1));

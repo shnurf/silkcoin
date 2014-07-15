@@ -5,21 +5,20 @@
 #include <QImage>
 
 namespace Ui {
-    class QRCodeDialog;
+class QRCodeDialog;
 }
 class OptionsModel;
 
-class QRCodeDialog : public QDialog
-{
+class QRCodeDialog : public QDialog {
     Q_OBJECT
 
-public:
+  public:
     explicit QRCodeDialog(const QString &addr, const QString &label, bool enableReq, QWidget *parent = 0);
     ~QRCodeDialog();
 
     void setModel(OptionsModel *model);
 
-private slots:
+  private slots:
     void on_lnReqAmount_textChanged();
     void on_lnLabel_textChanged();
     void on_lnMessage_textChanged();
@@ -28,7 +27,7 @@ private slots:
 
     void updateDisplayUnit();
 
-private:
+  private:
     Ui::QRCodeDialog *ui;
     OptionsModel *model;
     QString address;

@@ -33,7 +33,6 @@ const QString apiMintpalOrdersSell = "https://api.mintpal.com/v1/market/orders/S
 const QString apiMintpalOrdersBuy = "https://api.mintpal.com/v1/market/orders/SC/BTC/BUY";
 
 //Common Globals
-//int mode=1;
 double _dScPriceLast = 0;
 double _dBtcPriceCurrent = 0;
 double _dBtcPriceLast = 0;
@@ -53,8 +52,7 @@ MintpalTrades* _mintpalTrades = new MintpalTrades();
 MintpalOrders* _mintpalOrders = new MintpalOrders();
 QStringList _mintpalApiResponseOrdersSell;
 
-PoolBrowser::PoolBrowser(QWidget* parent) : QWidget(parent), ui(new Ui::PoolBrowser)
-{
+PoolBrowser::PoolBrowser(QWidget* parent) : QWidget(parent), ui(new Ui::PoolBrowser) {
     //TODO: Complete multi-threading so we don't have to call this as a primer
     getRequest(apiCoinbasePrice);
 
@@ -88,32 +86,27 @@ PoolBrowser::PoolBrowser(QWidget* parent) : QWidget(parent), ui(new Ui::PoolBrow
     pollAPIs();
 }
 
-void PoolBrowser::on_btnConvertSilkoin_clicked()
-{
+void PoolBrowser::on_btnConvertSilkoin_clicked() {
     double silkcoinQty = ui->txtConvertSilkcoinQty->text().toDouble();
     double totalBtc = _bittrexMarketSummary->getLastCurrent(double()) * silkcoinQty;
     double totalUsd = totalBtc * _dBtcPriceCurrent;
 
     ui->lblConvertSilkcoinResults->setText("$" + QString::number(totalUsd, 'f', 2) +
-                                           "  /  B"+ QString::number(totalBtc, 'f', 8));
+                                           "  /  B" + QString::number(totalBtc, 'f', 8));
 
 }
-void PoolBrowser::on_btnUpdateMarketData_clicked()
-{
+void PoolBrowser::on_btnUpdateMarketData_clicked() {
     pollAPIs();
 }
 
-void PoolBrowser::openBittrex()
-{
+void PoolBrowser::openBittrex() {
     QDesktopServices::openUrl(QUrl("https://www.bittrex.com/Market/Index?MarketName=BTC-SC"));
 }
-void PoolBrowser::openPoloniex()
-{
+void PoolBrowser::openPoloniex() {
     QDesktopServices::openUrl(QUrl("https://poloniex.com/exchange/btc_sc"));
 }
 
-void PoolBrowser::pollAPIs()
-{
+void PoolBrowser::pollAPIs() {
     ui->iconOverviewUpdateWait->setVisible(true);
 
     getRequest(apiCoinbasePrice);
@@ -131,8 +124,7 @@ void PoolBrowser::pollAPIs()
     getRequest(apiMintpalOrdersBuy);
 }
 
-void PoolBrowser::processOverview()
-{
+void PoolBrowser::processOverview() {
     double averageBittrexCurrent = _bittrexMarketSummary->getAskCurrent(double()) > 0 ? _bittrexMarketSummary->getAskCurrent(double()) : 0.00000001;
     double averageCryptsyCurrent = _cryptsyTrades->getLastCurrent(double()) > 0 ? _cryptsyTrades->getLastCurrent(double()) : 0.00000001;
     double averageMintpalCurrent = _mintpalMarketSummary->getAskCurrent(double()) > 0 ? _mintpalMarketSummary->getAskCurrent(double()) : 0.00000001;
@@ -190,16 +182,14 @@ void PoolBrowser::processOverview()
                 2);
 }
 
-void PoolBrowser::getRequest(const QString &urlString)
-{
-    QUrl url (urlString);
-    QNetworkRequest req (url);
+void PoolBrowser::getRequest(const QString &urlString) {
+    QUrl url(urlString);
+    QNetworkRequest req(url);
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json; charset=utf-8");
     m_nam.get(req);
 }
 
-void PoolBrowser::parseNetworkResponse(QNetworkReply* response)
-{
+void PoolBrowser::parseNetworkResponse(QNetworkReply* response) {
     QUrl apiCall = response->url();
 
     if (response->error() != QNetworkReply::NoError) {
@@ -208,17 +198,27 @@ void PoolBrowser::parseNetworkResponse(QNetworkReply* response)
         return;
     }
 
-    if (apiCall == apiCoinbasePrice) { coinbasePrice(response); }
-    else if (apiCall == apiBittrexMarketSummary) { bittrexMarketSummary(response); }
-    else if (apiCall == apiBittrexTrades) { bittrexTrades(response); }
-    else if (apiCall == apiBittrexOrders) { bittrexOrders(response); }
-    else if (apiCall == apiCryptsyTrades) { cryptsyTrades(response); }
-    else if (apiCall == apiCryptsyOrders) { cryptsyOrders(response); }
-    else if (apiCall == apiMintpalMarketSummary) { mintpalMarketSummary(response); }
-    else if (apiCall == apiMintpalTrades) { mintpalTrades(response); }
-    else if (apiCall == apiMintpalOrdersSell) { mintpalOrdersSell(response); }
-    else if (apiCall == apiMintpalOrdersBuy) { mintpalOrdersBuy(response); }
-    else { }  //Sould NEVER get here unless something went completely awry
+    if (apiCall == apiCoinbasePrice) {
+        coinbasePrice(response);
+    } else if (apiCall == apiBittrexMarketSummary) {
+        bittrexMarketSummary(response);
+    } else if (apiCall == apiBittrexTrades) {
+        bittrexTrades(response);
+    } else if (apiCall == apiBittrexOrders) {
+        bittrexOrders(response);
+    } else if (apiCall == apiCryptsyTrades) {
+        cryptsyTrades(response);
+    } else if (apiCall == apiCryptsyOrders) {
+        cryptsyOrders(response);
+    } else if (apiCall == apiMintpalMarketSummary) {
+        mintpalMarketSummary(response);
+    } else if (apiCall == apiMintpalTrades) {
+        mintpalTrades(response);
+    } else if (apiCall == apiMintpalOrdersSell) {
+        mintpalOrdersSell(response);
+    } else if (apiCall == apiMintpalOrdersBuy) {
+        mintpalOrdersBuy(response);
+    } else { } //Should NEVER get here unless something went completely awry
 
     if (_bittrexMarketSummary->getLastPrev(double()) > 0 &&
             _cryptsyTrades->getLastCurrent(double()) > 0 &&
@@ -242,13 +242,14 @@ void PoolBrowser::parseNetworkResponse(QNetworkReply* response)
  *
  * Response: {"btc_to_pgk":"28.152994","btc_to_gyd":"2743.906541","btc_to_mmk":"11611.550858", ... ,"brl_to_btc":"0.037652"}
  *************************************************************************************/
-void PoolBrowser::coinbasePrice(QNetworkReply* response)
-{
+void PoolBrowser::coinbasePrice(QNetworkReply* response) {
     mValue jsonResponse = new mValue();
     QString apiResponse = response->readAll();
 
     //Make sure the response is valid
-    if(!read_string(apiResponse.toStdString(), jsonResponse)) { return; }
+    if (!read_string(apiResponse.toStdString(), jsonResponse)) {
+        return;
+    }
 
     mObject jsonObject = jsonResponse.get_obj();
 
@@ -273,37 +274,36 @@ void PoolBrowser::coinbasePrice(QNetworkReply* response)
  * Parameter(s): None
  * Response:
  * {
- * 	"success" : true,
- * 	"message" : "",
- * 	"result" : [{
- * 	        "MarketName" : "BTC-LTC",
- * 	        "High" : 0.02590000,
- * 	        "Low" : 0.02400000,
- * 	        "Volume" : 114.84340665,
- * 	        "Last" : 0.02480000,
- * 	        "BaseVolume" : 2.85028800,
- * 	        "TimeStamp" : "2014-04-19T20:49:23.483"
+ *  "success" : true,
+ *  "message" : "",
+ *  "result" : [{
+ *          "MarketName" : "BTC-LTC",
+ *          "High" : 0.02590000,
+ *          "Low" : 0.02400000,
+ *          "Volume" : 114.84340665,
+ *          "Last" : 0.02480000,
+ *          "BaseVolume" : 2.85028800,
+ *          "TimeStamp" : "2014-04-19T20:49:23.483"
  *         }, {
- * 	        "MarketName" : "BTC-WC",
- * 	        "High" : 0.00002456,
- * 	        "Low" : 0.00001352,
- * 	        "Volume" : 4574426.27271220,
- * 	        "Last" : 0.00002006,
- * 	        "BaseVolume" : 82.96629666,
- * 	        "TimeStamp" : "2014-04-19T20:49:50.053"
+ *          "MarketName" : "BTC-WC",
+ *          "High" : 0.00002456,
+ *          "Low" : 0.00001352,
+ *          "Volume" : 4574426.27271220,
+ *          "Last" : 0.00002006,
+ *          "BaseVolume" : 82.96629666,
+ *          "TimeStamp" : "2014-04-19T20:49:50.053"
  *         }
- * 	]
+ *  ]
  * }
  *************************************************************************************/
-void PoolBrowser::bittrexMarketSummary(QNetworkReply* response)
-{
+void PoolBrowser::bittrexMarketSummary(QNetworkReply* response) {
     QString apiResponse = response->readAll();
 
-    apiResponse = apiResponse.replace("{\"success\":true,\"message\":\"\",\"result\":[", "").replace("]}","").replace("},{", "}{");
+    apiResponse = apiResponse.replace("{\"success\":true,\"message\":\"\",\"result\":[", "").replace("]}", "").replace("},{", "}{");
 
     QStringList qslApiResponse = apiResponse.split("{", QString::SkipEmptyParts);
 
-    for(int i = 0; i < qslApiResponse.count(); i++){
+    for (int i = 0; i < qslApiResponse.count(); i++) {
         mValue jsonResponse = new mValue();
 
         //Fix missing leading brace caused by split string, otherwise it will not be recognized an an mObject
@@ -313,7 +313,7 @@ void PoolBrowser::bittrexMarketSummary(QNetworkReply* response)
         qslApiResponse[i].replace("null", "\"null\"");
 
         //Make sure the response is valid
-        if(read_string(qslApiResponse[i].toStdString(), jsonResponse)) {
+        if (read_string(qslApiResponse[i].toStdString(), jsonResponse)) {
             mObject jsonObject = jsonResponse.get_obj();
 
             if (getPairValue(jsonObject, "MarketName").get_str() == "BTC-SC") {
@@ -327,8 +327,7 @@ void PoolBrowser::bittrexMarketSummary(QNetworkReply* response)
                     _bittrexMarketSummary->setBidCurrent(getPairValue(jsonObject, "Bid").get_real());
                     _bittrexMarketSummary->setAskCurrent(getPairValue(jsonObject, "Ask").get_real());
                     _bittrexMarketSummary->setPrevDayCurrent(getPairValue(jsonObject, "PrevDay").get_real());
-                }
-                catch (exception) {} //API did not return all needed data so skip processing market summary
+                } catch (exception) {} //API did not return all needed data so skip processing market summary
 
                 break;
             }
@@ -357,8 +356,8 @@ void PoolBrowser::bittrexMarketSummary(QNetworkReply* response)
     double changeLast  = (_bittrexMarketSummary->getLastPrev(double()) - _bittrexMarketSummary->getPrevDayCurrent(double())) / _bittrexMarketSummary->getPrevDayCurrent(double()) * 100;
 
     QString changeDirection = _bittrexMarketSummary->getLastCurrent(double()) > _bittrexMarketSummary->getPrevDayCurrent(double())
-            ? QString("+") : _bittrexMarketSummary->getLastCurrent(double()) < _bittrexMarketSummary->getPrevDayCurrent(double())
-            ? QString("") : QString("");
+                              ? QString("+") : _bittrexMarketSummary->getLastCurrent(double()) < _bittrexMarketSummary->getPrevDayCurrent(double())
+                              ? QString("") : QString("");
 
     updateLabel(ui->lblBittrexChangePerc,
                 changeCurrent,
@@ -389,7 +388,6 @@ void PoolBrowser::bittrexMarketSummary(QNetworkReply* response)
                 _bittrexMarketSummary->getLastCurrent(double()),
                 _bittrexMarketSummary->getLastPrev(double()),
                 QString("B"),
-
                 8);
 
     updateLabel(ui->lblBittrexLastUsd,
@@ -443,44 +441,43 @@ void PoolBrowser::bittrexMarketSummary(QNetworkReply* response)
  * count (optional): a number between 1-100 for the number of entries to return (default = 20)
  *
  *     {
- * 	"success" : true,
- * 	"message" : "",
- * 	"result" : [{
- * 			"OrderId" : "12323",
- * 			"TimeStamp" : "2014-02-25T07:40:08.68",
- * 			"Quantity" : 185.06100000,
- * 			"Price" : 0.00000174,
- * 			"Total" : 0.00032200
- * 		}, {
- * 			"OrderUuid" : "12322",
- * 			"TimeStamp" : "2014-02-25T07:39:18.603",
- * 			"Quantity" : 10.74500000,
- * 			"Price" : 0.00000172,
- * 			"Total" : 0.00001848
- * 		}, {
- * 			"OrderUuid" : "12321",
- * 			"TimeStamp" : "2014-02-25T07:39:18.6",
- * 			"Quantity" : 5.62100000,
- * 			"Price" : 0.00000172,
- * 			"Total" : 0.00000966
- * 		}, {
- * 			"OrderUuid" : "12319",
- * 			"TimeStamp" : "2014-02-25T07:39:18.6",
- * 			"Quantity" : 76.23000000,
- * 			"Price" : 0.00000173,
- * 			"Total" : 0.00013187
- * 		}, {
- * 			"OrderUuid" : "12317",
- * 			"TimeStamp" : "2014-02-25T07:39:18.6",
- * 			"Quantity" : 52.47500000,
- * 			"Price" : 0.00000174,
- * 			"Total" : 0.00009130
- * 		}
- * 	]
+ *  "success" : true,
+ *  "message" : "",
+ *  "result" : [{
+ *          "OrderId" : "12323",
+ *          "TimeStamp" : "2014-02-25T07:40:08.68",
+ *          "Quantity" : 185.06100000,
+ *          "Price" : 0.00000174,
+ *          "Total" : 0.00032200
+ *      }, {
+ *          "OrderUuid" : "12322",
+ *          "TimeStamp" : "2014-02-25T07:39:18.603",
+ *          "Quantity" : 10.74500000,
+ *          "Price" : 0.00000172,
+ *          "Total" : 0.00001848
+ *      }, {
+ *          "OrderUuid" : "12321",
+ *          "TimeStamp" : "2014-02-25T07:39:18.6",
+ *          "Quantity" : 5.62100000,
+ *          "Price" : 0.00000172,
+ *          "Total" : 0.00000966
+ *      }, {
+ *          "OrderUuid" : "12319",
+ *          "TimeStamp" : "2014-02-25T07:39:18.6",
+ *          "Quantity" : 76.23000000,
+ *          "Price" : 0.00000173,
+ *          "Total" : 0.00013187
+ *      }, {
+ *          "OrderUuid" : "12317",
+ *          "TimeStamp" : "2014-02-25T07:39:18.6",
+ *          "Quantity" : 52.47500000,
+ *          "Price" : 0.00000174,
+ *          "Total" : 0.00009130
+ *      }
+ *  ]
  * }
  *************************************************************************************/
-void PoolBrowser::bittrexTrades(QNetworkReply* response)
-{
+void PoolBrowser::bittrexTrades(QNetworkReply* response) {
     int z = 0;
     double high = 0;
     double low = 100000;
@@ -495,14 +492,14 @@ void PoolBrowser::bittrexTrades(QNetworkReply* response)
 
     QString apiResponse = response->readAll();
 
-    apiResponse = apiResponse.replace("{\"success\":true,\"message\":\"\",\"result\":[", "").replace("]}","").replace("},{", "}{");
+    apiResponse = apiResponse.replace("{\"success\":true,\"message\":\"\",\"result\":[", "").replace("]}", "").replace("},{", "}{");
 
     QStringList qslApiResponse = apiResponse.split("{", QString::SkipEmptyParts);
 
     int tradeCount = qslApiResponse.count();
     QVector<double> xAxis(tradeCount), yAxis(tradeCount);
 
-    for(int i = 0; i < tradeCount; i++){
+    for (int i = 0; i < tradeCount; i++) {
         mValue jsonResponse = new mValue();
 
         //Fix missing leading brace caused by split string, otherwise it will not be recognized an an mObject
@@ -512,11 +509,10 @@ void PoolBrowser::bittrexTrades(QNetworkReply* response)
         qslApiResponse[i].replace("null", "\"null\"");
 
         //Make sure the response is valid
-        if(read_string(qslApiResponse[i].toStdString(), jsonResponse)) {
+        if (read_string(qslApiResponse[i].toStdString(), jsonResponse)) {
             mObject jsonObject = jsonResponse.get_obj();
 
-            try
-            {
+            try {
                 _bittrexTrades->setId(getPairValue(jsonObject, "Id").get_real());
                 _bittrexTrades->setTimeStamp(getPairValue(jsonObject, "TimeStamp").get_str());
                 _bittrexTrades->setQuantity(getPairValue(jsonObject, "Quantity").get_real());
@@ -524,8 +520,7 @@ void PoolBrowser::bittrexTrades(QNetworkReply* response)
                 _bittrexTrades->setTotal(getPairValue(jsonObject, "Total").get_real());
                 _bittrexTrades->setFillType(getPairValue(jsonObject, "FillType").get_str());
                 _bittrexTrades->setOrderType(getPairValue(jsonObject, "OrderType").get_str());
-            }
-            catch (exception) {} //API did not return all needed data so skip this trade
+            } catch (exception) {} //API did not return all needed data so skip this trade
 
             QTreeWidgetItem * qtTrades = new QTreeWidgetItem();
 
@@ -567,39 +562,38 @@ void PoolBrowser::bittrexTrades(QNetworkReply* response)
  * Used to get retrieve the orderbook for a given market
  *
  * Parameters:
- * market	(required)	a string literal for the market (ex: BTC-LTC)
- * type	(required)	buy, sell or both to identify the type of orderbook to return.
- * depth	(optional)	defaults to 20 - how deep of an order book to retrieve. Max is 100
+ * market   (required)  a string literal for the market (ex: BTC-LTC)
+ * type (required)  buy, sell or both to identify the type of orderbook to return.
+ * depth    (optional)  defaults to 20 - how deep of an order book to retrieve. Max is 100
  *
  * Response
  *     {
- * 	"success" : true,
- * 	"message" : "",
- * 	"result" : {
- * 		"buy" : [{
- * 				"Quantity" : 12.37000000,
- * 				"Rate" : 0.02525000
- * 			}
- * 		],
- * 		"sell" : [{
- * 				"Quantity" : 32.55412402,
- * 				"Rate" : 0.02540000
- * 			}, {
- * 				"Quantity" : 60.00000000,
- * 				"Rate" : 0.02550000
- * 			}, {
- * 				"Quantity" : 60.00000000,
- * 				"Rate" : 0.02575000
- * 			}, {
- * 				"Quantity" : 84.00000000,
- * 				"Rate" : 0.02600000
- * 			}
- * 		]
- * 	}
+ *  "success" : true,
+ *  "message" : "",
+ *  "result" : {
+ *      "buy" : [{
+ *              "Quantity" : 12.37000000,
+ *              "Rate" : 0.02525000
+ *          }
+ *      ],
+ *      "sell" : [{
+ *              "Quantity" : 32.55412402,
+ *              "Rate" : 0.02540000
+ *          }, {
+ *              "Quantity" : 60.00000000,
+ *              "Rate" : 0.02550000
+ *          }, {
+ *              "Quantity" : 60.00000000,
+ *              "Rate" : 0.02575000
+ *          }, {
+ *              "Quantity" : 84.00000000,
+ *              "Rate" : 0.02600000
+ *          }
+ *      ]
+ *  }
  * }
  ************************************************************************************/
-void PoolBrowser::bittrexOrders(QNetworkReply* response)
-{
+void PoolBrowser::bittrexOrders(QNetworkReply* response) {
     int z = 0;
     double high = 0;
     double low = 100000;
@@ -621,12 +615,12 @@ void PoolBrowser::bittrexOrders(QNetworkReply* response)
     QStringList qslApiResponse = apiResponse.split("],\"sell\":[");
 
     QStringList qslApiResponseBuys = qslApiResponse[0].replace("},{", "}{").split("{", QString::SkipEmptyParts);
-    QStringList qslApiResponseSells = qslApiResponse[1].replace("]}}","").replace("},{", "}{").split("{", QString::SkipEmptyParts);
+    QStringList qslApiResponseSells = qslApiResponse[1].replace("]}}", "").replace("},{", "}{").split("{", QString::SkipEmptyParts);
 
     //Use shorest depth as limit and use buy length if they are the same
     int depth = qslApiResponseBuys.length() > qslApiResponseSells.length()
-            ? qslApiResponseSells.length() : qslApiResponseSells.length() > qslApiResponseBuys.length()
-            ? qslApiResponseBuys.length() : qslApiResponseBuys.length();
+                ? qslApiResponseSells.length() : qslApiResponseSells.length() > qslApiResponseBuys.length()
+                ? qslApiResponseBuys.length() : qslApiResponseBuys.length();
 
     //Prevent overflow by limiting depth to 50
     //Also check for odd number of orders and drop the last one
@@ -638,7 +632,7 @@ void PoolBrowser::bittrexOrders(QNetworkReply* response)
     QVector<double> xAxisBuys(depth), yAxisBuys(depth);
     QVector<double> xAxisSells(depth), yAxisSells(depth);
 
-    for(int i = 0; i < depth; i++){
+    for (int i = 0; i < depth; i++) {
         mValue jsonResponse = new mValue();
 
         //Fix missing leading brace caused by split string, otherwise it will not be recognized an an mObject
@@ -650,16 +644,14 @@ void PoolBrowser::bittrexOrders(QNetworkReply* response)
         qslApiResponseSells[i].replace("null", "\"null\"");
 
         //Make sure the response is valid
-        if(read_string(qslApiResponseBuys[i].toStdString(), jsonResponse)) {
+        if (read_string(qslApiResponseBuys[i].toStdString(), jsonResponse)) {
             mObject jsonObjectBuys = jsonResponse.get_obj();
 
-            try
-            {
+            try {
                 _bittrexOrders->setQuantity(getPairValue(jsonObjectBuys, "Quantity").get_real());
                 _bittrexOrders->setPrice(getPairValue(jsonObjectBuys, "Rate").get_real());
                 _bittrexOrders->setOrderType("Buy");
-            }
-            catch (exception) {} //API did not return all needed data so skip this order
+            } catch (exception) {} //API did not return all needed data so skip this order
 
             QTreeWidgetItem * qtBuys = new QTreeWidgetItem();
 
@@ -677,16 +669,14 @@ void PoolBrowser::bittrexOrders(QNetworkReply* response)
         low = _bittrexOrders->getPrice(double()) < low ? _bittrexOrders->getPrice(double()) : low;
 
         //Make sure the response is valid
-        if(read_string(qslApiResponseSells[i].toStdString(), jsonResponse)) {
+        if (read_string(qslApiResponseSells[i].toStdString(), jsonResponse)) {
             mObject jsonObjectSells = jsonResponse.get_obj();
 
-            try
-            {
+            try {
                 _bittrexOrders->setQuantity(getPairValue(jsonObjectSells, "Quantity").get_real());
                 _bittrexOrders->setPrice(getPairValue(jsonObjectSells, "Rate").get_real());
                 _bittrexOrders->setOrderType("Sell");
-            }
-            catch (exception) {} //API did not return all needed data so skip this order
+            } catch (exception) {} //API did not return all needed data so skip this order
 
             QTreeWidgetItem * qtSells = new QTreeWidgetItem();
 
@@ -731,8 +721,7 @@ void PoolBrowser::bittrexOrders(QNetworkReply* response)
  *
  * General Market Data (Single Market - Realtime):
  *************************************************************************************/
-void PoolBrowser::cryptsyTrades(QNetworkReply* response)
-{
+void PoolBrowser::cryptsyTrades(QNetworkReply* response) {
     int z = 0;
     double high = 0;
     double low = 100000;
@@ -747,12 +736,16 @@ void PoolBrowser::cryptsyTrades(QNetworkReply* response)
 
     QString apiResponse = response->readAll();
 
-    QStringList qslApiResponse = apiResponse.replace("{\"success\":1,\"return\":{\"markets\":{\"SC\":", "").replace(",\"recenttrades\":", "}").replace("]}}}}","").replace("},{", "}{").split("[");
+    QStringList qslApiResponse = apiResponse.replace("{\"success\":1,\"return\":{\"markets\":{\"SC\":", "").replace(",\"recenttrades\":", "}").replace("]}}}}", "").replace("},{", "}{").split("[");
     QString apiResponseMarketSummary = qslApiResponse[0].replace("\\", "");
     QStringList qslApiResponseTrades = qslApiResponse[1].split("{", QString::SkipEmptyParts);
 
     mValue jsonResponseMarketSummary = new mValue();
-    if(!read_string(apiResponseMarketSummary.toStdString(), jsonResponseMarketSummary)) { return; }
+
+    if (!read_string(apiResponseMarketSummary.toStdString(), jsonResponseMarketSummary)) {
+        return;
+    }
+
     mObject jsonObjectMarketSummary = jsonResponseMarketSummary.get_obj();
 
     _cryptsyTrades->setLastCurrent(getPairValue(jsonObjectMarketSummary, "lasttradeprice").get_str());
@@ -762,12 +755,12 @@ void PoolBrowser::cryptsyTrades(QNetworkReply* response)
 
     //Prevent overflow by limiting trade data to no more than 100
     tradeCount = tradeCount > 100
-            ? 100 : tradeCount % 2 == 1
-              ? tradeCount - 1 : tradeCount;
+                 ? 100 : tradeCount % 2 == 1
+                 ? tradeCount - 1 : tradeCount;
 
     QVector<double> xAxis(tradeCount), yAxis(tradeCount);
 
-    for(int i = 0; i < tradeCount; i++){
+    for (int i = 0; i < tradeCount; i++) {
         mValue jsonResponse = new mValue();
 
         //Fix missing leading brace caused by split string, otherwise it will not be recognized an an mObject
@@ -777,19 +770,18 @@ void PoolBrowser::cryptsyTrades(QNetworkReply* response)
         qslApiResponseTrades[i].replace("null", "\"null\"");
 
         //Make sure the response is valid
-        if(read_string(qslApiResponseTrades[i].toStdString(), jsonResponse)) {
+        if (read_string(qslApiResponseTrades[i].toStdString(), jsonResponse)) {
             mObject jsonObject = jsonResponse.get_obj();
 
-            try
-            {
+            try {
                 _cryptsyTrades->setId(getPairValue(jsonObject, "id").get_str());
                 _cryptsyTrades->setTimeStamp(getPairValue(jsonObject, "time").get_str());
                 _cryptsyTrades->setPrice(getPairValue(jsonObject, "price").get_str());
                 _cryptsyTrades->setQuantity(getPairValue(jsonObject, "quantity").get_str());
                 _cryptsyTrades->setTotal(getPairValue(jsonObject, "total").get_str());
                 _cryptsyTrades->setOrderType(getPairValue(jsonObject, "type").get_str());
-            }
-            catch (exception) {} //API did not return all needed data so skip this trade
+            } catch (exception) {} //API did not return all needed data so skip this trade
+
             QTreeWidgetItem * qtTrades = new QTreeWidgetItem();
 
             qtTrades->setText(0, _cryptsyTrades->getOrderType());
@@ -861,8 +853,7 @@ void PoolBrowser::cryptsyTrades(QNetworkReply* response)
  *
  * General Orderbook Data (Single Market - Realtime):
  *************************************************************************************/
-void PoolBrowser::cryptsyOrders(QNetworkReply* response)
-{
+void PoolBrowser::cryptsyOrders(QNetworkReply* response) {
     int z = 0;
     double high = 0;
     double low = 100000;
@@ -884,12 +875,12 @@ void PoolBrowser::cryptsyOrders(QNetworkReply* response)
     QStringList qslApiResponse = apiResponse.split("],\"buyorders\":[");
 
     QStringList qslApiResponseSells = qslApiResponse[0].replace("},{", "}{").split("{", QString::SkipEmptyParts);
-    QStringList qslApiResponseBuys = qslApiResponse[1].replace("]}}}","").replace("},{", "}{").split("{", QString::SkipEmptyParts);
+    QStringList qslApiResponseBuys = qslApiResponse[1].replace("]}}}", "").replace("},{", "}{").split("{", QString::SkipEmptyParts);
 
     //Use shorest depth as limit and use buy length if they are the same
     int depth = qslApiResponseBuys.length() > qslApiResponseSells.length()
-            ? qslApiResponseSells.length() : qslApiResponseSells.length() > qslApiResponseBuys.length()
-            ? qslApiResponseBuys.length() : qslApiResponseBuys.length();
+                ? qslApiResponseSells.length() : qslApiResponseSells.length() > qslApiResponseBuys.length()
+                ? qslApiResponseBuys.length() : qslApiResponseBuys.length();
 
     //Prevent overflow by limiting depth to 50
     //Also check for odd number of orders and drop the last one
@@ -901,7 +892,7 @@ void PoolBrowser::cryptsyOrders(QNetworkReply* response)
     QVector<double> xAxisBuys(depth), yAxisBuys(depth);
     QVector<double> xAxisSells(depth), yAxisSells(depth);
 
-    for(int i = 0; i < depth; i++){
+    for (int i = 0; i < depth; i++) {
         mValue jsonResponse = new mValue();
 
         //Fix missing leading brace caused by split string, otherwise it will not be recognized an an mObject
@@ -913,16 +904,14 @@ void PoolBrowser::cryptsyOrders(QNetworkReply* response)
         qslApiResponseSells[i].replace("null", "\"null\"");
 
         //Make sure the response is valid
-        if(read_string(qslApiResponseBuys[i].toStdString(), jsonResponse)) {
+        if (read_string(qslApiResponseBuys[i].toStdString(), jsonResponse)) {
             mObject jsonObjectBuys = jsonResponse.get_obj();
 
-            try
-            {
+            try {
                 _cryptsyOrders->setQuantity(getPairValue(jsonObjectBuys, "quantity").get_str());
                 _cryptsyOrders->setPrice(getPairValue(jsonObjectBuys, "price").get_str());
                 _cryptsyOrders->setOrderType("Buy");
-            }
-            catch (exception) {} //API did not return all needed data so skip this order
+            } catch (exception) {} //API did not return all needed data so skip this order
 
             QTreeWidgetItem * qtBuys = new QTreeWidgetItem();
 
@@ -942,16 +931,14 @@ void PoolBrowser::cryptsyOrders(QNetworkReply* response)
         string WTF = qslApiResponseSells[i].toStdString();
 
         //Make sure the response is valid
-        if(read_string(qslApiResponseSells[i].toStdString(), jsonResponse)) {
+        if (read_string(qslApiResponseSells[i].toStdString(), jsonResponse)) {
             mObject jsonObjectSells = jsonResponse.get_obj();
 
-            try
-            {
+            try {
                 _cryptsyOrders->setQuantity(getPairValue(jsonObjectSells, "quantity").get_str());
                 _cryptsyOrders->setPrice(getPairValue(jsonObjectSells, "price").get_str());
                 _cryptsyOrders->setOrderType("Sell");
-            }
-            catch (exception) {} //API did not return all needed data so skip this order
+            } catch (exception) {} //API did not return all needed data so skip this order
 
             QTreeWidgetItem * qtSells = new QTreeWidgetItem();
 
@@ -1011,17 +998,16 @@ void PoolBrowser::cryptsyOrders(QNetworkReply* response)
  *   "top_ask":"0.04600005"
  * }]
  *************************************************************************************/
-void PoolBrowser::mintpalMarketSummary(QNetworkReply* response)
-{
+void PoolBrowser::mintpalMarketSummary(QNetworkReply* response) {
 
     QString apiResponse = response->readAll();
 
-    apiResponse = apiResponse.replace("[", "").replace("]","");
+    apiResponse = apiResponse.replace("[", "").replace("]", "");
 
     mValue jsonResponse = new mValue();
 
     //Make sure the response is valid
-    if(read_string(apiResponse.toStdString(), jsonResponse)) {
+    if (read_string(apiResponse.toStdString(), jsonResponse)) {
         mObject jsonObject = jsonResponse.get_obj();
 
         try {
@@ -1034,8 +1020,7 @@ void PoolBrowser::mintpalMarketSummary(QNetworkReply* response)
             _mintpalMarketSummary->setAskCurrent(getPairValue(jsonObject, "top_ask").get_str());
             _mintpalMarketSummary->setPrevDayCurrent(getPairValue(jsonObject, "yesterday_price").get_str());
             _mintpalMarketSummary->setChangeCurrent(getPairValue(jsonObject, "change").get_str());
-       }
-        catch (exception) {} //API did not return all needed data so skip processing market summary
+        } catch (exception) {} //API did not return all needed data so skip processing market summary
 
     }
 
@@ -1150,8 +1135,7 @@ void PoolBrowser::mintpalMarketSummary(QNetworkReply* response)
  *   ...
  * }]
  *************************************************************************************/
-void PoolBrowser::mintpalTrades(QNetworkReply* response)
-{
+void PoolBrowser::mintpalTrades(QNetworkReply* response) {
     int z = 0;
     double high = 0;
     double low = 100000;
@@ -1166,14 +1150,14 @@ void PoolBrowser::mintpalTrades(QNetworkReply* response)
 
     QString apiResponse = response->readAll();
 
-    apiResponse = apiResponse.replace("{\"count\":100,\"trades\":[", "").replace("]}","").replace("},{", "}{");
+    apiResponse = apiResponse.replace("{\"count\":100,\"trades\":[", "").replace("]}", "").replace("},{", "}{");
 
     QStringList qslApiResponse = apiResponse.split("{", QString::SkipEmptyParts);
 
     int tradeCount = qslApiResponse.count();
     QVector<double> xAxis(tradeCount), yAxis(tradeCount);
 
-    for(int i = 0; i < tradeCount; i++){
+    for (int i = 0; i < tradeCount; i++) {
         mValue jsonResponse = new mValue();
 
         //Fix missing leading brace caused by split string, otherwise it will not be recognized an an mObject
@@ -1183,18 +1167,16 @@ void PoolBrowser::mintpalTrades(QNetworkReply* response)
         qslApiResponse[i].replace("null", "\"null\"");
 
         //Make sure the response is valid
-        if(read_string(qslApiResponse[i].toStdString(), jsonResponse)) {
+        if (read_string(qslApiResponse[i].toStdString(), jsonResponse)) {
             mObject jsonObject = jsonResponse.get_obj();
 
-            try
-            {
+            try {
                 _mintpalTrades->setTimeStamp(getPairValue(jsonObject, "time").get_str());
                 _mintpalTrades->setQuantity(getPairValue(jsonObject, "amount").get_str());
                 _mintpalTrades->setPrice(getPairValue(jsonObject, "price").get_str());
                 _mintpalTrades->setTotal(getPairValue(jsonObject, "total").get_str());
                 _mintpalTrades->setOrderType(getPairValue(jsonObject, "type").get_real());
-            }
-            catch (exception) {} //API did not return all needed data so skip this trade
+            } catch (exception) {} //API did not return all needed data so skip this trade
 
             QTreeWidgetItem * qtTrades = new QTreeWidgetItem();
 
@@ -1246,11 +1228,10 @@ void PoolBrowser::mintpalTrades(QNetworkReply* response)
  *  ...
  * }]
  *************************************************************************************/
-void PoolBrowser::mintpalOrdersSell(QNetworkReply* response)
-{
+void PoolBrowser::mintpalOrdersSell(QNetworkReply* response) {
     QString apiResponse = response->readAll();
 
-    apiResponse = apiResponse.replace("]}" ,"");
+    apiResponse = apiResponse.replace("]}" , "");
     QStringList qslApiResponse = apiResponse.split("\"orders\":[");
     _mintpalApiResponseOrdersSell = qslApiResponse[1].replace("},{", "}{").split("{", QString::SkipEmptyParts);
 }
@@ -1272,8 +1253,7 @@ void PoolBrowser::mintpalOrdersSell(QNetworkReply* response)
  *  ...
  * }]
  *************************************************************************************/
-void PoolBrowser::mintpalOrdersBuy(QNetworkReply* response)
-{
+void PoolBrowser::mintpalOrdersBuy(QNetworkReply* response) {
     int z = 0;
     double high = 0;
     double low = 100000;
@@ -1291,15 +1271,15 @@ void PoolBrowser::mintpalOrdersBuy(QNetworkReply* response)
 
     QString apiResponse = response->readAll();
 
-    apiResponse = apiResponse.replace("]}" ,"");
+    apiResponse = apiResponse.replace("]}" , "");
     QStringList qslApiResponse = apiResponse.split("\"orders\":[");
     QStringList qslApiResponseBuys = qslApiResponse[1].replace("},{", "}{").split("{", QString::SkipEmptyParts);
     QStringList qslApiResponseSells = _mintpalApiResponseOrdersSell;
 
     //Use shorest depth as limit and use buy length if they are the same
     int depth = qslApiResponseBuys.length() > qslApiResponseSells.length()
-            ? qslApiResponseSells.length() : qslApiResponseSells.length() > qslApiResponseBuys.length()
-            ? qslApiResponseBuys.length() : qslApiResponseBuys.length();
+                ? qslApiResponseSells.length() : qslApiResponseSells.length() > qslApiResponseBuys.length()
+                ? qslApiResponseBuys.length() : qslApiResponseBuys.length();
 
     //Prevent overflow by limiting depth to 50
     //Also check for odd number of orders and drop the last one
@@ -1311,7 +1291,7 @@ void PoolBrowser::mintpalOrdersBuy(QNetworkReply* response)
     QVector<double> xAxisBuys(depth), yAxisBuys(depth);
     QVector<double> xAxisSells(depth), yAxisSells(depth);
 
-    for(int i = 0; i < depth; i++){
+    for (int i = 0; i < depth; i++) {
         mValue jsonResponse = new mValue();
 
         //Fix missing leading brace caused by split string, otherwise it will not be recognized an an mObject
@@ -1323,16 +1303,14 @@ void PoolBrowser::mintpalOrdersBuy(QNetworkReply* response)
         qslApiResponseSells[i].replace("null", "\"null\"");
 
         //Make sure the response is valid
-        if(read_string(qslApiResponseBuys[i].toStdString(), jsonResponse)) {
+        if (read_string(qslApiResponseBuys[i].toStdString(), jsonResponse)) {
             mObject jsonObjectBuys = jsonResponse.get_obj();
 
-            try
-            {
+            try {
                 _mintpalOrders->setQuantity(getPairValue(jsonObjectBuys, "amount").get_str());
                 _mintpalOrders->setPrice(getPairValue(jsonObjectBuys, "price").get_str());
                 _mintpalOrders->setOrderType("Buy");
-            }
-            catch (exception) {} //API did not return all needed data so skip this order
+            } catch (exception) {} //API did not return all needed data so skip this order
 
             QTreeWidgetItem * qtBuys = new QTreeWidgetItem();
 
@@ -1350,16 +1328,14 @@ void PoolBrowser::mintpalOrdersBuy(QNetworkReply* response)
         low = _mintpalOrders->getPrice(double()) < low ? _mintpalOrders->getPrice(double()) : low;
 
         //Make sure the response is valid
-        if(read_string(qslApiResponseSells[i].toStdString(), jsonResponse)) {
+        if (read_string(qslApiResponseSells[i].toStdString(), jsonResponse)) {
             mObject jsonObjectSells = jsonResponse.get_obj();
 
-            try
-            {
+            try {
                 _mintpalOrders->setQuantity(getPairValue(jsonObjectSells, "amount").get_str());
                 _mintpalOrders->setPrice(getPairValue(jsonObjectSells, "price").get_str());
                 _mintpalOrders->setOrderType("Sell");
-            }
-            catch (exception) {} //API did not return all needed data so skip this order
+            } catch (exception) {} //API did not return all needed data so skip this order
 
             QTreeWidgetItem * qtSells = new QTreeWidgetItem();
 
@@ -1398,8 +1374,7 @@ void PoolBrowser::mintpalOrdersBuy(QNetworkReply* response)
     ui->qCustomPlotMintpalOrderDepth->replot();
 }
 
-const mValue& PoolBrowser::getPairValue(const mObject& obj, const string& name)
-{
+const mValue& PoolBrowser::getPairValue(const mObject& obj, const string& name) {
     mObject::const_iterator iter = obj.find(name);
 
     assert(iter != obj.end());
@@ -1408,41 +1383,33 @@ const mValue& PoolBrowser::getPairValue(const mObject& obj, const string& name)
     return iter->second;
 }
 
-void PoolBrowser::updateLabel(QLabel* qLabel, double d1, double d2, QString prefix, int decimalPlaces)
-{
+void PoolBrowser::updateLabel(QLabel* qLabel, double d1, double d2, QString prefix, int decimalPlaces) {
     qLabel->setText("");
 
     if (d1 > d2) {
         qLabel->setText(prefix + "<font color=\"green\"><b>" + QString::number(d1, 'f', decimalPlaces) + "</b></font>");
-    }
-    else if (d1 < d2) {
+    } else if (d1 < d2) {
         qLabel->setText(prefix + "<font color=\"red\"><b>" + QString::number(d1, 'f', decimalPlaces) + "</b></font>");
-    }
-    else {
+    } else {
         qLabel->setText(prefix + QString::number(d1, 'f', decimalPlaces));
     }
 }
-void PoolBrowser::updateLabel(QLabel* qLabel, double d1, double d2, QString prefix, QString suffix, int decimalPlaces)
-{
+void PoolBrowser::updateLabel(QLabel* qLabel, double d1, double d2, QString prefix, QString suffix, int decimalPlaces) {
     qLabel->setText("");
 
     if (d1 > d2) {
         qLabel->setText(prefix + "<font color=\"green\"><b>" + QString::number(d1, 'f', decimalPlaces) + suffix + "</b></font>");
-    }
-    else if (d1 < d2) {
+    } else if (d1 < d2) {
         qLabel->setText(prefix + "<font color=\"red\"><b>" + QString::number(d1, 'f', decimalPlaces) + suffix + "</b></font>");
-    }
-    else {
+    } else {
         qLabel->setText(prefix + QString::number(d1, 'f', decimalPlaces) + suffix);
     }
 }
 
-void PoolBrowser::setModel(ClientModel *model)
-{
+void PoolBrowser::setModel(ClientModel *model) {
     this->model = model;
 }
 
-PoolBrowser::~PoolBrowser()
-{
+PoolBrowser::~PoolBrowser() {
     delete ui;
 }
