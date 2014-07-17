@@ -1246,6 +1246,7 @@ void BitcoinGUI::showNormalIfMinimized(bool toTray) {
         hide();
     }
     else {
+        showMinimized();
         this->setWindowState(this->windowState() & Qt::WindowMinimized);
     }
 }
