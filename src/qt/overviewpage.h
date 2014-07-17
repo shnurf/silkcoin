@@ -2,6 +2,7 @@
 #define OVERVIEWPAGE_H
 
 #include <QWidget>
+#include <QtGui>
 
 QT_BEGIN_NAMESPACE
 class QModelIndex;
@@ -17,6 +18,16 @@ class TransactionFilterProxy;
 /** Overview ("home") page widget */
 class OverviewPage : public QWidget {
     Q_OBJECT
+
+protected:
+    void paintEvent(QPaintEvent *)
+    {
+        QStyleOption opt;
+        opt.init(this);
+        QPainter p(this);
+
+        style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+    }
 
   public:
     explicit OverviewPage(QWidget *parent = 0);

@@ -83,7 +83,7 @@ class BitcoinGUI : public QMainWindow {
     QLabel *labelStakingIcon;
     QLabel *labelConnectionsIcon;
     QLabel *labelBlocksIcon;
-    QAction *actionConvertIcon;
+    QAction *actionConvertCurrency;
     QLabel *progressBarLabel;
     QProgressBar *progressBar;
 
@@ -105,7 +105,7 @@ class BitcoinGUI : public QMainWindow {
     QAction *verifyMessageAction2;
     QAction *aboutSettingsAction;
     QAction *tutoStackAction;
-    QAction *tutoStackAction2;
+    QAction* actionHowToStake;
     QAction *tutoWriteAction;
     QAction *aboutAction;
     QAction *hideAction;
@@ -116,10 +116,8 @@ class BitcoinGUI : public QMainWindow {
     QAction *encryptWalletAction;
     QAction *backupWalletAction;
     QAction *changePassphraseAction;
-    QAction *unlockWalletAction;
-    QAction *lockWalletAction;
-    QAction *unlockWalletAction2;
-    QAction *lockWalletAction2;
+    QAction* actionLockUnlockWallet_Toolbar;
+    QAction *actionLockUnlockWallet_ActionScreen;
     QAction *aboutQtAction;
     QAction *openRPCConsoleAction;
     QAction *openRPCConsoleAction2;
@@ -216,14 +214,13 @@ class BitcoinGUI : public QMainWindow {
     void backupWallet();
     /** Change encrypted wallet passphrase */
     void changePassphrase();
-    /** Ask for passphrase to unlock wallet temporarily */
-    void unlockWallet();
-    void unlockWallet2();
 
-    void lockWallet();
+    /** Ask for passphrase to unlock wallet temporarily */
+    void lockUnlockWallet(void);
 
     /** Show window if hidden, unminimize when minimized, rise when obscured or show if hidden and fToggleHidden is true */
-    void showNormalIfMinimized(bool fToggleHidden = false);
+    void showNormalIfMinimized(bool toTray = false);
+
     /** simply calls showNormalIfMinimized(true) for use in SLOT() macro */
     void toggleHidden();
 
