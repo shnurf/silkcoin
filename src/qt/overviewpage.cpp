@@ -120,7 +120,7 @@ OverviewPage::OverviewPage(QWidget *parent) :
     connect(ui->listTransactions, SIGNAL(clicked(QModelIndex)), this, SLOT(handleTransactionClicked(QModelIndex)));
 
     // init "out of sync" warning labels
-    ui->labelWalletStatus->setText("out of sync");
+    ui->lblDetailsSlot3->setText("out of sync");
 
     // start with displaying the "out of sync" warnings
     showOutOfSyncWarning(true);
@@ -147,30 +147,30 @@ void OverviewPage::setBalance(qint64 balance, qint64 stake, qint64 unconfirmedBa
     currentImmatureBalance = immatureBalance;
 
     if (convertmode == 0) {
-        ui->labelBalance->setText(BitcoinUnits::formatWithUnit(unit, balance));
-        ui->labelStake->setText(BitcoinUnits::formatWithUnit(unit, stake));
-        ui->labelUnconfirmed->setText(BitcoinUnits::formatWithUnit(unit, unconfirmedBalance));
-        ui->labelImmature->setText(BitcoinUnits::formatWithUnit(unit, immatureBalance));
-        ui->labelTotal->setText(BitcoinUnits::formatWithUnit(unit, balance + stake + unconfirmedBalance + immatureBalance));
+        ui->lblBalanceSlot0->setText(BitcoinUnits::formatWithUnit(unit, balance));
+        ui->lblBalanceSlot1->setText(BitcoinUnits::formatWithUnit(unit, stake));
+        ui->lblDetailsSlot0->setText(BitcoinUnits::formatWithUnit(unit, unconfirmedBalance));
+        ui->lblBalanceSlot2->setText(BitcoinUnits::formatWithUnit(unit, immatureBalance));
+        ui->lblBalanceSlot3->setText(BitcoinUnits::formatWithUnit(unit, balance + stake + unconfirmedBalance + immatureBalance));
 
     } else if (convertmode == 1) {
-        ui->labelBalance->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast * balance)));
-        ui->labelStake->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast * stake)));
-        ui->labelUnconfirmed->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast * unconfirmedBalance)));
-        ui->labelImmature->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast * immatureBalance)));
-        ui->labelTotal->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast * (balance + stake + unconfirmedBalance + immatureBalance))));
+        ui->lblBalanceSlot0->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast * balance)));
+        ui->lblBalanceSlot1->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast * stake)));
+        ui->lblDetailsSlot0->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast * unconfirmedBalance)));
+        ui->lblBalanceSlot2->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast * immatureBalance)));
+        ui->lblBalanceSlot3->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast * (balance + stake + unconfirmedBalance + immatureBalance))));
 
     } else if (convertmode == 2) {
-        ui->labelBalance->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast / _dBtcPriceLast * balance)));
-        ui->labelStake->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast / _dBtcPriceLast * stake)));
-        ui->labelUnconfirmed->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast / _dBtcPriceLast * unconfirmedBalance)));
-        ui->labelImmature->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast / _dBtcPriceLast * immatureBalance)));
-        ui->labelTotal->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast / _dBtcPriceLast * (balance + stake + unconfirmedBalance + immatureBalance))));
+        ui->lblBalanceSlot0->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast / _dBtcPriceLast * balance)));
+        ui->lblBalanceSlot1->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast / _dBtcPriceLast * stake)));
+        ui->lblDetailsSlot0->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast / _dBtcPriceLast * unconfirmedBalance)));
+        ui->lblBalanceSlot2->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast / _dBtcPriceLast * immatureBalance)));
+        ui->lblBalanceSlot3->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast / _dBtcPriceLast * (balance + stake + unconfirmedBalance + immatureBalance))));
     }
 }
 
 void OverviewPage::setNumTransactions(int count) {
-    ui->labelNumTransactions->setText(QLocale::system().toString(count));
+    ui->lblDetailsSlot1->setText(QLocale::system().toString(count));
 }
 
 void OverviewPage::setModel(WalletModel *model) {
@@ -218,10 +218,10 @@ void OverviewPage::updateDisplayUnit() {
 
 void OverviewPage::showOutOfSyncWarning(bool fShow) {
     if (fShow == true) {
-        ui->labelWalletStatus->setText("<font color=\"red\">Out of sync</font>");
+        ui->lblDetailsSlot3->setText("<font color=\"red\">Out of sync</font>");
     }
 
     if (fShow == false) {
-        ui->labelWalletStatus->setText("<font color=\"green\">Synced</font>");
+        ui->lblDetailsSlot3->setText("<font color=\"green\">Synced</font>");
     }
 }
