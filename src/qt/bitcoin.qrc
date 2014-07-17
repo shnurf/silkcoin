@@ -52,7 +52,7 @@
         <file alias="social">res/icons/social.png</file>
         <file alias="bitcoiniconn">res/icons/bitcoin.png</file>
         <file alias="dollar">res/icons/dollar.png</file>
-        <file alias="mini">res/icons/mini.png</file>
+        <file alias="minimize">res/icons/mini.png</file>
         <file alias="sctask">res/icons/silkcointask.png</file>
         <file alias="dash">res/icons/dash.png</file>
         <file>res/icons/balance.png</file>
@@ -88,12 +88,13 @@
         <file>res/icons/graph.png</file>
         <file>res/icons/main.png</file>
         <file>res/icons/update.png</file>
+        <file alias="help">res/icons/help.png</file>
     </qresource>
     <qresource prefix="/images">
         <file alias="about">res/images/about.png</file>
         <file alias="splash">res/images/splash.png</file>
         <file alias="head">res/images/head.png</file>
-        <file>res/images/background.png</file>
+        <file alias="background">res/images/background.png</file>
     </qresource>
     <qresource prefix="/movies">
         <file alias="camel">res/movies/camel.gif</file>

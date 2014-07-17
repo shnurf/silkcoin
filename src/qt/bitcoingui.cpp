@@ -79,8 +79,7 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     walletModel(0),
     encryptWalletAction(0),
     changePassphraseAction(0),
-    unlockWalletAction(0),
-    lockWalletAction(0),
+    actionLockUnlockWallet_ActionScreen(0),
     aboutQtAction(0),
     trayIcon(0),
     notificator(0),
@@ -113,7 +112,7 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     createTrayIcon();
 
     // Create tabs
-    overviewPage = new OverviewPage();
+    overviewPage = new OverviewPage(this);
     statisticsPage = new StatisticsPage(this);
     chatWindow = new ChatWindow(this);
 
@@ -154,8 +153,7 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     toolbar3->addWidget(spacer);
     toolbar3->addWidget(labelca);
     toolbar3->addWidget(labelca2);
-    toolbar3->addAction(lockWalletAction);
-    toolbar3->addAction(unlockWalletAction);
+    toolbar3->addAction(actionLockUnlockWallet_ActionScreen);
     toolbar3->addWidget(spacer2);
     QToolBar *toolbar5 = addToolBar(tr("Settings4"));
     toolbar5->addWidget(spacer3);
@@ -196,7 +194,6 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
 
     settingsPage->setLayout(vbox2);
 
-
     addressBookPage = new AddressBookPage(AddressBookPage::ForEditing, AddressBookPage::SendingTab);
 
     receiveCoinsPage = new AddressBookPage(AddressBookPage::ForEditing, AddressBookPage::ReceivingTab);
@@ -216,14 +213,16 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     centralWidget->addWidget(receiveCoinsPage);
     centralWidget->addWidget(sendCoinsPage);
     centralWidget->addWidget(settingsPage);
+
     setCentralWidget(centralWidget);
 
     // Status bar notification icons
-    labelEncryptionIcon = new QLabel();
     labelStakingIcon = new QLabel();
     labelConnectionsIcon = new QLabel();
     labelBlocksIcon = new QLabel();
-    actionConvertIcon = new QAction(QIcon(":/icons/sctask"), tr(""), this);
+    actionConvertCurrency = new QAction(QIcon(":/icons/sctask"), tr(""), this);
+    actionLockUnlockWallet_Toolbar = new QAction(QIcon(":/icons/lock_closed"), tr(""), this);
+    actionHowToStake = new QAction(QIcon(":/icons/help"), tr(""), this);
 
     if (GetBoolArg("-staking", true)) {
         QTimer *timerStakingIcon = new QTimer(labelStakingIcon);
@@ -244,16 +243,19 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     toolbar2->setObjectName("toolbar2");
     toolbar2->setFixedWidth(28);
     toolbar2->setIconSize(QSize(28, 28));
-    toolbar2->addAction(actionConvertIcon);
-    toolbar2->addWidget(labelEncryptionIcon);
+    toolbar2->addAction(actionConvertCurrency);
+    toolbar2->addAction(actionLockUnlockWallet_Toolbar);
     toolbar2->addWidget(labelStakingIcon);
     toolbar2->addWidget(labelConnectionsIcon);
     toolbar2->addWidget(labelBlocksIcon);
+    toolbar2->addAction(actionHowToStake);
     toolbar2->setStyleSheet("#toolbar2 QToolButton { border:none;padding:0px;margin:0px;height:20px;width:28px;margin-top:36px; }");
 
     syncIconMovie = new QMovie(":/movies/update_spinner", "gif", this);
 
-    connect(actionConvertIcon, SIGNAL(triggered()), this, SLOT(sConvert()));
+    connect(actionConvertCurrency, SIGNAL(triggered()), this, SLOT(sConvert()));
+    connect(actionLockUnlockWallet_Toolbar, SIGNAL(trigered()), this, SLOT(lockUnlockWallet()));
+    connect(actionHowToStake, SIGNAL(triggered()), this, SLOT(tutoStackClicked()));
 
     // Clicking on a transaction on the overview page simply sends you to transaction history page
     connect(overviewPage, SIGNAL(transactionClicked(QModelIndex)), this, SLOT(gotoHistoryPage()));
@@ -363,13 +365,13 @@ void BitcoinGUI::createActions() {
     wId2 = new QWidget(this);
     wId2->setContentsMargins(0, 0, 0, 0);
     toolbarsend->setFixedSize(396, 46);
-    toolbarsend2->setFixedSize(396, 46);
+    toolbarsend2->setFixedSize(396, 46); //TODO: Figure out proper placement to eliminate gap
     QHBoxLayout *vbox4 = new QHBoxLayout();
     vbox4->setContentsMargins(0, 0, 0, 0);
     vbox4->setSpacing(0);
     vbox4->addWidget(toolbarsend);
     vbox4->addWidget(toolbarsend2);
-    wId2->setFixedSize(792, 46);
+    wId2->setFixedSize(793, 46);
     wId2->move(207, -1);
     wId2->setLayout(vbox4);
     wId2->setFocus();
@@ -394,20 +396,13 @@ void BitcoinGUI::createActions() {
     quitAction->setToolTip(tr("Quit application"));
     quitAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
 
-    hideAction = new QAction(tr("&To Taskbar"), this);
-    hideAction->setToolTip(tr("To taskbar"));
+    toggleHideAction = new QAction(QIcon(":/icons/minimize"), tr("&Restore"), this);
 
     tutoStackAction = new QAction(QIcon(":/icons/staki"), tr(""), this);
-    tutoStackAction2 = new QAction(QIcon(":/icons/stakes"), tr(""), this);
-    unlockWalletAction2 = new QAction(QIcon(":/icons/unlocks"), tr(""), this);
-    unlockWalletAction2->setToolTip(tr("Unlock wallet"));
-    lockWalletAction2 = new QAction(QIcon(":/icons/locks"), tr(""), this);
-    lockWalletAction2->setToolTip(tr("Lock wallet"));
     aboutAction = new QAction(QIcon(":/icons/abouti"), tr(""), this);
     aboutAction->setToolTip(tr("Show information about Silkcoin"));
     aboutQtAction = new QAction(QIcon(":/trolltech/qmessagebox/images/qtlogo-64.png"), tr("About &Qt"), this);
     aboutQtAction->setToolTip(tr("Show information about Qt"));
-    toggleHideAction = new QAction(tr("&To tray"), this);
     encryptWalletAction = new QAction(QIcon(":/icons/encrypti"), tr(""), this);
     encryptWalletAction->setToolTip(tr("Encrypt or decrypt wallet"));
     encryptWalletAction->setCheckable(true);
@@ -415,10 +410,8 @@ void BitcoinGUI::createActions() {
     backupWalletAction->setToolTip(tr("Backup wallet to another location"));
     changePassphraseAction = new QAction(QIcon(":/icons/passi"), tr(""), this);
     changePassphraseAction->setToolTip(tr("Change the passphrase used for wallet encryption"));
-    unlockWalletAction = new QAction(QIcon(":/icons/unlocki"), tr(""), this);
-    unlockWalletAction->setToolTip(tr("Unlock wallet"));
-    lockWalletAction = new QAction(QIcon(":/icons/locki"), tr(""), this);
-    lockWalletAction->setToolTip(tr("Lock wallet"));
+    actionLockUnlockWallet_ActionScreen = new QAction(QIcon(":/icons/unlocki"), tr(""), this);
+    actionLockUnlockWallet_ActionScreen->setToolTip(tr("Unlock wallet"));
     signMessageAction = new QAction(QIcon(":/icons/signi"), tr(""), this);
     verifyMessageAction = new QAction(QIcon(":/icons/verifyi"), tr(""), this);
     exportAction = new QAction(QIcon(":/icons/export"), tr("&Export..."), this);
@@ -438,8 +431,7 @@ void BitcoinGUI::createActions() {
 
     appMenuBar->addAction(encryptWalletAction);
     appMenuBar->addAction(changePassphraseAction);
-    appMenuBar->addAction(unlockWalletAction);
-    appMenuBar->addAction(lockWalletAction);
+    appMenuBar->addAction(actionLockUnlockWallet_ActionScreen);
 
     appMenuBar->addAction(openRPCConsoleAction);
 
@@ -449,20 +441,15 @@ void BitcoinGUI::createActions() {
     appMenuBar->addAction(backupWalletAction);
 
 
-    connect(hideAction, SIGNAL(triggered()), this, SLOT(showMinimized()));
+    connect(toggleHideAction, SIGNAL(triggered()), this, SLOT(toggleHidden()));
     connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
     connect(tutoStackAction, SIGNAL(triggered()), this, SLOT(tutoStackClicked()));
-    connect(tutoStackAction2, SIGNAL(triggered()), this, SLOT(tutoStackClicked()));
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(aboutClicked()));
     connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
-    connect(toggleHideAction, SIGNAL(triggered()), this, SLOT(toggleHidden()));
     connect(encryptWalletAction, SIGNAL(triggered(bool)), this, SLOT(encryptWallet(bool)));
     connect(backupWalletAction, SIGNAL(triggered()), this, SLOT(backupWallet()));
     connect(changePassphraseAction, SIGNAL(triggered()), this, SLOT(changePassphrase()));
-    connect(unlockWalletAction, SIGNAL(triggered()), this, SLOT(unlockWallet()));
-    connect(lockWalletAction, SIGNAL(triggered()), this, SLOT(lockWallet()));
-    connect(unlockWalletAction2, SIGNAL(triggered()), this, SLOT(unlockWallet2()));
-    connect(lockWalletAction2, SIGNAL(triggered()), this, SLOT(lockWallet()));
+    connect(actionLockUnlockWallet_ActionScreen, SIGNAL(triggered()), this, SLOT(lockUnlockWallet()));
     connect(signMessageAction, SIGNAL(triggered()), this, SLOT(gotoSignMessageTab()));
     connect(verifyMessageAction, SIGNAL(triggered()), this, SLOT(gotoVerifyMessageTab()));
     connect(signMessageAction2, SIGNAL(triggered()), this, SLOT(gotoSignMessageTab()));
@@ -502,35 +489,11 @@ void BitcoinGUI::createToolBars() {
     wId = new QWidget(this);
     wId3 = new QWidget(this);
 
-    QToolBar *toolbars = addToolBar(tr("Settings2"));
-    addToolBar(Qt::RightToolBarArea, toolbars);
-    toolbars->setOrientation(Qt::Horizontal);
-    toolbars->setMovable(false);
-    toolbars->addAction(lockWalletAction2);
-    toolbars->addAction(unlockWalletAction2);
-    toolbars->addAction(tutoStackAction2);
-    toolbars->setStyleSheet("QToolBar QToolButton {border:0px;margin-right:3px} QToolBar{ border:0px; }");
-    toolbars->setIconSize(QSize(102, 25));
-    QHBoxLayout *vbox5 = new QHBoxLayout();
-    vbox5->addWidget(toolbars);
-    vbox5->setContentsMargins(0, 0, 0, 0);
-    wId3->setFixedSize(250, 30);
-    wId3->move(260, 15);
-    wId3->setLayout(vbox5);
-    wId3->setFocus();
-    wId3->raise();
-
-    QMenu *menu = new QMenu(tr("Mini"));
-    menu->setStyleSheet("border:none;background:none;");
-    menu->addAction(hideAction);
-    menu->addAction(toggleHideAction);
-    menu->menuAction()->setIcon(QIcon(":/icons/mini"));
-
-    QToolBar *toolbar7 = addToolBar(tr("Settings4"));
+    QToolBar *toolbar7 = addToolBar(tr("WindowState"));
     addToolBar(Qt::RightToolBarArea, toolbar7);
     toolbar7->setOrientation(Qt::Horizontal);
     toolbar7->setMovable(false);
-    toolbar7->addAction(menu->menuAction());
+    toolbar7->addAction(toggleHideAction);
     toolbar7->addAction(quitAction);
     toolbar7->setStyleSheet("QMenu::item {border:0px} QMenu {border:0px;padding-left:10px;} QToolBar QToolButton {border:none;} QToolBar{ border:0px; }");
 
@@ -672,13 +635,13 @@ void BitcoinGUI::optionsClicked() {
 
 void BitcoinGUI::sConvert() {
     if (convertmode == 0) {
-        actionConvertIcon->setIcon(QIcon(":/icons/dollar").pixmap(STATUSBAR_ICONSIZE, 54));
+        actionConvertCurrency->setIcon(QIcon(":/icons/dollar").pixmap(STATUSBAR_ICONSIZE, 54));
         convertmode = 1;
     } else if (convertmode == 1) {
-        actionConvertIcon->setIcon(QIcon(":/icons/bitcoiniconn").pixmap(STATUSBAR_ICONSIZE, 54));
+        actionConvertCurrency->setIcon(QIcon(":/icons/bitcoiniconn").pixmap(STATUSBAR_ICONSIZE, 54));
         convertmode = 2;
     } else if (convertmode == 2) {
-        actionConvertIcon->setIcon(QIcon(":/icons/sctask").pixmap(STATUSBAR_ICONSIZE, 54));
+        actionConvertCurrency->setIcon(QIcon(":/icons/sctask").pixmap(STATUSBAR_ICONSIZE, 54));
         convertmode = 0;
     }
 }
@@ -924,12 +887,17 @@ void BitcoinGUI::incomingTransaction(const QModelIndex & parent, int start, int 
 void BitcoinGUI::gotoOverviewPage() {
     overviewAction->setChecked(true);
     centralWidget->setCurrentWidget(overviewPage);
-    centralWidget->setMaximumWidth(750);
-    centralWidget->setMaximumHeight(520);
-    actionConvertIcon->setEnabled(true);
-    actionConvertIcon->setVisible(true);
-    disconnect(actionConvertIcon, SIGNAL(triggered()), 0, 0);
-    connect(actionConvertIcon, SIGNAL(triggered()), this, SLOT(sConvert()));
+
+    actionConvertCurrency->setEnabled(true);
+    actionConvertCurrency->setVisible(true);
+    disconnect(actionConvertCurrency, SIGNAL(triggered()), 0, 0);
+    connect(actionConvertCurrency, SIGNAL(triggered()), this, SLOT(sConvert()));
+
+    actionLockUnlockWallet_Toolbar->setEnabled(true);
+    actionLockUnlockWallet_Toolbar->setVisible(true);
+    disconnect(actionLockUnlockWallet_Toolbar, SIGNAL(triggered()), 0, 0);
+    connect(actionLockUnlockWallet_Toolbar, SIGNAL(triggered()), this, SLOT(lockUnlockWallet()));
+
     exportAction->setVisible(false);
     exportAction->setEnabled(false);
     disconnect(exportAction, SIGNAL(triggered()), 0, 0);
@@ -943,10 +911,10 @@ void BitcoinGUI::gotoPoolBrowser() {
     poolAction->setChecked(true);
     centralWidget->setCurrentWidget(poolBrowser);
     exportAction->setEnabled(false);
-    actionConvertIcon->setEnabled(true);
-    actionConvertIcon->setVisible(true);
-    disconnect(actionConvertIcon, SIGNAL(triggered()), 0, 0);
-    connect(actionConvertIcon, SIGNAL(triggered()), this, SLOT(sConvert()));
+    actionConvertCurrency->setEnabled(true);
+    actionConvertCurrency->setVisible(true);
+    disconnect(actionConvertCurrency, SIGNAL(triggered()), 0, 0);
+    connect(actionConvertCurrency, SIGNAL(triggered()), this, SLOT(sConvert()));
     exportAction->setVisible(false);
 
     disconnect(exportAction, SIGNAL(triggered()), 0, 0);
@@ -959,10 +927,10 @@ void BitcoinGUI::gotoPoolBrowser() {
 void BitcoinGUI::gotoBlockBrowser() {
     blockAction->setChecked(true);
     centralWidget->setCurrentWidget(blockBrowser);
-    actionConvertIcon->setEnabled(true);
-    actionConvertIcon->setVisible(true);
-    disconnect(actionConvertIcon, SIGNAL(triggered()), 0, 0);
-    connect(actionConvertIcon, SIGNAL(triggered()), this, SLOT(sConvert()));
+    actionConvertCurrency->setEnabled(true);
+    actionConvertCurrency->setVisible(true);
+    disconnect(actionConvertCurrency, SIGNAL(triggered()), 0, 0);
+    connect(actionConvertCurrency, SIGNAL(triggered()), this, SLOT(sConvert()));
     exportAction->setVisible(false);
 
     exportAction->setEnabled(false);
@@ -975,10 +943,10 @@ void BitcoinGUI::gotoBlockBrowser() {
 void BitcoinGUI::gotoStatisticsPage() {
     statisticsAction->setChecked(true);
     centralWidget->setCurrentWidget(statisticsPage);
-    actionConvertIcon->setEnabled(true);
-    actionConvertIcon->setVisible(true);
-    disconnect(actionConvertIcon, SIGNAL(triggered()), 0, 0);
-    connect(actionConvertIcon, SIGNAL(triggered()), this, SLOT(sConvert()));
+    actionConvertCurrency->setEnabled(true);
+    actionConvertCurrency->setVisible(true);
+    disconnect(actionConvertCurrency, SIGNAL(triggered()), 0, 0);
+    connect(actionConvertCurrency, SIGNAL(triggered()), this, SLOT(sConvert()));
     exportAction->setVisible(false);
 
     exportAction->setEnabled(false);
@@ -991,10 +959,10 @@ void BitcoinGUI::gotoStatisticsPage() {
 void BitcoinGUI::gotoChatPage() {
     chatAction->setChecked(true);
     centralWidget->setCurrentWidget(chatWindow);
-    actionConvertIcon->setEnabled(true);
-    actionConvertIcon->setVisible(true);
-    disconnect(actionConvertIcon, SIGNAL(triggered()), 0, 0);
-    connect(actionConvertIcon, SIGNAL(triggered()), this, SLOT(sConvert()));
+    actionConvertCurrency->setEnabled(true);
+    actionConvertCurrency->setVisible(true);
+    disconnect(actionConvertCurrency, SIGNAL(triggered()), 0, 0);
+    connect(actionConvertCurrency, SIGNAL(triggered()), this, SLOT(sConvert()));
     exportAction->setVisible(false);
     exportAction->setEnabled(false);
     disconnect(exportAction, SIGNAL(triggered()), 0, 0);
@@ -1009,10 +977,10 @@ void BitcoinGUI::gotoHistoryPage() {
     centralWidget->setCurrentWidget(transactionsPage);
 
     convertmode = 0;
-    actionConvertIcon->setIcon(QIcon(":/icons/sctask").pixmap(STATUSBAR_ICONSIZE, 54));
-    actionConvertIcon->setVisible(true);
-    actionConvertIcon->setEnabled(false);
-    disconnect(actionConvertIcon, SIGNAL(triggered()), 0, 0);
+    actionConvertCurrency->setIcon(QIcon(":/icons/sctask").pixmap(STATUSBAR_ICONSIZE, 54));
+    actionConvertCurrency->setVisible(true);
+    actionConvertCurrency->setEnabled(false);
+    disconnect(actionConvertCurrency, SIGNAL(triggered()), 0, 0);
 
     exportAction->setEnabled(true);
     exportAction->setVisible(true);
@@ -1027,10 +995,10 @@ void BitcoinGUI::gotoAddressBookPage() {
     addressBookAction->setChecked(true);
     centralWidget->setCurrentWidget(addressBookPage);
     convertmode = 0;
-    actionConvertIcon->setIcon(QIcon(":/icons/sctask").pixmap(STATUSBAR_ICONSIZE, 54));
-    actionConvertIcon->setEnabled(false);
-    actionConvertIcon->setVisible(true);
-    disconnect(actionConvertIcon, SIGNAL(triggered()), 0, 0);
+    actionConvertCurrency->setIcon(QIcon(":/icons/sctask").pixmap(STATUSBAR_ICONSIZE, 54));
+    actionConvertCurrency->setEnabled(false);
+    actionConvertCurrency->setVisible(true);
+    disconnect(actionConvertCurrency, SIGNAL(triggered()), 0, 0);
     exportAction->setEnabled(true);
     exportAction->setVisible(true);
     disconnect(exportAction, SIGNAL(triggered()), 0, 0);
@@ -1044,10 +1012,10 @@ void BitcoinGUI::gotoReceiveCoinsPage() {
     receiveCoinsAction->setChecked(true);
     centralWidget->setCurrentWidget(receiveCoinsPage);
     convertmode = 0;
-    actionConvertIcon->setIcon(QIcon(":/icons/sctask").pixmap(STATUSBAR_ICONSIZE, 54));
-    actionConvertIcon->setEnabled(false);
-    actionConvertIcon->setVisible(true);
-    disconnect(actionConvertIcon, SIGNAL(triggered()), 0, 0);
+    actionConvertCurrency->setIcon(QIcon(":/icons/sctask").pixmap(STATUSBAR_ICONSIZE, 54));
+    actionConvertCurrency->setEnabled(false);
+    actionConvertCurrency->setVisible(true);
+    disconnect(actionConvertCurrency, SIGNAL(triggered()), 0, 0);
     exportAction->setEnabled(true);
     exportAction->setVisible(true);
     disconnect(exportAction, SIGNAL(triggered()), 0, 0);
@@ -1062,10 +1030,10 @@ void BitcoinGUI::gotoSendCoinsPage() {
     sendCoinsAction->setChecked(true);
     centralWidget->setCurrentWidget(sendCoinsPage);
     convertmode = 0;
-    actionConvertIcon->setIcon(QIcon(":/icons/sctask").pixmap(STATUSBAR_ICONSIZE, 54));
-    actionConvertIcon->setEnabled(false);
-    actionConvertIcon->setVisible(true);
-    disconnect(actionConvertIcon, SIGNAL(triggered()), 0, 0);
+    actionConvertCurrency->setIcon(QIcon(":/icons/sctask").pixmap(STATUSBAR_ICONSIZE, 54));
+    actionConvertCurrency->setEnabled(false);
+    actionConvertCurrency->setVisible(true);
+    disconnect(actionConvertCurrency, SIGNAL(triggered()), 0, 0);
     exportAction->setEnabled(false);
     exportAction->setVisible(false);
     disconnect(exportAction, SIGNAL(triggered()), 0, 0);
@@ -1080,11 +1048,11 @@ void BitcoinGUI::gotoSettingsPage() {
     centralWidget->setCurrentWidget(settingsPage);
     convertmode = 0;
 
-    actionConvertIcon->setIcon(QIcon(":/icons/sctask").pixmap(STATUSBAR_ICONSIZE, 54));
-    actionConvertIcon->setEnabled(true);
-    actionConvertIcon->setVisible(true);
-    disconnect(actionConvertIcon, SIGNAL(triggered()), 0, 0);
-    connect(actionConvertIcon, SIGNAL(triggered()), this, SLOT(sConvert()));
+    actionConvertCurrency->setIcon(QIcon(":/icons/sctask").pixmap(STATUSBAR_ICONSIZE, 54));
+    actionConvertCurrency->setEnabled(true);
+    actionConvertCurrency->setVisible(true);
+    disconnect(actionConvertCurrency, SIGNAL(triggered()), 0, 0);
+    connect(actionConvertCurrency, SIGNAL(triggered()), this, SLOT(sConvert()));
     exportAction->setEnabled(false);
     exportAction->setVisible(false);
     disconnect(exportAction, SIGNAL(triggered()), 0, 0);
@@ -1152,50 +1120,59 @@ void BitcoinGUI::handleURI(QString strURI) {
 void BitcoinGUI::setEncryptionStatus(int status) {
     switch (status) {
         case WalletModel::Unencrypted:
-            labelEncryptionIcon->hide();
+            actionLockUnlockWallet_Toolbar->setIcon(QIcon(":/icons/lock_open").pixmap(STATUSBAR_ICONSIZE, 54));
+            actionLockUnlockWallet_Toolbar->setToolTip("Wallet is <b>unencrypted</b>");
+
+            actionLockUnlockWallet_ActionScreen->setVisible(false);
+
             encryptWalletAction->setChecked(false);
+            encryptWalletAction->setEnabled(true);
+
             changePassphraseAction->setEnabled(false);
-            unlockWalletAction->setVisible(false);
-            unlockWalletAction2->setVisible(false);
+
             camelgreen->stop();
             camelpurple->stop();
+
             labelca->setMaximumSize(0, 0);
-            lockWalletAction->setVisible(false);
-            lockWalletAction2->setVisible(false);
-            encryptWalletAction->setEnabled(true);
+
             break;
 
         case WalletModel::Unlocked:
-            labelEncryptionIcon->show();
-            labelEncryptionIcon->setPixmap(QIcon(":/icons/lock_open").pixmap(STATUSBAR_ICONSIZE, 54));
-            labelEncryptionIcon->setToolTip(tr("Wallet is <b>encrypted</b> and currently <b>unlocked</b>"));
+            actionLockUnlockWallet_Toolbar->setIcon(QIcon(":/icons/lock_open").pixmap(STATUSBAR_ICONSIZE, 54));
+            actionLockUnlockWallet_Toolbar->setToolTip("Wallet is <b>encrypted</b> and currently <b>unlocked</b>");
+
+            actionLockUnlockWallet_ActionScreen->setIcon(QIcon(":/icons/locki"));
+            actionLockUnlockWallet_ActionScreen->setVisible(true);
+
             encryptWalletAction->setChecked(true);
-            changePassphraseAction->setEnabled(true);
-            unlockWalletAction->setVisible(false);
-            unlockWalletAction2->setVisible(false);
+            encryptWalletAction->setEnabled(false); //TODO: currently not supported
+
+            changePassphraseAction->setEnabled(true); //TODO: currently not supported
+
             camelgreen->start();
             camelpurple->stop();
+
             labelca->setMaximumSize(1000, 1000);
 
-            lockWalletAction->setVisible(true);
-            lockWalletAction2->setVisible(true);
-            encryptWalletAction->setEnabled(false); // TODO: decrypt currently not supported
             break;
 
         case WalletModel::Locked:
-            labelEncryptionIcon->show();
-            labelEncryptionIcon->setPixmap(QIcon(":/icons/lock_closed").pixmap(STATUSBAR_ICONSIZE, 54));
-            labelEncryptionIcon->setToolTip(tr("Wallet is <b>encrypted</b> and currently <b>locked</b>"));
+            actionLockUnlockWallet_Toolbar->setIcon(QIcon(":/icons/lock_closed").pixmap(STATUSBAR_ICONSIZE, 54));
+            actionLockUnlockWallet_Toolbar->setToolTip("Wallet is <b>encrypted</b> and currently <b>locked</b>");
+
+            actionLockUnlockWallet_ActionScreen->setIcon(QIcon(":/icons/unlocki"));
+            actionLockUnlockWallet_ActionScreen->setVisible(true);
+
             encryptWalletAction->setChecked(true);
-            changePassphraseAction->setEnabled(true);
-            unlockWalletAction->setVisible(true);
-            unlockWalletAction2->setVisible(true);
+            encryptWalletAction->setEnabled(false); //TODO: currently not supported
+
+            changePassphraseAction->setEnabled(true); //TODO: currently not supported
+
             camelgreen->stop();
             camelpurple->start();
+
             labelca->setMaximumSize(0, 0);
-            lockWalletAction->setVisible(false);
-            lockWalletAction2->setVisible(false);
-            encryptWalletAction->setEnabled(false); // TODO: decrypt currently not supported
+
             break;
     }
 }
@@ -1230,62 +1207,51 @@ void BitcoinGUI::changePassphrase() {
     dlg.exec();
 }
 
-void BitcoinGUI::unlockWallet() {
+void BitcoinGUI::lockUnlockWallet() {
     if (!walletModel) {
         return;
     }
 
-    // Unlock wallet when requested by wallet model
-    if (walletModel->getEncryptionStatus() == WalletModel::Locked) {
-        AskPassphraseDialog::Mode mode = sender() == unlockWalletAction ?
-                                         AskPassphraseDialog::UnlockStaking : AskPassphraseDialog::Unlock;
-        AskPassphraseDialog dlg(mode, this);
-        dlg.setModel(walletModel);
-        dlg.exec();
+    AskPassphraseDialog::Mode mode = AskPassphraseDialog::Locked;
+
+    switch (walletModel->getEncryptionStatus()) {
+
+    case WalletModel::Locked:
+        mode = sender() == actionLockUnlockWallet_ActionScreen || sender() == actionLockUnlockWallet_Toolbar
+                ? AskPassphraseDialog::UnlockStaking : AskPassphraseDialog::Unlock;
+        break;
+
+    case WalletModel::Unlocked:
+        walletModel->setWalletLocked(true);
+        return; //Not a break on purpose
+
+    default:
+        break;
     }
+
+    AskPassphraseDialog dlg(mode, this);
+    dlg.setModel(walletModel);
+    dlg.exec();
 }
 
-void BitcoinGUI::unlockWallet2() {
-    if (!walletModel) {
-        return;
-    }
-
-    // Unlock wallet when requested by wallet model
-    if (walletModel->getEncryptionStatus() == WalletModel::Locked) {
-        AskPassphraseDialog::Mode mode = sender() == unlockWalletAction2 ?
-                                         AskPassphraseDialog::UnlockStaking : AskPassphraseDialog::Unlock;
-        AskPassphraseDialog dlg(mode, this);
-        dlg.setModel(walletModel);
-        dlg.exec();
-    }
-}
-
-void BitcoinGUI::lockWallet() {
-    if (!walletModel) {
-        return;
-    }
-
-    walletModel->setWalletLocked(true);
-}
-
-void BitcoinGUI::showNormalIfMinimized(bool fToggleHidden) {
-    // activateWindow() (sometimes) helps with keyboard focus on Windows
+void BitcoinGUI::showNormalIfMinimized(bool toTray) {
     if (isHidden()) {
         show();
-        activateWindow();
+        this->setWindowState(Qt::WindowActive);
     } else if (isMinimized()) {
-        showNormal();
-        activateWindow();
+        this->setWindowState((this->windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
     } else if (GUIUtil::isObscured(this)) {
-        raise();
-        activateWindow();
-    } else if (fToggleHidden) {
+        setWindowState(Qt::WindowActive);
+    } else if (toTray) {
         hide();
+    }
+    else {
+        this->setWindowState(this->windowState() & Qt::WindowMinimized);
     }
 }
 
 void BitcoinGUI::toggleHidden() {
-    showNormalIfMinimized(true);
+    showNormalIfMinimized(OptionsModel().getMinimizeToTray());
 }
 
 void BitcoinGUI::mousePressEvent(QMouseEvent *event) {

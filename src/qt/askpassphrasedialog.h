@@ -20,7 +20,8 @@ class AskPassphraseDialog : public QDialog {
         UnlockStaking, /**< Ask passphrase and unlock */
         Unlock,        /**< Ask passphrase and unlock */
         ChangePass,    /**< Ask old passphrase + new passphrase twice */
-        Decrypt        /**< Ask passphrase and decrypt wallet */
+        Decrypt,       /**< Ask passphrase and decrypt wallet */
+        Locked         /**< For instantiation */
     };
 
     explicit AskPassphraseDialog(Mode mode, QWidget *parent = 0);

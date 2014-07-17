@@ -13,6 +13,7 @@
 
 #include <QAbstractItemDelegate>
 #include <QPainter>
+#include <QPicture>
 #include <QMovie>
 #include <QFrame>
 
@@ -124,7 +125,7 @@ OverviewPage::OverviewPage(QWidget *parent) :
     // start with displaying the "out of sync" warnings
     showOutOfSyncWarning(true);
 
-    this->setStyleSheet("QWidget {background-image:url(:images/res/images/background.png}");
+    this->setStyleSheet("background-image:url(:/images/background);");
 }
 
 void OverviewPage::handleTransactionClicked(const QModelIndex &index) {
