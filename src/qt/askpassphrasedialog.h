@@ -21,7 +21,7 @@ class AskPassphraseDialog : public QDialog {
         Unlock,        /**< Ask passphrase and unlock */
         ChangePass,    /**< Ask old passphrase + new passphrase twice */
         Decrypt,       /**< Ask passphrase and decrypt wallet */
-        Locked         /**< For instantiation */
+        Init           /**< For instantiation */
     };
 
     explicit AskPassphraseDialog(Mode mode, QWidget *parent = 0);

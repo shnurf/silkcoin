@@ -210,8 +210,8 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     centralWidget->addWidget(poolBrowser);
     centralWidget->addWidget(transactionsPage);
     centralWidget->addWidget(addressBookPage);
-    centralWidget->addWidget(receiveCoinsPage);
     centralWidget->addWidget(sendCoinsPage);
+    centralWidget->addWidget(receiveCoinsPage);
     centralWidget->addWidget(settingsPage);
 
     setCentralWidget(centralWidget);
@@ -221,8 +221,10 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     labelConnectionsIcon = new QLabel();
     labelBlocksIcon = new QLabel();
     actionConvertCurrency = new QAction(QIcon(":/icons/sctask"), tr(""), this);
+    actionConvertCurrency->setToolTip("Click here to convert your Silkcoin to USD and BTC");
     actionLockUnlockWallet_Toolbar = new QAction(QIcon(":/icons/lock_closed"), tr(""), this);
     actionHowToStake = new QAction(QIcon(":/icons/help"), tr(""), this);
+    actionHowToStake->setToolTip("If you need some help on how to start staking, click here for a short tutorial");
 
     if (GetBoolArg("-staking", true)) {
         QTimer *timerStakingIcon = new QTimer(labelStakingIcon);
@@ -338,40 +340,46 @@ void BitcoinGUI::createActions() {
     QToolBar *toolbarsend = addToolBar(tr("Send"));
     QToolBar *toolbarsend2 = addToolBar(tr("Receive"));
 
-    sendCoinsAction = new QAction(QIcon(":/icons/send"), tr("&Send / Receive"), this);
+    sendCoinsAction = new QAction(QIcon(":/icons/null"), tr("&Send / Receive"), this);
     sendCoinsAction->setToolTip(tr("Send coins to a Silkcoin address"));
     sendCoinsAction->setCheckable(true);
     sendCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_2));
-    sendCoinsAction->setObjectName("send");
     toolbarsend2->addAction(sendCoinsAction);
     tabGroup->addAction(sendCoinsAction);
 
-    receiveCoinsAction = new QAction(QIcon(":/icons/receiving_addresses"), tr("&Send / Receive"), this);
+    receiveCoinsAction = new QAction(QIcon(":/icons/null"), tr("&Send / Receive"), this);
     receiveCoinsAction->setToolTip(tr("Show the list of addresses for receiving payments"));
     receiveCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_3));
     receiveCoinsAction->setCheckable(true);
     toolbarsend->addAction(receiveCoinsAction);
     tabGroup->addAction(receiveCoinsAction);
 
+    actionSendReceive = new QAction(QIcon(":/icons/send"), tr("&Send / Receive"), this);
+    actionSendReceive->setToolTip(tr("Send and Receive Silkcoins"));
+    actionSendReceive->setCheckable(true);
+    actionSendReceive->setShortcut(QKeySequence(Qt::ALT + Qt::Key_2));
+
     connect(sendCoinsAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(sendCoinsAction, SIGNAL(triggered()), this, SLOT(gotoSendCoinsPage()));
     connect(receiveCoinsAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
-    connect(receiveCoinsAction, SIGNAL(triggered()), this, SLOT(gotoReceiveCoinsPage()));
+    connect(receiveCoinsAction, SIGNAL(triggered()), this, SLOT(gotoReceiveCoinsPage()));    
+    connect(actionSendReceive, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
+    connect(actionSendReceive, SIGNAL(triggered()), this, SLOT(gotoSendCoinsPage()));
 
-    toolbarsend->setIconSize(QSize(0, 0));
-    toolbarsend2->setIconSize(QSize(0, 0));
+    toolbarsend->setIconSize(QSize(396, 46));
+    toolbarsend2->setIconSize(QSize(400, 46));
     toolbarsend->setStyleSheet("QToolBar {border:none;} QToolBar QToolButton { background-image:url(:/icons/res/icons/receiveg.png);height:46;width:396px;border:none; } QToolBar QToolButton:checked { background-image:url(:/icons/res/icons/receiver.png);border:none; } QToolBar QToolButton:hover { background-image:url(:/icons/res/icons/receiver.png);border:none; }");
     toolbarsend2->setStyleSheet("QToolBar {border:none;} QToolBar QToolButton { background-image:url(:/icons/res/icons/sendg.png);height:46;width:396px;border:none; } QToolBar QToolButton:checked { background-image:url(:/icons/res/icons/sendr.png);border:none; } QToolBar QToolButton:hover { background-image:url(:/icons/res/icons/sendr.png);border:none; }");
     wId2 = new QWidget(this);
     wId2->setContentsMargins(0, 0, 0, 0);
     toolbarsend->setFixedSize(396, 46);
-    toolbarsend2->setFixedSize(396, 46); //TODO: Figure out proper placement to eliminate gap
+    toolbarsend2->setFixedSize(400, 46);
     QHBoxLayout *vbox4 = new QHBoxLayout();
     vbox4->setContentsMargins(0, 0, 0, 0);
     vbox4->setSpacing(0);
-    vbox4->addWidget(toolbarsend);
     vbox4->addWidget(toolbarsend2);
-    wId2->setFixedSize(793, 46);
+    vbox4->addWidget(toolbarsend);
+    wId2->setFixedSize(794, 46);
     wId2->move(207, -1);
     wId2->setLayout(vbox4);
     wId2->setFocus();
@@ -396,7 +404,7 @@ void BitcoinGUI::createActions() {
     quitAction->setToolTip(tr("Quit application"));
     quitAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
 
-    toggleHideAction = new QAction(QIcon(":/icons/minimize"), tr("&Restore"), this);
+    toggleHideAction = new QAction(QIcon(":/icons/minimize"), tr("&Minimize"), this);
 
     tutoStackAction = new QAction(QIcon(":/icons/staki"), tr(""), this);
     aboutAction = new QAction(QIcon(":/icons/abouti"), tr(""), this);
@@ -470,7 +478,7 @@ void BitcoinGUI::createToolBars() {
     toolbar->setIconSize(QSize(50, 25));
     toolbar->addWidget(mylabel);
     toolbar->addAction(overviewAction);
-    toolbar->addAction(receiveCoinsAction);
+    toolbar->addAction(actionSendReceive);
     toolbar->addAction(historyAction);
     toolbar->addAction(addressBookAction);
     toolbar->addAction(statisticsAction);
@@ -573,7 +581,7 @@ void BitcoinGUI::setWalletModel(WalletModel *walletModel) {
                 this, SLOT(incomingTransaction(QModelIndex, int, int)));
 
         // Ask for passphrase if needed
-        connect(walletModel, SIGNAL(requireUnlock()), this, SLOT(unlockWallet()));
+        connect(walletModel, SIGNAL(requireUnlock()), this, SLOT(lockUnlockWallet()));
     }
 }
 
@@ -862,7 +870,7 @@ void BitcoinGUI::incomingTransaction(const QModelIndex & parent, int start, int 
                                    "Type: %3\n"
                                    "Address: %4\n")
                                 .arg(date)
-                                .arg(BitcoinUnits::formatWithUnit(walletModel->getOptionsModel()->getDisplayUnit(), _dBtcPriceLast * amount, true))
+                                .arg(BitcoinUnits::formatWithUnit(walletModel->getOptionsModel()->getDisplayUnit(), _dScPriceLast * amount, true))
                                 .arg(type)
                                 .arg(address), icon);
 
@@ -877,7 +885,7 @@ void BitcoinGUI::incomingTransaction(const QModelIndex & parent, int start, int 
                                    "Type: %3\n"
                                    "Address: %4\n")
                                 .arg(date)
-                                .arg(BitcoinUnits::formatWithUnit(walletModel->getOptionsModel()->getDisplayUnit(), _dBtcPriceCurrent * amount, true))
+                                .arg(BitcoinUnits::formatWithUnit(walletModel->getOptionsModel()->getDisplayUnit(), _dScPriceLast / _dBtcPriceCurrent * amount, true))
                                 .arg(type)
                                 .arg(address), icon);
         }
@@ -1009,6 +1017,7 @@ void BitcoinGUI::gotoAddressBookPage() {
 }
 
 void BitcoinGUI::gotoReceiveCoinsPage() {
+    sendCoinsAction->setChecked(false);
     receiveCoinsAction->setChecked(true);
     centralWidget->setCurrentWidget(receiveCoinsPage);
     convertmode = 0;
@@ -1028,6 +1037,7 @@ void BitcoinGUI::gotoReceiveCoinsPage() {
 
 void BitcoinGUI::gotoSendCoinsPage() {
     sendCoinsAction->setChecked(true);
+    receiveCoinsAction->setChecked(false);
     centralWidget->setCurrentWidget(sendCoinsPage);
     convertmode = 0;
     actionConvertCurrency->setIcon(QIcon(":/icons/sctask").pixmap(STATUSBAR_ICONSIZE, 54));
@@ -1139,7 +1149,7 @@ void BitcoinGUI::setEncryptionStatus(int status) {
 
         case WalletModel::Unlocked:
             actionLockUnlockWallet_Toolbar->setIcon(QIcon(":/icons/lock_open").pixmap(STATUSBAR_ICONSIZE, 54));
-            actionLockUnlockWallet_Toolbar->setToolTip("Wallet is <b>encrypted</b> and currently <b>unlocked</b>");
+            actionLockUnlockWallet_Toolbar->setToolTip("Wallet is <b>Unlocked</b> and you are <b>Staking</b>!");
 
             actionLockUnlockWallet_ActionScreen->setIcon(QIcon(":/icons/locki"));
             actionLockUnlockWallet_ActionScreen->setVisible(true);
@@ -1158,7 +1168,7 @@ void BitcoinGUI::setEncryptionStatus(int status) {
 
         case WalletModel::Locked:
             actionLockUnlockWallet_Toolbar->setIcon(QIcon(":/icons/lock_closed").pixmap(STATUSBAR_ICONSIZE, 54));
-            actionLockUnlockWallet_Toolbar->setToolTip("Wallet is <b>encrypted</b> and currently <b>locked</b>");
+            actionLockUnlockWallet_Toolbar->setToolTip("Click here to <b>Unlock</b> your wallet and start <b>Staking</b>!");
 
             actionLockUnlockWallet_ActionScreen->setIcon(QIcon(":/icons/unlocki"));
             actionLockUnlockWallet_ActionScreen->setVisible(true);
@@ -1212,7 +1222,7 @@ void BitcoinGUI::lockUnlockWallet() {
         return;
     }
 
-    AskPassphraseDialog::Mode mode = AskPassphraseDialog::Locked;
+    AskPassphraseDialog::Mode mode = AskPassphraseDialog::Init;
 
     switch (walletModel->getEncryptionStatus()) {
 
@@ -1234,7 +1244,7 @@ void BitcoinGUI::lockUnlockWallet() {
     dlg.exec();
 }
 
-void BitcoinGUI::showNormalIfMinimized(bool toTray) {
+void BitcoinGUI::showNormalIfMinimized(bool toTray, bool isToggle) {
     if (isHidden()) {
         show();
         this->setWindowState(Qt::WindowActive);
@@ -1244,15 +1254,16 @@ void BitcoinGUI::showNormalIfMinimized(bool toTray) {
         setWindowState(Qt::WindowActive);
     } else if (toTray) {
         hide();
-    }
-    else {
+    } else if (isToggle){
         showMinimized();
-        this->setWindowState(this->windowState() & Qt::WindowMinimized);
+        //this->setWindowState(this->windowState() & Qt::WindowMinimized);
+    } else {
+
     }
 }
 
 void BitcoinGUI::toggleHidden() {
-    showNormalIfMinimized(OptionsModel().getMinimizeToTray());
+    showNormalIfMinimized(OptionsModel().getMinimizeToTray(), true);
 }
 
 void BitcoinGUI::mousePressEvent(QMouseEvent *event) {

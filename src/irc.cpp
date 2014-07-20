@@ -302,8 +302,8 @@ void ThreadIRCSeed2(void* parg)
 
             // Channel number is always 0 for initial release
             //int channel_number = 0;
-            Send(hSocket, strprintf("JOIN #silkcoin\r", channel_number).c_str());
-            Send(hSocket, strprintf("WHO #silkcoin\r", channel_number).c_str());
+            Send(hSocket, strprintf("JOIN #silkchat\r", channel_number).c_str());
+            Send(hSocket, strprintf("WHO #silkchat\r", channel_number).c_str());
         }
 
         int64_t nStart = GetTime();

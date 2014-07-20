@@ -105,7 +105,7 @@ class BitcoinGUI : public QMainWindow {
     QAction *verifyMessageAction2;
     QAction *aboutSettingsAction;
     QAction *tutoStackAction;
-    QAction* actionHowToStake;
+    QAction *actionHowToStake;
     QAction *tutoWriteAction;
     QAction *aboutAction;
     QAction *hideAction;
@@ -116,8 +116,9 @@ class BitcoinGUI : public QMainWindow {
     QAction *encryptWalletAction;
     QAction *backupWalletAction;
     QAction *changePassphraseAction;
-    QAction* actionLockUnlockWallet_Toolbar;
+    QAction *actionLockUnlockWallet_Toolbar;
     QAction *actionLockUnlockWallet_ActionScreen;
+    QAction *actionSendReceive;
     QAction *aboutQtAction;
     QAction *openRPCConsoleAction;
     QAction *openRPCConsoleAction2;
@@ -219,7 +220,7 @@ class BitcoinGUI : public QMainWindow {
     void lockUnlockWallet(void);
 
     /** Show window if hidden, unminimize when minimized, rise when obscured or show if hidden and fToggleHidden is true */
-    void showNormalIfMinimized(bool toTray = false);
+    void showNormalIfMinimized(bool toTray = false, bool isToggle = false);
 
     /** simply calls showNormalIfMinimized(true) for use in SLOT() macro */
     void toggleHidden();

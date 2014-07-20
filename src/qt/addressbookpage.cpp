@@ -60,7 +60,7 @@ AddressBookPage::AddressBookPage(Mode mode, Tabs tab, QWidget *parent) :
         case ReceivingTab:
             ui->deleteButton->setVisible(false);
             ui->signMessage->setVisible(true);
-            ui->greyFrame->setStyleSheet("background:#c7c7c7;");
+            ui->greyFrame->setStyleSheet("background:transparnt");
             break;
     }
 

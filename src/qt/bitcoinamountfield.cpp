@@ -42,6 +42,7 @@ BitcoinAmountField::BitcoinAmountField(QWidget *parent):
 
     // If one if the widgets changes, the combined content changes as well
     connect(amount, SIGNAL(valueChanged(QString)), this, SIGNAL(textChanged()));
+    connect(amount, SIGNAL(valueChanged(double)), this, SLOT(valueChanged()));
     connect(unit, SIGNAL(currentIndexChanged(int)), this, SLOT(unitChanged(int)));
 
     // Set default based on configuration
@@ -88,7 +89,11 @@ void BitcoinAmountField::setValid(bool valid) {
 }
 
 QString BitcoinAmountField::text() const {
-    label_btc->setText("Sending " + (QString::number(amount->value() * _dBtcPriceLast)) + " $ or " + (QString::number(amount->value() * _dBtcPriceCurrent)) + " BTC at current market rate");
+
+    //Avoid putting 'NaN' in BTC price due to divide by zero.  Happens when price has not been received from Market Data API
+    QString qsBtcPrice = _dBtcPriceCurrent > 0 ? (QString::number(amount->value() * (_dScPriceLast / _dBtcPriceCurrent))) : "0";
+
+    label_btc->setText("Sending $" + (QString::number(amount->value() * _dScPriceLast)) + " or " + qsBtcPrice + " BTC at current market rate");
 
     if (amount->text().isEmpty()) {
         return QString();
@@ -133,6 +138,21 @@ qint64 BitcoinAmountField::value(bool *valid_out) const {
 
 void BitcoinAmountField::setValue(qint64 value) {
     setText(BitcoinUnits::format(currentUnit, value));
+}
+
+void BitcoinAmountField::valueChanged() {
+    bool valid = false;
+    qint64 currentValue = value(&valid);
+
+    if (valid) {
+        // If value was valid, re-place it in the widget with the new unit
+        setValue(currentValue);
+    } else {
+        // If current value is invalid, just clear field
+        setText("");
+    }
+
+    setValid(true);
 }
 
 void BitcoinAmountField::unitChanged(int idx) {
