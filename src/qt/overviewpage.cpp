@@ -150,21 +150,18 @@ void OverviewPage::setBalance(qint64 balance, qint64 stake, qint64 unconfirmedBa
         ui->lblBalanceSlot0->setText(BitcoinUnits::formatWithUnit(unit, balance));
         ui->lblBalanceSlot1->setText(BitcoinUnits::formatWithUnit(unit, stake));
         ui->lblDetailsSlot0->setText(BitcoinUnits::formatWithUnit(unit, unconfirmedBalance));
-        ui->lblBalanceSlot2->setText(BitcoinUnits::formatWithUnit(unit, immatureBalance));
         ui->lblBalanceSlot3->setText(BitcoinUnits::formatWithUnit(unit, balance + stake + unconfirmedBalance + immatureBalance));
 
     } else if (convertmode == 1) {
         ui->lblBalanceSlot0->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast * balance)));
         ui->lblBalanceSlot1->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast * stake)));
         ui->lblDetailsSlot0->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast * unconfirmedBalance)));
-        ui->lblBalanceSlot2->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast * immatureBalance)));
         ui->lblBalanceSlot3->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast * (balance + stake + unconfirmedBalance + immatureBalance))));
 
     } else if (convertmode == 2) {
         ui->lblBalanceSlot0->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast / _dBtcPriceLast * balance)));
         ui->lblBalanceSlot1->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast / _dBtcPriceLast * stake)));
         ui->lblDetailsSlot0->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast / _dBtcPriceLast * unconfirmedBalance)));
-        ui->lblBalanceSlot2->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast / _dBtcPriceLast * immatureBalance)));
         ui->lblBalanceSlot3->setText(BitcoinUnits::formatWithUnit(unit, (_dScPriceLast / _dBtcPriceLast * (balance + stake + unconfirmedBalance + immatureBalance))));
     }
 }
@@ -222,6 +219,6 @@ void OverviewPage::showOutOfSyncWarning(bool fShow) {
     }
 
     if (fShow == false) {
-        ui->lblDetailsSlot3->setText("<font color=\"green\">Synced</font>");
+        ui->lblDetailsSlot3->setText("<font color=\"color:#495122\">Synced</font>");
     }
 }

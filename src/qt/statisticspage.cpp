@@ -56,13 +56,13 @@ void StatisticsPage::updateStatistics() {
     QString stakemax = QString::number(nNetworkWeight);
     QString phase = "";
 
-    if (pindexBest->nHeight < 10000) {
+    if (pindexBest->nHeight < 10001) {
         phase = "<p align=\"center\">(1) POW - POS</p>";
-    } else if (pindexBest->nHeight > 10000 && pindexBest->nHeight < 50000) {
+    } else if (pindexBest->nHeight > 10000 && pindexBest->nHeight < 50001) {
         phase = "<p align=\"center\">(2) POS</p>";
         ui->progressBar->setMinimum(10000);
         ui->progressBar->setMaximum(50000);
-    } else if (pindexBest->nHeight > 50000 && pindexBest->nHeight < 60000) {
+    } else if (pindexBest->nHeight > 50000 && pindexBest->nHeight < 60001) {
         phase = "<p align=\"center\">(3) POW - POS</p>";
 
         ui->progressBar->setMinimum(50000);

@@ -54,7 +54,7 @@ class BitcoinAmountField: public QWidget {
 
   private slots:
     void unitChanged(int idx);
-
+    void valueChanged();
 };
 
 
