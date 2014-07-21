@@ -60,7 +60,7 @@ int GetTotalBlocksEstimate() {
 CBlockIndex* GetLastCheckpoint(const std::map<uint256, CBlockIndex*>& mapBlockIndex) {
     MapCheckpoints& checkpoints = (fTestNet ? mapCheckpointsTestnet : mapCheckpoints);
 
-    BOOST_REVERSE_FOREACH(const MapCheckpoints::value_type & i, checkpoints) {
+    BOOST_REVERSE_FOREACH(const MapCheckpoints::value_type& i, checkpoints) {
         const uint256& hash = i.second;
         std::map<uint256, CBlockIndex*>::const_iterator t = mapBlockIndex.find(hash);
 
@@ -300,7 +300,7 @@ bool ResetSyncCheckpoint() {
         printf("ResetSyncCheckpoint: pending for sync-checkpoint %s\n", hashPendingCheckpoint.ToString().c_str());
     }
 
-    BOOST_REVERSE_FOREACH(const MapCheckpoints::value_type & i, mapCheckpoints) {
+    BOOST_REVERSE_FOREACH(const MapCheckpoints::value_type& i, mapCheckpoints) {
         const uint256& hash = i.second;
 
         if (mapBlockIndex.count(hash) && mapBlockIndex[hash]->IsInMainChain()) {

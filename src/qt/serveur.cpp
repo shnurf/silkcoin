@@ -31,20 +31,20 @@ Serveur::Serveur() {
 
 void Serveur::errorSocket(QAbstractSocket::SocketError error) {
     switch (error) {
-        case QAbstractSocket::HostNotFoundError:
-            affichage->append(tr("<em>ERROR : can't find freenode server.</em>"));
-            break;
+    case QAbstractSocket::HostNotFoundError:
+        affichage->append(tr("<em>ERROR : can't find freenode server.</em>"));
+        break;
 
-        case QAbstractSocket::ConnectionRefusedError:
-            affichage->append(tr("<em>ERROR : server refused connection</em>"));
-            break;
+    case QAbstractSocket::ConnectionRefusedError:
+        affichage->append(tr("<em>ERROR : server refused connection</em>"));
+        break;
 
-        case QAbstractSocket::RemoteHostClosedError:
-            affichage->append(tr("<em>ERROR : server cut connection</em>"));
-            break;
+    case QAbstractSocket::RemoteHostClosedError:
+        affichage->append(tr("<em>ERROR : server cut connection</em>"));
+        break;
 
-        default:
-            affichage->append(tr("<em>ERROR : ") + this->errorString() + tr("</em>"));
+    default:
+        affichage->append(tr("<em>ERROR : ") + this->errorString() + tr("</em>"));
     }
 }
 
@@ -58,12 +58,11 @@ void Serveur::connected() {
 }
 
 void Serveur::joins() {
-    join("#silkcoin");
+    join("#silkchat");
 }
 
 void Serveur::readServeur() {
     QString message = QString::fromUtf8(this->readAll());
-
 
     QString currentChan = tab->tabText(tab->currentIndex());
 
@@ -78,7 +77,7 @@ void Serveur::readServeur() {
         emit pseudoChanged(pseudo);
         ecrire("-> Name changed to " + pseudo);
     } else if (updateUsers == true) {
-        updateUsersList("", message);
+        updateUsersList(currentChan, message);
     }
 
     QStringList list = message.split("\r\n");
@@ -122,15 +121,8 @@ void Serveur::readServeur() {
             }
         } else if (msg.contains("/MOTD command.")) {
             joins();
-
-
         }
-
-
-
     }
-
-    //}
 }
 
 void Serveur::sendData(QString txt) {
@@ -280,8 +272,6 @@ void Serveur::ecrire(QString txt, QString destChan, QString msgTray) {
         QScrollBar *sb = affichage->verticalScrollBar();
         sb->setValue(sb->maximum());
     }
-
-
 }
 
 void Serveur::updateUsersList(QString chan, QString message) {

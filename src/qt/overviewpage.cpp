@@ -218,7 +218,7 @@ void OverviewPage::showOutOfSyncWarning(bool fShow) {
         ui->lblDetailsSlot3->setText("<font color=\"red\">Out of sync</font>");
     }
 
-    if (fShow == false) {
-        ui->lblDetailsSlot3->setText("<font color=\"color:#495122\">Synced</font>");
+    if (fShow == false) { //
+        ui->lblDetailsSlot3->setText("<span style=\" color:#495122;\">Synced</span>");
     }
 }

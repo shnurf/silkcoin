@@ -176,7 +176,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Connect with our community by checking us out on &lt;a href=&quot;https://bitcointalk.org/index.php?topic=676976.0&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Bitcointalk&lt;/span&gt;&lt;/a&gt; or on &lt;a href=&quot;https://cryptocointalk.com/forum/1288-silkcoin-sc/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;CryptoCoinTalk. &lt;/span&gt;&lt;/a&gt;We are also active on facebook, twitter, reddit and IRC.&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;You may connect to our IRC channel directly from your wallet by typing a username below and clicking on 'Connect to IRC'.&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;If you need more information on Silkcoin check out our NEW &lt;a href=&quot;http://silkcoin.moniq.sk/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;homepage&lt;/span&gt;&lt;/a&gt;. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Connect with our community by checking us out on &lt;a href=&quot;https://bitcointalk.org/index.php?topic=676976.0&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Bitcointalk&lt;/span&gt;&lt;/a&gt; or on &lt;a href=&quot;https://cryptocointalk.com/forum/1288-silkcoin-sc/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;CryptoCoinTalk. &lt;/span&gt;&lt;/a&gt;We are also active on facebook, twitter, reddit and IRC.&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;You may connect to our IRC channel directly from your wallet by typing a username below and clicking on 'Connect to IRC'.&lt;/p&gt;&lt;p align=&quot;justify&quot;&gt;If you need more information on Silkcoin check out our NEW &lt;a href=&quot;http://silkcoin.io/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;homepage&lt;/span&gt;&lt;/a&gt;. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -195,7 +195,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;a href=&quot;https://twitter.com/NetworkSilk&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;&lt;img src=&quot;:/icons/twitter&quot;/&gt;&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;a href=&quot;https://twitter.com/silkcoinrevival&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;&lt;img src=&quot;:/icons/twitter&quot;/&gt;&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="margin">
       <number>5</number>
@@ -230,7 +230,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;http://www.reddit.com/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;&lt;img src=&quot;:/icons/reddit&quot;/&gt;&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;http://www.reddit.com/r/silkcoinofficial&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;&lt;img src=&quot;:/icons/reddit&quot;/&gt;&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="openExternalLinks">
       <bool>true</bool>
