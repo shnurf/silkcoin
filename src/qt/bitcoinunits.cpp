@@ -31,7 +31,7 @@ QString BitcoinUnits::name(int unit) {
     switch (unit) {
         case BTC:
             if (convertmode == 0) {
-                return QString("SILK");
+                return QString("SC");
             }
 
             if (convertmode == 1) {
@@ -42,9 +42,9 @@ QString BitcoinUnits::name(int unit) {
                 return QString("BTC");
             }
 
-        case mBTC: return QString("mSILK");
+        case mBTC: return QString("mSC");
 
-        case uBTC: return QString::fromUtf8("μSILK");
+        case uBTC: return QString::fromUtf8("μSC");
 
         default: return QString("???");
     }
