@@ -221,7 +221,7 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     labelConnectionsIcon = new QLabel();
     labelBlocksIcon = new QLabel();
     actionConvertCurrency = new QAction(QIcon(":/icons/sctask"), tr(""), this);
-    actionConvertCurrency->setToolTip("Click here to convert your Silkcoin to USD and BTC");
+    actionConvertCurrency->setToolTip("Click here to convert your Silkcoin to USD and BTC.  Silkcoin price is pegged to BTC/SILK market and BTC/USD market on Coinbase.");
     actionLockUnlockWallet_Toolbar = new QAction(QIcon(":/icons/lock_closed"), tr(""), this);
     actionHowToStake = new QAction(QIcon(":/icons/help"), tr(""), this);
     actionHowToStake->setToolTip("If you need some help on how to start staking, click here for a short tutorial");
@@ -238,7 +238,7 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     progressBarLabel->setVisible(false);
     progressBar = new QProgressBar();
     addToolBarBreak(Qt::LeftToolBarArea);
-    QToolBar *toolbar2 = addToolBar(tr("Tabs toolbar"));
+    QToolBar *toolbar2 = addToolBar(tr("Toolbar"));
     addToolBar(Qt::LeftToolBarArea, toolbar2);
     toolbar2->setOrientation(Qt::Vertical);
     toolbar2->setMovable(false);
@@ -288,74 +288,62 @@ void BitcoinGUI::createActions() {
     QActionGroup *tabGroup = new QActionGroup(this);
 
     overviewAction = new QAction(QIcon(":/icons/overview"), tr("&Dashboard"), this);
-    overviewAction->setToolTip(tr("Show general overview of wallet"));
     overviewAction->setCheckable(true);
     overviewAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_1));
     tabGroup->addAction(overviewAction);
 
     statisticsAction = new QAction(QIcon(":/icons/statistics"), tr("&Statistics"), this);
-    statisticsAction->setToolTip(tr("View statistics"));
     statisticsAction->setCheckable(true);
     tabGroup->addAction(statisticsAction);
 
     chatAction = new QAction(QIcon(":/icons/social"), tr("&Social"), this);
-    chatAction->setToolTip(tr("View chat"));
     chatAction->setCheckable(true);
     tabGroup->addAction(chatAction);
 
     historyAction = new QAction(QIcon(":/icons/history"), tr("&Transactions"), this);
-    historyAction->setToolTip(tr("Browse transaction history"));
     historyAction->setCheckable(true);
     historyAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_4));
     tabGroup->addAction(historyAction);
 
     addressBookAction = new QAction(QIcon(":/icons/address-book"), tr("&Address Book"), this);
-    addressBookAction->setToolTip(tr("Edit the list of stored addresses and labels"));
     addressBookAction->setCheckable(true);
     addressBookAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_5));
     tabGroup->addAction(addressBookAction);
 
     blockAction = new QAction(QIcon(":/icons/block"), tr("&Block Explorer"), this);
-    blockAction->setToolTip(tr("Explore the BlockChain"));
     blockAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
     blockAction->setCheckable(true);
     tabGroup->addAction(blockAction);
 
     poolAction = new QAction(QIcon(":/icons/ex"), tr("&Market Data"), this);
-    poolAction->setToolTip(tr("Market"));
     poolAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_7));
     poolAction->setCheckable(true);
     tabGroup->addAction(poolAction);
 
     settingsAction = new QAction(QIcon(":/icons/actions"), tr("&Actions"), this);
-    settingsAction->setToolTip(tr("Settings"));
     settingsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_7));
     settingsAction->setCheckable(true);
     tabGroup->addAction(settingsAction);
 
     optionsAction = new QAction(QIcon(":/icons/options"), tr("&Settings"), this);
-    optionsAction->setToolTip(tr("Modify configuration options for Silkcoin"));
     tabGroup->addAction(optionsAction);
 
     QToolBar *toolbarsend = addToolBar(tr("Send"));
     QToolBar *toolbarsend2 = addToolBar(tr("Receive"));
 
     sendCoinsAction = new QAction(QIcon(":/icons/null"), tr("&Send / Receive"), this);
-    sendCoinsAction->setToolTip(tr("Send coins to a Silkcoin address"));
     sendCoinsAction->setCheckable(true);
     sendCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_2));
     toolbarsend2->addAction(sendCoinsAction);
     tabGroup->addAction(sendCoinsAction);
 
     receiveCoinsAction = new QAction(QIcon(":/icons/null"), tr("&Send / Receive"), this);
-    receiveCoinsAction->setToolTip(tr("Show the list of addresses for receiving payments"));
     receiveCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_3));
     receiveCoinsAction->setCheckable(true);
     toolbarsend->addAction(receiveCoinsAction);
     tabGroup->addAction(receiveCoinsAction);
 
     actionSendReceive = new QAction(QIcon(":/icons/send"), tr("&Send / Receive"), this);
-    actionSendReceive->setToolTip(tr("Send and Receive Silkcoins"));
     actionSendReceive->setCheckable(true);
     actionSendReceive->setShortcut(QKeySequence(Qt::ALT + Qt::Key_2));
 
@@ -401,36 +389,27 @@ void BitcoinGUI::createActions() {
     QActionGroup *appMenuBar = new QActionGroup(this);
 
     quitAction = new QAction(QIcon(":/icons/quit"), tr("&Exit"), this);
-    quitAction->setToolTip(tr("Quit application"));
+    quitAction->setToolTip(tr("Quit"));
     quitAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
 
     toggleHideAction = new QAction(QIcon(":/icons/minimize"), tr("&Minimize"), this);
 
     tutoStackAction = new QAction(QIcon(":/icons/staki"), tr(""), this);
     aboutAction = new QAction(QIcon(":/icons/abouti"), tr(""), this);
-    aboutAction->setToolTip(tr("Show information about Silkcoin"));
     aboutQtAction = new QAction(QIcon(":/trolltech/qmessagebox/images/qtlogo-64.png"), tr("About &Qt"), this);
-    aboutQtAction->setToolTip(tr("Show information about Qt"));
     encryptWalletAction = new QAction(QIcon(":/icons/encrypti"), tr(""), this);
-    encryptWalletAction->setToolTip(tr("Encrypt or decrypt wallet"));
     encryptWalletAction->setCheckable(true);
     backupWalletAction = new QAction(QIcon(":/icons/backupi"), tr(""), this);
-    backupWalletAction->setToolTip(tr("Backup wallet to another location"));
     changePassphraseAction = new QAction(QIcon(":/icons/passi"), tr(""), this);
-    changePassphraseAction->setToolTip(tr("Change the passphrase used for wallet encryption"));
     actionLockUnlockWallet_ActionScreen = new QAction(QIcon(":/icons/unlocki"), tr(""), this);
-    actionLockUnlockWallet_ActionScreen->setToolTip(tr("Unlock wallet"));
     signMessageAction = new QAction(QIcon(":/icons/signi"), tr(""), this);
     verifyMessageAction = new QAction(QIcon(":/icons/verifyi"), tr(""), this);
     exportAction = new QAction(QIcon(":/icons/export"), tr("&Export..."), this);
-    exportAction->setToolTip(tr("Export the data in the current tab to a file"));
     openRPCConsoleAction = new QAction(QIcon(":/icons/debugi"), tr(""), this);
-    openRPCConsoleAction->setToolTip(tr("Open debugging and diagnostic console"));
 
     signMessageAction2 = new QAction(QIcon(":/icons/edit"), tr("Sign &message..."), this);
     verifyMessageAction2 = new QAction(QIcon(":/icons/transaction_0"), tr("&Verify message..."), this);
     openRPCConsoleAction2 = new QAction(QIcon(":/icons/debugwindow"), tr("&Debug window"), this);
-    openRPCConsoleAction2->setToolTip(tr("Open debugging and diagnostic console"));
 
     appMenuBar->addAction(exportAction);
     appMenuBar->addAction(signMessageAction);
@@ -469,7 +448,7 @@ void BitcoinGUI::createToolBars() {
     mylabel->setPixmap(QPixmap(":images/head"));
     mylabel->show();
 
-    QToolBar *toolbar = addToolBar(tr("Tabs toolbar"));
+    QToolBar *toolbar = addToolBar(tr("Menu"));
     toolbar->setObjectName("toolbar");
     addToolBar(Qt::LeftToolBarArea, toolbar);
     toolbar->setOrientation(Qt::Vertical);
@@ -1307,7 +1286,7 @@ void BitcoinGUI::updateStakingIcon() {
         if (pwalletMain && pwalletMain->IsLocked()) {
             labelStakingIcon->setToolTip(tr("Not staking because wallet is locked"));
         } else if (vNodes.empty()) {
-            labelStakingIcon->setToolTip(tr("Not staking because wallet is offline"));
+            labelStakingIcon->setToolTip(tr("Not staking because wallet is offline or didn't finish syncing since last check.  Please be patient."));
         } else if (IsInitialBlockDownload()) {
             labelStakingIcon->setToolTip(tr("Not staking because wallet is syncing"));
         } else if (!nWeight) {
