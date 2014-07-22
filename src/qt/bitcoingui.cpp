@@ -90,7 +90,7 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     QFontDatabase::addApplicationFont(":/fonts/pxbold");
     QFontDatabase::addApplicationFont(":/fonts/mohave");
     setWindowTitle(tr("Silkcoin") + " " + tr("Wallet"));
-    qApp->setStyleSheet("QMainWindow { background:rgb(237, 241, 247); font-family:'Proxima Nova Rg'; } #toolbar2 { border:none;width:28px; background:rgb(101, 88, 108); }");
+    qApp->setStyleSheet("QMainWindow { background:rgb(237, 241, 247); font-family:'Proxima Nova Rg'; } #toolbar2 { border:none;width:28px; background:rgb(52, 56, 65); }");
 #ifndef Q_OS_MAC
     qApp->setWindowIcon(QIcon(":icons/bitcoin"));
     setWindowIcon(QIcon(":icons/bitcoin"));
@@ -146,13 +146,13 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     camelgreen = new QMovie(":/movies/camelgreen", "gif", this);
     camelpurple = new QMovie(":/movies/camelpurple", "gif", this);
     labelca = new QLabel(this);
-    labelca2 = new QLabel(this);
-    labelca->setMovie(camelgreen);
+    labelca->setMovie(camelpurple);
     labelca->show();
+    camelpurple->start();
+    camelpurple->stop();
     QToolBar *toolbar3 = addToolBar(tr("Settings2"));
     toolbar3->addWidget(spacer);
     toolbar3->addWidget(labelca);
-    toolbar3->addWidget(labelca2);
     toolbar3->addAction(actionLockUnlockWallet_ActionScreen);
     toolbar3->addWidget(spacer2);
     QToolBar *toolbar5 = addToolBar(tr("Settings4"));
@@ -220,6 +220,8 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     labelStakingIcon = new QLabel();
     labelConnectionsIcon = new QLabel();
     labelBlocksIcon = new QLabel();
+    labelBlocksIcon->setPixmap(QIcon(":/icons/connecting").pixmap(STATUSBAR_ICONSIZE, 54)); //Initialize with 'searching' icon so people with slow connections see something
+    labelBlocksIcon->setToolTip("Waiting for more network connections");
     actionConvertCurrency = new QAction(QIcon(":/icons/sctask"), tr(""), this);
     actionConvertCurrency->setToolTip("Click here to convert your Silkcoin to USD and BTC.  Silkcoin price is pegged to BTC/SILK market and BTC/USD market on Coinbase.");
     actionLockUnlockWallet_Toolbar = new QAction(QIcon(":/icons/lock_closed"), tr(""), this);
@@ -1119,12 +1121,11 @@ void BitcoinGUI::setEncryptionStatus(int status) {
 
             changePassphraseAction->setEnabled(false);
 
+            labelca->setMovie(camelpurple);
             camelgreen->stop();
-            camelpurple->stop();
+            camelpurple->start();
 
-            labelca->setMaximumSize(0, 0);
-
-            break;
+        break;
 
         case WalletModel::Unlocked:
             actionLockUnlockWallet_Toolbar->setIcon(QIcon(":/icons/lock_open").pixmap(STATUSBAR_ICONSIZE, 54));
@@ -1138,10 +1139,9 @@ void BitcoinGUI::setEncryptionStatus(int status) {
 
             changePassphraseAction->setEnabled(true); //TODO: currently not supported
 
+            labelca->setMovie(camelgreen);
             camelgreen->start();
             camelpurple->stop();
-
-            labelca->setMaximumSize(1000, 1000);
 
             break;
 
@@ -1157,10 +1157,9 @@ void BitcoinGUI::setEncryptionStatus(int status) {
 
             changePassphraseAction->setEnabled(true); //TODO: currently not supported
 
+            labelca->setMovie(camelpurple);
             camelgreen->stop();
-            camelpurple->start();
-
-            labelca->setMaximumSize(0, 0);
+            camelpurple->stop();
 
             break;
     }

@@ -478,7 +478,7 @@ QString TransactionTableModel::formatTooltip(const TransactionRecord *rec) const
         tooltip += QString(" ") + formatTxToAddress(rec, true);
     }
 
-    return tooltip;
+    return ""; //tooltip;
 }
 
 QVariant TransactionTableModel::data(const QModelIndex &index, int role) const {

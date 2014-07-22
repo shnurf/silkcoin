@@ -1233,8 +1233,6 @@
               <property name="font">
                <font>
                 <pointsize>-1</pointsize>
-                <weight>75</weight>
-                <bold>true</bold>
                </font>
               </property>
               <property name="toolTip">
@@ -1431,8 +1429,6 @@
               <property name="font">
                <font>
                 <pointsize>-1</pointsize>
-                <weight>75</weight>
-                <bold>true</bold>
                </font>
               </property>
               <property name="toolTip">
@@ -1626,8 +1622,6 @@
               <property name="font">
                <font>
                 <pointsize>-1</pointsize>
-                <weight>75</weight>
-                <bold>true</bold>
                </font>
               </property>
               <property name="toolTip">
@@ -1821,8 +1815,6 @@
               <property name="font">
                <font>
                 <pointsize>-1</pointsize>
-                <weight>75</weight>
-                <bold>true</bold>
                </font>
               </property>
               <property name="toolTip">
@@ -2379,8 +2371,6 @@
               <property name="font">
                <font>
                 <pointsize>-1</pointsize>
-                <weight>75</weight>
-                <bold>true</bold>
                </font>
               </property>
               <property name="cursor">
@@ -2517,8 +2507,6 @@
               <property name="font">
                <font>
                 <pointsize>-1</pointsize>
-                <weight>75</weight>
-                <bold>true</bold>
                </font>
               </property>
               <property name="cursor">
@@ -2939,8 +2927,6 @@
               <property name="font">
                <font>
                 <pointsize>-1</pointsize>
-                <weight>75</weight>
-                <bold>true</bold>
                </font>
               </property>
               <property name="cursor">
@@ -3219,8 +3205,6 @@
               <property name="font">
                <font>
                 <pointsize>-1</pointsize>
-                <weight>75</weight>
-                <bold>true</bold>
                </font>
               </property>
               <property name="cursor">

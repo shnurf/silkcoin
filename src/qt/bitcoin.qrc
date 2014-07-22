@@ -89,6 +89,7 @@
         <file>res/icons/main.png</file>
         <file>res/icons/update.png</file>
         <file alias="help">res/icons/help.png</file>
+        <file alias="connecting">res/icons/connect_search.png</file>
     </qresource>
     <qresource prefix="/images">
         <file alias="about">res/images/about.png</file>
