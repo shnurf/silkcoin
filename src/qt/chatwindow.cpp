@@ -64,7 +64,6 @@ void ChatWindow::disconnectFromServer() {
 
     ui->splitter->hide();
     ui->hide3->show();
-
 }
 
 Serveur *ChatWindow::currentTab() {

@@ -26,9 +26,6 @@ Serveur::Serveur() {
     updateUsers = false;
 }
 
-
-
-
 void Serveur::errorSocket(QAbstractSocket::SocketError error) {
     switch (error) {
     case QAbstractSocket::HostNotFoundError:
@@ -77,7 +74,7 @@ void Serveur::readServeur() {
         emit pseudoChanged(pseudo);
         ecrire("-> Name changed to " + pseudo);
     } else if (updateUsers == true) {
-        updateUsersList(currentChan, message);
+        updateUsersList("", message);
     }
 
     QStringList list = message.split("\r\n");
@@ -141,9 +138,9 @@ QString Serveur::parseCommande(QString comm, bool serveur) {
         QString msg = args.join(" ");
 
         if (pref == "me") {
-            return "PRIVMSG " + destChan + " ACTION " + msg + "";
+            return "PRIVMSG " + destChan + " ACTION " + msg + " ";
         } else if (pref == "msg") {
-            return "MSG " + destChan + " ACTION " + msg + "";
+            return "MSG " + destChan + " ACTION " + msg + " ";
         } else if (pref == "join") {
             join(msg);
             return " ";
