@@ -221,7 +221,7 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     labelConnectionsIcon = new QLabel();
     labelBlocksIcon = new QLabel();
     labelBlocksIcon->setPixmap(QIcon(":/icons/connecting").pixmap(STATUSBAR_ICONSIZE, 54)); //Initialize with 'searching' icon so people with slow connections see something
-    labelBlocksIcon->setToolTip("Waiting for more network connections");
+    labelBlocksIcon->setToolTip("Looking for more network connections");
     actionConvertCurrency = new QAction(QIcon(":/icons/sctask"), tr(""), this);
     actionConvertCurrency->setToolTip("Click here to convert your Silkcoin to USD and BTC.  Silkcoin price is pegged to BTC/SILK market and BTC/USD market on Coinbase.");
     actionLockUnlockWallet_Toolbar = new QAction(QIcon(":/icons/lock_closed"), tr(""), this);
@@ -352,7 +352,7 @@ void BitcoinGUI::createActions() {
     connect(sendCoinsAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(sendCoinsAction, SIGNAL(triggered()), this, SLOT(gotoSendCoinsPage()));
     connect(receiveCoinsAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
-    connect(receiveCoinsAction, SIGNAL(triggered()), this, SLOT(gotoReceiveCoinsPage()));    
+    connect(receiveCoinsAction, SIGNAL(triggered()), this, SLOT(gotoReceiveCoinsPage()));
     connect(actionSendReceive, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(actionSendReceive, SIGNAL(triggered()), this, SLOT(gotoSendCoinsPage()));
 
@@ -391,8 +391,12 @@ void BitcoinGUI::createActions() {
     QActionGroup *appMenuBar = new QActionGroup(this);
 
     quitAction = new QAction(QIcon(":/icons/quit"), tr("&Exit"), this);
-    quitAction->setToolTip(tr("Quit"));
+    quitAction->setToolTip(tr("Exit"));
     quitAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
+
+    exitAction = new QAction(QIcon(":/icons/quit"), tr("&Exit"), this);
+    exitAction->setToolTip(tr("Exit"));
+    exitAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_X));
 
     toggleHideAction = new QAction(QIcon(":/icons/minimize"), tr("&Minimize"), this);
 
@@ -431,7 +435,8 @@ void BitcoinGUI::createActions() {
 
 
     connect(toggleHideAction, SIGNAL(triggered()), this, SLOT(toggleHidden()));
-    connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
+    connect(quitAction, SIGNAL(triggered()), this, SLOT(quitApplication()));
+    connect(exitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
     connect(tutoStackAction, SIGNAL(triggered()), this, SLOT(tutoStackClicked()));
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(aboutClicked()));
     connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
@@ -597,7 +602,7 @@ void BitcoinGUI::createTrayIcon() {
     trayIconMenu->addAction(openRPCConsoleAction2);
 #ifndef Q_OS_MAC // This is built-in on Mac
     trayIconMenu->addSeparator();
-    trayIconMenu->addAction(quitAction);
+    trayIconMenu->addAction(exitAction);
 #endif
 
     notificator = new Notificator(qApp->applicationName(), trayIcon);
@@ -658,15 +663,31 @@ void BitcoinGUI::setNumConnections(int count) {
     QString icon;
 
     switch (count) {
-        case 0: icon = ":/icons/connect_0"; break;
+        case 0:
+            icon = ":/icons/connect_0";
+            break;
 
-        case 1: case 2: case 3: icon = ":/icons/connect_1"; break;
+        case 1:
+        case 2:
+        case 3:
+            icon = ":/icons/connect_1";
+            break;
 
-        case 4: case 5: case 6: icon = ":/icons/connect_2"; break;
+        case 4:
+        case 5:
+        case 6:
+            icon = ":/icons/connect_2";
+            break;
 
-        case 7: case 8: case 9: icon = ":/icons/connect_3"; break;
+        case 7:
+        case 8:
+        case 9:
+            icon = ":/icons/connect_3";
+            break;
 
-        default: icon = ":/icons/connect_4"; break;
+        default:
+            icon = ":/icons/connect_4";
+            break;
     }
 
     labelConnectionsIcon->setPixmap(QIcon(icon).pixmap(STATUSBAR_ICONSIZE, 54));
@@ -732,7 +753,14 @@ void BitcoinGUI::setNumBlocks(int count, int nTotalBlocks) {
     }
 
     // Set icon state: spinning if catching up, tick otherwise
-    if (secs < 90 * 60 && count >= nTotalBlocks) {
+    if (clientModel->getNumConnections() < 2) {
+        labelBlocksIcon->setPixmap(QIcon(":/icons/connecting").pixmap(STATUSBAR_ICONSIZE, 54));
+        labelBlocksIcon->setToolTip("Looking for more network connections");
+
+        overviewPage->showOutOfSyncWarning(true);
+
+        return;
+    } else if (secs < 90 * 60 && count >= nTotalBlocks) {
         tooltip = tr("Up to date") + QString(".<br>") + tooltip;
         labelBlocksIcon->setPixmap(QIcon(":/icons/synced").pixmap(STATUSBAR_ICONSIZE, 54));
 
@@ -811,7 +839,7 @@ void BitcoinGUI::askFee(qint64 nFeeRequired, bool *payFee) {
     *payFee = (retval == QMessageBox::Yes);
 }
 
-void BitcoinGUI::incomingTransaction(const QModelIndex & parent, int start, int end) {
+void BitcoinGUI::incomingTransaction(const QModelIndex& parent, int start, int end) {
     if (!walletModel || !clientModel) {
         return;
     }
@@ -1081,7 +1109,7 @@ void BitcoinGUI::dropEvent(QDropEvent *event) {
     if (event->mimeData()->hasUrls()) {
         int nValidUrisFound = 0;
         QList<QUrl> uris = event->mimeData()->urls();
-        foreach(const QUrl & uri, uris) {
+        foreach(const QUrl& uri, uris) {
             if (sendCoinsPage->handleURI(uri.toString())) {
                 nValidUrisFound++;
             }
@@ -1125,11 +1153,11 @@ void BitcoinGUI::setEncryptionStatus(int status) {
             camelgreen->stop();
             camelpurple->start();
 
-        break;
+            break;
 
         case WalletModel::Unlocked:
             actionLockUnlockWallet_Toolbar->setIcon(QIcon(":/icons/lock_open").pixmap(STATUSBAR_ICONSIZE, 54));
-            actionLockUnlockWallet_Toolbar->setToolTip("Wallet is <b>Unlocked</b> and you are <b>Staking</b>!");
+            actionLockUnlockWallet_Toolbar->setToolTip("Wallet is <b>Unlocked</b> for <b>Staking</b>!");
 
             actionLockUnlockWallet_ActionScreen->setIcon(QIcon(":/icons/locki"));
             actionLockUnlockWallet_ActionScreen->setVisible(true);
@@ -1204,17 +1232,17 @@ void BitcoinGUI::lockUnlockWallet() {
 
     switch (walletModel->getEncryptionStatus()) {
 
-    case WalletModel::Locked:
-        mode = sender() == actionLockUnlockWallet_ActionScreen || sender() == actionLockUnlockWallet_Toolbar
-                ? AskPassphraseDialog::UnlockStaking : AskPassphraseDialog::Unlock;
-        break;
+        case WalletModel::Locked:
+            mode = sender() == actionLockUnlockWallet_ActionScreen || sender() == actionLockUnlockWallet_Toolbar
+                   ? AskPassphraseDialog::UnlockStaking : AskPassphraseDialog::Unlock;
+            break;
 
-    case WalletModel::Unlocked:
-        walletModel->setWalletLocked(true);
-        return; //Not a break on purpose
+        case WalletModel::Unlocked:
+            walletModel->setWalletLocked(true);
+            return; //Not a break on purpose
 
-    default:
-        break;
+        default:
+            break;
     }
 
     AskPassphraseDialog dlg(mode, this);
@@ -1232,9 +1260,8 @@ void BitcoinGUI::showNormalIfMinimized(bool toTray, bool isToggle) {
         setWindowState(Qt::WindowActive);
     } else if (toTray) {
         hide();
-    } else if (isToggle){
+    } else if (isToggle) {
         showMinimized();
-        //this->setWindowState(this->windowState() & Qt::WindowMinimized);
     } else {
 
     }
@@ -1242,6 +1269,18 @@ void BitcoinGUI::showNormalIfMinimized(bool toTray, bool isToggle) {
 
 void BitcoinGUI::toggleHidden() {
     showNormalIfMinimized(OptionsModel().getMinimizeToTray(), true);
+}
+
+void BitcoinGUI::quitApplication() {
+    if (OptionsModel().getMinimizeToTray() &&
+            OptionsModel().getMinimizeOnClose()) {
+        hide();
+    } else if (!OptionsModel().getMinimizeToTray() &&
+               OptionsModel().getMinimizeOnClose()) {
+        showNormalIfMinimized(false, true);
+    } else {
+        qApp->quit();
+    }
 }
 
 void BitcoinGUI::mousePressEvent(QMouseEvent *event) {
@@ -1253,7 +1292,6 @@ void BitcoinGUI::mouseMoveEvent(QMouseEvent *event) {
     move(event->globalX() - m_nMouseClick_X_Coordinate, event->globalY() - m_nMouseClick_Y_Coordinate);
 }
 
-
 void BitcoinGUI::updateStakingIcon() {
     uint64_t nMinWeight = 0, nMaxWeight = 0, nWeight = 0;
 
@@ -1261,7 +1299,10 @@ void BitcoinGUI::updateStakingIcon() {
         pwalletMain->GetStakeWeight(*pwalletMain, nMinWeight, nMaxWeight, nWeight);
     }
 
-    if (nLastCoinStakeSearchInterval && nWeight) {
+    if (clientModel->getNumConnections() < 2) {
+        labelBlocksIcon->setPixmap(QIcon(":/icons/connecting").pixmap(STATUSBAR_ICONSIZE, 54));
+        labelBlocksIcon->setToolTip("Looking for more network connections");
+    } else if (nLastCoinStakeSearchInterval && nWeight) {
         uint64_t nNetworkWeight = GetPoSKernelPS();
         unsigned nEstimateTime = nTargetSpacing * nNetworkWeight / nWeight;
 
@@ -1285,13 +1326,15 @@ void BitcoinGUI::updateStakingIcon() {
         if (pwalletMain && pwalletMain->IsLocked()) {
             labelStakingIcon->setToolTip(tr("Not staking because wallet is locked"));
         } else if (vNodes.empty()) {
-            labelStakingIcon->setToolTip(tr("Not staking because wallet is offline or didn't finish syncing since last check.  Please be patient."));
+            labelStakingIcon->setToolTip(tr("Not staking because wallet is offline"));
         } else if (IsInitialBlockDownload()) {
             labelStakingIcon->setToolTip(tr("Not staking because wallet is syncing"));
         } else if (!nWeight) {
             labelStakingIcon->setToolTip(tr("Not staking because you don't have mature coins"));
-        } else {
-            labelStakingIcon->setToolTip(tr("Not staking"));
+        } else if (!pwalletMain->IsLocked()) {
+		    labelStakingIcon->setToolTip(tr("Preparing to stake."));
+		} else {
+            labelStakingIcon->setToolTip(tr("Not staking."));
         }
     }
 }

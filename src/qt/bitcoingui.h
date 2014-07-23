@@ -95,6 +95,7 @@ class BitcoinGUI : public QMainWindow {
     QAction *chatAction;
     QAction *historyAction;
     QAction *quitAction;
+    QAction *exitAction;
     QAction *settingsAction;
     QAction *sendAction;
     QAction *sendCoinsAction;
@@ -224,6 +225,7 @@ class BitcoinGUI : public QMainWindow {
 
     /** simply calls showNormalIfMinimized(true) for use in SLOT() macro */
     void toggleHidden();
+    void quitApplication();
 
     void updateStakingIcon();
     void sConvert();
