@@ -120,7 +120,7 @@ OverviewPage::OverviewPage(QWidget *parent) :
     connect(ui->listTransactions, SIGNAL(clicked(QModelIndex)), this, SLOT(handleTransactionClicked(QModelIndex)));
 
     // init "out of sync" warning labels
-    ui->lblDetailsSlot3->setText("out of sync");
+    ui->lblDetailsSlot3->setText("Out of sync");
 
     // start with displaying the "out of sync" warnings
     showOutOfSyncWarning(true);
