@@ -23,6 +23,7 @@ ChatWindow::ChatWindow(QWidget *parent)
     setFixedSize(750, 600);
     ui->splitter->hide();
 
+    /*
     connect(ui->buttonConnect, SIGNAL(clicked()), this, SLOT(connecte()));
 
     connect(ui->actionQuit, SIGNAL(triggered()), this, SLOT(close()));
@@ -32,6 +33,14 @@ ChatWindow::ChatWindow(QWidget *parent)
     connect(ui->disconnect, SIGNAL(clicked()), this, SLOT(disconnectFromServer()));
     connect(ui->tab, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
     connect(ui->tab, SIGNAL(tabCloseRequested(int)), this, SLOT(tabClosing(int)));
+    */
+
+    ui->userView->setVisible(false);
+    ui->label_2->setVisible(false);
+    ui->label_5->setVisible(false);
+    ui->label_10->setVisible(false);
+    ui->editPseudo->setVisible(false);
+    ui->buttonConnect->setVisible(false);
 }
 
 void ChatWindow::tabChanged(int index) {
