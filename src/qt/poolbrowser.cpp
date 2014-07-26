@@ -18,9 +18,9 @@ using namespace json_spirit;
 const QString apiCoinbasePrice = "https://coinbase.com/api/v1/currencies/exchange_rates";
 
 //Bittrex API
-const QString apiBittrexMarketSummary = "http://bittrex.com/api/v1/public/getmarketsummaries";
-const QString apiBittrexTrades = "http://bittrex.com/api/v1/public/getmarkethistory?market=BTC-SC&count=100";
-const QString apiBittrexOrders = "http://bittrex.com/api/v1/public/getorderbook?market=BTC-SC&type=both&depth=50";
+const QString apiBittrexMarketSummary = "http://bittrex.com/api/v1.1/public/getmarketsummaries";
+const QString apiBittrexTrades = "http://bittrex.com/api/v1.1/public/getmarkethistory?market=BTC-SC&count=100";
+const QString apiBittrexOrders = "http://bittrex.com/api/v1.1/public/getorderbook?market=BTC-SC&type=both&depth=50";
 
 //Cryptsy API
 const QString apiCryptsyTrades = "http://pubapi.cryptsy.com/api.php?method=singlemarketdata&marketid=225";
@@ -99,11 +99,14 @@ void PoolBrowser::on_btnUpdateMarketData_clicked() {
     pollAPIs();
 }
 
-void PoolBrowser::openBittrex() {
-    QDesktopServices::openUrl(QUrl("https://www.bittrex.com/Market/Index?MarketName=BTC-SC"));
+void PoolBrowser::on_lblBittrexMarketLink_linkActivated(const QString &link) {
+    QDesktopServices::openUrl(QUrl(link));
 }
-void PoolBrowser::openPoloniex() {
-    QDesktopServices::openUrl(QUrl("https://poloniex.com/exchange/btc_sc"));
+void PoolBrowser::on_lblCryptsyMarketLink_linkActivated(const QString &link) {
+    QDesktopServices::openUrl(QUrl(link));
+}
+void PoolBrowser::on_lblMintpalMarketLink_linkActivated(const QString &link) {
+    QDesktopServices::openUrl(QUrl(link));
 }
 
 void PoolBrowser::pollAPIs() {

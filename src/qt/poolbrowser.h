@@ -36,9 +36,6 @@ class PoolBrowser : public QWidget {
     explicit PoolBrowser(QWidget* parent = 0);
     ~PoolBrowser();
 
-    void openBittrex();
-    void openPoloniex();
-
     void pollAPIs();
 
     void processOverview();
@@ -75,7 +72,11 @@ class PoolBrowser : public QWidget {
     void on_btnConvertSilkoin_clicked();
     void on_btnUpdateMarketData_clicked();
 
-  private:
+    void on_lblBittrexMarketLink_linkActivated(const QString &link);
+    void on_lblCryptsyMarketLink_linkActivated(const QString &link);
+    void on_lblMintpalMarketLink_linkActivated(const QString &link);
+
+private:
     QNetworkAccessManager m_nam;
     Ui::PoolBrowser* ui;
     ClientModel* model;
