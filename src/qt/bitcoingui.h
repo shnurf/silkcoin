@@ -84,6 +84,10 @@ class BitcoinGUI : public QMainWindow {
     QLabel *labelConnectionsIcon;
     QLabel *labelBlocksIcon;
     QAction *actionConvertCurrency;
+    QAction *actionFacebook;
+    QAction *actionTwitter;
+    QAction *actionReddit;
+    QLabel *labelHomepage;
     QLabel *progressBarLabel;
     QProgressBar *progressBar;
 
@@ -187,7 +191,6 @@ class BitcoinGUI : public QMainWindow {
     void gotoReceiveCoinsPage();
     /** Switch to send coins page */
     void gotoSendCoinsPage();
-    void gotoChatPage();
     void gotoSettingsPage();
 
     /** Show Sign/Verify Message dialog and switch to sign message tab */
@@ -229,6 +232,10 @@ class BitcoinGUI : public QMainWindow {
 
     void updateStakingIcon();
     void sConvert();
+
+    void openFacebook();
+    void openTwitter();
+    void openReddit();
 };
 
 #endif

@@ -24,7 +24,6 @@
 #include "statisticspage.h"
 #include "blockbrowser.h"
 #include "poolbrowser.h"
-#include "chatwindow.h"
 #include "bitcoinunits.h"
 #include "guiconstants.h"
 #include "askpassphrasedialog.h"
@@ -114,7 +113,6 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     // Create tabs
     overviewPage = new OverviewPage(this);
     statisticsPage = new StatisticsPage(this);
-    chatWindow = new ChatWindow(this);
 
     blockBrowser = new BlockBrowser(this);
     poolBrowser = new PoolBrowser(this);
@@ -205,7 +203,6 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     centralWidget = new QStackedWidget(this);
     centralWidget->addWidget(overviewPage);
     centralWidget->addWidget(statisticsPage);
-    centralWidget->addWidget(chatWindow);
     centralWidget->addWidget(blockBrowser);
     centralWidget->addWidget(poolBrowser);
     centralWidget->addWidget(transactionsPage);
@@ -227,6 +224,10 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     actionLockUnlockWallet_Toolbar = new QAction(QIcon(":/icons/lock_closed"), tr(""), this);
     actionHowToStake = new QAction(QIcon(":/icons/help"), tr(""), this);
     actionHowToStake->setToolTip("If you need some help on how to start staking, click here for a short tutorial");
+
+    actionFacebook = new QAction(QIcon(":/icons/facebook"), tr("Like us on Facebook!"), this);
+    actionTwitter = new QAction(QIcon(":/icons/twitter"), tr("Follow us ob Twitter!"), this);
+    actionReddit = new QAction(QIcon(":/icons/reddit"), tr("Check us out on Reddit!"), this);
 
     if (GetBoolArg("-staking", true)) {
         QTimer *timerStakingIcon = new QTimer(labelStakingIcon);
@@ -252,12 +253,20 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     toolbar2->addWidget(labelStakingIcon);
     toolbar2->addWidget(labelConnectionsIcon);
     toolbar2->addWidget(labelBlocksIcon);
+    toolbar2->addAction(actionTwitter);
+    toolbar2->addAction(actionFacebook);
+    toolbar2->addAction(actionReddit);
     toolbar2->addAction(actionHowToStake);
     toolbar2->setStyleSheet("#toolbar2 QToolButton { border:none;padding:0px;margin:0px;height:20px;width:28px;margin-top:36px; }");
 
-    syncIconMovie = new QMovie(":/movies/update_spinner", "gif", this);
+    syncIconMovie = new QMovie(":/movies/update_spinner", "mng", this);
 
     connect(actionConvertCurrency, SIGNAL(triggered()), this, SLOT(sConvert()));
+
+    connect(actionFacebook, SIGNAL(triggered()), this, SLOT(openFacebook()));
+    connect(actionTwitter, SIGNAL(triggered()), this, SLOT(openTwitter()));
+    connect(actionReddit, SIGNAL(triggered()), this, SLOT(openReddit()));
+
     connect(actionLockUnlockWallet_Toolbar, SIGNAL(trigered()), this, SLOT(lockUnlockWallet()));
     connect(actionHowToStake, SIGNAL(triggered()), this, SLOT(tutoStackClicked()));
 
@@ -297,10 +306,6 @@ void BitcoinGUI::createActions() {
     statisticsAction = new QAction(QIcon(":/icons/statistics"), tr("&Statistics"), this);
     statisticsAction->setCheckable(true);
     tabGroup->addAction(statisticsAction);
-
-    chatAction = new QAction(QIcon(":/icons/social"), tr("&Social"), this);
-    chatAction->setCheckable(true);
-    tabGroup->addAction(chatAction);
 
     historyAction = new QAction(QIcon(":/icons/history"), tr("&Transactions"), this);
     historyAction->setCheckable(true);
@@ -380,7 +385,6 @@ void BitcoinGUI::createActions() {
     connect(overviewAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(overviewAction, SIGNAL(triggered()), this, SLOT(gotoOverviewPage()));
     connect(statisticsAction, SIGNAL(triggered()), this, SLOT(gotoStatisticsPage()));
-    connect(chatAction, SIGNAL(triggered()), this, SLOT(gotoChatPage()));
     connect(historyAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(historyAction, SIGNAL(triggered()), this, SLOT(gotoHistoryPage()));
     connect(addressBookAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
@@ -470,7 +474,6 @@ void BitcoinGUI::createToolBars() {
     toolbar->addAction(statisticsAction);
     toolbar->addAction(blockAction);
     toolbar->addAction(poolAction);
-    toolbar->addAction(chatAction);
     toolbar->addAction(settingsAction);
     toolbar->addAction(optionsAction);
     toolbar->addAction(exportAction);
@@ -556,7 +559,6 @@ void BitcoinGUI::setWalletModel(WalletModel *walletModel) {
         signVerifyMessageDialog->setModel(walletModel);
 
         statisticsPage->setModel(clientModel);
-        chatWindow->setModel(clientModel);
         blockBrowser->setModel(clientModel);
         poolBrowser->setModel(clientModel);
         setEncryptionStatus(walletModel->getEncryptionStatus());
@@ -973,22 +975,6 @@ void BitcoinGUI::gotoStatisticsPage() {
     wId3->hide();
 }
 
-void BitcoinGUI::gotoChatPage() {
-    chatAction->setChecked(true);
-    centralWidget->setCurrentWidget(chatWindow);
-    actionConvertCurrency->setEnabled(true);
-    actionConvertCurrency->setVisible(true);
-    disconnect(actionConvertCurrency, SIGNAL(triggered()), 0, 0);
-    connect(actionConvertCurrency, SIGNAL(triggered()), this, SLOT(sConvert()));
-    exportAction->setVisible(false);
-    exportAction->setEnabled(false);
-    disconnect(exportAction, SIGNAL(triggered()), 0, 0);
-    wId->raise();
-    wId2->hide();
-    wId3->hide();
-}
-
-
 void BitcoinGUI::gotoHistoryPage() {
     historyAction->setChecked(true);
     centralWidget->setCurrentWidget(transactionsPage);
@@ -1337,4 +1323,14 @@ void BitcoinGUI::updateStakingIcon() {
             labelStakingIcon->setToolTip(tr("Not staking."));
         }
     }
+}
+
+void BitcoinGUI::openFacebook() {
+    QDesktopServices::openUrl(QUrl("https://www.facebook.com/pages/SilkCoin/734640973258763"));
+}
+void BitcoinGUI::openTwitter() {
+    QDesktopServices::openUrl(QUrl("https://twitter.com/silkcoinrevival"));
+}
+void BitcoinGUI::openReddit() {
+    QDesktopServices::openUrl(QUrl("http://www.reddit.com/r/Silk/"));
 }
