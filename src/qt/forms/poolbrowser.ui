@@ -342,11 +342,14 @@ QTabWidget::pane {border:none;}
            <pointsize>-1</pointsize>
           </font>
          </property>
+         <property name="toolTip">
+          <string>The simultaneous purchase and sale of an asset in order to profit from a difference in the price.</string>
+         </property>
          <property name="styleSheet">
           <string notr="true">font-family:Mohave;</string>
          </property>
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;OVERVIEW&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;ARBITRAGE&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
         <widget class="QLabel" name="lblOverviewScAvg">
@@ -373,6 +376,22 @@ QTabWidget::pane {border:none;}
          </property>
          <property name="text">
           <string>B0.00000000</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="lblDisclaimer">
+         <property name="geometry">
+          <rect>
+           <x>30</x>
+           <y>375</y>
+           <width>521</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Disclaimer: Access to market API's cannot be guaranteed. USD prices for all markets are calculated based BTC/USD price on Coinbase.</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
          </property>
         </widget>
        </widget>
@@ -1146,6 +1165,22 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Close&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
+         <widget class="QLabel" name="lblBittrexMarketLink">
+          <property name="geometry">
+           <rect>
+            <x>110</x>
+            <y>80</y>
+            <width>361</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://bittrex.com/Market/?MarketName=BTC-SC&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Market Link&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
          <zorder>qWidgetBittrexAsk</zorder>
          <zorder>qWidgetBittrexBid</zorder>
          <zorder>qWidgetBittrexLast</zorder>
@@ -1170,6 +1205,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
          <zorder>imgBittrexBuy</zorder>
          <zorder>lblBittrexCloseBtc</zorder>
          <zorder>lblBittrexClose</zorder>
+         <zorder>lblBittrexMarketLink</zorder>
         </widget>
        </widget>
        <widget class="QWidget" name="qWidgetBittrexGraphs">
@@ -2122,6 +2158,22 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Close&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
+         <widget class="QLabel" name="lblMintpalMarketLink">
+          <property name="geometry">
+           <rect>
+            <x>110</x>
+            <y>80</y>
+            <width>361</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.mintpal.com/market/SC/BTC&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Market Link&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
          <zorder>qWidgetMintpalAsk</zorder>
          <zorder>qWidgetMintpalLast_2</zorder>
          <zorder>qWidgetMintpalLast</zorder>
@@ -2146,6 +2198,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
          <zorder>imgMintpalBuy</zorder>
          <zorder>lblMintpalCloseBtc</zorder>
          <zorder>lblMintpalClose</zorder>
+         <zorder>lblMintpalMarketLink</zorder>
         </widget>
        </widget>
        <widget class="QWidget" name="qWidgetMintpalGraphs">
@@ -2888,6 +2941,22 @@ border-left:1px solid #bdc3c7;</string>
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Volume SC&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
+         <widget class="QLabel" name="lblCryptsyMarketLink">
+          <property name="geometry">
+           <rect>
+            <x>110</x>
+            <y>80</y>
+            <width>361</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.cryptsy.com/markets/view/225&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Market Link&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
          <zorder>qWidgetCryptsyLast</zorder>
          <zorder>lblCryptsySellHeader</zorder>
          <zorder>qTreeWidgetCryptsySell</zorder>
@@ -2902,6 +2971,7 @@ border-left:1px solid #bdc3c7;</string>
          <zorder>lblCryptsyVolumeSc</zorder>
          <zorder>lblCryptsyVolumeScHeader</zorder>
          <zorder>imgCryptsyBuy</zorder>
+         <zorder>lblCryptsyMarketLink</zorder>
         </widget>
        </widget>
        <widget class="QWidget" name="qWidgetCryptsyGraphs">
@@ -3227,6 +3297,9 @@ border-left:1px solid #bdc3c7;</string>
         <width>21</width>
         <height>41</height>
        </rect>
+      </property>
+      <property name="toolTip">
+       <string>One or more markets have failed to respond to API requests</string>
       </property>
       <property name="text">
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/icons/transaction_2&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>

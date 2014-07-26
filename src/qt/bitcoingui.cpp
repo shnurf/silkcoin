@@ -333,13 +333,13 @@ void BitcoinGUI::createActions() {
     QToolBar *toolbarsend = addToolBar(tr("Send"));
     QToolBar *toolbarsend2 = addToolBar(tr("Receive"));
 
-    sendCoinsAction = new QAction(QIcon(":/icons/null"), tr("&Send / Receive"), this);
+    sendCoinsAction = new QAction(QIcon(":/icons/null"), tr("&Send Silk"), this);
     sendCoinsAction->setCheckable(true);
     sendCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_2));
     toolbarsend2->addAction(sendCoinsAction);
     tabGroup->addAction(sendCoinsAction);
 
-    receiveCoinsAction = new QAction(QIcon(":/icons/null"), tr("&Send / Receive"), this);
+    receiveCoinsAction = new QAction(QIcon(":/icons/null"), tr("&Receive Silk"), this);
     receiveCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_3));
     receiveCoinsAction->setCheckable(true);
     toolbarsend->addAction(receiveCoinsAction);
