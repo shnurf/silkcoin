@@ -226,7 +226,7 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     actionHowToStake->setToolTip("If you need some help on how to start staking, click here for a short tutorial");
 
     actionFacebook = new QAction(QIcon(":/icons/facebook"), tr("Like us on Facebook!"), this);
-    actionTwitter = new QAction(QIcon(":/icons/twitter"), tr("Follow us ob Twitter!"), this);
+    actionTwitter = new QAction(QIcon(":/icons/twitter"), tr("Follow us on Twitter!"), this);
     actionReddit = new QAction(QIcon(":/icons/reddit"), tr("Check us out on Reddit!"), this);
 
     if (GetBoolArg("-staking", true)) {
