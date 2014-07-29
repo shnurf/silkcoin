@@ -99,7 +99,6 @@
     </qresource>
     <qresource prefix="/movies">
         <file alias="camel">res/movies/camel.gif</file>
-        <file>res/movies/update_spinner.gif</file>
         <file alias="camelpurple">res/movies/camel_walkcycle.gif</file>
         <file alias="camelgreen">res/movies/camel_walkcycle2.gif</file>
         <file alias="update_spinner">res/movies/update_spinner.mng</file>
