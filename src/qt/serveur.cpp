@@ -16,6 +16,8 @@
 
 #include "serveur.h"
 #include "chatwindow.h"
+#include <QScrollBar>
+
 QStringList users;
 bool delist = true;
 Serveur::Serveur() {

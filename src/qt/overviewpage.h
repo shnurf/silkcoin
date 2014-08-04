@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QtGui>
+#include <QStyleOption>
 
 QT_BEGIN_NAMESPACE
 class QModelIndex;

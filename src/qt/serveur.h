@@ -19,6 +19,9 @@
 
 #include <QtGui>
 #include <QtNetwork>
+#include <QTextEdit>
+#include <QListView>
+#include <QSystemTrayIcon>
 
 class Serveur : public QTcpSocket {
     Q_OBJECT

@@ -90,6 +90,7 @@
         <file alias="facebook">res/icons/facebook.png</file>
         <file alias="reddit">res/icons/reddit.png</file>
         <file alias="twitter">res/icons/twitter.png</file>
+        <file>res/icons/poloniex.png</file>
     </qresource>
     <qresource prefix="/images">
         <file alias="about">res/images/about.png</file>
