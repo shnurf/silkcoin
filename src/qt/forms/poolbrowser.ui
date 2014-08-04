@@ -1614,7 +1614,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
            </property>
           </widget>
          </widget>
-         <widget class="QWidget" name="qWidgetMintpalLast_2" native="true">
+         <widget class="QWidget" name="qWidgetMintpalBid" native="true">
           <property name="geometry">
            <rect>
             <x>360</x>
@@ -2245,7 +2245,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
           </property>
          </widget>
          <zorder>qWidgetMintpalAsk</zorder>
-         <zorder>qWidgetMintpalLast_2</zorder>
+         <zorder>qWidgetMintpalBid</zorder>
          <zorder>qWidgetMintpalLast</zorder>
          <zorder>lblMintpalChangePerc</zorder>
          <zorder>lblMintpalSellHeader</zorder>
@@ -3165,6 +3165,84 @@ QTabBar::tab:last {margin-right:100px;}</string>
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
+         <widget class="QLabel" name="lblPoloniexLow">
+          <property name="geometry">
+           <rect>
+            <x>80</x>
+            <y>120</y>
+            <width>31</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Low&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="lblPoloniexCloseBtc">
+          <property name="geometry">
+           <rect>
+            <x>130</x>
+            <y>140</y>
+            <width>91</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>0.000000000</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="lblPoloniexLowBtc">
+          <property name="geometry">
+           <rect>
+            <x>130</x>
+            <y>120</y>
+            <width>91</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>0.000000000</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="lblPoloniexHigh">
+          <property name="geometry">
+           <rect>
+            <x>80</x>
+            <y>100</y>
+            <width>31</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;High&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="lblPoloniexHighBtc">
+          <property name="geometry">
+           <rect>
+            <x>130</x>
+            <y>100</y>
+            <width>91</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>0.000000000</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="lblPoloniexClose">
+          <property name="geometry">
+           <rect>
+            <x>80</x>
+            <y>140</y>
+            <width>41</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Close&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
          <zorder>qWidgetPoloniexAsk</zorder>
          <zorder>qWidgetPoloniexBid</zorder>
          <zorder>qWidgetPoloniexLast</zorder>
@@ -3184,6 +3262,12 @@ QTabBar::tab:last {margin-right:100px;}</string>
          <zorder>imgPoloniexSell</zorder>
          <zorder>imgPoloniexBuy</zorder>
          <zorder>lblPoloniexMarketLink</zorder>
+         <zorder>lblPoloniexLow</zorder>
+         <zorder>lblPoloniexCloseBtc</zorder>
+         <zorder>lblPoloniexLowBtc</zorder>
+         <zorder>lblPoloniexHigh</zorder>
+         <zorder>lblPoloniexHighBtc</zorder>
+         <zorder>lblPoloniexClose</zorder>
         </widget>
        </widget>
        <widget class="QWidget" name="qWidgetPoloniexGraphs">
