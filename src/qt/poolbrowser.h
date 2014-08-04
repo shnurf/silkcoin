@@ -53,6 +53,7 @@ class PoolBrowser : public QWidget {
     void poloniexTrades(QNetworkReply* response);
     void poloniexOrders(QNetworkReply* response);
     void poloniexVolume(QNetworkReply* response);
+    void poloniex24hVolume (QNetworkReply* response);
     void cryptsyTrades(QNetworkReply* response);
     void cryptsyOrders(QNetworkReply* response);
 
@@ -77,10 +78,11 @@ class PoolBrowser : public QWidget {
     void on_btnUpdateMarketData_clicked();
 
     void on_lblBittrexMarketLink_linkActivated(const QString &link);
-    void on_lblCryptsyMarketLink_linkActivated(const QString &link);
     void on_lblMintpalMarketLink_linkActivated(const QString &link);
+    void on_lblPoloniexMarketLink_linkActivated(const QString &link);
+    void on_lblCryptsyMarketLink_linkActivated(const QString &link);
 
-private:
+  private:
     QNetworkAccessManager m_nam;
     Ui::PoolBrowser* ui;
     ClientModel* model;
@@ -855,52 +857,26 @@ class PoloniexMarketSummary {
   private:
     double _askCurrent;
     double _askPrev;
-    double _baseVolumeCurrent;
-    double _baseVolumePrev;
     double _bidCurrent;
     double _bidPrev;
-    double _highCurrent;
-    double _highPrev;
     double _lastCurrent;
     double _lastPrev;
-    double _lowCurrent;
-    double _lowPrev;
     double _percentChangeCurrent;
     double _percentChangePrev;
-    double _prevDayCurrent;
-    double _prevDayPrev;
-    double _volumeCurrent;
-    double _volumePrev;
 
-    QString _created;
-    QString _displayMarketName;
-    QString _marketName;
     QString _timeStamp;
 
   public:
     PoloniexMarketSummary() {
         _askCurrent = 0;
         _askPrev = 0;
-        _baseVolumeCurrent = 0;
-        _baseVolumePrev = 0;
         _bidCurrent = 0;
         _bidPrev = 0;
-        _highCurrent = 0;
-        _highPrev = 0;
         _lastCurrent = 0;
         _lastPrev = 0;
-        _lowCurrent = 0;
-        _lowPrev = 0;
         _percentChangeCurrent = 0;
         _percentChangePrev = 0;
-        _prevDayCurrent = 0;
-        _prevDayPrev = 0;
-        _volumeCurrent = 0;
-        _volumePrev = 0;
 
-        _created = "";
-        _displayMarketName = "";
-        _marketName = "";
         _timeStamp = "";
     }
 
@@ -924,26 +900,6 @@ class PoloniexMarketSummary {
         _askPrev = value;
     }
 
-    double getBaseVolumeCurrent(double) {
-        return _baseVolumeCurrent;
-    }
-    QString getBaseVolumeCurrent(QString) {
-        return QString::number(_baseVolumeCurrent, 'f', 8);
-    }
-    void setBaseVolumeCurrent(QString value) {
-        _baseVolumeCurrent = value.toDouble();
-    }
-
-    double getBaseVolumePrev(double) {
-        return _baseVolumePrev;
-    }
-    QString getBaseVolumePrev(QString) {
-        return QString::number(_baseVolumePrev, 'f', 8);
-    }
-    void setBaseVolumePrev(double value) {
-        _baseVolumePrev = value;
-    }
-
     double getBidCurrent(double) {
         return _bidCurrent;
     }
@@ -962,26 +918,6 @@ class PoloniexMarketSummary {
     }
     void setBidPrev(double value) {
         _bidPrev = value;
-    }
-
-    double getHighCurrent(double) {
-        return _highCurrent;
-    }
-    QString getHighCurrent(QString) {
-        return QString::number(_highCurrent, 'f', 8);
-    }
-    void setHighCurrent(QString value) {
-        _highCurrent = value.toDouble();
-    }
-
-    double getHighPrev(double) {
-        return _highPrev;
-    }
-    QString getHighPrev(QString) {
-        return QString::number(_highPrev, 'f', 8);
-    }
-    void setHighPrev(double value) {
-        _highPrev = value;
     }
 
     double getLastCurrent(double) {
@@ -1004,26 +940,6 @@ class PoloniexMarketSummary {
         _lastPrev = value;
     }
 
-    double getLowCurrent(double) {
-        return _lowCurrent;
-    }
-    QString getLowCurrent(QString) {
-        return QString::number(_lowCurrent, 'f', 8);
-    }
-    void setLowCurrent(QString value) {
-        _lowCurrent = value.toDouble();
-    }
-
-    double getLowPrev(double) {
-        return _lowPrev;
-    }
-    QString getLowPrev(QString) {
-        return QString::number(_lowPrev, 'f', 8);
-    }
-    void setLowPrev(double value) {
-        _lowPrev = value;
-    }
-
     double getPercentChangeCurrent(double) {
         return _percentChangeCurrent;
     }
@@ -1042,6 +958,106 @@ class PoloniexMarketSummary {
     }
     void setPercentChangePrev(QString value) {
         _percentChangePrev = value.toDouble();
+    }
+
+    QString getTimeStamp() {
+        return _timeStamp;
+    }
+    void setTimeStamp(string value) {
+        QString ret = QString::fromStdString(value);
+
+        ret.replace("T", " ");
+        ret.truncate(ret.indexOf("."));
+
+        _timeStamp = ret;
+    }
+};
+
+class Poloniex24hVolume {
+  private:
+    double _baseVolumeCurrent;
+    double _baseVolumePrev;
+    double _highCurrent;
+    double _highPrev;
+    double _lowCurrent;
+    double _lowPrev;
+    double _prevDayCurrent;
+    double _prevDayPrev;
+    double _volumeCurrent;
+    double _volumePrev;
+
+  public:
+    Poloniex24hVolume() {
+        _baseVolumeCurrent = 0;
+        _baseVolumePrev = 0;
+        _highCurrent = 0;
+        _highPrev = 0;
+        _lowCurrent = 0;
+        _lowPrev = 0;
+        _prevDayCurrent = 0;
+        _prevDayPrev = 0;
+        _volumeCurrent = 0;
+        _volumePrev = 0;
+    }
+
+    double getBaseVolumeCurrent(double) {
+        return _baseVolumeCurrent;
+    }
+    QString getBaseVolumeCurrent(QString) {
+        return QString::number(_baseVolumeCurrent, 'f', 8);
+    }
+    void setBaseVolumeCurrent(double value) {
+        _baseVolumeCurrent = value;
+    }
+
+    double getBaseVolumePrev(double) {
+        return _baseVolumePrev;
+    }
+    QString getBaseVolumePrev(QString) {
+        return QString::number(_baseVolumePrev, 'f', 8);
+    }
+    void setBaseVolumePrev(double value) {
+        _baseVolumePrev = value;
+    }
+
+    double getHighCurrent(double) {
+        return _highCurrent;
+    }
+    QString getHighCurrent(QString) {
+        return QString::number(_highCurrent, 'f', 8);
+    }
+    void setHighCurrent(double value) {
+        _highCurrent = value;
+    }
+
+    double getHighPrev(double) {
+        return _highPrev;
+    }
+    QString getHighPrev(QString) {
+        return QString::number(_highPrev, 'f', 8);
+    }
+    void setHighPrev(double value) {
+        _highPrev = value;
+    }
+
+    double getLowCurrent(double) {
+        return _lowCurrent;
+    }
+    QString getLowCurrent(QString) {
+        return QString::number(_lowCurrent, 'f', 8);
+    }
+    void setLowCurrent(double value) {
+        _lowCurrent = value;
+    }
+
+    double getLowPrev(double) {
+        return _lowPrev;
+    }
+    QString getLowPrev(QString) {
+        return QString::number(_lowPrev, 'f', 8);
+    }
+    void setLowPrev(double value) {
+        _lowPrev = value;
     }
 
     double getPrevDayCurrent(double) {
@@ -1070,8 +1086,8 @@ class PoloniexMarketSummary {
     QString getVolumeCurrent(QString) {
         return QString::number(_volumeCurrent, 'f', 8);
     }
-    void setVolumeCurrent(QString value) {
-        _volumeCurrent = value.toDouble();
+    void setVolumeCurrent(double value) {
+        _volumeCurrent = value;
     }
 
     double getVolumePrev(double) {
@@ -1082,44 +1098,6 @@ class PoloniexMarketSummary {
     }
     void setVolumePrev(double value) {
         _volumePrev = value;
-    }
-
-    QString getCreated() {
-        return _created;
-    }
-    void setCreated(string value) {
-        QString ret = QString::fromStdString(value);
-
-        ret.replace("T", " ");
-        ret.truncate(ret.indexOf("."));
-
-        _created = ret;
-    }
-
-    QString _getDisplayMarketName() {
-        return _displayMarketName;
-    }
-    void setDisplayMarketName(string value) {
-        _displayMarketName = QString::fromStdString(value);
-    }
-
-    QString getMarketName() {
-        return _marketName;
-    }
-    void setMarketName(string value) {
-        _marketName = QString::fromStdString(value);
-    }
-
-    QString getTimeStamp() {
-        return _timeStamp;
-    }
-    void setTimeStamp(string value) {
-        QString ret = QString::fromStdString(value);
-
-        ret.replace("T", " ");
-        ret.truncate(ret.indexOf("."));
-
-        _timeStamp = ret;
     }
 };
 
