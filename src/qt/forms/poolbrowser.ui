@@ -35,7 +35,7 @@
       <enum>Qt::LeftToRight</enum>
      </property>
      <property name="styleSheet">
-      <string notr="true">#All QTabBar::tab {border:none;height:80px;margin-top:50px;padding-top:60px;padding-bottom:-40px;padding-right:20px;margin-left:20px}
+      <string notr="true">#All QTabBar::tab {border:none;height:160px;margin-top:-160px;padding-top:0px;padding-bottom:-80px;padding-right:60px;padding-left:10;margin-left:-20px}
 QTabWidget::tab-bar {alignment:center;border:0px;}
 QTabWidget::pane {border:none;}
 #tab QTabWidget::pane,#tab_3 QTabWidget::pane,#tab_4 QTabWidget::pane, #tab_2 QTabWidget::pane {border:none;border-left:1px solid #95a5a6;}</string>
@@ -51,8 +51,8 @@ QTabWidget::pane {border:none;}
      </property>
      <property name="iconSize">
       <size>
-       <width>144</width>
-       <height>35</height>
+       <width>35</width>
+       <height>144</height>
       </size>
      </property>
      <property name="elideMode">
