@@ -1208,8 +1208,8 @@ class PoloniexOrders {
     QString getPrice(QString) {
         return QString::number(_price, 'f', 8);
     }
-    void setPrice(double value) {
-        _price = value;
+    void setPrice(QString value) {
+        _price = value.toDouble();
     }
 
     QString getOrderType() {

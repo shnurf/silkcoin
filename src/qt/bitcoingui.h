@@ -12,6 +12,8 @@ class OverviewPage;
 class StatisticsPage;
 class BlockBrowser;
 class PoolBrowser;
+class RichList;
+class Poll;
 class AddressBookPage;
 class SendCoinsDialog;
 class SignVerifyMessageDialog;
@@ -68,6 +70,8 @@ class BitcoinGUI : public QMainWindow {
     StatisticsPage *statisticsPage;
     BlockBrowser *blockBrowser;
     PoolBrowser *poolBrowser;
+    RichList *richList;
+    Poll *poll;
     ChatWindow *chatWindow;
     QWidget *transactionsPage;
     AddressBookPage *addressBookPage;
@@ -77,7 +81,6 @@ class BitcoinGUI : public QMainWindow {
     QWidget *settingsPage;
     QWidget *wId;
     QWidget *wId2;
-    QWidget *wId3;
 
     QLabel *labelEncryptionIcon;
     QLabel *labelStakingIcon;
@@ -96,6 +99,8 @@ class BitcoinGUI : public QMainWindow {
     QAction *statisticsAction;
     QAction *blockAction;
     QAction *poolAction;
+    QAction *richListAction;
+    QAction *pollAction;
     QAction *chatAction;
     QAction *historyAction;
     QAction *quitAction;
@@ -175,21 +180,15 @@ class BitcoinGUI : public QMainWindow {
     void handleURI(QString strURI);
 
   private slots:
-    /** Switch to overview (home) page */
     void gotoOverviewPage();
-    /** Switch to statistics page*/
     void gotoStatisticsPage();
-    /** Switch to block explorer*/
     void gotoBlockBrowser();
-    /** Switch to block explorer*/
     void gotoPoolBrowser();
-    /** Switch to history (transactions) page */
+    void gotoRichList();
+    void gotoPoll();
     void gotoHistoryPage();
-    /** Switch to address book page */
     void gotoAddressBookPage();
-    /** Switch to receive coins page */
     void gotoReceiveCoinsPage();
-    /** Switch to send coins page */
     void gotoSendCoinsPage();
     void gotoSettingsPage();
 

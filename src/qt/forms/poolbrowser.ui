@@ -35,10 +35,7 @@
       <enum>Qt::LeftToRight</enum>
      </property>
      <property name="styleSheet">
-      <string notr="true">#All QTabBar::tab {border:none;height:160px;margin-top:-160px;padding-top:0px;padding-bottom:-80px;padding-right:60px;padding-left:10;margin-left:-20px}
-QTabWidget::tab-bar {alignment:center;border:0px;}
-QTabWidget::pane {border:none;}
-#tab QTabWidget::pane,#tab_3 QTabWidget::pane,#tab_4 QTabWidget::pane, #tab_2 QTabWidget::pane {border:none;border-left:1px solid #95a5a6;}</string>
+      <string notr="true">#All QTabBar::tab {border:none;height:0px;margin-top:0px;padding-top:35px;padding-bottom:25px;padding-right:60px;padding-left:0;margin-left:-20px} QTabWidget::tab-bar {alignment:center;} QTabWidget::pane {border:none;}</string>
      </property>
      <property name="tabPosition">
       <enum>QTabWidget::West</enum>
@@ -1245,7 +1242,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
            </rect>
           </property>
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://bittrex.com/Market/?MarketName=BTC-SC&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Market Link&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://bittrex.com/Market/?MarketName=BTC-SILK&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Market Link&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -2238,7 +2235,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
            </rect>
           </property>
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.mintpal.com/market/SC/BTC&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Market Link&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.mintpal.com/market/SILK/BTC&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Market Link&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -2465,7 +2462,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
       </property>
       <attribute name="icon">
        <iconset resource="../bitcoin.qrc">
-        <normaloff>:/icons/res/icons/poloniex.png</normaloff>:/icons/res/icons/poloniex.png</iconset>
+        <normaloff>:/icons/poloniex</normaloff>:/icons/poloniex</iconset>
       </attribute>
       <attribute name="title">
        <string/>
@@ -3159,7 +3156,7 @@ QTabBar::tab:last {margin-right:100px;}</string>
            </rect>
           </property>
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://poloniex.com/exchange/btc_sc&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Market Link&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://poloniex.com/exchange/btc_silk&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Market Link&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>

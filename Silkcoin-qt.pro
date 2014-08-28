@@ -1,6 +1,6 @@
 TEMPLATE = app
 TARGET = silkcoin-qt
-VERSION = 1.1.17
+VERSION = 1.1.18
  
 INCLUDEPATH += src src/json src/qt
 DEFINES += QT_GUI BOOST_THREAD_USE_LIB BOOST_SPIRIT_THREADSAFE
@@ -95,7 +95,10 @@ contains(BITCOIN_NEED_QT_PLUGINS, 1) {
 
 INCLUDEPATH += src/leveldb/include src/leveldb/helpers
 LIBS += $$PWD/src/leveldb/libleveldb.a $$PWD/src/leveldb/libmemenv.a
-SOURCES += src/txdb-leveldb.cpp
+SOURCES += src/txdb-leveldb.cpp \
+    src/qt/richlist.cpp \
+    src/qt/poll.cpp \
+    src/qt/nightcharts.cpp
 !win32 {
         # we use QMAKE_CXXFLAGS_RELEASE even without RELEASE=1 because we use RELEASE to indicate linking preferences not -O preferences
         genleveldb.commands = cd $$PWD/src/leveldb && CC=$$QMAKE_CC CXX=$$QMAKE_CXX $(MAKE) OPT=\"$$QMAKE_CXXFLAGS $$QMAKE_CXXFLAGS_RELEASE\" libleveldb.a libmemenv.a
@@ -240,7 +243,11 @@ HEADERS += src/qt/bitcoingui.h \
         src/clientversion.h \
         src/qt/chatwindow.h \
         src/qt/serveur.h \
-		src/qt/qcustomplot.h
+		src/qt/qcustomplot.h \
+    src/qt/forms/richlist.h \
+    src/qt/richlist.h \
+    src/qt/poll.h \
+    src/qt/nightcharts.h
 
 SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
         src/qt/transactiontablemodel.cpp \
@@ -350,7 +357,9 @@ FORMS += \
         src/qt/forms/optionsdialog.ui \
         src/qt/forms/tutoStackDialog.ui \
         src/qt/forms/tutoWriteDialog.ui \
-        src/qt/forms/chatwindow.ui
+        src/qt/forms/chatwindow.ui \
+    src/qt/forms/richlist.ui \
+    src/qt/forms/poll.ui
 
 contains(USE_QRCODE, 1) {
 HEADERS += src/qt/qrcodedialog.h

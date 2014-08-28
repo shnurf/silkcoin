@@ -51,6 +51,9 @@
         <file alias="dollar">res/icons/dollar.png</file>
         <file alias="minimize">res/icons/mini.png</file>
         <file alias="sctask">res/icons/silkcointask.png</file>
+	<file alias="gold">res/icons/Silkcoin_gold.png</file>
+	<file alias="silver">res/icons/Silkcoin_silver.png</file>
+	<file alias="bronze">res/icons/Silkcoin_bronze.png</file>
         <file alias="dash">res/icons/dash.png</file>
         <file>res/icons/balance.png</file>
         <file>res/icons/detail.png</file>
@@ -90,7 +93,9 @@
         <file alias="facebook">res/icons/facebook.png</file>
         <file alias="reddit">res/icons/reddit.png</file>
         <file alias="twitter">res/icons/twitter.png</file>
-        <file>res/icons/poloniex.png</file>
+        <file alias="poloniex">res/icons/poloniex.png</file>
+        <file alias="richlist">res/icons/richlist.png</file>
+        <file alias="poll">res/icons/vote.png</file>
     </qresource>
     <qresource prefix="/images">
         <file alias="about">res/images/about.png</file>
@@ -102,7 +107,7 @@
         <file alias="camel">res/movies/camel.gif</file>
         <file alias="camelpurple">res/movies/camel_walkcycle.gif</file>
         <file alias="camelgreen">res/movies/camel_walkcycle2.gif</file>
-        <file alias="update_spinner">res/movies/update_spinner.mng</file>
+        <file alias="update_spinner">res/movies/spinner.gif</file>
     </qresource>
     <qresource prefix="/translations">
         <file alias="en">locale/bitcoin_en.qm</file>
@@ -119,4 +124,5 @@
     <qresource prefix="/cert">
         <file alias="mintpalc">res/cert/mintpal.com.crt</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>

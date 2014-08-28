@@ -1245,7 +1245,7 @@ void PoolBrowser::poloniexOrders(QNetworkReply* response) {
         for (int i = 0; i < depth; i++) {
             QJsonArray asks = jsonValueAsks[i].toArray();
 
-            _poloniexOrders->setPrice(asks[0].toDouble());
+            _poloniexOrders->setPrice(asks[0].toString());
             _poloniexOrders->setQuantity(asks[1].toDouble());
             _poloniexOrders->setOrderType("Sell");
 
@@ -1265,7 +1265,7 @@ void PoolBrowser::poloniexOrders(QNetworkReply* response) {
 
             QJsonArray bids = jsonValueBids[i].toArray();
 
-            _poloniexOrders->setPrice(bids[0].toDouble());
+            _poloniexOrders->setPrice(bids[0].toString());
             _poloniexOrders->setQuantity(bids[1].toDouble());
             _poloniexOrders->setOrderType("Buy");
 
@@ -1459,7 +1459,7 @@ void PoolBrowser::cryptsyOrders(QNetworkReply* response) {
 
         QString apiResponse = response->readAll();
 
-        apiResponse = apiResponse.replace("{\"success\":1,\"return\":{\"SC\":{\"marketid\":\"225\",\"label\":\"SC\\/BTC\",\"primaryname\":\"SilkCoin\",\"primarycode\":\"SC\",\"secondaryname\":\"BitCoin\",\"secondarycode\":\"BTC\",\"sellorders\":[", "");
+        apiResponse = apiResponse.replace("{\"success\":1,\"return\":{\"SILK\":{\"marketid\":\"225\",\"label\":\"SILK\\/BTC\",\"primaryname\":\"SilkCoin\",\"primarycode\":\"SILK\",\"secondaryname\":\"BitCoin\",\"secondarycode\":\"BTC\",\"sellorders\":[", "");
         QStringList qslApiResponse = apiResponse.split("],\"buyorders\":[");
 
         QStringList qslApiResponseSells = qslApiResponse[0].replace("},{", "}{").split("{", QString::SkipEmptyParts);
