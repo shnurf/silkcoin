@@ -144,16 +144,18 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     QWidget* spacer4 = new QWidget();
     spacer4->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
     spacer4->setMinimumHeight(20);
-    camelgreen = new QMovie(":/movies/camelgreen", "gif", this);
-    camelpurple = new QMovie(":/movies/camelpurple", "gif", this);
-    labelca = new QLabel(this);
-    labelca->setMovie(camelpurple);
-    labelca->show();
-    camelpurple->start();
-    camelpurple->stop();
+
+    gifCamelUnlocked = new QMovie(":/movies/camel_unlocked", "gif", this);
+    gifCamelLocked = new QMovie(":/movies/camel_locked", "gif", this);
+    lblCamelTraveling = new QLabel(this);
+    lblCamelTraveling->setMovie(gifCamelLocked);
+    lblCamelTraveling->show();
+    gifCamelLocked->start();
+    gifCamelLocked->stop();
+
     QToolBar *toolbar3 = addToolBar(tr("Settings2"));
     toolbar3->addWidget(spacer);
-    toolbar3->addWidget(labelca);
+    toolbar3->addWidget(lblCamelTraveling);
     toolbar3->addAction(actionLockUnlockWallet_ActionScreen);
     toolbar3->addWidget(spacer2);
     QToolBar *toolbar5 = addToolBar(tr("Settings4"));
@@ -223,9 +225,9 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     labelStakingIcon->setPixmap(QIcon(":/icons/staking_off").pixmap(STATUSBAR_ICONSIZE, 44));
     labelConnectionsIcon = new QLabel();
     labelConnectionsIcon->setPixmap(QIcon(":/icons/connect_0").pixmap(STATUSBAR_ICONSIZE, 44));
-    labelBlocksIcon = new QLabel();
-    labelBlocksIcon->setPixmap(QIcon(":/icons/connecting").pixmap(STATUSBAR_ICONSIZE, 44)); //Initialize with 'searching' icon so people with slow connections see something
-    labelBlocksIcon->setToolTip("Looking for more network connections");
+    lblBlockStatus = new QLabel();
+    lblBlockStatus->setPixmap(QIcon(":/icons/connecting").pixmap(STATUSBAR_ICONSIZE, 44)); //Initialize with 'searching' icon so people with slow connections see something
+    lblBlockStatus->setToolTip("Looking for more network connections");
     actionConvertCurrency = new QAction(QIcon(":/icons/sctask"), tr(""), this);
     actionConvertCurrency->setToolTip("Click here to convert your Silkcoin to USD and BTC.  Silkcoin price is pegged to BTC/SILK market and BTC/USD market on Coinbase.");
     actionLockUnlockWallet_Toolbar = new QAction(QIcon(":/icons/lock_closed"), tr(""), this);
@@ -259,14 +261,15 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     toolbar2->addAction(actionLockUnlockWallet_Toolbar);
     toolbar2->addWidget(labelStakingIcon);
     toolbar2->addWidget(labelConnectionsIcon);
-    toolbar2->addWidget(labelBlocksIcon);
+    toolbar2->addWidget(lblBlockStatus);
     toolbar2->addAction(actionTwitter);
     toolbar2->addAction(actionFacebook);
     toolbar2->addAction(actionReddit);
     toolbar2->addAction(actionHowToStake);
     toolbar2->setStyleSheet("#toolbar2 QToolButton { border:none;padding:0px;margin:0px;height:20px;width:28px;margin-top:20px; }");
 
-    syncIconMovie = new QMovie(":/movies/update_spinner", "mng", this);
+    gifSyncing = new QMovie(":/movies/spinner", "gif", this);
+    gifSyncing->setCacheMode(QMovie::CacheAll);
 
     connect(actionConvertCurrency, SIGNAL(triggered()), this, SLOT(sConvert()));
 
@@ -778,21 +781,29 @@ void BitcoinGUI::setNumBlocks(int count, int nTotalBlocks) {
 
     // Set icon state: spinning if catching up, tick otherwise
     if (clientModel->getNumConnections() < 2) {
-        labelBlocksIcon->setPixmap(QIcon(":/icons/connecting").pixmap(STATUSBAR_ICONSIZE, 44));
-        labelBlocksIcon->setToolTip("Looking for more network connections");
+        lblBlockStatus->setPixmap(QIcon(":/icons/connecting").pixmap(STATUSBAR_ICONSIZE, 44));
+        lblBlockStatus->setToolTip("Looking for more network connections");
 
         overviewPage->showOutOfSyncWarning(true);
 
         return;
     } else if (secs < 90 * 60 && count >= nTotalBlocks) {
         tooltip = tr("Up to date") + QString(".<br>") + tooltip;
-        labelBlocksIcon->setPixmap(QIcon(":/icons/synced").pixmap(STATUSBAR_ICONSIZE, 44));
+        lblBlockStatus->setPixmap(QIcon(":/icons/synced").pixmap(STATUSBAR_ICONSIZE, 44));
 
         overviewPage->showOutOfSyncWarning(false);
     } else {
         tooltip = tr("Catching up...") + QString("<br>") + tooltip;
-        labelBlocksIcon->setMovie(syncIconMovie);
-        syncIconMovie->start();
+
+        lblBlockStatus->setMovie(gifSyncing);
+
+        bool isValid = gifSyncing->isValid();
+        bool isNotRunning = gifSyncing->state() == QMovie::NotRunning;
+        bool hasEnoughFrames = gifSyncing->frameCount() > 1;
+
+        if(isValid && isNotRunning && hasEnoughFrames) {
+            gifSyncing->start();
+        }
 
         overviewPage->showOutOfSyncWarning(true);
     }
@@ -805,7 +816,7 @@ void BitcoinGUI::setNumBlocks(int count, int nTotalBlocks) {
     // Don't word-wrap this (fixed-width) tooltip
     tooltip = QString("<nobr>") + tooltip + QString("</nobr>");
 
-    labelBlocksIcon->setToolTip(tooltip);
+    lblBlockStatus->setToolTip(tooltip);
     progressBar->setToolTip(tooltip);
 }
 
@@ -1168,7 +1179,8 @@ void BitcoinGUI::dropEvent(QDropEvent *event) {
     if (event->mimeData()->hasUrls()) {
         int nValidUrisFound = 0;
         QList<QUrl> uris = event->mimeData()->urls();
-        foreach(const QUrl& uri, uris) {
+
+        foreach(const QUrl & uri, uris) {
             if (sendCoinsPage->handleURI(uri.toString())) {
                 nValidUrisFound++;
             }
@@ -1208,9 +1220,9 @@ void BitcoinGUI::setEncryptionStatus(int status) {
 
             changePassphraseAction->setEnabled(false);
 
-            labelca->setMovie(camelpurple);
-            camelgreen->stop();
-            camelpurple->start();
+            lblCamelTraveling->setMovie(gifCamelLocked);
+            gifCamelUnlocked->stop();
+            gifCamelLocked->start();
 
             break;
 
@@ -1226,9 +1238,9 @@ void BitcoinGUI::setEncryptionStatus(int status) {
 
             changePassphraseAction->setEnabled(true); //TODO: currently not supported
 
-            labelca->setMovie(camelgreen);
-            camelgreen->start();
-            camelpurple->stop();
+            lblCamelTraveling->setMovie(gifCamelUnlocked);
+            gifCamelUnlocked->start();
+            gifCamelLocked->stop();
 
             break;
 
@@ -1244,9 +1256,9 @@ void BitcoinGUI::setEncryptionStatus(int status) {
 
             changePassphraseAction->setEnabled(true); //TODO: currently not supported
 
-            labelca->setMovie(camelpurple);
-            camelgreen->stop();
-            camelpurple->stop();
+            lblCamelTraveling->setMovie(gifCamelLocked);
+            gifCamelUnlocked->stop();
+            gifCamelLocked->stop();
 
             break;
     }
@@ -1359,8 +1371,8 @@ void BitcoinGUI::updateStakingIcon() {
     }
 
     if (clientModel->getNumConnections() < 2) {
-        labelBlocksIcon->setPixmap(QIcon(":/icons/connecting").pixmap(STATUSBAR_ICONSIZE, 44));
-        labelBlocksIcon->setToolTip("Looking for more network connections");
+        lblBlockStatus->setPixmap(QIcon(":/icons/connecting").pixmap(STATUSBAR_ICONSIZE, 44));
+        lblBlockStatus->setToolTip("Looking for more network connections");
     } else if (nLastCoinStakeSearchInterval && nWeight) {
         uint64_t nNetworkWeight = GetPoSKernelPS();
         unsigned nEstimateTime = nTargetSpacing * nNetworkWeight / nWeight;
@@ -1391,8 +1403,8 @@ void BitcoinGUI::updateStakingIcon() {
         } else if (!nWeight) {
             labelStakingIcon->setToolTip(tr("Not staking because you don't have mature coins"));
         } else if (!pwalletMain->IsLocked()) {
-		    labelStakingIcon->setToolTip(tr("Preparing to stake."));
-		} else {
+            labelStakingIcon->setToolTip(tr("Preparing to stake."));
+        } else {
             labelStakingIcon->setToolTip(tr("Not staking."));
         }
     }

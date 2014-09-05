@@ -77,14 +77,14 @@ void RichList::processOverview(QNetworkReply* response) {
 
             qtHighRollers->setText(0, _highRollers->getRank(QString()));
 
-            qtHighRollers->setIcon(1, QIcon(i < 6 ? ":/icons/gold"
-                                            : i > 5 && i < 21 ? ":/icons/silver"
-                                            : i > 20 && i < 51 ? ":/icons/bronze"
-                                            : "null"));
+            qtHighRollers->setIcon(1, QIcon(i < 5 ? ":/icons/gold"
+                                          : i < 20 ? ":/icons/silver"
+                                          : i < 50 ? ":/icons/bronze"
+                                          : "null"));
 
-            qtHighRollers->setToolTip(1, i < 6 ? "Gold"
-                                      : i > 5 && i < 21 ? "Silver"
-                                      : i > 20 && i < 51 ? "Bronze"
+            qtHighRollers->setToolTip(1, i < 5 ? "Gold"
+                                      : i < 20 ? "Silver"
+                                      : i < 50 ? "Bronze"
                                       : "");
 
             qtHighRollers->setText(2, _highRollers->getAddress(QString()));

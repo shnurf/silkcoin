@@ -85,7 +85,7 @@ class BitcoinGUI : public QMainWindow {
     QLabel *labelEncryptionIcon;
     QLabel *labelStakingIcon;
     QLabel *labelConnectionsIcon;
-    QLabel *labelBlocksIcon;
+    QLabel *lblBlockStatus;
     QAction *actionConvertCurrency;
     QAction *actionFacebook;
     QAction *actionTwitter;
@@ -138,11 +138,10 @@ class BitcoinGUI : public QMainWindow {
     TransactionView *transactionView;
     RPCConsole *rpcConsole;
 
-    QMovie *syncIconMovie;
-    QMovie *camelgreen;
-    QMovie *camelpurple;
-    QLabel *labelca;
-    QLabel *labelca2;
+    QMovie *gifSyncing;
+    QMovie *gifCamelLocked;
+    QMovie *gifCamelUnlocked;
+    QLabel *lblCamelTraveling;
 
     /** Create the main UI actions. */
     void createActions();

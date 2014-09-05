@@ -51,9 +51,9 @@
         <file alias="dollar">res/icons/dollar.png</file>
         <file alias="minimize">res/icons/mini.png</file>
         <file alias="sctask">res/icons/silkcointask.png</file>
-	<file alias="gold">res/icons/Silkcoin_gold.png</file>
-	<file alias="silver">res/icons/Silkcoin_silver.png</file>
-	<file alias="bronze">res/icons/Silkcoin_bronze.png</file>
+        <file alias="gold">res/icons/Silkcoin_gold.png</file>
+        <file alias="silver">res/icons/Silkcoin_silver.png</file>
+        <file alias="bronze">res/icons/Silkcoin_bronze.png</file>
         <file alias="dash">res/icons/dash.png</file>
         <file>res/icons/balance.png</file>
         <file>res/icons/detail.png</file>
@@ -105,9 +105,9 @@
     </qresource>
     <qresource prefix="/movies">
         <file alias="camel">res/movies/camel.gif</file>
-        <file alias="camelpurple">res/movies/camel_walkcycle.gif</file>
-        <file alias="camelgreen">res/movies/camel_walkcycle2.gif</file>
-        <file alias="update_spinner">res/movies/spinner.gif</file>
+        <file alias="camel_locked">res/movies/camel_locked.gif</file>
+        <file alias="camel_unlocked">res/movies/camel_unlocked.gif</file>
+        <file alias="spinner">res/movies/spinner.gif</file>
     </qresource>
     <qresource prefix="/translations">
         <file alias="en">locale/bitcoin_en.qm</file>
@@ -121,8 +121,4 @@
         <file alias="canter">res/fonts/CanterBold.otf</file>
         <file alias="canterl">res/fonts/CanterLight.otf</file>
     </qresource>
-    <qresource prefix="/cert">
-        <file alias="mintpalc">res/cert/mintpal.com.crt</file>
-    </qresource>
-    <qresource prefix="/"/>
 </RCC>
