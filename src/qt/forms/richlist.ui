@@ -65,6 +65,9 @@
      <height>23</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background:#34495e;color:white;margin:0px;text-align:center;padding:2px;border-radius:3px;font-style:italic;width:100px;font-size:14px;font-family:calibri;font-weight:600;</string>
+   </property>
    <property name="text">
     <string>Refresh</string>
    </property>

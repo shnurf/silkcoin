@@ -64,22 +64,26 @@ void Poll::getRequest(const QString &urlString) {
 }
 
 void Poll::postRequest() {
-    QString raw = QString()
-                  .append("{\"vote\":{\"address\": \"")
-                  .append(_choiceAddress.toString())
-                  .append("\",\"tx\": \"")
-                  .append(_txId)
-                  .append("\"}}");
+    try {
+        QString raw = QString()
+                      .append("{\"vote\":{\"address\": \"")
+                      .append(_choiceAddress.toString())
+                      .append("\",\"tx\": \"")
+                      .append(_txId)
+                      .append("\"}}");
 
-    QByteArray byteArray = QByteArray();
-    byteArray.append(raw);
+        QByteArray byteArray = QByteArray();
+        byteArray.append(raw);
 
-    QUrl url(apiPost);
-    QNetworkRequest req(url);
+        QUrl url(apiPost);
+        QNetworkRequest req(url);
 
-    req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json; charset=utf-8");
+        req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json; charset=utf-8");
 
-    m_nam.post(req, byteArray);
+        m_nam.post(req, byteArray);
+    } catch (exception ex) {
+        printf("Poll::postRequest: %s\r\n", ex.what());
+    }
 }
 
 void Poll::getResponse(QNetworkReply *response) {
@@ -101,81 +105,85 @@ void Poll::postResponse(QNetworkReply *response) {
 }
 
 void Poll::processOverview(QJsonObject jsonObject) {
-    setId(jsonObject["id"].toDouble());
-    setCost(jsonObject["cost"].toDouble());
-    setStart(jsonObject["format_start"].toString().toStdString());
-    setStop(jsonObject["format_stop"].toString().toStdString());
-    setServerTime(jsonObject["server_time"].toInt());
-    setName(jsonObject["name"].toString());
-    setDescription(jsonObject["description"].toString());
+    try {
+        setId(jsonObject["id"].toDouble());
+        setCost(jsonObject["cost"].toDouble());
+        setStart(jsonObject["format_start"].toString().toStdString());
+        setStop(jsonObject["format_stop"].toString().toStdString());
+        setServerTime(jsonObject["server_time"].toInt());
+        setName(jsonObject["name"].toString());
+        setDescription(jsonObject["description"].toString());
 
-    ui->lblName->setText(QString("You're Voting For: ").append(getName()));
-    ui->lblDescription->setText(QString("Description: ").append(getDescription()));
-    ui->lblExpiry->setText(QString("Expiry Date/Time: ").append(getStop().toString()));
-    ui->lblServerTime->setText(QString("Server Date/Time: ").append(getServerTime().toString()));
+        ui->lblName->setText(QString("You're Voting For: ").append(getName()));
+        ui->lblDescription->setText(QString("Description: ").append(getDescription()));
+        ui->lblExpiry->setText(QString("Expiry Date/Time: ").append(getStop().toString()));
+        ui->lblServerTime->setText(QString("Server Date/Time: ").append(getServerTime().toString()));
 
-    QJsonArray choices = jsonObject["choices"].toArray();
-    QJsonArray colors = jsonObject["colours"].toArray();
+        QJsonArray choices = jsonObject["choices"].toArray();
+        QJsonArray colors = jsonObject["colours"].toArray();
 
-    ui->cboChoices->clear();
-    _totalVotes = 0;
+        ui->cboChoices->clear();
+        _totalVotes = 0;
 
-    QObject::disconnect(ui->cboChoices, SIGNAL(currentIndexChanged(int)), this, SLOT(on_cboChoices_currentIndexChanged(int)));
+        QObject::disconnect(ui->cboChoices, SIGNAL(currentIndexChanged(int)), this, SLOT(on_cboChoices_currentIndexChanged(int)));
 
-    for(int i = 0; i < choices.count(); i++) {
-        QJsonObject choice = choices[i].toObject();
+        for(int i = 0; i < choices.count(); i++) {
+            QJsonObject choice = choices[i].toObject();
 
-        _choices->setId(choice["id"].toDouble());
-        _choices->setName(choice["name"].toString().toStdString());
-        _choices->setAddress(choice["address"].toString().toStdString());
-        _choices->setTotalAmount(choice["total_amount"].toDouble());
+            _choices->setId(choice["id"].toDouble());
+            _choices->setName(choice["name"].toString().toStdString());
+            _choices->setAddress(choice["address"].toString().toStdString());
+            _choices->setTotalAmount(choice["total_amount"].toDouble());
 
-        ui->cboChoices->addItem(_choices->getName(), QVariant(_choices->getAddress()));
-        ui->cboChoices->setCurrentIndex(-1);
+            ui->cboChoices->addItem(_choices->getName(), QVariant(_choices->getAddress()));
+            ui->cboChoices->setCurrentIndex(-1);
 
-        _totalVotes += _choices->getTotalAmount(double());
-    }
+            _totalVotes += _choices->getTotalAmount(double());
+        }
 
-    QObject::connect(ui->cboChoices, SIGNAL(currentIndexChanged(int)), this, SLOT(on_cboChoices_currentIndexChanged(int)));
+        QObject::connect(ui->cboChoices, SIGNAL(currentIndexChanged(int)), this, SLOT(on_cboChoices_currentIndexChanged(int)));
 
-    _chart->clearPieces();
-    _chart->setType(Nightcharts::Pie);
-    _chart->setLegendType(Nightcharts::Round);
+        _chart->clearPieces();
+        _chart->setType(Nightcharts::Pie);
+        _chart->setLegendType(Nightcharts::Round);
 
-    _chart->setCords(this->width() / 2 - 125, 50, 250, 175);
+        _chart->setCords(this->width() / 2 - 125, 50, 250, 175);
 
-    for(int i = 0; i < choices.count(); i++) {
-        QJsonObject choice = choices[i].toObject();
-        QJsonArray rgb = colors[i].toArray();
+        for(int i = 0; i < choices.count(); i++) {
+            QJsonObject choice = choices[i].toObject();
+            QJsonArray rgb = colors[i].toArray();
 
-        QString name = choice["name"].toString();
+            QString name = choice["name"].toString();
 
-        int r = rgb[0].toInt();
-        int g = rgb[1].toInt();
-        int b = rgb[2].toInt();
+            int r = rgb[0].toInt();
+            int g = rgb[1].toInt();
+            int b = rgb[2].toInt();
 
-        QColor color = QColor(r, g, b);
-        float perc = choice["total_amount"].toDouble() / _totalVotes * 100;
+            QColor color = QColor(r, g, b);
+            float perc = choice["total_amount"].toDouble() / _totalVotes * 100;
 
-        _chart->addPiece(name, color, perc);
-    }
+            _chart->addPiece(name, color, perc);
+        }
 
-    ui->cboChoices->setCurrentIndex(_selectedIndex);
+        ui->cboChoices->setCurrentIndex(_selectedIndex);
 
-    this->repaint();
+        this->repaint();
 
-    if(getServerTime() > getStop()) {
-        ui->btnVote->setToolTip(QString("This poll has expired.  Please try again later."));
-        ui->btnVote->setStyleSheet(QString("background:#bfbfbf;color:black;margin:0px;text-align:center;padding:2px;border-radius:3px;font-style:italic;width:100px;font-size:14px;font-family:calibri;font-weight:600;"));
-        ui->cboChoices->setEnabled(false);
-        ui->btnVote->setEnabled(false);
+        if(getServerTime() > getStop()) {
+            ui->btnVote->setToolTip(QString("This poll has expired.  Please try again later."));
+            ui->btnVote->setStyleSheet(QString("background:#bfbfbf;color:black;margin:0px;text-align:center;padding:2px;border-radius:3px;font-style:italic;width:100px;font-size:14px;font-family:calibri;font-weight:600;"));
+            ui->cboChoices->setEnabled(false);
+            ui->btnVote->setEnabled(false);
 
-        return;
-    } else {
-        ui->btnVote->setToolTip(QString(""));
-        ui->btnVote->setStyleSheet(QString("background:#34495e;color:white;margin:0px;text-align:center;padding:2px;border-radius:3px;font-style:italic;width:100px;font-size:14px;font-family:calibri;font-weight:600;"));
-        ui->cboChoices->setEnabled(true);
-        ui->btnVote->setEnabled(true);
+            return;
+        } else {
+            ui->btnVote->setToolTip(QString(""));
+            ui->btnVote->setStyleSheet(QString("background:#34495e;color:white;margin:0px;text-align:center;padding:2px;border-radius:3px;font-style:italic;width:100px;font-size:14px;font-family:calibri;font-weight:600;"));
+            ui->cboChoices->setEnabled(true);
+            ui->btnVote->setEnabled(true);
+        }
+    } catch (exception ex) {
+        printf("Poll::processOverview: %s\r\n", ex.what());
     }
 }
 
@@ -188,104 +196,108 @@ void Poll::on_btnRefresh_clicked() {
 }
 
 void Poll::on_btnVote_clicked() {
-    QList<SendCoinsRecipient> recipients;
-    SendCoinsRecipient recipient = SendCoinsRecipient();
+    try {
+        QList<SendCoinsRecipient> recipients;
+        SendCoinsRecipient recipient = SendCoinsRecipient();
 
-    _donation = ui->nsVotes->value() * getCost(double());
+        _donation = ui->nsVotes->value() * getCost(double());
 
-    recipient.address = _choiceAddress.toString();
-    recipient.amount = _donation;
-    recipient.amount *= 100000000; //All send transactions are based on Satoshi, not coins
-    recipient.label = QString("Silk Poll");
+        recipient.address = _choiceAddress.toString();
+        recipient.amount = _donation;
+        recipient.amount *= 100000000; //All send transactions are based on Satoshi, not coins
+        recipient.label = QString("Silk Poll");
 
-    recipients.append(recipient);
+        recipients.append(recipient);
 
-    if (!model) {
-        return;
-    }
+        if (!model) {
+            return;
+        }
 
-    // Format confirmation message
-    QStringList formatted;
-    foreach(const SendCoinsRecipient & rcp, recipients) {
-        formatted.append(tr("<b>%1</b> to %2 (%3)").arg(QString::number(_donation).append(" SILK "), QString("to vote for ").append(ui->cboChoices->currentText()), rcp.address));
-    }
+        // Format confirmation message
+        QStringList formatted;
+        foreach(const SendCoinsRecipient & rcp, recipients) {
+            formatted.append(tr("<b>%1</b> to %2 (%3)").arg(QString::number(_donation).append(" SILK "), QString("vote for ").append(ui->cboChoices->currentText()), rcp.address));
+        }
 
-    QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm sending coins"),
-                                         tr("Are you sure you want to send %1?").arg(formatted.join(tr(" and "))),
-                                         QMessageBox::Yes | QMessageBox::Cancel,
-                                         QMessageBox::Cancel);
+        QMessageBox::StandardButton retval = QMessageBox::question(this, tr("Confirm sending coins"),
+                                             tr("Are you sure you want to send %1?").arg(formatted.join(tr(" and "))),
+                                             QMessageBox::Yes | QMessageBox::Cancel,
+                                             QMessageBox::Cancel);
 
-    if (retval != QMessageBox::Yes) {
-        return;    //User Cancelled
-    }
+        if (retval != QMessageBox::Yes) {
+            return;    //User Cancelled
+        }
 
-    WalletModel::UnlockContext ctx(model->requestUnlock());
+        WalletModel::UnlockContext ctx(model->requestUnlock());
 
-    WalletModel::SendCoinsReturn sendstatus;
+        WalletModel::SendCoinsReturn sendstatus;
 
-    if (ctx.isValid()) {
-        sendstatus = model->sendCoins(recipients);
-    } else {
-        return;
-    }
+        if (ctx.isValid()) {
+            sendstatus = model->sendCoins(recipients);
+        } else {
+            return;
+        }
 
-    switch (sendstatus.status) {
-        case WalletModel::InvalidAddress:
-            QMessageBox::warning(this, tr("Send Coins"),
-                                 tr("The recipient address is not valid, please recheck."),
-                                 QMessageBox::Ok, QMessageBox::Ok);
-            break;
-
-        case WalletModel::InvalidAmount:
-            QMessageBox::warning(this, tr("Send Coins"),
-                                 tr("The amount to pay must be larger than 0."),
-                                 QMessageBox::Ok, QMessageBox::Ok);
-            break;
-
-        case WalletModel::AmountExceedsBalance:
-            QMessageBox::warning(this, tr("Send Coins"),
-                                 tr("The amount exceeds your balance."),
-                                 QMessageBox::Ok, QMessageBox::Ok);
-            break;
-
-        case WalletModel::AmountWithFeeExceedsBalance:
-            QMessageBox::warning(this, tr("Send Coins"),
-                                 tr("The total exceeds your balance when the %1 transaction fee is included.").
-                                 arg(BitcoinUnits::formatWithUnit(BitcoinUnits::BTC, sendstatus.fee)),
-                                 QMessageBox::Ok, QMessageBox::Ok);
-            break;
-
-        case WalletModel::TransactionCreationFailed:
-            QMessageBox::warning(this, tr("Send Coins"),
-                                 tr("Error: Transaction creation failed."),
-                                 QMessageBox::Ok, QMessageBox::Ok);
-            break;
-
-        case WalletModel::TransactionCommitFailed:
-            QMessageBox::warning(this, tr("Send Coins"),
-                                 tr("Error: The transaction was rejected. This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here."),
-                                 QMessageBox::Ok, QMessageBox::Ok);
-            break;
-
-        case WalletModel::Aborted: // User aborted, nothing to do
-            break;
-
-        case WalletModel::OK:
-            QMessageBox::information(this, tr("Send Coins"),
-                                     QString("You successfully cast ")
-                                     .append(QString::number(ui->nsVotes->value()))
-                                     .append(QString(" vote(s) ("))
-                                     .append(QString::number(_donation))
-                                     .append(QString(" SILK)"))
-                                     .append(QString(" for "))
-                                     .append(ui->cboChoices->currentText()),
+        switch (sendstatus.status) {
+            case WalletModel::InvalidAddress:
+                QMessageBox::warning(this, tr("Send Coins"),
+                                     tr("The recipient address is not valid, please recheck."),
                                      QMessageBox::Ok, QMessageBox::Ok);
-            break;
+                break;
+
+            case WalletModel::InvalidAmount:
+                QMessageBox::warning(this, tr("Send Coins"),
+                                     tr("The amount to pay must be larger than 0."),
+                                     QMessageBox::Ok, QMessageBox::Ok);
+                break;
+
+            case WalletModel::AmountExceedsBalance:
+                QMessageBox::warning(this, tr("Send Coins"),
+                                     tr("The amount exceeds your balance."),
+                                     QMessageBox::Ok, QMessageBox::Ok);
+                break;
+
+            case WalletModel::AmountWithFeeExceedsBalance:
+                QMessageBox::warning(this, tr("Send Coins"),
+                                     tr("The total exceeds your balance when the %1 transaction fee is included.").
+                                     arg(BitcoinUnits::formatWithUnit(BitcoinUnits::BTC, sendstatus.fee)),
+                                     QMessageBox::Ok, QMessageBox::Ok);
+                break;
+
+            case WalletModel::TransactionCreationFailed:
+                QMessageBox::warning(this, tr("Send Coins"),
+                                     tr("Error: Transaction creation failed."),
+                                     QMessageBox::Ok, QMessageBox::Ok);
+                break;
+
+            case WalletModel::TransactionCommitFailed:
+                QMessageBox::warning(this, tr("Send Coins"),
+                                     tr("Error: The transaction was rejected. This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here."),
+                                     QMessageBox::Ok, QMessageBox::Ok);
+                break;
+
+            case WalletModel::Aborted: // User aborted, nothing to do
+                break;
+
+            case WalletModel::OK:
+                QMessageBox::information(this, tr("Send Coins"),
+                                         QString("You successfully cast ")
+                                         .append(QString::number(ui->nsVotes->value()))
+                                         .append(QString(" vote(s) ("))
+                                         .append(QString::number(_donation))
+                                         .append(QString(" SILK)"))
+                                         .append(QString(" for "))
+                                         .append(ui->cboChoices->currentText()),
+                                         QMessageBox::Ok, QMessageBox::Ok);
+                break;
+        }
+
+        _txId = sendstatus.hex;
+
+        postRequest();
+    } catch (exception ex) {
+        printf("Poll::on_btnVote_clicked: %s\r\n", ex.what());
     }
-
-    _txId = sendstatus.hex;
-
-    postRequest();
 }
 
 void Poll::on_cboChoices_currentIndexChanged(int index) {

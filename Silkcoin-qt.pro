@@ -1,6 +1,6 @@
 TEMPLATE = app
 TARGET = silkcoin-qt
-VERSION = 1.1.0.19
+VERSION = 1.1.0.20
  
 INCLUDEPATH += src src/json src/qt
 DEFINES += QT_GUI BOOST_THREAD_USE_LIB BOOST_SPIRIT_THREADSAFE
@@ -187,7 +187,6 @@ HEADERS += \
         src/qt/bitcoingui.h \
         src/qt/bitcoinunits.h \
         src/qt/blockbrowser.h \
-        src/qt/chatwindow.h \
         src/qt/clientmodel.h \
         src/qt/coincontroldialog.h \
         src/qt/coincontroltreewidget.h \
@@ -211,7 +210,6 @@ HEADERS += \
         src/qt/rpcconsole.h \
         src/qt/sendcoinsdialog.h \
         src/qt/sendcoinsentry.h \
-        src/qt/serveur.h \
         src/qt/signverifymessagedialog.h \
         src/qt/statisticspage.h \
         src/qt/transactiondesc.h \
@@ -276,7 +274,6 @@ SOURCES += \
         src/qt/bitcoinstrings.cpp \
         src/qt/bitcoinunits.cpp \
         src/qt/blockbrowser.cpp \
-        src/qt/chatwindow.cpp \
         src/qt/clientmodel.cpp \
         src/qt/coincontroldialog.cpp \
         src/qt/coincontroltreewidget.cpp \
@@ -299,7 +296,6 @@ SOURCES += \
         src/qt/rpcconsole.cpp \
         src/qt/sendcoinsdialog.cpp \
         src/qt/sendcoinsentry.cpp \
-        src/qt/serveur.cpp \
         src/qt/signverifymessagedialog.cpp \
         src/qt/statisticspage.cpp \
         src/qt/transactiondesc.cpp \
@@ -346,7 +342,6 @@ FORMS += \
         src/qt/forms/addressbookpage.ui \
         src/qt/forms/askpassphrasedialog.ui \
         src/qt/forms/blockbrowser.ui\
-        src/qt/forms/chatwindow.ui \
         src/qt/forms/coincontroldialog.ui \
         src/qt/forms/editaddressdialog.ui \
         src/qt/forms/optionsdialog.ui \

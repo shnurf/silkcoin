@@ -78,9 +78,9 @@ void RichList::processOverview(QNetworkReply* response) {
             qtHighRollers->setText(0, _highRollers->getRank(QString()));
 
             qtHighRollers->setIcon(1, QIcon(i < 5 ? ":/icons/gold"
-                                          : i < 20 ? ":/icons/silver"
-                                          : i < 50 ? ":/icons/bronze"
-                                          : "null"));
+                                         : i < 20 ? ":/icons/silver"
+                                         : i < 50 ? ":/icons/bronze"
+                                         : "null"));
 
             qtHighRollers->setToolTip(1, i < 5 ? "Gold"
                                       : i < 20 ? "Silver"
@@ -95,7 +95,7 @@ void RichList::processOverview(QNetworkReply* response) {
             ui->tblRichList->addTopLevelItem(qtHighRollers);
         }
     } catch (exception ex) {
-        printf("RichList::poloniexTrades: %s\r\n", ex.what());
+        printf("RichList::processTrades: %s\r\n", ex.what());
     }
 }
 
