@@ -4,23 +4,22 @@
 #include <QDialog>
 
 namespace Ui {
-    class tutoStackDialog;
+class tutoStackDialog;
 }
 class ClientModel;
 
-class tutoStackDialog : public QDialog
-{
+class tutoStackDialog : public QDialog {
     Q_OBJECT
 
-public:
+  public:
     explicit tutoStackDialog(QWidget *parent = 0);
     ~tutoStackDialog();
 
     void setModel(ClientModel *model);
-private:
+  private:
     Ui::tutoStackDialog *ui;
 
-private slots:
+  private slots:
     void on_buttonBox_accepted();
 };
 

@@ -11,21 +11,20 @@ class MonitoredDataMapper;
 class QValidatedLineEdit;
 
 /** Preferences dialog. */
-class OptionsDialog : public QDialog
-{
+class OptionsDialog : public QDialog {
     Q_OBJECT
 
-public:
+  public:
     explicit OptionsDialog(QWidget *parent = 0);
     ~OptionsDialog();
 
     void setModel(OptionsModel *model);
     void setMapper();
 
-protected:
+  protected:
     bool eventFilter(QObject *object, QEvent *event);
 
-private slots:
+  private slots:
     /* enable only apply button */
     void enableApplyButton();
     /* disable only apply button */
@@ -45,10 +44,10 @@ private slots:
     void updateDisplayUnit();
     void handleProxyIpValid(QValidatedLineEdit *object, bool fState);
 
-signals:
+  signals:
     void proxyIpValid(QValidatedLineEdit *object, bool fValid);
 
-private:
+  private:
     Ui::OptionsDialog *ui;
     OptionsModel *model;
     MonitoredDataMapper *mapper;

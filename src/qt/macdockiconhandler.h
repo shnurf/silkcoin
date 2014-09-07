@@ -18,11 +18,10 @@ class DockIconClickEventHandler;
 
 /** Macintosh-specific dock icon handler.
  */
-class MacDockIconHandler : public QObject
-{
+class MacDockIconHandler : public QObject {
     Q_OBJECT
 
-public:
+  public:
     ~MacDockIconHandler();
 
     QMenu *dockMenu();
@@ -32,10 +31,10 @@ public:
 
     void handleDockIconClickEvent();
 
-signals:
+  signals:
     void dockIconClicked();
 
-private:
+  private:
     MacDockIconHandler();
 
     DockIconClickEventHandler *m_dockIconClickEventHandler;

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>815</width>
+    <width>887</width>
     <height>458</height>
    </rect>
   </property>
@@ -44,7 +44,7 @@
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">background:#c7c7c7;</string>
+      <string notr="true">background:#68222c;sss</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_9"/>
     </widget>
@@ -118,7 +118,7 @@
               <height>30</height>
              </size>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout_8" stretch=""/>
+            <layout class="QVBoxLayout" name="verticalLayout_8"/>
            </widget>
           </item>
           <item>
@@ -704,8 +704,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>741</width>
-          <height>85</height>
+          <width>813</width>
+          <height>68</height>
          </rect>
         </property>
         <property name="sizePolicy">
@@ -851,10 +851,6 @@
          </property>
          <property name="text">
           <string>S&amp;end</string>
-         </property>
-         <property name="icon">
-          <iconset resource="../bitcoin.qrc">
-           <normaloff>:/icons/send</normaloff>:/icons/send</iconset>
          </property>
          <property name="default">
           <bool>true</bool>

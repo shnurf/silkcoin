@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Poll</class>
+ <widget class="QWidget" name="Poll">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>766</width>
+    <height>509</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QPushButton" name="btnRefresh">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>457</y>
+     <width>191</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="font">
+    <font>
+     <family>calibri</family>
+     <pointsize>-1</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background:#34495e;color:white;margin:0px;text-align:center;padding:2px;border-radius:3px;font-style:italic;width:100px;font-size:14px;font-family:calibri;font-weight:600;</string>
+   </property>
+   <property name="text">
+    <string>Refresh</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>150</width>
+     <height>35</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblName">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>280</y>
+     <width>600</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:#34495e;font-size:14px;font-family:calibri;font-weight:600;</string>
+   </property>
+   <property name="text">
+    <string>You're Voting For: </string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblDescription">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>310</y>
+     <width>600</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:#34495e;font-size:10px;font-family:calibri;font-weight:600;</string>
+   </property>
+   <property name="text">
+    <string>Description: </string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="cboChoices">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>370</y>
+     <width>600</width>
+     <height>23</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblChoices">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>340</y>
+     <width>600</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:#34495e;font-size:14px;font-family:calibri;font-weight:600;</string>
+   </property>
+   <property name="text">
+    <string>Choices</string>
+   </property>
+  </widget>
+  <widget class="QSpinBox" name="nsVotes">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>630</x>
+     <y>370</y>
+     <width>81</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="minimum">
+    <number>1</number>
+   </property>
+   <property name="maximum">
+    <number>9999999</number>
+   </property>
+   <property name="value">
+    <number>1</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblVotes">
+   <property name="geometry">
+    <rect>
+     <x>630</x>
+     <y>340</y>
+     <width>71</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:#34495e;font-size:14px;font-family:calibri;font-weight:600;</string>
+   </property>
+   <property name="text">
+    <string>Votes</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btnVote">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>457</y>
+     <width>191</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="font">
+    <font>
+     <family>calibri</family>
+     <pointsize>-1</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="toolTip">
+    <string/>
+   </property>
+   <property name="statusTip">
+    <string/>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background:#34495e;color:white;margin:0px;text-align:center;padding:2px;border-radius:3px;font-style:italic;width:100px;font-size:14px;font-family:calibri;font-weight:600;</string>
+   </property>
+   <property name="text">
+    <string>Vote</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>150</width>
+     <height>35</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblDonationPreview">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>400</y>
+     <width>600</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>calibri</family>
+     <pointsize>-1</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:#34495e;font-size:10px;font-family:calibri</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblExpiry">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>457</y>
+     <width>281</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:#34495e;font-size:10px;font-family:calibri;font-weight:600;</string>
+   </property>
+   <property name="text">
+    <string>Expiry Date/Time: </string>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblServerTime">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>480</y>
+     <width>281</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color:#34495e;font-size:10px;font-family:calibri;font-weight:600;</string>
+   </property>
+   <property name="text">
+    <string>Server Date/Time:</string>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

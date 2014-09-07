@@ -4,17 +4,16 @@
 #include <QFrame>
 
 namespace Ui {
-    class SendCoinsEntry;
+class SendCoinsEntry;
 }
 class WalletModel;
 class SendCoinsRecipient;
 
 /** A single entry in the dialog for sending bitcoins. */
-class SendCoinsEntry : public QFrame
-{
+class SendCoinsEntry : public QFrame {
     Q_OBJECT
 
-public:
+  public:
     explicit SendCoinsEntry(QWidget *parent = 0);
     ~SendCoinsEntry();
 
@@ -33,22 +32,22 @@ public:
 
     void setFocus();
 
-public slots:
+  public slots:
     void setRemoveEnabled(bool enabled);
     void clear();
 
-signals:
+  signals:
     void removeEntry(SendCoinsEntry *entry);
     void payAmountChanged();
 
-private slots:
+  private slots:
     void on_deleteButton_clicked();
     void on_payTo_textChanged(const QString &address);
     void on_addressBookButton_clicked();
     void on_pasteButton_clicked();
     void updateDisplayUnit();
 
-private:
+  private:
     Ui::SendCoinsEntry *ui;
     WalletModel *model;
 };

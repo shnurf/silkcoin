@@ -3,22 +3,22 @@
     <name>AboutDialog</name>
     <message>
         <location filename="../forms/aboutdialog.ui" line="+14"/>
-        <source>About BlackCoin</source>
-        <translation>Sobre BlackCoin</translation>
+        <source>About SilkCoin</source>
+        <translation>Sobre SilkCoin</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>&lt;b&gt;BlackCoin&lt;/b&gt; version</source>
-        <translation>versió &lt;b&gt;BlackCoin&lt;/b&gt;</translation>
+        <source>&lt;b&gt;SilkCoin&lt;/b&gt; version</source>
+        <translation>versió &lt;b&gt;SilkCoin&lt;/b&gt;</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Copyright © 2009-2014 The Bitcoin developers
 Copyright © 2012-2014 The NovaCoin developers
-Copyright © 2014 The BlackCoin developers</source>
+Copyright © 2014 The SilkCoin developers</source>
         <translation>Copyright © 2009-2014 The Bitcoin developers
 Copyright © 2012-2014 The NovaCoin developers
-Copyright © 2014 The BlackCoin developers</translation>
+Copyright © 2014 The SilkCoin developers</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -60,8 +60,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="-46"/>
-        <source>These are your BlackCoin addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</source>
-        <translation>Aquestes són les teves adreces de BlackCoin per rebre els pagaments. És possible que vulgueu donar una diferent a cada remitent per a poder realitzar un seguiment de qui li está pagant.</translation>
+        <source>These are your SilkCoin addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</source>
+        <translation>Aquestes són les teves adreces de SilkCoin per rebre els pagaments. És possible que vulgueu donar una diferent a cada remitent per a poder realitzar un seguiment de qui li está pagant.</translation>
     </message>
     <message>
         <location line="+60"/>
@@ -75,8 +75,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+11"/>
-        <source>Sign a message to prove you own a BlackCoin address</source>
-        <translation>Signar un missatge per demostrar que és propietari d&apos;una adreça BlackCoin</translation>
+        <source>Sign a message to prove you own a SilkCoin address</source>
+        <translation>Signar un missatge per demostrar que és propietari d&apos;una adreça SilkCoin</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -90,8 +90,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="-14"/>
-        <source>Verify a message to ensure it was signed with a specified BlackCoin address</source>
-        <translation>Comproveu el missatge per assegurar-se que es va signar amb una adreça BlackCoin especificada.</translation>
+        <source>Verify a message to ensure it was signed with a specified SilkCoin address</source>
+        <translation>Comproveu el missatge per assegurar-se que es va signar amb una adreça SilkCoin especificada.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -192,7 +192,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+1"/>
         <source>Encrypt wallet</source>
-        <translation>Xifrar la cartera</translation>
+        <translation>Xifrar el moneder</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -232,7 +232,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+1"/>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR COINS&lt;/b&gt;!</source>
-        <translation>Avís: Si xifra la seva cartera i perd la contrasenya, podrà &lt;b&gt; PERDRE TOTES LES SEVES MONEDES &lt;/ b&gt;!</translation>
+        <translation>Avís: Si xifra el seu moneder i perd la contrasenya, podrà &lt;b&gt; PERDRE TOTES LES SEVES MONEDES &lt;/ b&gt;!</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -258,8 +258,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="-58"/>
-        <source>BlackCoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your coins from being stolen by malware infecting your computer.</source>
-        <translation>BlackCoin tancarà ara per acabar el procés de xifrat. Recordeu que l&apos;encriptació de la seva cartera no pot protegir completament les seves monedes de ser robades pel malware que pugui infectar al seu equip.</translation>
+        <source>SilkCoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your coins from being stolen by malware infecting your computer.</source>
+        <translation>SilkCoin tancarà ara per acabar el procés de xifrat. Recordeu que l&apos;encriptació del seu moneder no pot protegir completament les seves monedes de ser robades pel malware que pugui infectar al seu equip.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -306,17 +306,17 @@ This product includes software developed by the OpenSSL Project for use in the O
 <context>
     <name>BitcoinGUI</name>
     <message>
-        <location filename="../bitcoingui.cpp" line="+282"/>
+        <location filename="../bitcoingui.cpp" line="+280"/>
         <source>Sign &amp;message...</source>
         <translation>Signar &amp;missatge...</translation>
     </message>
     <message>
-        <location line="+251"/>
+        <location line="+242"/>
         <source>Synchronizing with network...</source>
         <translation>Sincronitzant amb la xarxa ...</translation>
     </message>
     <message>
-        <location line="-319"/>
+        <location line="-308"/>
         <source>&amp;Overview</source>
         <translation>&amp;Panorama general</translation>
     </message>
@@ -371,9 +371,9 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Sortir de l&apos;aplicació</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>Show information about BlackCoin</source>
-        <translation>Mostra informació sobre BlackCoin</translation>
+        <location line="+4"/>
+        <source>Show information about SilkCoin</source>
+        <translation>Mostra informació sobre SilkCoin</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -398,7 +398,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+3"/>
         <source>&amp;Backup Wallet...</source>
-        <translation>&amp;Realitzant copia de seguretat del moneder...</translation>
+        <translation>&amp;Realitzar copia de seguretat del moneder...</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -406,7 +406,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>&amp;Canviar contrasenya...</translation>
     </message>
     <message numerus="yes">
-        <location line="+259"/>
+        <location line="+250"/>
         <source>~%n block(s) remaining</source>
         <translation><numerusform>~%n bloc restant</numerusform><numerusform>~%n blocs restants</numerusform></translation>
     </message>
@@ -416,19 +416,19 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Descarregats %1 de %2 blocs d&apos;historial de transaccions (%3% completat).</translation>
     </message>
     <message>
-        <location line="-256"/>
+        <location line="-247"/>
         <source>&amp;Export...</source>
         <translation>&amp;Exportar...</translation>
     </message>
     <message>
-        <location line="-64"/>
-        <source>Send coins to a BlackCoin address</source>
-        <translation>Enviar monedes a una adreça BlackCoin</translation>
+        <location line="-62"/>
+        <source>Send coins to a SilkCoin address</source>
+        <translation>Enviar monedes a una adreça SilkCoin</translation>
     </message>
     <message>
-        <location line="+47"/>
-        <source>Modify configuration options for BlackCoin</source>
-        <translation>Modificar les opcions de configuració per a BlackCoin</translation>
+        <location line="+45"/>
+        <source>Modify configuration options for SilkCoin</source>
+        <translation>Modificar les opcions de configuració per a SilkCoin</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -438,7 +438,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="-14"/>
         <source>Encrypt or decrypt wallet</source>
-        <translation>Xifrar o desxifrar cartera</translation>
+        <translation>Xifrar o desxifrar moneder</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -453,12 +453,12 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+10"/>
         <source>&amp;Debug window</source>
-        <translation>&amp;Finestra de debug</translation>
+        <translation>&amp;Finestra de depuració</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Open debugging and diagnostic console</source>
-        <translation>Obrir la consola de diagnòstic i debugging</translation>
+        <translation>Obrir la consola de diagnòstic i depuració</translation>
     </message>
     <message>
         <location line="-5"/>
@@ -466,9 +466,9 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>&amp;Verifica el missatge..</translation>
     </message>
     <message>
-        <location line="-202"/>
-        <source>BlackCoin</source>
-        <translation>BlackCoin</translation>
+        <location line="-200"/>
+        <source>SilkCoin</source>
+        <translation>SilkCoin</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -476,9 +476,9 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Moneder</translation>
     </message>
     <message>
-        <location line="+180"/>
-        <source>&amp;About BlackCoin</source>
-        <translation>&amp;Sobre BlackCoin</translation>
+        <location line="+178"/>
+        <source>&amp;About SilkCoin</source>
+        <translation>&amp;Sobre SilkCoin</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -488,20 +488,20 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+9"/>
         <source>Unlock wallet</source>
-        <translation>Desbloquejar la cartera</translation>
+        <translation>Desbloquejar el moneder</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>&amp;Lock Wallet</source>
-        <translation>&amp;Bloquejar cartera</translation>
+        <translation>&amp;Bloquejar moneder</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Lock wallet</source>
-        <translation>Bloquejar cartera</translation>
+        <translation>Bloquejar moneder</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+34"/>
         <source>&amp;File</source>
         <translation>&amp;Arxiu</translation>
     </message>
@@ -516,7 +516,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>&amp;Ajuda</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>Tabs toolbar</source>
         <translation>Barra d&apos;eines de seccions</translation>
     </message>
@@ -534,13 +534,13 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+0"/>
         <location line="+60"/>
-        <source>BlackCoin client</source>
-        <translation>Client BlackCoin</translation>
+        <source>SilkCoin client</source>
+        <translation>Client SilkCoin</translation>
     </message>
     <message numerus="yes">
-        <location line="+75"/>
-        <source>%n active connection(s) to BlackCoin network</source>
-        <translation><numerusform>%n conexió activa a la xarxa BlackCoin</numerusform><numerusform>%n conexions actives a la xarxa BlackCoin</numerusform></translation>
+        <location line="+70"/>
+        <source>%n active connection(s) to SilkCoin network</source>
+        <translation><numerusform>%n conexió activa a la xarxa SilkCoin</numerusform><numerusform>%n conexions actives a la xarxa SilkCoin</numerusform></translation>
     </message>
     <message>
         <location line="+40"/>
@@ -555,17 +555,17 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+6"/>
         <source>Not staking because wallet is locked</source>
-        <translation>No s&apos;està fent &quot;stake&quot; perquè la cartera esa bloquejada</translation>
+        <translation>No s&apos;està fent &quot;stake&quot; perquè el moneder esa bloquejat</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Not staking because wallet is offline</source>
-        <translation>No s&apos;està fent &quot;stake&quot; perquè la cartera està fora de línia</translation>
+        <translation>No s&apos;està fent &quot;stake&quot; perquè el moneder està fora de línia</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Not staking because wallet is syncing</source>
-        <translation>No s&apos;està fent &quot;stake&quot; perquè la cartera està sincronitzant</translation>
+        <translation>No s&apos;està fent &quot;stake&quot; perquè el moneder està sincronitzant</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -578,22 +578,12 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation><numerusform>fa %n segon</numerusform><numerusform>fa %n segons</numerusform></translation>
     </message>
     <message>
-        <location line="-312"/>
-        <source>About BlackCoin card</source>
-        <translation>Sobre la tarjeta BlackCoin</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Show information about BlackCoin card</source>
-        <translation>Mostra informació sobre la tarjeta BlackCoin</translation>
-    </message>
-    <message>
-        <location line="+18"/>
+        <location line="-284"/>
         <source>&amp;Unlock Wallet...</source>
-        <translation>&amp;Desbloquejar cartera</translation>
+        <translation>&amp;Desbloquejar moneder</translation>
     </message>
     <message numerus="yes">
-        <location line="+297"/>
+        <location line="+288"/>
         <source>%n minute(s) ago</source>
         <translation><numerusform>fa %n minut</numerusform><numerusform>fa %n minuts</numerusform></translation>
     </message>
@@ -660,8 +650,8 @@ Address: %4
     <message>
         <location line="-15"/>
         <location line="+15"/>
-        <source>URI can not be parsed! This can be caused by an invalid BlackCoin address or malformed URI parameters.</source>
-        <translation>l&apos;URI no es pot analitzar! Això pot ser causat per una adreça BlackCoin no vàlida o paràmetres URI malformats.</translation>
+        <source>URI can not be parsed! This can be caused by an invalid SilkCoin address or malformed URI parameters.</source>
+        <translation>l&apos;URI no es pot analitzar! Això pot ser causat per una adreça SilkCoin no vàlida o paràmetres URI malformats.</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -691,7 +681,7 @@ Address: %4
     <message>
         <location line="+0"/>
         <source>There was an error trying to save the wallet data to the new location.</source>
-        <translation>Hi ha un error al tractar de salvar les dades de la seva cartera a la nova ubicació.</translation>
+        <translation>Hi ha un error al tractar de salvar les dades del seu moneder a la nova ubicació.</translation>
     </message>
     <message numerus="yes">
         <location line="+76"/>
@@ -720,8 +710,8 @@ Address: %4
     </message>
     <message>
         <location filename="../bitcoin.cpp" line="+109"/>
-        <source>A fatal error occurred. BlackCoin can no longer continue safely and will quit.</source>
-        <translation>S&apos;ha produït un error fatal. BlackCoin ja no pot continuar de forma segura i es tancarà.</translation>
+        <source>A fatal error occurred. SilkCoin can no longer continue safely and will quit.</source>
+        <translation>S&apos;ha produït un error fatal. SilkCoin ja no pot continuar de forma segura i es tancarà.</translation>
     </message>
 </context>
 <context>
@@ -1054,8 +1044,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location line="-5"/>
-        <source>The entered address &quot;%1&quot; is not a valid BlackCoin address.</source>
-        <translation>La direcció introduïda &quot;%1&quot; no és una adreça BlackCoin vàlida.</translation>
+        <source>The entered address &quot;%1&quot; is not a valid SilkCoin address.</source>
+        <translation>La direcció introduïda &quot;%1&quot; no és una adreça SilkCoin vàlida.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1073,8 +1063,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     <message>
         <location filename="../guiutil.cpp" line="+420"/>
         <location line="+12"/>
-        <source>BlackCoin-Qt</source>
-        <translation>BlackCoin-Qt</translation>
+        <source>SilkCoin-Qt</source>
+        <translation>SilkCoin-Qt</translation>
     </message>
     <message>
         <location line="-12"/>
@@ -1137,7 +1127,7 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     <message>
         <location line="+31"/>
         <source>Reserved amount does not participate in staking and is therefore spendable at any time.</source>
-        <translation>La quantitat reservada no participa en fer &quot;stake&quot; i per tant es pot gastar en qualsevol moment.</translation>
+        <translation>La quantitat reservada no participa en fer &quot;stake&quot; i per tant esta disponible en qualsevol moment.</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -1146,18 +1136,18 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location line="+31"/>
-        <source>Automatically start BlackCoin after logging in to the system.</source>
-        <translation>Inicia automàticament BlackCoin després d&apos;entrar en el sistema.</translation>
+        <source>Automatically start SilkCoin after logging in to the system.</source>
+        <translation>Inicia automàticament SilkCoin després d&apos;entrar en el sistema.</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>&amp;Start BlackCoin on system login</source>
-        <translation>&amp;Iniciar BlackCoin amb l&apos;inici de sessió</translation>
+        <source>&amp;Start SilkCoin on system login</source>
+        <translation>&amp;Iniciar SilkCoin amb l&apos;inici de sessió</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Detach block and address databases at shutdown. This means they can be moved to another data directory, but it slows down shutdown. The wallet is always detached.</source>
-        <translation>Separeu el bloc i les bases de dades d&apos;adreces en apagar l&apos;equip. En aquest cas es pot moure a un altre directori de dades, però alenteix l&apos;apagada. La cartera està sempre separada.</translation>
+        <translation>Separeu el bloc i les bases de dades d&apos;adreces en apagar l&apos;equip. En aquest cas es pot moure a un altre directori de dades, però alenteix l&apos;apagada. El moneder està sempre separat.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1171,18 +1161,18 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location line="+6"/>
-        <source>Automatically open the BlackCoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Obrir automàticament el port de client BlackCoin en el router. Això només funciona quan el router és compatible amb UPnP i està habilitat.</translation>
+        <source>Automatically open the SilkCoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Obrir automàticament el port de client SilkCoin en el router. Això només funciona quan el router és compatible amb UPnP i està habilitat.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Map port using &amp;UPnP</source>
-        <translation>Port obert amb &amp;UPnP</translation>
+        <translation>Obrir ports amb &amp;UPnP</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Connect to the BlackCoin network through a SOCKS proxy (e.g. when connecting through Tor).</source>
-        <translation>Connecteu-vos a la xarxa BlackCoin través d&apos;un proxy SOCKS (per exemple, quan es connecta a través de Tor).</translation>
+        <source>Connect to the SilkCoin network through a SOCKS proxy (e.g. when connecting through Tor).</source>
+        <translation>Connecteu-vos a la xarxa SilkCoin través d&apos;un proxy SOCKS (per exemple, quan es connecta a través de Tor).</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1256,8 +1246,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location line="+13"/>
-        <source>The user interface language can be set here. This setting will take effect after restarting BlackCoin.</source>
-        <translation>L&apos;idioma de la interfície d&apos;usuari es pot configurar aquí. Aquesta configuració s&apos;aplicarà després de reiniciar BlackCoin.</translation>
+        <source>The user interface language can be set here. This setting will take effect after restarting SilkCoin.</source>
+        <translation>L&apos;idioma de la interfície d&apos;usuari es pot configurar aquí. Aquesta configuració s&apos;aplicarà després de reiniciar SilkCoin.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -1271,8 +1261,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location line="+9"/>
-        <source>Whether to show BlackCoin addresses in the transaction list or not.</source>
-        <translation>Per mostrar BlackCoin adreces a la llista de transaccions o no.</translation>
+        <source>Whether to show SilkCoin addresses in the transaction list or not.</source>
+        <translation>Per mostrar SilkCoin adreces a la llista de transaccions o no.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1318,8 +1308,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     <message>
         <location line="-9"/>
         <location line="+9"/>
-        <source>This setting will take effect after restarting BlackCoin.</source>
-        <translation>Aquesta configuració s&apos;aplicarà després de reiniciar BlackCoin.</translation>
+        <source>This setting will take effect after restarting SilkCoin.</source>
+        <translation>Aquesta configuració s&apos;aplicarà després de reiniciar SilkCoin.</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -1337,8 +1327,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     <message>
         <location line="+33"/>
         <location line="+231"/>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the BlackCoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>La informació mostrada pot estar fora de data. La seva cartera es sincronitza automàticament amb la xarxa BlackCoin després d&apos;establir una connexió, però aquest procés no s&apos;ha completat encara.</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the SilkCoin network after a connection is established, but this process has not completed yet.</source>
+        <translation>La informació mostrada pot estar fora de data. El seu moneder es sincronitza automàticament amb la xarxa SilkCoin després d&apos;establir una connexió, però aquest procés no s&apos;ha completat encara.</translation>
     </message>
     <message>
         <location line="-160"/>
@@ -1358,12 +1348,12 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     <message>
         <location line="+49"/>
         <source>Spendable:</source>
-        <translation>Pot gastar-se:</translation>
+        <translation>Disponible:</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Your current spendable balance</source>
-        <translation>El balanç de saldo actual que pot gastar-se</translation>
+        <translation>El balanç de saldo actual disponible</translation>
     </message>
     <message>
         <location line="+71"/>
@@ -1553,8 +1543,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Show the BlackCoin-Qt help message to get a list with possible BlackCoin command-line options.</source>
-        <translation>Mostra el missatge d&apos;ajuda de BlackCoin-Qt per obtenir una llista amb les possibles opcions de línia d&apos;ordres BlackCoin.</translation>
+        <source>Show the SilkCoin-Qt help message to get a list with possible SilkCoin command-line options.</source>
+        <translation>Mostra el missatge d&apos;ajuda de SilkCoin-Qt per obtenir una llista amb les possibles opcions de línia d&apos;ordres SilkCoin.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1573,23 +1563,23 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location line="-104"/>
-        <source>BlackCoin - Debug window</source>
-        <translation>BlackCoin - Finestra Depuració</translation>
+        <source>SilkCoin - Debug window</source>
+        <translation>SilkCoin - Finestra Depuració</translation>
     </message>
     <message>
         <location line="+25"/>
-        <source>BlackCoin Core</source>
-        <translation>Nucli BlackCoin</translation>
+        <source>SilkCoin Core</source>
+        <translation>Nucli SilkCoin</translation>
     </message>
     <message>
         <location line="+279"/>
         <source>Debug log file</source>
-        <translation>Dietàri de debug</translation>
+        <translation>Dietàri de depuració</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Open the BlackCoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
-        <translation>Obriu el fitxer de registre de depuració BlackCoin des del directori de dades actual. Això pot trigar uns segons en els arxius de registre de grans dimensions.</translation>
+        <source>Open the SilkCoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
+        <translation>Obriu el fitxer de registre de depuració SilkCoin des del directori de dades actual. Això pot trigar uns segons en els arxius de registre de grans dimensions.</translation>
     </message>
     <message>
         <location line="+102"/>
@@ -1598,8 +1588,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location filename="../rpcconsole.cpp" line="-33"/>
-        <source>Welcome to the BlackCoin RPC console.</source>
-        <translation>Benvingut a la consola RPC de BlackCoin.</translation>
+        <source>Welcome to the SilkCoin RPC console.</source>
+        <translation>Benvingut a la consola RPC de SilkCoin.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1672,8 +1662,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
         <location line="+86"/>
         <location line="+86"/>
         <location line="+32"/>
-        <source>0.00 BC</source>
-        <translation>123.456 BC {0.00 ?}</translation>
+        <source>0.00 SC</source>
+        <translation>123.456 SC {0.00 ?}</translation>
     </message>
     <message>
         <location line="-191"/>
@@ -1723,7 +1713,7 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     <message>
         <location line="+3"/>
         <source>Add &amp;Recipient</source>
-        <translation>Affegir &amp;Destinatari</translation>
+        <translation>Afegir &amp;Destinatari</translation>
     </message>
     <message>
         <location line="+20"/>
@@ -1742,8 +1732,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location line="+16"/>
-        <source>123.456 BC</source>
-        <translation>123.456 BC</translation>
+        <source>123.456 SC</source>
+        <translation>123.456 SC</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -1757,8 +1747,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location filename="../sendcoinsdialog.cpp" line="-173"/>
-        <source>Enter a BlackCoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation>Introdueix una adreça BlackCoin (p.ex. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
+        <source>Enter a SilkCoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
+        <translation>Introdueix una adreça SilkCoin (p.ex. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -1853,12 +1843,12 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     <message>
         <location line="+5"/>
         <source>Error: The transaction was rejected. This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation>Error: La transacció ha sigut rebutjada. Això pot passar si algunes de les monedes a la cartera ja s&apos;han gastat, per exemple, si vostè utilitza una còpia del wallet.dat i les monedes han estat gastades a la cópia pero no s&apos;han marcat com a gastades aqui.</translation>
+        <translation>Error: La transacció ha sigut rebutjada. Això pot passar si algunes de les monedes al moneder ja s&apos;han gastat, per exemple, si vostè utilitza una còpia del wallet.dat i les monedes han estat gastades a la cópia pero no s&apos;han marcat com a gastades aqui.</translation>
     </message>
     <message>
         <location line="+251"/>
-        <source>WARNING: Invalid BlackCoin address</source>
-        <translation>ADVERTÈNCIA: Direcció BlackCoin invàlida</translation>
+        <source>WARNING: Invalid SilkCoin address</source>
+        <translation>ADVERTÈNCIA: Direcció SilkCoin invàlida</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1931,8 +1921,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location filename="../sendcoinsentry.cpp" line="+1"/>
-        <source>Enter a BlackCoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation>Introdueix una adreça BlackCoin (p.ex. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
+        <source>Enter a SilkCoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
+        <translation>Introdueix una adreça SilkCoin (p.ex. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
     </message>
 </context>
 <context>
@@ -1992,8 +1982,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location line="+21"/>
-        <source>Sign the message to prove you own this BlackCoin address</source>
-        <translation>Signar un missatge per demostrar que és propietari d&apos;aquesta adreça BlackCoin</translation>
+        <source>Sign the message to prove you own this SilkCoin address</source>
+        <translation>Signar un missatge per demostrar que és propietari d&apos;aquesta adreça SilkCoin</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -2024,8 +2014,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location line="+40"/>
-        <source>Verify the message to ensure it was signed with the specified BlackCoin address</source>
-        <translation>Comproveu el missatge per assegurar-se que es va signar amb l&apos;adreça BlackCoin especificada.</translation>
+        <source>Verify the message to ensure it was signed with the specified SilkCoin address</source>
+        <translation>Comproveu el missatge per assegurar-se que es va signar amb l&apos;adreça SilkCoin especificada.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -2035,8 +2025,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     <message>
         <location filename="../signverifymessagedialog.cpp" line="+27"/>
         <location line="+3"/>
-        <source>Enter a BlackCoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation>Introdueix una adreça BlackCoin (p.ex. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
+        <source>Enter a SilkCoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
+        <translation>Introdueix una adreça SilkCoin (p.ex. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
     </message>
     <message>
         <location line="-2"/>
@@ -2045,8 +2035,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>Enter BlackCoin signature</source>
-        <translation>Introduïu la signatura BlackCoin</translation>
+        <source>Enter SilkCoin signature</source>
+        <translation>Introduïu la signatura SilkCoin</translation>
     </message>
     <message>
         <location line="+82"/>
@@ -2251,12 +2241,12 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     <message>
         <location line="+3"/>
         <source>Generated coins must mature 510 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>Les monedes generades han de madurar 510 blocs abans de poder-se gastar. En generar aquest bloc, que va ser transmès a la xarxa per ser afegit a la cadena de bloc. Si no aconsegueix entrar a la cadena, el seu estat canviarà a &quot;no acceptat&quot; i no es podrà gastar. Això pot succeir de tant en tant si un altre node genera un bloc a pocs segons del seu.</translation>
+        <translation>Les monedes generades han de madurar 510 blocs abans per a poder estar disponibles. En generar aquest bloc, que va ser transmès a la xarxa per ser afegit a la cadena de bloc. Si no aconsegueix entrar a la cadena, el seu estat canviarà a &quot;no acceptat&quot; i no es podrà gastar. Això pot succeir de tant en tant si un altre node genera un bloc a pocs segons del seu.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Debug information</source>
-        <translation>Informació de debug</translation>
+        <translation>Informació de depuració</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2382,7 +2372,7 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     <message>
         <location line="+42"/>
         <source>Received with</source>
-        <translation>Rebut amb</translation>
+        <translation>Rebut desde</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2476,7 +2466,7 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     <message>
         <location line="+11"/>
         <source>Received with</source>
-        <translation>Rebut amb</translation>
+        <translation>Rebut desde</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2616,8 +2606,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     <name>bitcoin-core</name>
     <message>
         <location filename="../bitcoinstrings.cpp" line="+33"/>
-        <source>BlackCoin version</source>
-        <translation>versió BlackCoin</translation>
+        <source>SilkCoin version</source>
+        <translation>versió SilkCoin</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2626,8 +2616,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Send command to -server or blackcoind</source>
-        <translation>Enviar comandes a -server o blackcoind</translation>
+        <source>Send command to -server or SilkCoind</source>
+        <translation>Enviar comandes a -server o SilkCoind</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2646,13 +2636,13 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Specify configuration file (default: blackcoin.conf)</source>
-        <translation>Especifiqueu el fitxer de configuració (per defecte: blackcoin.conf)</translation>
+        <source>Specify configuration file (default: SilkCoin.conf)</source>
+        <translation>Especifiqueu el fitxer de configuració (per defecte: SilkCoin.conf)</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Specify pid file (default: blackcoind.pid)</source>
-        <translation>Especificar arxiu pid (per defecte: blackcoind.pid)</translation>
+        <source>Specify pid file (default: SilkCoind.pid)</source>
+        <translation>Especificar arxiu pid (per defecte: SilkCoind.pid)</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2727,7 +2717,7 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     <message>
         <location line="+109"/>
         <source>Error: The transaction was rejected.  This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation>Error: La transacció ha sigut rebutjada. Això pot passar si algunes de les monedes a la cartera ja s&apos;han gastat, per exemple, si vostè utilitza una còpia del wallet.dat i les monedes han estat gastades a la cópia pero no s&apos;han marcat com a gastades aqui.</translation>
+        <translation>Error: La transacció ha sigut rebutjada. Això pot passar si algunes de les monedes al moneder ja s&apos;han gastat, per exemple, si vostè utilitza una còpia del wallet.dat i les monedes han estat gastades a la cópia pero no s&apos;han marcat com a gastades aqui.</translation>
     </message>
     <message>
         <location line="-5"/>
@@ -2752,7 +2742,7 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     <message>
         <location line="-5"/>
         <source>Error: Wallet locked, unable to create transaction  </source>
-        <translation>Error: Cartera bloquejada, no es pot de crear la transacció</translation>
+        <translation>Error: Moneder bloquejat, no es pot de crear la transacció</translation>
     </message>
     <message>
         <location line="-8"/>
@@ -2801,8 +2791,8 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     </message>
     <message>
         <location line="+61"/>
-        <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong BlackCoin will not work properly.</source>
-        <translation>Avís: Comproveu que la data i hora de l&apos;equip siguin correctes! Si el seu rellotge és erroni BlackCoin no funcionarà correctament.</translation>
+        <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong SilkCoin will not work properly.</source>
+        <translation>Avís: Comproveu que la data i hora de l&apos;equip siguin correctes! Si el seu rellotge és erroni SilkCoin no funcionarà correctament.</translation>
     </message>
     <message>
         <location line="-31"/>
@@ -2902,7 +2892,7 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
     <message>
         <location line="+41"/>
         <source>Send trace/debug info to console instead of debug.log file</source>
-        <translation>Enviar informació de traça/debug a la consola en comptes del arxiu debug.log</translation>
+        <translation>Enviar informació de traça/depuració a la consola en comptes del arxiu debug.log</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2991,24 +2981,24 @@ En aquest cas es requereix una comisió d&apos;almenys 2%.</translation>
         <source>%s, you must set a rpcpassword in the configuration file:
  %s
 It is recommended you use the following random password:
-rpcuser=blackcoinrpc
+rpcuser=SilkCoinrpc
 rpcpassword=%s
 (you do not need to remember this password)
 The username and password MUST NOT be the same.
 If the file does not exist, create it with owner-readable-only file permissions.
 It is also recommended to set alertnotify so you are notified of problems;
-for example: alertnotify=echo %%s | mail -s &quot;BlackCoin Alert&quot; admin@foo.com
+for example: alertnotify=echo %%s | mail -s &quot;SilkCoin Alert&quot; admin@foo.com
 </source>
         <translation>%s, ha d&apos;establir un rpcpassword al fitxer de configuració:
 %s
 Es recomana utilitzar la següent contrasenya aleatòria:
-rpcuser=blackcoinrpc
+rpcuser=SilkCoinrpc
 rpcpassword=%s
 (No cal recordar aquesta contrasenya)
 El nom d&apos;usuari i contrasenya NO HA DE SER el mateix.
 Si no hi ha l&apos;arxiu, s&apos;ha de crear amb els permisos de només lectura per al propietari.
 També es recomana establir alertnotify per a que se li notifiquin els problemes;
-per exemple: alertnotify=echo %%s | mail -s &quot;BlackCoin Alert&quot; admin@foo.com
+per exemple: alertnotify=echo %%s | mail -s &quot;SilkCoin Alert&quot; admin@foo.com
 </translation>
     </message>
     <message>
@@ -3130,17 +3120,17 @@ Executar una ordre quan es rep un avís rellevant (%s en cmd es substitueix per 
     <message>
         <location line="+95"/>
         <source>Wallet %s resides outside data directory %s.</source>
-        <translation>La cartera %s resideix fora del directori de dades %s.</translation>
+        <translation>El moneder %s resideix fora del directori de dades %s.</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Cannot obtain a lock on data directory %s.  BlackCoin is probably already running.</source>
-        <translation>No es pot obtenir un bloqueig en el directori de dades %s. BlackCoin probablement ja estigui en funcionament.</translation>
+        <source>Cannot obtain a lock on data directory %s.  SilkCoin is probably already running.</source>
+        <translation>No es pot obtenir un bloqueig en el directori de dades %s. SilkCoin probablement ja estigui en funcionament.</translation>
     </message>
     <message>
         <location line="-98"/>
-        <source>BlackCoin</source>
-        <translation>BlackCoin</translation>
+        <source>SilkCoin</source>
+        <translation>SilkCoin</translation>
     </message>
     <message>
         <location line="+140"/>
@@ -3174,13 +3164,13 @@ Executar una ordre quan es rep un avís rellevant (%s en cmd es substitueix per 
     </message>
     <message>
         <location line="+4"/>
-        <source>Error loading wallet.dat: Wallet requires newer version of BlackCoin</source>
-        <translation>Error en carregar wallet.dat: La cartera requereix la versió més recent de BlackCoin</translation>
+        <source>Error loading wallet.dat: Wallet requires newer version of SilkCoin</source>
+        <translation>Error en carregar wallet.dat: El moneder requereix la versió més recent de SilkCoin</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Wallet needed to be rewritten: restart BlackCoin to complete</source>
-        <translation>La cartera necessita ser reescrita: reiniciar BlackCoin per completar</translation>
+        <source>Wallet needed to be rewritten: restart SilkCoin to complete</source>
+        <translation>El moneder necessita ser reescrita: reiniciar SilkCoin per completar</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3249,8 +3239,8 @@ Executar una ordre quan es rep un avís rellevant (%s en cmd es substitueix per 
     </message>
     <message>
         <location line="+122"/>
-        <source>Unable to bind to %s on this computer. BlackCoin is probably already running.</source>
-        <translation>No es pot enllaçar a %s en aquest equip. BlackCoin probablement ja estigui en funcionament.</translation>
+        <source>Unable to bind to %s on this computer. SilkCoin is probably already running.</source>
+        <translation>No es pot enllaçar a %s en aquest equip. SilkCoin probablement ja estigui en funcionament.</translation>
     </message>
     <message>
         <location line="-97"/>

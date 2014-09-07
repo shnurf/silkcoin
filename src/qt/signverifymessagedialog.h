@@ -4,18 +4,17 @@
 #include <QDialog>
 
 namespace Ui {
-    class SignVerifyMessageDialog;
+class SignVerifyMessageDialog;
 }
 class WalletModel;
 
 QT_BEGIN_NAMESPACE
 QT_END_NAMESPACE
 
-class SignVerifyMessageDialog : public QDialog
-{
+class SignVerifyMessageDialog : public QDialog {
     Q_OBJECT
 
-public:
+  public:
     explicit SignVerifyMessageDialog(QWidget *parent = 0);
     ~SignVerifyMessageDialog();
 
@@ -26,14 +25,14 @@ public:
     void showTab_SM(bool fShow);
     void showTab_VM(bool fShow);
 
-protected:
+  protected:
     bool eventFilter(QObject *object, QEvent *event);
 
-private:
+  private:
     Ui::SignVerifyMessageDialog *ui;
     WalletModel *model;
 
-private slots:
+  private slots:
     /* sign message */
     void on_addressBookButton_SM_clicked();
     void on_pasteButton_SM_clicked();

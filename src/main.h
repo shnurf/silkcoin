@@ -312,13 +312,19 @@ public:
         std::string str;
         str += "CTxIn(";
         str += prevout.ToString();
-        if (prevout.IsNull())
+        if (prevout.IsNull()) {
             str += strprintf(", coinbase %s", HexStr(scriptSig).c_str());
-        else
+        }
+        else {
             str += strprintf(", scriptSig=%s", scriptSig.ToString().substr(0,24).c_str());
-        if (nSequence != std::numeric_limits<unsigned int>::max())
+        }
+
+        if (nSequence != std::numeric_limits<unsigned int>::max()) {
             str += strprintf(", nSequence=%u", nSequence);
+        }
+
         str += ")";
+
         return str;
     }
 

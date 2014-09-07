@@ -1116,10 +1116,13 @@ static unsigned int GetNextTargetRequiredV2(const CBlockIndex* pindexLast, bool 
 
 unsigned int GetNextTargetRequired(const CBlockIndex* pindexLast, bool fProofOfStake)
 {
-    if ((pindexLast->nHeight < 10000) || (pindexLast->nHeight > 50000 && pindexLast->nHeight < 60000))
+    bool IS_POW = (pindexLast->nHeight < 10001) || (pindexLast->nHeight > 50000 && pindexLast->nHeight < 60001);
+
+    if (IS_POW) {
         return GetNextTargetRequiredV1(pindexLast, fProofOfStake);
-    else
+    } else {
         return GetNextTargetRequiredV2(pindexLast, fProofOfStake);
+    }
 }
 
 bool CheckProofOfWork(uint256 hash, unsigned int nBits)
@@ -1187,16 +1190,6 @@ void CBlock::UpdateTime(const CBlockIndex* pindexPrev)
 {
     nTime = max(GetBlockTime(), GetAdjustedTime());
 }
-
-
-
-
-
-
-
-
-
-
 
 bool CTransaction::DisconnectInputs(CTxDB& txdb)
 {
@@ -1932,10 +1925,9 @@ bool CTransaction::GetCoinAge(CTxDB& txdb, uint64_t& nCoinAge) const
 
         // Read block header
         CBlock block;
-        if (!block.ReadFromDisk(txindex.pos.nFile, txindex.pos.nBlockPos, false))
+        if (!block.ReadFromDisk(txindex.pos.nFile, txindex.pos.nBlockPos, false)) {
             return false; // unable to read block of previous transaction
-        if (block.GetBlockTime() + nStakeMinAge > nTime)
-            continue; // only count coins meeting min age requirement
+        }
 
         int64_t nValueIn = txPrev.vout[txin.prevout.n].nValue;
         bnCentSecond += CBigNum(nValueIn) * (nTime-txPrev.nTime) / CENT;
@@ -2860,10 +2852,8 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
         CAddress addrFrom;
         uint64_t nNonce = 1;
         vRecv >> pfrom->nVersion >> pfrom->nServices >> nTime >> addrMe;
-        if (pfrom->nVersion < MIN_PROTO_VERSION)
+        if (pfrom->nVersion < MIN_PEER_PROTO_VERSION)
         {
-            // Since February 20, 2012, the protocol is initiated at version 209,
-            // and earlier versions are no longer supported
             printf("partner %s using obsolete version %i; disconnecting\n", pfrom->addr.ToString().c_str(), pfrom->nVersion);
             pfrom->fDisconnect = true;
             return false;

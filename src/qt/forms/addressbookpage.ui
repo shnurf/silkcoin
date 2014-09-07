@@ -41,7 +41,7 @@
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">background:#c7c7c7;</string>
+      <string notr="true">background:#c7c7c7;s</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_9">
       <property name="spacing">

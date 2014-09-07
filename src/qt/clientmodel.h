@@ -14,10 +14,9 @@ class QTimer;
 QT_END_NAMESPACE
 
 /** Model for Bitcoin network client. */
-class ClientModel : public QObject
-{
+class ClientModel : public QObject {
     Q_OBJECT
-public:
+  public:
     explicit ClientModel(OptionsModel *optionsModel, QObject *parent = 0);
     ~ClientModel();
 
@@ -45,7 +44,7 @@ public:
     QString clientName() const;
     QString formatClientStartupTime() const;
 
-private:
+  private:
     OptionsModel *optionsModel;
 
     int cachedNumBlocks;
@@ -57,14 +56,14 @@ private:
 
     void subscribeToCoreSignals();
     void unsubscribeFromCoreSignals();
-signals:
+  signals:
     void numConnectionsChanged(int count);
     void numBlocksChanged(int count, int countOfPeers);
 
     //! Asynchronous error notification
     void error(const QString &title, const QString &message, bool modal);
 
-public slots:
+  public slots:
     void updateTimer();
     void updateNumConnections(int numConnections);
     void updateAlert(const QString &hash, int status);

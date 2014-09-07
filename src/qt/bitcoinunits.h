@@ -7,16 +7,14 @@
 /** Bitcoin unit definitions. Encapsulates parsing and formatting
    and serves as list model for drop-down selection boxes.
 */
-class BitcoinUnits: public QAbstractListModel
-{
-public:
+class BitcoinUnits: public QAbstractListModel {
+  public:
     explicit BitcoinUnits(QObject *parent);
 
     /** Bitcoin units.
       @note Source: https://en.bitcoin.it/wiki/Units . Please add only sensible ones
      */
-    enum Unit
-    {
+    enum Unit {
         BTC,
         mBTC,
         uBTC
@@ -41,9 +39,9 @@ public:
     //! Number of decimals left
     static int decimals(int unit);
     //! Format as string
-    static QString format(int unit, qint64 amount, bool plussign=false);
+    static QString format(int unit, qint64 amount, bool plussign = false);
     //! Format as string (with unit)
-    static QString formatWithUnit(int unit, qint64 amount, bool plussign=false);
+    static QString formatWithUnit(int unit, qint64 amount, bool plussign = false);
     //! Parse string to coin amount
     static bool parse(int unit, const QString &value, qint64 *val_out);
     ///@}
@@ -58,7 +56,7 @@ public:
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
     ///@}
-private:
+  private:
     QList<BitcoinUnits::Unit> unitlist;
 };
 typedef BitcoinUnits::Unit BitcoinUnit;

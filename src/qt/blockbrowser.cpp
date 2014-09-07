@@ -9,8 +9,7 @@
 
 #include <sstream>
 #include <string>
-double getBlockHardness(int height)
-{
+double getBlockHardness(int height) {
     const CBlockIndex* blockindex = getBlockIndex(height);
 
     int nShift = (blockindex->nBits >> 24) & 0xff;
@@ -18,13 +17,12 @@ double getBlockHardness(int height)
     double dDiff =
         (double)0x0000ffff / (double)(blockindex->nBits & 0x00ffffff);
 
-    while (nShift < 29)
-    {
+    while (nShift < 29) {
         dDiff *= 256.0;
         nShift++;
     }
-    while (nShift > 29)
-    {
+
+    while (nShift > 29) {
         dDiff /= 256.0;
         nShift--;
     }
@@ -32,8 +30,7 @@ double getBlockHardness(int height)
     return dDiff;
 }
 
-int getBlockHashrate(int height)
-{
+int getBlockHashrate(int height) {
     int lookup = height;
 
     double timeDiff = getBlockTime(height) - getBlockTime(1);
@@ -42,96 +39,104 @@ int getBlockHashrate(int height)
     return (boost::uint64_t)(((qlonglong)getBlockHardness(height) * pow(2.0, 32)) / timePerBlock);
 }
 
-const CBlockIndex* getBlockIndex(int height)
-{
+const CBlockIndex* getBlockIndex(int height) {
     std::string hex = getBlockHash(height);
     uint256 hash(hex);
     return mapBlockIndex[hash];
 }
 
-std::string getBlockHash(int Height)
-{
-    if(Height > pindexBest->nHeight) { return "351c6703813172725c6d660aa539ee6a3d7a9fe784c87fae7f36582e3b797058"; }
-    if(Height < 0) { return "351c6703813172725c6d660aa539ee6a3d7a9fe784c87fae7f36582e3b797058"; }
+std::string getBlockHash(int Height) {
+    if (Height > pindexBest->nHeight) {
+        return "351c6703813172725c6d660aa539ee6a3d7a9fe784c87fae7f36582e3b797058";
+    }
+
+    if (Height < 0) {
+        return "351c6703813172725c6d660aa539ee6a3d7a9fe784c87fae7f36582e3b797058";
+    }
+
     int desiredheight;
     desiredheight = Height;
-    if (desiredheight < 0 || desiredheight > nBestHeight)
+
+    if (desiredheight < 0 || desiredheight > nBestHeight) {
         return 0;
+    }
 
     CBlock block;
     CBlockIndex* pblockindex = mapBlockIndex[hashBestChain];
-    while (pblockindex->nHeight > desiredheight)
+
+    while (pblockindex->nHeight > desiredheight) {
         pblockindex = pblockindex->pprev;
+    }
+
     return pblockindex->phashBlock->GetHex();
 }
 
-int getBlockTime(int Height)
-{
+int getBlockTime(int Height) {
     std::string strHash = getBlockHash(Height);
     uint256 hash(strHash);
 
-    if (mapBlockIndex.count(hash) == 0)
+    if (mapBlockIndex.count(hash) == 0) {
         return 0;
+    }
 
     CBlock block;
     CBlockIndex* pblockindex = mapBlockIndex[hash];
     return pblockindex->nTime;
 }
 
-std::string getBlockMerkle(int Height)
-{
+std::string getBlockMerkle(int Height) {
     std::string strHash = getBlockHash(Height);
     uint256 hash(strHash);
 
-    if (mapBlockIndex.count(hash) == 0)
+    if (mapBlockIndex.count(hash) == 0) {
         return 0;
+    }
 
     CBlock block;
     CBlockIndex* pblockindex = mapBlockIndex[hash];
-    return pblockindex->hashMerkleRoot.ToString().substr(0,10).c_str();
+    return pblockindex->hashMerkleRoot.ToString().substr(0, 10).c_str();
 }
 
-int getBlocknBits(int Height)
-{
+int getBlocknBits(int Height) {
     std::string strHash = getBlockHash(Height);
     uint256 hash(strHash);
 
-    if (mapBlockIndex.count(hash) == 0)
+    if (mapBlockIndex.count(hash) == 0) {
         return 0;
+    }
 
     CBlock block;
     CBlockIndex* pblockindex = mapBlockIndex[hash];
     return pblockindex->nBits;
 }
 
-int getBlockNonce(int Height)
-{
+int getBlockNonce(int Height) {
     std::string strHash = getBlockHash(Height);
     uint256 hash(strHash);
 
-    if (mapBlockIndex.count(hash) == 0)
+    if (mapBlockIndex.count(hash) == 0) {
         return 0;
+    }
 
     CBlock block;
     CBlockIndex* pblockindex = mapBlockIndex[hash];
     return pblockindex->nNonce;
 }
 
-std::string getBlockDebug(int Height)
-{
+std::string getBlockDebug(int Height) {
     std::string strHash = getBlockHash(Height);
     uint256 hash(strHash);
 
-    if (mapBlockIndex.count(hash) == 0)
+    if (mapBlockIndex.count(hash) == 0) {
         return 0;
+    }
 
     CBlock block;
     CBlockIndex* pblockindex = mapBlockIndex[hash];
     return pblockindex->ToString();
 }
 
-int blocksInPastHours(int hours)
-{
+int blocksInPastHours(int hours) {
     int wayback = hours * 3600;
     bool check = true;
     int height = pindexBest->nHeight;
@@ -139,10 +144,8 @@ int blocksInPastHours(int hours)
     int utime = (int)time(NULL);
     int target = utime - wayback;
 
-    while(check)
-    {
-        if(getBlockTime(heightHour) < target)
-        {
+    while (check) {
+        if (getBlockTime(heightHour) < target) {
             check = false;
             return height - heightHour;
         } else {
@@ -153,23 +156,24 @@ int blocksInPastHours(int hours)
     return 0;
 }
 
-double getTxTotalValue(std::string txid)
-{
+double getTxTotalValue(std::string txid) {
     uint256 hash;
     hash.SetHex(txid);
 
     CTransaction tx;
     uint256 hashBlock = 0;
-    if (!GetTransaction(hash, tx, hashBlock))
+
+    if (!GetTransaction(hash, tx, hashBlock)) {
         return 1000;
+    }
 
     CDataStream ssTx(SER_NETWORK, PROTOCOL_VERSION);
     ssTx << tx;
 
     double value = 0;
     double buffer = 0;
-    for (unsigned int i = 0; i < tx.vout.size(); i++)
-    {
+
+    for (unsigned int i = 0; i < tx.vout.size(); i++) {
         const CTxOut& txout = tx.vout[i];
 
         buffer = value + convertCoins(txout.nValue);
@@ -179,27 +183,27 @@ double getTxTotalValue(std::string txid)
     return value;
 }
 
-double convertCoins(int64_t amount)
-{
+double convertCoins(int64_t amount) {
     return (double)amount / (double)COIN;
 }
 
-std::string getOutputs(std::string txid)
-{
+std::string getOutputs(std::string txid) {
     uint256 hash;
     hash.SetHex(txid);
 
     CTransaction tx;
     uint256 hashBlock = 0;
-    if (!GetTransaction(hash, tx, hashBlock))
+
+    if (!GetTransaction(hash, tx, hashBlock)) {
         return "fail";
+    }
 
     CDataStream ssTx(SER_NETWORK, PROTOCOL_VERSION);
     ssTx << tx;
 
     std::string str = "";
-    for (unsigned int i = 0; i < tx.vout.size(); i++)
-    {
+
+    for (unsigned int i = 0; i < tx.vout.size(); i++) {
         const CTxOut& txout = tx.vout[i];
         CTxDestination source;
         ExtractDestination(txout.scriptPubKey, source);
@@ -217,29 +221,32 @@ std::string getOutputs(std::string txid)
     return str;
 }
 
-std::string getInputs(std::string txid)
-{
+std::string getInputs(std::string txid) {
     uint256 hash;
     hash.SetHex(txid);
 
     CTransaction tx;
     uint256 hashBlock = 0;
-    if (!GetTransaction(hash, tx, hashBlock))
+
+    if (!GetTransaction(hash, tx, hashBlock)) {
         return "fail";
+    }
 
     CDataStream ssTx(SER_NETWORK, PROTOCOL_VERSION);
     ssTx << tx;
 
     std::string str = "";
-    for (unsigned int i = 0; i < tx.vin.size(); i++)
-    {
+
+    for (unsigned int i = 0; i < tx.vin.size(); i++) {
         uint256 hash;
         const CTxIn& vin = tx.vin[i];
         hash.SetHex(vin.prevout.hash.ToString());
         CTransaction wtxPrev;
         uint256 hashBlock = 0;
-        if (!GetTransaction(hash, wtxPrev, hashBlock))
-             return "fail";
+
+        if (!GetTransaction(hash, wtxPrev, hashBlock)) {
+            return "fail";
+        }
 
         CDataStream ssTx(SER_NETWORK, PROTOCOL_VERSION);
         ssTx << wtxPrev;
@@ -261,37 +268,37 @@ std::string getInputs(std::string txid)
     return str;
 }
 
-int64_t getInputValue(CTransaction tx, CScript target)
-{
-    for (unsigned int i = 0; i < tx.vin.size(); i++)
-    {
+int64_t getInputValue(CTransaction tx, CScript target) {
+    for (unsigned int i = 0; i < tx.vin.size(); i++) {
         const CTxOut& txout = tx.vout[i];
-        if(txout.scriptPubKey == target)
-        {
+
+        if (txout.scriptPubKey == target) {
             return txout.nValue;
         }
     }
+
     return 0;
 }
 
-double getTxFees(std::string txid)
-{
+double getTxFees(std::string txid) {
     uint256 hash;
     hash.SetHex(txid);
 
 
     CTransaction tx;
     uint256 hashBlock = 0;
-    if (!GetTransaction(hash, tx, hashBlock))
+
+    if (!GetTransaction(hash, tx, hashBlock)) {
         return 0.0001;
+    }
 
     CDataStream ssTx(SER_NETWORK, PROTOCOL_VERSION);
     ssTx << tx;
 
     double value = 0;
     double buffer = 0;
-    for (unsigned int i = 0; i < tx.vout.size(); i++)
-    {
+
+    for (unsigned int i = 0; i < tx.vout.size(); i++) {
         const CTxOut& txout = tx.vout[i];
 
         buffer = value + convertCoins(txout.nValue);
@@ -300,15 +307,18 @@ double getTxFees(std::string txid)
 
     double value0 = 0;
     double buffer0 = 0;
-    for (unsigned int i = 0; i < tx.vin.size(); i++)
-    {
+
+    for (unsigned int i = 0; i < tx.vin.size(); i++) {
         uint256 hash0;
         const CTxIn& vin = tx.vin[i];
         hash0.SetHex(vin.prevout.hash.ToString());
         CTransaction wtxPrev;
         uint256 hashBlock0 = 0;
-        if (!GetTransaction(hash0, wtxPrev, hashBlock0))
-             return 0;
+
+        if (!GetTransaction(hash0, wtxPrev, hashBlock0)) {
+            return 0;
+        }
+
         CDataStream ssTx(SER_NETWORK, PROTOCOL_VERSION);
         ssTx << wtxPrev;
         const CScript target = wtxPrev.vout[vin.prevout.n].scriptPubKey;
@@ -322,20 +332,17 @@ double getTxFees(std::string txid)
 
 BlockBrowser::BlockBrowser(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::BlockBrowser)
-{
+    ui(new Ui::BlockBrowser) {
     ui->setupUi(this);
 
     setFixedSize(400, 420);
-        
+
     connect(ui->blockButton, SIGNAL(pressed()), this, SLOT(blockClicked()));
     connect(ui->txButton, SIGNAL(pressed()), this, SLOT(txClicked()));
 }
 
-void BlockBrowser::updateExplorer(bool block)
-{    
-    if(block)
-    {
+void BlockBrowser::updateExplorer(bool block) {
+    if (block) {
         ui->heightLabel->show();
         ui->heightLabel_2->show();
         ui->hashLabel->show();
@@ -353,11 +360,12 @@ void BlockBrowser::updateExplorer(bool block)
         ui->pawLabel->show();
         ui->pawBox->show();
         int height = ui->heightBox->value();
-        if (height > pindexBest->nHeight)
-        {
+
+        if (height > pindexBest->nHeight) {
             ui->heightBox->setValue(pindexBest->nHeight);
             height = pindexBest->nHeight;
         }
+
         int Pawrate = getBlockHashrate(height);
         double Pawrate2 = 0.000;
         Pawrate2 = ((double)Pawrate / 1000000);
@@ -380,12 +388,12 @@ void BlockBrowser::updateExplorer(bool block)
         ui->merkleBox->setText(QMerkle);
         ui->bitsBox->setText(QBits);
         ui->nonceBox->setText(QNonce);
-        ui->timeBox->setText(QTime);     
+        ui->timeBox->setText(QTime);
         ui->hardBox->setText(QHardness);
         ui->pawBox->setText(QPawrate + " MH/s");
-    } 
-    
-    if(block == false) {
+    }
+
+    if (block == false) {
         ui->txID->show();
         ui->txLabel->show();
         ui->valueLabel->show();
@@ -415,22 +423,18 @@ void BlockBrowser::updateExplorer(bool block)
 }
 
 
-void BlockBrowser::txClicked()
-{
+void BlockBrowser::txClicked() {
     updateExplorer(false);
 }
 
-void BlockBrowser::blockClicked()
-{
+void BlockBrowser::blockClicked() {
     updateExplorer(true);
 }
 
-void BlockBrowser::setModel(ClientModel *model)
-{
+void BlockBrowser::setModel(ClientModel *model) {
     this->model = model;
 }
 
-BlockBrowser::~BlockBrowser()
-{
+BlockBrowser::~BlockBrowser() {
     delete ui;
 }

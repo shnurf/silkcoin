@@ -5,7 +5,7 @@
 #include <QString>
 
 namespace Ui {
-    class SendCoinsDialog;
+class SendCoinsDialog;
 }
 class WalletModel;
 class SendCoinsEntry;
@@ -16,11 +16,10 @@ class QUrl;
 QT_END_NAMESPACE
 
 /** Dialog for sending bitcoins */
-class SendCoinsDialog : public QDialog
-{
+class SendCoinsDialog : public QDialog {
     Q_OBJECT
 
-public:
+  public:
     explicit SendCoinsDialog(QWidget *parent = 0);
     ~SendCoinsDialog();
 
@@ -33,7 +32,7 @@ public:
     void pasteEntry(const SendCoinsRecipient &rv);
     bool handleURI(const QString &uri);
 
-public slots:
+  public slots:
     void clear();
     void reject();
     void accept();
@@ -41,12 +40,12 @@ public slots:
     void updateRemoveEnabled();
     void setBalance(qint64 balance, qint64 stake, qint64 unconfirmedBalance, qint64 immatureBalance);
 
-private:
+  private:
     Ui::SendCoinsDialog *ui;
     WalletModel *model;
     bool fNewRecipientAllowed;
 
-private slots:
+  private slots:
     void on_sendButton_clicked();
     void removeEntry(SendCoinsEntry* entry);
     void updateDisplayUnit();

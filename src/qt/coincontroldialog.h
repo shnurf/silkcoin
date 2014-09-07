@@ -11,16 +11,15 @@
 #include <QTreeWidgetItem>
 
 namespace Ui {
-    class CoinControlDialog;
+class CoinControlDialog;
 }
 class WalletModel;
 class CCoinControl;
 
-class CoinControlDialog : public QDialog
-{
+class CoinControlDialog : public QDialog {
     Q_OBJECT
 
-public:
+  public:
     explicit CoinControlDialog(QWidget *parent = 0);
     ~CoinControlDialog();
 
@@ -33,7 +32,7 @@ public:
     static QList<qint64> payAmounts;
     static CCoinControl *coinControl;
 
-private:
+  private:
     Ui::CoinControlDialog *ui;
     WalletModel *model;
     int sortColumn;
@@ -49,8 +48,7 @@ private:
     void sortView(int, Qt::SortOrder);
     void updateView();
 
-    enum
-    {
+    enum {
         COLUMN_CHECKBOX,
         COLUMN_AMOUNT,
         COLUMN_LABEL,
@@ -64,7 +62,7 @@ private:
         COLUMN_PRIORITY_INT64
     };
 
-private slots:
+  private slots:
     void showMenu(const QPoint &);
     void copyAmount();
     void copyLabel();

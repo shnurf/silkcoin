@@ -3,22 +3,22 @@
     <name>AboutDialog</name>
     <message>
         <location filename="../forms/aboutdialog.ui" line="+14"/>
-        <source>About BlackCoin</source>
-        <translation>Au sujet de BlackCoin</translation>
+        <source>About SilkCoin</source>
+        <translation>Au sujet de SilkCoin</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>&lt;b&gt;BlackCoin&lt;/b&gt; version</source>
-        <translation>Version de &lt;b&gt;BlackCoin&lt;/b&gt;</translation>
+        <source>&lt;b&gt;SilkCoin&lt;/b&gt; version</source>
+        <translation>Version de &lt;b&gt;SilkCoin&lt;/b&gt;</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Copyright © 2009-2014 The Bitcoin developers
 Copyright © 2012-2014 The NovaCoin developers
-Copyright © 2014 The BlackCoin developers</source>
+Copyright © 2014 The SilkCoin developers</source>
         <translation>Copyright © 2009-2014 Les développeurs Bitcoin
 Copyright © 2012-2014 Les développeurs NovaCoin
-Copyright © 2014 Les développeurs BlackCoin</translation>
+Copyright © 2014 Les développeurs SilkCoin</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -65,7 +65,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="-46"/>
-        <source>These are your BlackCoin addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</source>
+        <source>These are your SilkCoin addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</source>
         <translation>Ce sont vos adresses pour recevoir vos paiements. Vous pouvez utiliser une adresse différente pour chaque réception afin d&apos;identifier facilement le payeur.</translation>
     </message>
     <message>
@@ -80,8 +80,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+11"/>
-        <source>Sign a message to prove you own a BlackCoin address</source>
-        <translation>Signer un message afin de valider l&apos;identité de votre adresse BlackCoin</translation>
+        <source>Sign a message to prove you own a SilkCoin address</source>
+        <translation>Signer un message afin de valider l&apos;identité de votre adresse SilkCoin</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -95,8 +95,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="-14"/>
-        <source>Verify a message to ensure it was signed with a specified BlackCoin address</source>
-        <translation>Vérifier un message pour s&apos;assurer qu&apos;il vient d&apos;un adresse BlackCoin spécifique.</translation>
+        <source>Verify a message to ensure it was signed with a specified SilkCoin address</source>
+        <translation>Vérifier un message pour s&apos;assurer qu&apos;il vient d&apos;un adresse SilkCoin spécifique.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -237,7 +237,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+1"/>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR COINS&lt;/b&gt;!</source>
-        <translation>ATTENTION : Si vous cryptez votre portefeuille et perdez votre passphrase, vous ne pourrez plus accéder à vos BlackCoins</translation>
+        <translation>ATTENTION : Si vous cryptez votre portefeuille et perdez votre passphrase, vous ne pourrez plus accéder à vos SilkCoins</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -263,8 +263,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="-58"/>
-        <source>BlackCoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your coins from being stolen by malware infecting your computer.</source>
-        <translation>L&apos;application BlackCoin va désormais se terminer afin de finaliser le processus de cryptage. Merci de noter que le cryptage du portefeuille ne garantit pas de se prémunir du vol via l&apos;utilisation de malware, qui auraient pu infecter votre ordinateur. </translation>
+        <source>SilkCoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your coins from being stolen by malware infecting your computer.</source>
+        <translation>L&apos;application SilkCoin va désormais se terminer afin de finaliser le processus de cryptage. Merci de noter que le cryptage du portefeuille ne garantit pas de se prémunir du vol via l&apos;utilisation de malware, qui auraient pu infecter votre ordinateur. </translation>
     </message>
     <message>
         <location line="+13"/>
@@ -311,17 +311,17 @@ This product includes software developed by the OpenSSL Project for use in the O
 <context>
     <name>BitcoinGUI</name>
     <message>
-        <location filename="../bitcoingui.cpp" line="+282"/>
+        <location filename="../bitcoingui.cpp" line="+280"/>
         <source>Sign &amp;message...</source>
         <translation>Signer le &amp;message...</translation>
     </message>
     <message>
-        <location line="+251"/>
+        <location line="+242"/>
         <source>Synchronizing with network...</source>
         <translation>Synchronisation avec le réseau en cours…</translation>
     </message>
     <message>
-        <location line="-319"/>
+        <location line="-308"/>
         <source>&amp;Overview</source>
         <translation>&amp;Vue d&apos;ensemble</translation>
     </message>
@@ -376,9 +376,9 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Quitter l’application</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>Show information about BlackCoin</source>
-        <translation>Afficher des informations au sujet du BlackCoin</translation>
+        <location line="+4"/>
+        <source>Show information about SilkCoin</source>
+        <translation>Afficher des informations au sujet du SilkCoin</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -411,7 +411,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>&amp;Changer la phrase de passe...</translation>
     </message>
     <message numerus="yes">
-        <location line="+259"/>
+        <location line="+250"/>
         <source>~%n block(s) remaining</source>
         <translation><numerusform>~%n blocks restants</numerusform><numerusform>~%n blocs restants</numerusform></translation>
     </message>
@@ -421,19 +421,19 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Téléchargement des blocks de l&apos;historique des transactions : 1% sur 2% (%3% effectués).</translation>
     </message>
     <message>
-        <location line="-256"/>
+        <location line="-247"/>
         <source>&amp;Export...</source>
         <translation>&amp;Export...</translation>
     </message>
     <message>
-        <location line="-64"/>
-        <source>Send coins to a BlackCoin address</source>
-        <translation>Envoyer des monnaies vers une adresse BlackCoin</translation>
+        <location line="-62"/>
+        <source>Send coins to a SilkCoin address</source>
+        <translation>Envoyer des monnaies vers une adresse SilkCoin</translation>
     </message>
     <message>
-        <location line="+47"/>
-        <source>Modify configuration options for BlackCoin</source>
-        <translation>Modification des options de configuration de BlackCoin</translation>
+        <location line="+45"/>
+        <source>Modify configuration options for SilkCoin</source>
+        <translation>Modification des options de configuration de SilkCoin</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -471,9 +471,9 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>&amp;Vérifier un message...</translation>
     </message>
     <message>
-        <location line="-202"/>
-        <source>BlackCoin</source>
-        <translation>BlackCoin</translation>
+        <location line="-200"/>
+        <source>SilkCoin</source>
+        <translation>SilkCoin</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -481,9 +481,9 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Portefeuille</translation>
     </message>
     <message>
-        <location line="+180"/>
-        <source>&amp;About BlackCoin</source>
-        <translation>A propos de BlackCoin</translation>
+        <location line="+178"/>
+        <source>&amp;About SilkCoin</source>
+        <translation>A propos de SilkCoin</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -506,7 +506,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Verrouiller le portefeuille</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+34"/>
         <source>&amp;File</source>
         <translation>&amp;Fichier</translation>
     </message>
@@ -521,7 +521,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>&amp;Aide</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>Tabs toolbar</source>
         <translation>Barre d&apos;outils des onglets</translation>
     </message>
@@ -539,13 +539,13 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+0"/>
         <location line="+60"/>
-        <source>BlackCoin client</source>
-        <translation>Client BlackCoin</translation>
+        <source>SilkCoin client</source>
+        <translation>Client SilkCoin</translation>
     </message>
     <message numerus="yes">
-        <location line="+75"/>
-        <source>%n active connection(s) to BlackCoin network</source>
-        <translation><numerusform>%n connexion active au réseau BlackCoin</numerusform><numerusform>%n connexions actives au réseau BlackCoin</numerusform></translation>
+        <location line="+70"/>
+        <source>%n active connection(s) to SilkCoin network</source>
+        <translation><numerusform>%n connexion active au réseau SilkCoin</numerusform><numerusform>%n connexions actives au réseau SilkCoin</numerusform></translation>
     </message>
     <message>
         <location line="+40"/>
@@ -583,22 +583,12 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation><numerusform>il y a %n seconde</numerusform><numerusform>il y a %n secondes</numerusform></translation>
     </message>
     <message>
-        <location line="-312"/>
-        <source>About BlackCoin card</source>
-        <translation>Au sujet de la carte BlackCoin</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Show information about BlackCoin card</source>
-        <translation>Informations sur la carte BlackCoin</translation>
-    </message>
-    <message>
-        <location line="+18"/>
+        <location line="-284"/>
         <source>&amp;Unlock Wallet...</source>
         <translation>&amp;Déverrouiller le portefeuille</translation>
     </message>
     <message numerus="yes">
-        <location line="+297"/>
+        <location line="+288"/>
         <source>%n minute(s) ago</source>
         <translation><numerusform>il y a %n minute</numerusform><numerusform>il y a %n minutes</numerusform></translation>
     </message>
@@ -669,8 +659,8 @@ Adresse : %4
     <message>
         <location line="-15"/>
         <location line="+15"/>
-        <source>URI can not be parsed! This can be caused by an invalid BlackCoin address or malformed URI parameters.</source>
-        <translation>L&apos;adresse du portefeuille BlackCoin n&apos;as pas pu être correctement identifiée, car invalide ou malformée.</translation>
+        <source>URI can not be parsed! This can be caused by an invalid SilkCoin address or malformed URI parameters.</source>
+        <translation>L&apos;adresse du portefeuille SilkCoin n&apos;as pas pu être correctement identifiée, car invalide ou malformée.</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -729,8 +719,8 @@ Adresse : %4
     </message>
     <message>
         <location filename="../bitcoin.cpp" line="+109"/>
-        <source>A fatal error occurred. BlackCoin can no longer continue safely and will quit.</source>
-        <translation>Une erreur fatale a été rencontrée. L&apos;application BlackCoin ne peut plus être s&apos;exécuter de façon correcte et doit se terminer.</translation>
+        <source>A fatal error occurred. SilkCoin can no longer continue safely and will quit.</source>
+        <translation>Une erreur fatale a été rencontrée. L&apos;application SilkCoin ne peut plus être s&apos;exécuter de façon correcte et doit se terminer.</translation>
     </message>
 </context>
 <context>
@@ -1063,8 +1053,8 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
     </message>
     <message>
         <location line="-5"/>
-        <source>The entered address &quot;%1&quot; is not a valid BlackCoin address.</source>
-        <translation>L&apos;adresse &quot;%1&quot; renseignée n&apos;est pas une adresse BlackCoin valide.</translation>
+        <source>The entered address &quot;%1&quot; is not a valid SilkCoin address.</source>
+        <translation>L&apos;adresse &quot;%1&quot; renseignée n&apos;est pas une adresse SilkCoin valide.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1082,8 +1072,8 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
     <message>
         <location filename="../guiutil.cpp" line="+420"/>
         <location line="+12"/>
-        <source>BlackCoin-Qt</source>
-        <translation>BlackCoin-Qt</translation>
+        <source>SilkCoin-Qt</source>
+        <translation>SilkCoin-Qt</translation>
     </message>
     <message>
         <location line="-12"/>
@@ -1155,13 +1145,13 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
     </message>
     <message>
         <location line="+31"/>
-        <source>Automatically start BlackCoin after logging in to the system.</source>
-        <translation>Démarrage automatique du client BlackCoin lors de la connexion au système</translation>
+        <source>Automatically start SilkCoin after logging in to the system.</source>
+        <translation>Démarrage automatique du client SilkCoin lors de la connexion au système</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>&amp;Start BlackCoin on system login</source>
-        <translation>&amp;Démarrage du client BlackCoin à la connexion au système</translation>
+        <source>&amp;Start SilkCoin on system login</source>
+        <translation>&amp;Démarrage du client SilkCoin à la connexion au système</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -1180,8 +1170,8 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
     </message>
     <message>
         <location line="+6"/>
-        <source>Automatically open the BlackCoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Ouverture automatique du port client de BlackCoin sur le routeur. Ceci ne fonctionne que dans le cas où le support UPnP sur votre routeur existe et est actif.</translation>
+        <source>Automatically open the SilkCoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Ouverture automatique du port client de SilkCoin sur le routeur. Ceci ne fonctionne que dans le cas où le support UPnP sur votre routeur existe et est actif.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1190,8 +1180,8 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
     </message>
     <message>
         <location line="+7"/>
-        <source>Connect to the BlackCoin network through a SOCKS proxy (e.g. when connecting through Tor).</source>
-        <translation>Connexion au réseau BlackCoin à travers un proxy SOCKS (e.g. Connexion via le réseau Tor).</translation>
+        <source>Connect to the SilkCoin network through a SOCKS proxy (e.g. when connecting through Tor).</source>
+        <translation>Connexion au réseau SilkCoin à travers un proxy SOCKS (e.g. Connexion via le réseau Tor).</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1265,8 +1255,8 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
     </message>
     <message>
         <location line="+13"/>
-        <source>The user interface language can be set here. This setting will take effect after restarting BlackCoin.</source>
-        <translation>La langue d&apos;interface de de l&apos;utilisateur peut être définie ici. Ces modification seront effectives après redémarrage de l&apos;application BlackCoin</translation>
+        <source>The user interface language can be set here. This setting will take effect after restarting SilkCoin.</source>
+        <translation>La langue d&apos;interface de de l&apos;utilisateur peut être définie ici. Ces modification seront effectives après redémarrage de l&apos;application SilkCoin</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -1280,8 +1270,8 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
     </message>
     <message>
         <location line="+9"/>
-        <source>Whether to show BlackCoin addresses in the transaction list or not.</source>
-        <translation>Afficher les adresses BlackCoin au sein de la liste de transactions</translation>
+        <source>Whether to show SilkCoin addresses in the transaction list or not.</source>
+        <translation>Afficher les adresses SilkCoin au sein de la liste de transactions</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1327,8 +1317,8 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
     <message>
         <location line="-9"/>
         <location line="+9"/>
-        <source>This setting will take effect after restarting BlackCoin.</source>
-        <translation>Les paramètres prendront effet après redémarrage du client BlackCoin</translation>
+        <source>This setting will take effect after restarting SilkCoin.</source>
+        <translation>Les paramètres prendront effet après redémarrage du client SilkCoin</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -1346,8 +1336,8 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
     <message>
         <location line="+33"/>
         <location line="+231"/>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the BlackCoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>Les informations affichées peuvent être obsolètes. Votre portefeuille se synchronise automatiquement avec le réseau BlackCoin mais ce processus n&apos;est pas encore terminé.</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the SilkCoin network after a connection is established, but this process has not completed yet.</source>
+        <translation>Les informations affichées peuvent être obsolètes. Votre portefeuille se synchronise automatiquement avec le réseau SilkCoin mais ce processus n&apos;est pas encore terminé.</translation>
     </message>
     <message>
         <location line="-160"/>
@@ -1562,8 +1552,8 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
     </message>
     <message>
         <location line="+7"/>
-        <source>Show the BlackCoin-Qt help message to get a list with possible BlackCoin command-line options.</source>
-        <translation>Afficher le message d&apos;aide BlackCoin-Qt afin d&apos;obtenir la liste des options de de L&apos;outil en ligne de commande BlackCoin</translation>
+        <source>Show the SilkCoin-Qt help message to get a list with possible SilkCoin command-line options.</source>
+        <translation>Afficher le message d&apos;aide SilkCoin-Qt afin d&apos;obtenir la liste des options de de L&apos;outil en ligne de commande SilkCoin</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1582,13 +1572,13 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
     </message>
     <message>
         <location line="-104"/>
-        <source>BlackCoin - Debug window</source>
-        <translation>BlackCoin - Fenêtre de déboggage</translation>
+        <source>SilkCoin - Debug window</source>
+        <translation>SilkCoin - Fenêtre de déboggage</translation>
     </message>
     <message>
         <location line="+25"/>
-        <source>BlackCoin Core</source>
-        <translation>BlackCoin Core</translation>
+        <source>SilkCoin Core</source>
+        <translation>SilkCoin Core</translation>
     </message>
     <message>
         <location line="+279"/>
@@ -1597,8 +1587,8 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
     </message>
     <message>
         <location line="+7"/>
-        <source>Open the BlackCoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
-        <translation>Ouvrir le fichier journal de debug BlackCoin au sein du répertoire courant. Cette opération peut prendre quelques secondes dans le cas de fichiers journaux volumineux.</translation>
+        <source>Open the SilkCoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
+        <translation>Ouvrir le fichier journal de debug SilkCoin au sein du répertoire courant. Cette opération peut prendre quelques secondes dans le cas de fichiers journaux volumineux.</translation>
     </message>
     <message>
         <location line="+102"/>
@@ -1607,8 +1597,8 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
     </message>
     <message>
         <location filename="../rpcconsole.cpp" line="-33"/>
-        <source>Welcome to the BlackCoin RPC console.</source>
-        <translation>Bienvenue sur la console BlackCoin RPC.</translation>
+        <source>Welcome to the SilkCoin RPC console.</source>
+        <translation>Bienvenue sur la console SilkCoin RPC.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1681,8 +1671,8 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
         <location line="+86"/>
         <location line="+86"/>
         <location line="+32"/>
-        <source>0.00 BC</source>
-        <translation>123.456 BC {0.00 ?}</translation>
+        <source>0.00 SC</source>
+        <translation>123.456 SC {0.00 ?}</translation>
     </message>
     <message>
         <location line="-191"/>
@@ -1751,8 +1741,8 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
     </message>
     <message>
         <location line="+16"/>
-        <source>123.456 BC</source>
-        <translation>123.456 BC</translation>
+        <source>123.456 SC</source>
+        <translation>123.456 SC</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -1766,8 +1756,8 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
     </message>
     <message>
         <location filename="../sendcoinsdialog.cpp" line="-173"/>
-        <source>Enter a BlackCoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation>Entrer une adresse BlackCoin (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
+        <source>Enter a SilkCoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
+        <translation>Entrer une adresse SilkCoin (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -1866,8 +1856,8 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
     </message>
     <message>
         <location line="+251"/>
-        <source>WARNING: Invalid BlackCoin address</source>
-        <translation>AVERTISSEMENT: Adresse BlackCoin Invalide</translation>
+        <source>WARNING: Invalid SilkCoin address</source>
+        <translation>AVERTISSEMENT: Adresse SilkCoin Invalide</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1877,7 +1867,7 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
     <message>
         <location line="+4"/>
         <source>WARNING: unknown change address</source>
-        <translation>AVERTISSEMET: Adresse BlackCoin Invalide</translation>
+        <translation>AVERTISSEMET: Adresse SilkCoin Invalide</translation>
     </message>
 </context>
 <context>
@@ -1940,8 +1930,8 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
     </message>
     <message>
         <location filename="../sendcoinsentry.cpp" line="+1"/>
-        <source>Enter a BlackCoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation>Entrer une adresse BlackCoin (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
+        <source>Enter a SilkCoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
+        <translation>Entrer une adresse SilkCoin (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
     </message>
 </context>
 <context>
@@ -1965,7 +1955,7 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
     <message>
         <location line="+18"/>
         <source>The address to sign the message with (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation>Entrer une adresse BlackCoin (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
+        <translation>Entrer une adresse SilkCoin (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -2001,8 +1991,8 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
     </message>
     <message>
         <location line="+21"/>
-        <source>Sign the message to prove you own this BlackCoin address</source>
-        <translation>Signer le message afin de prouver l&apos;identité de votre adresse BlackCoin</translation>
+        <source>Sign the message to prove you own this SilkCoin address</source>
+        <translation>Signer le message afin de prouver l&apos;identité de votre adresse SilkCoin</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -2033,8 +2023,8 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
     </message>
     <message>
         <location line="+40"/>
-        <source>Verify the message to ensure it was signed with the specified BlackCoin address</source>
-        <translation>Vérifier un message pour s&apos;assurer qu&apos;il vient d&apos;un adresse BlackCoin spécifique.</translation>
+        <source>Verify the message to ensure it was signed with the specified SilkCoin address</source>
+        <translation>Vérifier un message pour s&apos;assurer qu&apos;il vient d&apos;un adresse SilkCoin spécifique.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -2044,8 +2034,8 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
     <message>
         <location filename="../signverifymessagedialog.cpp" line="+27"/>
         <location line="+3"/>
-        <source>Enter a BlackCoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation>Entrer une adresse BlackCoin (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
+        <source>Enter a SilkCoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
+        <translation>Entrer une adresse SilkCoin (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
     </message>
     <message>
         <location line="-2"/>
@@ -2054,8 +2044,8 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
     </message>
     <message>
         <location line="+3"/>
-        <source>Enter BlackCoin signature</source>
-        <translation>Entrer une signature BlackCoin</translation>
+        <source>Enter SilkCoin signature</source>
+        <translation>Entrer une signature SilkCoin</translation>
     </message>
     <message>
         <location line="+82"/>
@@ -2625,8 +2615,8 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
     <name>bitcoin-core</name>
     <message>
         <location filename="../bitcoinstrings.cpp" line="+33"/>
-        <source>BlackCoin version</source>
-        <translation>Version BlackCoin</translation>
+        <source>SilkCoin version</source>
+        <translation>Version SilkCoin</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2635,8 +2625,8 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
     </message>
     <message>
         <location line="+1"/>
-        <source>Send command to -server or blackcoind</source>
-        <translation>Envoyer commande à -server ou blackcoind</translation>
+        <source>Send command to -server or SilkCoind</source>
+        <translation>Envoyer commande à -server ou SilkCoind</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2655,13 +2645,13 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
     </message>
     <message>
         <location line="+2"/>
-        <source>Specify configuration file (default: blackcoin.conf)</source>
-        <translation>Spécifier le fichier de configuration (defaut: blackcoin.conf)</translation>
+        <source>Specify configuration file (default: SilkCoin.conf)</source>
+        <translation>Spécifier le fichier de configuration (defaut: SilkCoin.conf)</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Specify pid file (default: blackcoind.pid)</source>
-        <translation>Spécifier le fichier pid (defaut: blackcoind.pid)
+        <source>Specify pid file (default: SilkCoind.pid)</source>
+        <translation>Spécifier le fichier pid (defaut: SilkCoind.pid)
 </translation>
     </message>
     <message>
@@ -2811,8 +2801,8 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
     </message>
     <message>
         <location line="+61"/>
-        <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong BlackCoin will not work properly.</source>
-        <translation>Avertissement: Veuillez vérifier la date et l&apos;heure de votre ordinateur. BlackCoin ne pourra pas fonctionner correctement si l&apos;horloge est réglée de façon incorrecte</translation>
+        <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong SilkCoin will not work properly.</source>
+        <translation>Avertissement: Veuillez vérifier la date et l&apos;heure de votre ordinateur. SilkCoin ne pourra pas fonctionner correctement si l&apos;horloge est réglée de façon incorrecte</translation>
     </message>
     <message>
         <location line="-31"/>
@@ -3001,24 +2991,24 @@ Les montants inférieurs à  0.546 fois les frais minimum de relais apparaissent
         <source>%s, you must set a rpcpassword in the configuration file:
  %s
 It is recommended you use the following random password:
-rpcuser=blackcoinrpc
+rpcuser=SilkCoinrpc
 rpcpassword=%s
 (you do not need to remember this password)
 The username and password MUST NOT be the same.
 If the file does not exist, create it with owner-readable-only file permissions.
 It is also recommended to set alertnotify so you are notified of problems;
-for example: alertnotify=echo %%s | mail -s &quot;BlackCoin Alert&quot; admin@foo.com
+for example: alertnotify=echo %%s | mail -s &quot;SilkCoin Alert&quot; admin@foo.com
 </source>
         <translation>%s, vous devez définir un mot de passe rpc &apos;rpcpassword&apos; au sein du fichier de configuration:
  %s
 Il est recommandé d&apos;utiliser le mot de passe aléatoire suivant:
-rpcuser=blackcoinrpc
+rpcuser=SilkCoinrpc
 rpcpassword=%s
 (il n&apos;est pas nécessaire de retenir ce mot de passe)
 Le nom d&apos;utilisateur et le mot de passe doivent IMPERATIVEMENT être différents.
 Si le fichier n&apos;existe pas, il est nécessaire de le créer, avec les droit de lecture au propriétaire seulement.
 Il est également recommandé d&apos;utiliser l&apos;option alertnotify afin d&apos;être notifié des problèmes;
-par exemple: alertnotify=echo %%s | mail -s &quot;Alerte BlackCoin&quot; admin@foo.com
+par exemple: alertnotify=echo %%s | mail -s &quot;Alerte SilkCoin&quot; admin@foo.com
 </translation>
     </message>
     <message>
@@ -3143,13 +3133,13 @@ par exemple: alertnotify=echo %%s | mail -s &quot;Alerte BlackCoin&quot; admin@f
     </message>
     <message>
         <location line="+1"/>
-        <source>Cannot obtain a lock on data directory %s.  BlackCoin is probably already running.</source>
-        <translation>Echec lors de la tentative de verrouillage des données du répertoire %s. L&apos;application BlackCoin est probablement déjà en cours d&apos;exécution</translation>
+        <source>Cannot obtain a lock on data directory %s.  SilkCoin is probably already running.</source>
+        <translation>Echec lors de la tentative de verrouillage des données du répertoire %s. L&apos;application SilkCoin est probablement déjà en cours d&apos;exécution</translation>
     </message>
     <message>
         <location line="-98"/>
-        <source>BlackCoin</source>
-        <translation>BlackCoin</translation>
+        <source>SilkCoin</source>
+        <translation>SilkCoin</translation>
     </message>
     <message>
         <location line="+140"/>
@@ -3183,13 +3173,13 @@ par exemple: alertnotify=echo %%s | mail -s &quot;Alerte BlackCoin&quot; admin@f
     </message>
     <message>
         <location line="+4"/>
-        <source>Error loading wallet.dat: Wallet requires newer version of BlackCoin</source>
-        <translation>Erreur de chargement du fichier wallet.dat: le portefeuille nécessite une version plus récente de l&apos;application BlackCoin</translation>
+        <source>Error loading wallet.dat: Wallet requires newer version of SilkCoin</source>
+        <translation>Erreur de chargement du fichier wallet.dat: le portefeuille nécessite une version plus récente de l&apos;application SilkCoin</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Wallet needed to be rewritten: restart BlackCoin to complete</source>
-        <translation>le portefeuille nécessite d&apos;être réédité : Merci de relancer l&apos;application BlackCoin</translation>
+        <source>Wallet needed to be rewritten: restart SilkCoin to complete</source>
+        <translation>le portefeuille nécessite d&apos;être réédité : Merci de relancer l&apos;application SilkCoin</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -3258,8 +3248,8 @@ par exemple: alertnotify=echo %%s | mail -s &quot;Alerte BlackCoin&quot; admin@f
     </message>
     <message>
         <location line="+122"/>
-        <source>Unable to bind to %s on this computer. BlackCoin is probably already running.</source>
-        <translation>Connexion au port %s impossible. L&apos;application BlackCoin est probablement déjà en cours d&apos;exécution</translation>
+        <source>Unable to bind to %s on this computer. SilkCoin is probably already running.</source>
+        <translation>Connexion au port %s impossible. L&apos;application SilkCoin est probablement déjà en cours d&apos;exécution</translation>
     </message>
     <message>
         <location line="-97"/>

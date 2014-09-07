@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>868</width>
+    <width>905</width>
     <height>601</height>
    </rect>
   </property>
@@ -93,7 +93,7 @@
            <cursorShape>IBeamCursor</cursorShape>
           </property>
           <property name="text">
-           <string notr="true">1.0.6.7</string>
+           <string notr="true">1.1.0.12</string>
           </property>
           <property name="textFormat">
            <enum>Qt::RichText</enum>

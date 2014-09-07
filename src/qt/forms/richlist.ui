@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>RichList</class>
+ <widget class="QWidget" name="RichList">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>766</width>
+    <height>509</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QTreeWidget" name="tblRichList">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>50</y>
+     <width>741</width>
+     <height>421</height>
+    </rect>
+   </property>
+   <property name="columnCount">
+    <number>6</number>
+   </property>
+   <column>
+    <property name="text">
+     <string>Rank</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string/>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Address</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Silk</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>BTC</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>USD</string>
+    </property>
+   </column>
+  </widget>
+  <widget class="QPushButton" name="btnRefresh">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>480</y>
+     <width>141</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background:#34495e;color:white;margin:0px;text-align:center;padding:2px;border-radius:3px;font-style:italic;width:100px;font-size:14px;font-family:calibri;font-weight:600;</string>
+   </property>
+   <property name="text">
+    <string>Refresh</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -3,43 +3,35 @@
 #include "guiconstants.h"
 
 QValidatedLineEdit::QValidatedLineEdit(QWidget *parent) :
-    QLineEdit(parent), valid(true)
-{
+    QLineEdit(parent), valid(true) {
     connect(this, SIGNAL(textChanged(QString)), this, SLOT(markValid()));
 }
 
-void QValidatedLineEdit::setValid(bool valid)
-{
-    if(valid == this->valid)
-    {
+void QValidatedLineEdit::setValid(bool valid) {
+    if (valid == this->valid) {
         return;
     }
 
-    if(valid)
-    {
+    if (valid) {
         setStyleSheet("");
-    }
-    else
-    {
+    } else {
         setStyleSheet(STYLE_INVALID);
     }
+
     this->valid = valid;
 }
 
-void QValidatedLineEdit::focusInEvent(QFocusEvent *evt)
-{
+void QValidatedLineEdit::focusInEvent(QFocusEvent *evt) {
     // Clear invalid flag on focus
     setValid(true);
     QLineEdit::focusInEvent(evt);
 }
 
-void QValidatedLineEdit::markValid()
-{
+void QValidatedLineEdit::markValid() {
     setValid(true);
 }
 
-void QValidatedLineEdit::clear()
-{
+void QValidatedLineEdit::clear() {
     setValid(true);
     QLineEdit::clear();
 }

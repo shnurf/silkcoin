@@ -3,19 +3,19 @@
     <name>AboutDialog</name>
     <message>
         <location filename="../forms/aboutdialog.ui" line="+14"/>
-        <source>About BlackCoin</source>
-        <translation>BlackCoin Hakkında</translation>
+        <source>About SilkCoin</source>
+        <translation>SilkCoin Hakkında</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>&lt;b&gt;BlackCoin&lt;/b&gt; version</source>
-        <translation>&lt;b&gt;BlackCoin&lt;/b&gt; versiyonu</translation>
+        <source>&lt;b&gt;SilkCoin&lt;/b&gt; version</source>
+        <translation>&lt;b&gt;SilkCoin&lt;/b&gt; versiyonu</translation>
     </message>
     <message>
         <location line="+41"/>
         <source>Copyright © 2009-2014 The Bitcoin developers
 Copyright © 2012-2014 The NovaCoin developers
-Copyright © 2014 The BlackCoin developers</source>
+Copyright © 2014 The SilkCoin developers</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -63,8 +63,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="-46"/>
-        <source>These are your BlackCoin addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</source>
-        <translation>Bunlar, ödeme almak için BlackCoin adreslerinizdir. Her bir göndericiye farklı birini verebilir, böylece size kimin ödeme yaptığını takip edebilirsiniz.</translation>
+        <source>These are your SilkCoin addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</source>
+        <translation>Bunlar, ödeme almak için SilkCoin adreslerinizdir. Her bir göndericiye farklı birini verebilir, böylece size kimin ödeme yaptığını takip edebilirsiniz.</translation>
     </message>
     <message>
         <location line="+60"/>
@@ -78,8 +78,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+11"/>
-        <source>Sign a message to prove you own a BlackCoin address</source>
-        <translation>Bir BlackCoin adresine sahip olduğunu ispatlamak için bir mesaj imzala</translation>
+        <source>Sign a message to prove you own a SilkCoin address</source>
+        <translation>Bir SilkCoin adresine sahip olduğunu ispatlamak için bir mesaj imzala</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -93,8 +93,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="-14"/>
-        <source>Verify a message to ensure it was signed with a specified BlackCoin address</source>
-        <translation>Mesajın, belirli bir BlackCoin adresiyle imzalandığından emin olmak için onu doğrula</translation>
+        <source>Verify a message to ensure it was signed with a specified SilkCoin address</source>
+        <translation>Mesajın, belirli bir SilkCoin adresiyle imzalandığından emin olmak için onu doğrula</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -261,8 +261,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="-58"/>
-        <source>BlackCoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your coins from being stolen by malware infecting your computer.</source>
-        <translation>BlackCoin, şifreleme işlemini tamamlamak için şimdi kapatılacak. Cüzdanınızı şifrelemenin; coinlerinizin, bilgisayarınızı etkileyen zararlı yazılımlar tarafından çalınmasını bütünüyle engelleyemeyebileceğini unutmayınız.</translation>
+        <source>SilkCoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your coins from being stolen by malware infecting your computer.</source>
+        <translation>SilkCoin, şifreleme işlemini tamamlamak için şimdi kapatılacak. Cüzdanınızı şifrelemenin; coinlerinizin, bilgisayarınızı etkileyen zararlı yazılımlar tarafından çalınmasını bütünüyle engelleyemeyebileceğini unutmayınız.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -309,17 +309,17 @@ This product includes software developed by the OpenSSL Project for use in the O
 <context>
     <name>BitcoinGUI</name>
     <message>
-        <location filename="../bitcoingui.cpp" line="+282"/>
+        <location filename="../bitcoingui.cpp" line="+280"/>
         <source>Sign &amp;message...</source>
         <translation>&amp;Mesaj imzala...</translation>
     </message>
     <message>
-        <location line="+251"/>
+        <location line="+242"/>
         <source>Synchronizing with network...</source>
         <translation>Ağ ile senkronizasyon...</translation>
     </message>
     <message>
-        <location line="-319"/>
+        <location line="-308"/>
         <source>&amp;Overview</source>
         <translation>&amp;Genel bakış</translation>
     </message>
@@ -374,9 +374,9 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Uygulamadan çık</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>Show information about BlackCoin</source>
-        <translation>BlackCoin hakkındaki bilgiyi göster</translation>
+        <location line="+4"/>
+        <source>Show information about SilkCoin</source>
+        <translation>SilkCoin hakkındaki bilgiyi göster</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -409,7 +409,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Parolayı &amp;Değiştir...</translation>
     </message>
     <message numerus="yes">
-        <location line="+259"/>
+        <location line="+250"/>
         <source>~%n block(s) remaining</source>
         <translation><numerusform>~%n blok kaldı</numerusform><numerusform>~%n blok kaldı</numerusform></translation>
     </message>
@@ -419,19 +419,19 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>İşlem geçmişindeki %2 bloğun %1&apos;i indirildi (%3% tamamlandı).</translation>
     </message>
     <message>
-        <location line="-256"/>
+        <location line="-247"/>
         <source>&amp;Export...</source>
         <translation>&amp;Dışarı aktar...</translation>
     </message>
     <message>
-        <location line="-64"/>
-        <source>Send coins to a BlackCoin address</source>
-        <translation>Bir BlackCoin adresine coin gönder</translation>
+        <location line="-62"/>
+        <source>Send coins to a SilkCoin address</source>
+        <translation>Bir SilkCoin adresine coin gönder</translation>
     </message>
     <message>
-        <location line="+47"/>
-        <source>Modify configuration options for BlackCoin</source>
-        <translation>BlackCoin yapılandırma seçeneklerini değiştir</translation>
+        <location line="+45"/>
+        <source>Modify configuration options for SilkCoin</source>
+        <translation>SilkCoin yapılandırma seçeneklerini değiştir</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -469,9 +469,9 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Mesajı &amp;doğrula...</translation>
     </message>
     <message>
-        <location line="-202"/>
-        <source>BlackCoin</source>
-        <translation>BlackCoin</translation>
+        <location line="-200"/>
+        <source>SilkCoin</source>
+        <translation>SilkCoin</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -479,9 +479,9 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Cüzdan</translation>
     </message>
     <message>
-        <location line="+180"/>
-        <source>&amp;About BlackCoin</source>
-        <translation>BlackCoin &amp;Hakkında</translation>
+        <location line="+178"/>
+        <source>&amp;About SilkCoin</source>
+        <translation>SilkCoin &amp;Hakkında</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -504,7 +504,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>Cüzdanı kilitle</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+34"/>
         <source>&amp;File</source>
         <translation>&amp;Dosya</translation>
     </message>
@@ -519,7 +519,7 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation>&amp;Yardım</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+9"/>
         <source>Tabs toolbar</source>
         <translation>Sekme araç çubuğu</translation>
     </message>
@@ -537,13 +537,13 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+0"/>
         <location line="+60"/>
-        <source>BlackCoin client</source>
-        <translation>BlackCoin istemcisi</translation>
+        <source>SilkCoin client</source>
+        <translation>SilkCoin istemcisi</translation>
     </message>
     <message numerus="yes">
-        <location line="+75"/>
-        <source>%n active connection(s) to BlackCoin network</source>
-        <translation><numerusform>BlackCoin ağına %n etkin bağlantı</numerusform><numerusform>BlackCoin ağına %n etkin bağlantı</numerusform></translation>
+        <location line="+70"/>
+        <source>%n active connection(s) to SilkCoin network</source>
+        <translation><numerusform>SilkCoin ağına %n etkin bağlantı</numerusform><numerusform>SilkCoin ağına %n etkin bağlantı</numerusform></translation>
     </message>
     <message>
         <location line="+40"/>
@@ -581,22 +581,12 @@ This product includes software developed by the OpenSSL Project for use in the O
         <translation><numerusform>%n saniye önce</numerusform><numerusform>%n saniye önce</numerusform></translation>
     </message>
     <message>
-        <location line="-312"/>
-        <source>About BlackCoin card</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Show information about BlackCoin card</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location line="+18"/>
+        <location line="-284"/>
         <source>&amp;Unlock Wallet...</source>
         <translation>Cüzdanı &amp;Kilitle...</translation>
     </message>
     <message numerus="yes">
-        <location line="+297"/>
+        <location line="+288"/>
         <source>%n minute(s) ago</source>
         <translation><numerusform>%n dakika önce</numerusform><numerusform>%n dakika önce</numerusform></translation>
     </message>
@@ -623,7 +613,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+10"/>
         <source>Last received block was generated %1.</source>
-        <translation type="unfinished"/>
+        <translation>Son alınan blok, üretildi %1.</translation>
     </message>
     <message>
         <location line="+59"/>
@@ -667,8 +657,8 @@ Adres: %4
     <message>
         <location line="-15"/>
         <location line="+15"/>
-        <source>URI can not be parsed! This can be caused by an invalid BlackCoin address or malformed URI parameters.</source>
-        <translation>URI ayrıştırılamadı! Bu, geçersiz bir BlackCoin adresi veya hatalı URI parametreleri nedeniyle olabilir.</translation>
+        <source>URI can not be parsed! This can be caused by an invalid SilkCoin address or malformed URI parameters.</source>
+        <translation>URI ayrıştırılamadı! Bu, geçersiz bir SilkCoin adresi veya hatalı URI parametreleri nedeniyle olabilir.</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -727,8 +717,8 @@ Adres: %4
     </message>
     <message>
         <location filename="../bitcoin.cpp" line="+109"/>
-        <source>A fatal error occurred. BlackCoin can no longer continue safely and will quit.</source>
-        <translation>Önemli bir hata oluştu. BlackCoin artık güvenli bir şekilde devam edemez ve şimdi kapatılacak.</translation>
+        <source>A fatal error occurred. SilkCoin can no longer continue safely and will quit.</source>
+        <translation>Önemli bir hata oluştu. SilkCoin artık güvenli bir şekilde devam edemez ve şimdi kapatılacak.</translation>
     </message>
 </context>
 <context>
@@ -1061,8 +1051,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="-5"/>
-        <source>The entered address &quot;%1&quot; is not a valid BlackCoin address.</source>
-        <translation>Girilen %1 adresi, geçerli bir BlackCoin adresi değildir.</translation>
+        <source>The entered address &quot;%1&quot; is not a valid SilkCoin address.</source>
+        <translation>Girilen %1 adresi, geçerli bir SilkCoin adresi değildir.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1080,8 +1070,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location filename="../guiutil.cpp" line="+420"/>
         <location line="+12"/>
-        <source>BlackCoin-Qt</source>
-        <translation>BlackCoin-Qt</translation>
+        <source>SilkCoin-Qt</source>
+        <translation>SilkCoin-Qt</translation>
     </message>
     <message>
         <location line="-12"/>
@@ -1144,22 +1134,22 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+31"/>
         <source>Reserved amount does not participate in staking and is therefore spendable at any time.</source>
-        <translation type="unfinished"/>
+        <translation>Ayrılan miktar, pay almaya katılamıyor ve bu yüzden herhangi bir anda harcanabilir.</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Reserve</source>
-        <translation type="unfinished"/>
+        <translation>Ayrılan</translation>
     </message>
     <message>
         <location line="+31"/>
-        <source>Automatically start BlackCoin after logging in to the system.</source>
-        <translation>Sisteme giriş yaptıktan sonra BlackCoin&apos;i otomatik olarak başlat</translation>
+        <source>Automatically start SilkCoin after logging in to the system.</source>
+        <translation>Sisteme giriş yaptıktan sonra SilkCoin&apos;i otomatik olarak başlat</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>&amp;Start BlackCoin on system login</source>
-        <translation>Sisteme girişte BlackCoin&apos;i &amp;başlat</translation>
+        <source>&amp;Start SilkCoin on system login</source>
+        <translation>Sisteme girişte SilkCoin&apos;i &amp;başlat</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -1178,8 +1168,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+6"/>
-        <source>Automatically open the BlackCoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Yönelticide BlackCoin istemci portunu otomatik olarak aç. Bu, sadece yönelticiniz UPnP&apos;i desteklediğinde ve etkin olduğunda çalışır.</translation>
+        <source>Automatically open the SilkCoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Yönelticide SilkCoin istemci portunu otomatik olarak aç. Bu, sadece yönelticiniz UPnP&apos;i desteklediğinde ve etkin olduğunda çalışır.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1188,8 +1178,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+7"/>
-        <source>Connect to the BlackCoin network through a SOCKS proxy (e.g. when connecting through Tor).</source>
-        <translation>BlackCoin ağına bir SOCKS vekil sunucusu yoluyla bağlan (örn. Tor yoluyla bağlanıldığında)</translation>
+        <source>Connect to the SilkCoin network through a SOCKS proxy (e.g. when connecting through Tor).</source>
+        <translation>SilkCoin ağına bir SOCKS vekil sunucusu yoluyla bağlan (örn. Tor yoluyla bağlanıldığında)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1263,8 +1253,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+13"/>
-        <source>The user interface language can be set here. This setting will take effect after restarting BlackCoin.</source>
-        <translation>Kullanıcı arabirimi dili buradan ayarlanabilir. Ayar, BlackCoin yeniden başlatıldığında etkin olacaktır.</translation>
+        <source>The user interface language can be set here. This setting will take effect after restarting SilkCoin.</source>
+        <translation>Kullanıcı arabirimi dili buradan ayarlanabilir. Ayar, SilkCoin yeniden başlatıldığında etkin olacaktır.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -1278,8 +1268,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+9"/>
-        <source>Whether to show BlackCoin addresses in the transaction list or not.</source>
-        <translation type="unfinished"/>
+        <source>Whether to show SilkCoin addresses in the transaction list or not.</source>
+        <translation>SilkCoin adresinin işlem listesinde gösterilmesi veya gösterilmemesi</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1294,7 +1284,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+3"/>
         <source>Display coin &amp;control features (experts only!)</source>
-        <translation type="unfinished"/>
+        <translation>Coin &amp;kontrol özelliklerini göster (sadece uzman kişiler!)</translation>
     </message>
     <message>
         <location line="+71"/>
@@ -1309,7 +1299,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+10"/>
         <source>&amp;Apply</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Uygula</translation>
     </message>
     <message>
         <location filename="../optionsdialog.cpp" line="+55"/>
@@ -1320,13 +1310,13 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
         <location line="+149"/>
         <location line="+9"/>
         <source>Warning</source>
-        <translation type="unfinished"/>
+        <translation>Uyarı</translation>
     </message>
     <message>
         <location line="-9"/>
         <location line="+9"/>
-        <source>This setting will take effect after restarting BlackCoin.</source>
-        <translation type="unfinished"/>
+        <source>This setting will take effect after restarting SilkCoin.</source>
+        <translation>Bu ayar, SilkCoin&apos;i yeniden başlattıktan sonra etkin olacaktır.</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -1344,18 +1334,18 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+33"/>
         <location line="+231"/>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the BlackCoin network after a connection is established, but this process has not completed yet.</source>
-        <translation type="unfinished"/>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the SilkCoin network after a connection is established, but this process has not completed yet.</source>
+        <translation>Görüntülenen bilginin tarihi geçmiş olabilir. Cüzdanınız, bağlantı kurulduktan sonra otomatik olarak SilkCoin ağı ile senkronize olur ancak bu süreç, henüz tamamlanmamıştır.</translation>
     </message>
     <message>
         <location line="-160"/>
         <source>Stake:</source>
-        <translation type="unfinished"/>
+        <translation>Pay:</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Unconfirmed:</source>
-        <translation type="unfinished"/>
+        <translation>Doğrulanmamış:</translation>
     </message>
     <message>
         <location line="-107"/>
@@ -1365,7 +1355,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+49"/>
         <source>Spendable:</source>
-        <translation type="unfinished"/>
+        <translation>Harcanabilir:</translation>
     </message>
     <message>
         <location line="+16"/>
@@ -1400,12 +1390,12 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="-108"/>
         <source>Total of transactions that have yet to be confirmed, and do not yet count toward the current balance</source>
-        <translation type="unfinished"/>
+        <translation>Henüz onaylanmamış ve mevcut bakiyede yer almayan işlemler toplamı</translation>
     </message>
     <message>
         <location line="-29"/>
         <source>Total of coins that was staked, and do not yet count toward the current balance</source>
-        <translation type="unfinished"/>
+        <translation>Pay alınmış ve mevcut bakiyede yer almayan coin toplamı</translation>
     </message>
     <message>
         <location filename="../overviewpage.cpp" line="+113"/>
@@ -1419,57 +1409,57 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location filename="../forms/qrcodedialog.ui" line="+14"/>
         <source>QR Code Dialog</source>
-        <translation type="unfinished"/>
+        <translation>QR Kodu İletisi</translation>
     </message>
     <message>
         <location line="+59"/>
         <source>Request Payment</source>
-        <translation type="unfinished"/>
+        <translation>Ödeme Talep Et</translation>
     </message>
     <message>
         <location line="+56"/>
         <source>Amount:</source>
-        <translation type="unfinished"/>
+        <translation>Miktar:</translation>
     </message>
     <message>
         <location line="-44"/>
         <source>Label:</source>
-        <translation type="unfinished"/>
+        <translation>Etiket:</translation>
     </message>
     <message>
         <location line="+19"/>
         <source>Message:</source>
-        <translation type="unfinished"/>
+        <translation>Mesaj:</translation>
     </message>
     <message>
         <location line="+71"/>
         <source>&amp;Save As...</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Farklı Kaydet...</translation>
     </message>
     <message>
         <location filename="../qrcodedialog.cpp" line="+62"/>
         <source>Error encoding URI into QR Code.</source>
-        <translation type="unfinished"/>
+        <translation>URI&apos;nin QR koduna kodlanmasında hata oluştu.</translation>
     </message>
     <message>
         <location line="+40"/>
         <source>The entered amount is invalid, please check.</source>
-        <translation type="unfinished"/>
+        <translation>Girilen miktar geçersizdir, lütfen kontrol ediniz.</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>Resulting URI too long, try to reduce the text for label / message.</source>
-        <translation type="unfinished"/>
+        <translation>Sonuç URI&apos;si çok uzundur, etiket / mesaj için olan metni kısaltmaya çalışın.</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Save QR Code</source>
-        <translation type="unfinished"/>
+        <translation>QR Kodu&apos;nu Kaydet</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>PNG Images (*.png)</source>
-        <translation type="unfinished"/>
+        <translation>PNG İmgeleri (*.png)</translation>
     </message>
 </context>
 <context>
@@ -1526,7 +1516,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+23"/>
         <source>On testnet</source>
-        <translation type="unfinished"/>
+        <translation>Testnet üzerinde</translation>
     </message>
     <message>
         <location line="+23"/>
@@ -1556,17 +1546,17 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+16"/>
         <source>Command-line options</source>
-        <translation type="unfinished"/>
+        <translation>Komut satırı seçenekleri</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Show the BlackCoin-Qt help message to get a list with possible BlackCoin command-line options.</source>
-        <translation type="unfinished"/>
+        <source>Show the SilkCoin-Qt help message to get a list with possible SilkCoin command-line options.</source>
+        <translation>Muhtemel SilkCoin komut satırı seçeneklerinin bir listesini getirmek için SilkCoin-Qt yardım mesajını göster</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Show</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Göster</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -1580,13 +1570,13 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="-104"/>
-        <source>BlackCoin - Debug window</source>
-        <translation type="unfinished"/>
+        <source>SilkCoin - Debug window</source>
+        <translation>SilkCoin - Hata ayıklama penceresi</translation>
     </message>
     <message>
         <location line="+25"/>
-        <source>BlackCoin Core</source>
-        <translation type="unfinished"/>
+        <source>SilkCoin Core</source>
+        <translation>SilkCoin Core</translation>
     </message>
     <message>
         <location line="+279"/>
@@ -1595,8 +1585,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+7"/>
-        <source>Open the BlackCoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
-        <translation type="unfinished"/>
+        <source>Open the SilkCoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
+        <translation>SilkCoin hata ayıklama günlük kütüğü dosyasını, mevcut veri klasöründen aç. Bu işlem, büyük günlük kütüğü dosyaları için birkaç saniye sürebilir.</translation>
     </message>
     <message>
         <location line="+102"/>
@@ -1605,8 +1595,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location filename="../rpcconsole.cpp" line="-33"/>
-        <source>Welcome to the BlackCoin RPC console.</source>
-        <translation type="unfinished"/>
+        <source>Welcome to the SilkCoin RPC console.</source>
+        <translation>SilkCoin RPC konsoluna hoş geldiniz.</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1662,7 +1652,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
         <location line="+22"/>
         <location line="+35"/>
         <source>0</source>
-        <translation type="unfinished"/>
+        <translation>0</translation>
     </message>
     <message>
         <location line="-19"/>
@@ -1679,8 +1669,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
         <location line="+86"/>
         <location line="+86"/>
         <location line="+32"/>
-        <source>0.00 BC</source>
-        <translation type="unfinished"/>
+        <source>0.00 SC</source>
+        <translation>123.456 SC {0.00 ?}</translation>
     </message>
     <message>
         <location line="-191"/>
@@ -1690,7 +1680,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+19"/>
         <source>medium</source>
-        <translation type="unfinished"/>
+        <translation>orta</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -1705,7 +1695,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+19"/>
         <source>no</source>
-        <translation type="unfinished"/>
+        <translation>hayır</translation>
     </message>
     <message>
         <location line="+32"/>
@@ -1715,12 +1705,12 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+35"/>
         <source>Change</source>
-        <translation type="unfinished"/>
+        <translation>Değiştir</translation>
     </message>
     <message>
         <location line="+50"/>
         <source>custom change address</source>
-        <translation type="unfinished"/>
+        <translation>özel adres değişikliği</translation>
     </message>
     <message>
         <location line="+106"/>
@@ -1735,7 +1725,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+20"/>
         <source>Remove all transaction fields</source>
-        <translation type="unfinished"/>
+        <translation>Tüm işlem alanlarını kaldır</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1749,8 +1739,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+16"/>
-        <source>123.456 BC</source>
-        <translation type="unfinished"/>
+        <source>123.456 SC</source>
+        <translation>123.456 SC</translation>
     </message>
     <message>
         <location line="+31"/>
@@ -1764,8 +1754,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location filename="../sendcoinsdialog.cpp" line="-173"/>
-        <source>Enter a BlackCoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation type="unfinished"/>
+        <source>Enter a SilkCoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
+        <translation>Bir SilkCoin adresi gir (örn: B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -1810,7 +1800,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+86"/>
         <source>&lt;b&gt;%1&lt;/b&gt; to %2 (%3)</source>
-        <translation type="unfinished"/>
+        <translation>&lt;b&gt;%1&lt;/b&gt; %2&apos;ye (%3)</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -1820,12 +1810,12 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+1"/>
         <source>Are you sure you want to send %1?</source>
-        <translation type="unfinished"/>
+        <translation>%1 göndermek istediğinizden emin misiniz?</translation>
     </message>
     <message>
         <location line="+0"/>
         <source> and </source>
-        <translation type="unfinished"/>
+        <translation>ve</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -1855,17 +1845,17 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+5"/>
         <source>Error: Transaction creation failed.</source>
-        <translation type="unfinished"/>
+        <translation>Hata: İşlem yaratma başarısız oldu.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Error: The transaction was rejected. This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation type="unfinished"/>
+        <translation>Hata: İşlem reddedildi. Bu, örneğin wallet.dat dosyasının bir kopyasını kullandıysanız ve coinler, kopyada harcanmış ve burada harcanmış olarak işaretlenmemişse, cüzdanınızdaki coinlerin bir bölümünün harcanması nedeniyle olabilir. </translation>
     </message>
     <message>
         <location line="+251"/>
-        <source>WARNING: Invalid BlackCoin address</source>
-        <translation type="unfinished"/>
+        <source>WARNING: Invalid SilkCoin address</source>
+        <translation>UYARI: Geçersiz SilkCoin adresi</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1875,7 +1865,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+4"/>
         <source>WARNING: unknown change address</source>
-        <translation type="unfinished"/>
+        <translation>UYARI: bilinmeyen adres değişikliği</translation>
     </message>
 </context>
 <context>
@@ -1883,7 +1873,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location filename="../forms/sendcoinsentry.ui" line="+14"/>
         <source>Form</source>
-        <translation type="unfinished"/>
+        <translation>Form</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -1909,12 +1899,12 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+18"/>
         <source>The address to send the payment to  (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation type="unfinished"/>
+        <translation>Ödemenin gönderileceği adres (örn: B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Choose address from address book</source>
-        <translation type="unfinished"/>
+        <translation>Adres defterinden adres seç</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1934,12 +1924,12 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+7"/>
         <source>Remove this recipient</source>
-        <translation type="unfinished"/>
+        <translation>Bu alıcıyı kaldır</translation>
     </message>
     <message>
         <location filename="../sendcoinsentry.cpp" line="+1"/>
-        <source>Enter a BlackCoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation type="unfinished"/>
+        <source>Enter a SilkCoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
+        <translation>Bir SilkCoin adresi girin (örn: B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
     </message>
 </context>
 <context>
@@ -1963,13 +1953,13 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+18"/>
         <source>The address to sign the message with (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation type="unfinished"/>
+        <translation>Mesajın imzalanacağı adres (örn: B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
     </message>
     <message>
         <location line="+10"/>
         <location line="+203"/>
         <source>Choose an address from the address book</source>
-        <translation type="unfinished"/>
+        <translation>Adres defterinden adres seç</translation>
     </message>
     <message>
         <location line="-193"/>
@@ -1999,8 +1989,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+21"/>
-        <source>Sign the message to prove you own this BlackCoin address</source>
-        <translation type="unfinished"/>
+        <source>Sign the message to prove you own this SilkCoin address</source>
+        <translation>Bu SilkCoin adresine sahip olduğunuzu ispatlamak için mesajı imzala</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -2027,12 +2017,12 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+21"/>
         <source>The address the message was signed with (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation type="unfinished"/>
+        <translation>Mesajın imzalandığı adres (örn: B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
     </message>
     <message>
         <location line="+40"/>
-        <source>Verify the message to ensure it was signed with the specified BlackCoin address</source>
-        <translation type="unfinished"/>
+        <source>Verify the message to ensure it was signed with the specified SilkCoin address</source>
+        <translation>Mesajın, belirtilen SilkCoin adresiyle imzalandığından emin olmak için onu doğrula</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -2042,8 +2032,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location filename="../signverifymessagedialog.cpp" line="+27"/>
         <location line="+3"/>
-        <source>Enter a BlackCoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
-        <translation type="unfinished"/>
+        <source>Enter a SilkCoin address (e.g. B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</source>
+        <translation>Bir SilkCoin adresi girin (örn: B8gZqgY4r2RoEdqYk3QsAqFckyf9pRHN6i)</translation>
     </message>
     <message>
         <location line="-2"/>
@@ -2052,8 +2042,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+3"/>
-        <source>Enter BlackCoin signature</source>
-        <translation type="unfinished"/>
+        <source>Enter SilkCoin signature</source>
+        <translation>SilkCoin imzası gir</translation>
     </message>
     <message>
         <location line="+82"/>
@@ -2132,7 +2122,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message numerus="yes">
         <location line="-2"/>
         <source>Open for %n block(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n blok için aç</numerusform><numerusform>%n blok için aç</numerusform></translation>
     </message>
     <message>
         <location line="+8"/>
@@ -2162,7 +2152,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message numerus="yes">
         <location line="+7"/>
         <source>, broadcast through %n node(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>, %n devre üzerinde yayınlama</numerusform><numerusform>, %n devre üzerinde yayınlama</numerusform></translation>
     </message>
     <message>
         <location line="+4"/>
@@ -2215,7 +2205,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message numerus="yes">
         <location line="-102"/>
         <source>matures in %n more block(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n blok içerisinde olgunlaşıyor</numerusform><numerusform>%n blok içerisinde olgunlaşıyor</numerusform></translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2258,7 +2248,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+3"/>
         <source>Generated coins must mature 510 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation type="unfinished"/>
+        <translation>Üretilen coinler, harcanmaya başlamadan önce 510 blokta olgunlaşmalıdır. Bu bloğu ürettiğinizde, blok zincirine eklenmek üzere ağda yayınlanır. Eğer blok, zincire girmede başarısız olursa, bloğun durumu &quot;kabul edilmedi&quot;ye dönüşür ve harcanamaz. Bu, başka bir devre sizden birkaç saniye önce bir blok ürettiyse gerçekleşebilir.</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -2349,7 +2339,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message numerus="yes">
         <location line="-15"/>
         <source>Open for %n more block(s)</source>
-        <translation type="unfinished"><numerusform></numerusform><numerusform></numerusform></translation>
+        <translation><numerusform>%n blok için aç</numerusform><numerusform>%n blok için aç</numerusform></translation>
     </message>
     <message>
         <location line="+6"/>
@@ -2548,7 +2538,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+144"/>
         <source>Export Transaction Data</source>
-        <translation type="unfinished"/>
+        <translation>İşlem Verisini Dışarı Aktar</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2593,12 +2583,12 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+4"/>
         <source>Error exporting</source>
-        <translation type="unfinished"/>
+        <translation>Dışarı aktarmada hata</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Could not write to file %1.</source>
-        <translation type="unfinished"/>
+        <translation>%1 dosyasına yazılamadı.</translation>
     </message>
     <message>
         <location line="+100"/>
@@ -2616,15 +2606,15 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location filename="../walletmodel.cpp" line="+206"/>
         <source>Sending...</source>
-        <translation type="unfinished"/>
+        <translation>Gönderiyor...</translation>
     </message>
 </context>
 <context>
     <name>bitcoin-core</name>
     <message>
         <location filename="../bitcoinstrings.cpp" line="+33"/>
-        <source>BlackCoin version</source>
-        <translation type="unfinished"/>
+        <source>SilkCoin version</source>
+        <translation>SilkCoin versiyonu</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2633,8 +2623,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+1"/>
-        <source>Send command to -server or blackcoind</source>
-        <translation type="unfinished"/>
+        <source>Send command to -server or SilkCoind</source>
+        <translation>-sunucu veya SilkCoind&apos;ye komut gönder</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2653,13 +2643,13 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+2"/>
-        <source>Specify configuration file (default: blackcoin.conf)</source>
-        <translation type="unfinished"/>
+        <source>Specify configuration file (default: SilkCoin.conf)</source>
+        <translation>Konfigürasyon dosyasını belirt (varsayılan: SilkCoin.conf)</translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>Specify pid file (default: blackcoind.pid)</source>
-        <translation type="unfinished"/>
+        <source>Specify pid file (default: SilkCoind.pid)</source>
+        <translation>pid dosyasını belirt (varsayılan: SilkCoin.pid)</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -2679,12 +2669,12 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+1"/>
         <source>Set database disk log size in megabytes (default: 100)</source>
-        <translation type="unfinished"/>
+        <translation>Veritabanı disk log boyutunu megabayt olarak ayarla (varsayılan: 100)</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Listen for connections on &lt;port&gt; (default: 15714 or testnet: 25714)</source>
-        <translation type="unfinished"/>
+        <translation>&lt;port&gt; üzerinde bağlantıları dinle (varsayılan: 15714 veya testnet: 25714)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2704,12 +2694,12 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+5"/>
         <source>Bind to given address. Use [host]:port notation for IPv6</source>
-        <translation type="unfinished"/>
+        <translation>Belirtilen adrese bağlı. IPv6 için [host]:port notasyonunu kullan</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Stake your coins to support network and gain reward (default: 1)</source>
-        <translation type="unfinished"/>
+        <translation>Ağı desteklemek için coinlerinizden pay alın ve ödül kazanın (varsayılan: 1)</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -2729,22 +2719,22 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+51"/>
         <source>Detach block and address databases. Increases shutdown time (default: 0)</source>
-        <translation type="unfinished"/>
+        <translation>Blok ve adres veritabanlarını birbirinden ayır. Kapanma süresini arttırır (varsayılan: 0)</translation>
     </message>
     <message>
         <location line="+109"/>
         <source>Error: The transaction was rejected.  This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation type="unfinished"/>
+        <translation>Hata: İşlem reddedildi. Bu; cüzdanınızdaki bazı coinler, önceden harcanmışsa, örneğin wallet.dat dosyasının bir kopyasını kullandıysanız ve bu kopyadaki coinler harcanmış ve burada harcanmış olarak işaretlenmediyse gerçekleşebilir.</translation>
     </message>
     <message>
         <location line="-5"/>
         <source>Error: This transaction requires a transaction fee of at least %s because of its amount, complexity, or use of recently received funds  </source>
-        <translation type="unfinished"/>
+        <translation>Hata: Bu işlem; miktarı, karmaşıklığı veya son alınan miktarın kullanımı nedeniyle en az %s işlem ücreti gerektirir</translation>
     </message>
     <message>
         <location line="-87"/>
         <source>Listen for JSON-RPC connections on &lt;port&gt; (default: 15715 or testnet: 25715)</source>
-        <translation type="unfinished"/>
+        <translation>&lt;port&gt; üzerinde JSON-RPC bağlantılarını dinle (varsayılan: 15715 veya testnet: 25715)</translation>
     </message>
     <message>
         <location line="-11"/>
@@ -2754,22 +2744,22 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+101"/>
         <source>Error: Transaction creation failed  </source>
-        <translation type="unfinished"/>
+        <translation>Hata: İşlem yaratma başarısız oldu</translation>
     </message>
     <message>
         <location line="-5"/>
         <source>Error: Wallet locked, unable to create transaction  </source>
-        <translation type="unfinished"/>
+        <translation>Hata: Cüzdan kilitli, işlem yaratılamıyor</translation>
     </message>
     <message>
         <location line="-8"/>
         <source>Importing blockchain data file.</source>
-        <translation type="unfinished"/>
+        <translation>Blok zinciri veri dosyası içeri aktarılıyor.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Importing bootstrap blockchain data file.</source>
-        <translation type="unfinished"/>
+        <translation>Önyükleme blok zinciri veri dosyası içeri aktarılıyor.</translation>
     </message>
     <message>
         <location line="-88"/>
@@ -2794,12 +2784,12 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+117"/>
         <source>Error initializing database environment %s! To recover, BACKUP THAT DIRECTORY, then remove everything from it except for wallet.dat.</source>
-        <translation type="unfinished"/>
+        <translation>Veritabanı ortamı %s başlatılırken hata oluştu! Kurtarmak için, İLGİLİ KLASÖRÜ YEDEKLEYİN, ardından wallet.dat dışındaki her şeyi silin.</translation>
     </message>
     <message>
         <location line="-20"/>
         <source>Set maximum size of high-priority/low-fee transactions in bytes (default: 27000)</source>
-        <translation type="unfinished"/>
+        <translation>Bayt olarak yüksek öncelikli/düşük ücretli işlemlerin maksimum boyutunu belirle (varsayılan: 27000)</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -2808,8 +2798,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     </message>
     <message>
         <location line="+61"/>
-        <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong BlackCoin will not work properly.</source>
-        <translation type="unfinished"/>
+        <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong SilkCoin will not work properly.</source>
+        <translation>Uyarı: Lütfen bilgisayarınızın tarih ve saatinin doğru olduğunu kontrol ediniz! Saatiniz yanlış ise, SilkCoin düzgün çalışmayacaktır.</translation>
     </message>
     <message>
         <location line="-31"/>
@@ -2849,22 +2839,22 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="-90"/>
         <source>Find peers using DNS lookup (default: 1)</source>
-        <translation type="unfinished"/>
+        <translation>DNS arama kullanarak eşleri bul (varsayılan: 1)</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Sync checkpoints policy (default: strict)</source>
-        <translation type="unfinished"/>
+        <translation>Kontrol noktası politikasını senkronize et (varsayılan: sıkı)</translation>
     </message>
     <message>
         <location line="+83"/>
         <source>Invalid -tor address: &apos;%s&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Geçersiz -tor adresi: &apos;%s&apos;</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Invalid amount for -reservebalance=&lt;amount&gt;</source>
-        <translation type="unfinished"/>
+        <translation>-reservebalance=&lt;amount&gt; için geçersiz miktar</translation>
     </message>
     <message>
         <location line="-82"/>
@@ -2884,17 +2874,17 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+28"/>
         <source>Output extra debugging information. Implies all other -debug* options</source>
-        <translation type="unfinished"/>
+        <translation>Ekstra hata ayıklama bilgisini çıktı al. Diğer tüm -debug* seçeneklerini kapsar</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Output extra network debugging information</source>
-        <translation type="unfinished"/>
+        <translation>Ekstra ağ hata ayıklama bilgisini çıktı al</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Prepend debug output with timestamp</source>
-        <translation type="unfinished"/>
+        <translation>Tarih bilgisini, hata ayıklama çıktısının başına ekle</translation>
     </message>
     <message>
         <location line="+35"/>
@@ -2904,7 +2894,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="-74"/>
         <source>Select the version of socks proxy to use (4-5, default: 5)</source>
-        <translation type="unfinished"/>
+        <translation>Kullanılacak socks vekil sunucusunun versiyonunu seç (4-5, varsayılan: 5)</translation>
     </message>
     <message>
         <location line="+41"/>
@@ -2914,12 +2904,12 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+1"/>
         <source>Send trace/debug info to debugger</source>
-        <translation type="unfinished"/>
+        <translation>Hata ayıklayıcıya iz sürme/hata ayıklama bilgisi gönder</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Set maximum block size in bytes (default: 250000)</source>
-        <translation type="unfinished"/>
+        <translation>Bayt olarak maksimum blok boyutunu belirle (varsayılan: 250000)</translation>
     </message>
     <message>
         <location line="-1"/>
@@ -2940,7 +2930,8 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
         <location line="+109"/>
         <source>Unable to sign checkpoint, wrong checkpointkey?
 </source>
-        <translation type="unfinished"/>
+        <translation>Kontrol noktası imzalanamadı, bu bir hatalı kontrol noktası anahtarı mı?
+</translation>
     </message>
     <message>
         <location line="-80"/>
@@ -2955,7 +2946,7 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="-25"/>
         <source>Use proxy to reach tor hidden services (default: same as -proxy)</source>
-        <translation type="unfinished"/>
+        <translation>Tor gizli servisine erişim için vekil sunucu kullan (varsayılan: -proxy ile aynı)</translation>
     </message>
     <message>
         <location line="+42"/>
@@ -2965,17 +2956,17 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
     <message>
         <location line="+47"/>
         <source>Verifying database integrity...</source>
-        <translation type="unfinished"/>
+        <translation>Veritabanı bütünlüğü doğrulanıyor...</translation>
     </message>
     <message>
         <location line="+57"/>
         <source>WARNING: syncronized checkpoint violation detected, but skipped!</source>
-        <translation type="unfinished"/>
+        <translation>UYARI: senkronize edilen kontrol noktası ihlali tespit edildi ancak atlandı!</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Warning: Disk space is low!</source>
-        <translation type="unfinished"/>
+        <translation>Uyarı: Disk alanı düşüktür!</translation>
     </message>
     <message>
         <location line="-2"/>
@@ -2997,25 +2988,35 @@ This label turns red, if the priority is smaller than &quot;medium&quot;.
         <source>%s, you must set a rpcpassword in the configuration file:
  %s
 It is recommended you use the following random password:
-rpcuser=blackcoinrpc
+rpcuser=SilkCoinrpc
 rpcpassword=%s
 (you do not need to remember this password)
 The username and password MUST NOT be the same.
 If the file does not exist, create it with owner-readable-only file permissions.
 It is also recommended to set alertnotify so you are notified of problems;
-for example: alertnotify=echo %%s | mail -s &quot;BlackCoin Alert&quot; admin@foo.com
+for example: alertnotify=echo %%s | mail -s &quot;SilkCoin Alert&quot; admin@foo.com
 </source>
-        <translation type="unfinished"/>
+        <translation>%s, konfigürasyon dosyasında bir rpcpassword belirlemelisiniz:
+ %s
+Aşağıdaki rastgele parolayı kullanmanız tavsiye edilir:
+rpcuser=SilkCoinrpc
+rpcpassword=%s
+(bu parolayı hatırlamanız gerekmemektedir)
+Kullanıcı adı ve parola aynı OLMAMALIDIR.
+Dosya mevcut değilse, dosyayı sadece-kullanıcı-okuyabilir dosya izniyle yaratınız.
+alertnotify ayarlamanız da ayrıca tavsiye edilir böylece sorunlar, size bildirilir;
+örneğin: alertnotify=echo %%s | mail -s &quot;SilkCoin Uyarısı&quot; admin@foo.com
+</translation>
     </message>
     <message>
         <location line="+51"/>
         <source>Find peers using internet relay chat (default: 0)</source>
-        <translation type="unfinished"/>
+        <translation>Internet aktarımlı söyleşi kullanarak eşleri bul (varsayılan: 1) {0)?}</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Sync time with other nodes. Disable if time on your system is precise e.g. syncing with NTP (default: 1)</source>
-        <translation type="unfinished"/>
+        <translation>Diğer devrelerle saati senkronize et. Sisteminizdeki saat doğru ise devre dışı bırakın, örn: NTC ile senkronize etme (varsayılan: 1)</translation>
     </message>
     <message>
         <location line="+15"/>
@@ -3129,12 +3130,12 @@ for example: alertnotify=echo %%s | mail -s &quot;BlackCoin Alert&quot; admin@fo
     </message>
     <message>
         <location line="+1"/>
-        <source>Cannot obtain a lock on data directory %s.  BlackCoin is probably already running.</source>
+        <source>Cannot obtain a lock on data directory %s.  SilkCoin is probably already running.</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="-98"/>
-        <source>BlackCoin</source>
+        <source>SilkCoin</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -3169,12 +3170,12 @@ for example: alertnotify=echo %%s | mail -s &quot;BlackCoin Alert&quot; admin@fo
     </message>
     <message>
         <location line="+4"/>
-        <source>Error loading wallet.dat: Wallet requires newer version of BlackCoin</source>
+        <source>Error loading wallet.dat: Wallet requires newer version of SilkCoin</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location line="+1"/>
-        <source>Wallet needed to be rewritten: restart BlackCoin to complete</source>
+        <source>Wallet needed to be rewritten: restart SilkCoin to complete</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -3244,7 +3245,7 @@ for example: alertnotify=echo %%s | mail -s &quot;BlackCoin Alert&quot; admin@fo
     </message>
     <message>
         <location line="+122"/>
-        <source>Unable to bind to %s on this computer. BlackCoin is probably already running.</source>
+        <source>Unable to bind to %s on this computer. SilkCoin is probably already running.</source>
         <translation type="unfinished"/>
     </message>
     <message>

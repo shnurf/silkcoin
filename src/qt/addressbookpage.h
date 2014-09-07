@@ -4,7 +4,7 @@
 #include <QDialog>
 
 namespace Ui {
-    class AddressBookPage;
+class AddressBookPage;
 }
 class AddressTableModel;
 class OptionsModel;
@@ -19,11 +19,10 @@ QT_END_NAMESPACE
 
 /** Widget that shows a list of sending or receiving addresses.
   */
-class AddressBookPage : public QDialog
-{
+class AddressBookPage : public QDialog {
     Q_OBJECT
 
-public:
+  public:
     enum Tabs {
         SendingTab = 0,
         ReceivingTab = 1
@@ -39,13 +38,15 @@ public:
 
     void setModel(AddressTableModel *model);
     void setOptionsModel(OptionsModel *optionsModel);
-    const QString &getReturnValue() const { return returnValue; }
+    const QString &getReturnValue() const {
+        return returnValue;
+    }
 
-public slots:
+  public slots:
     void done(int retval);
     void exportClicked();
 
-private:
+  private:
     Ui::AddressBookPage *ui;
     AddressTableModel *model;
     OptionsModel *optionsModel;
@@ -57,7 +58,7 @@ private:
     QAction *deleteAction;
     QString newAddressToSelect;
 
-private slots:
+  private slots:
     void on_deleteButton_clicked();
     void on_newAddressButton_clicked();
     /** Copy address of currently selected address entry to clipboard */
@@ -77,7 +78,7 @@ private slots:
     /** New entry/entries were added to address table */
     void selectNewAddress(const QModelIndex &parent, int begin, int end);
 
-signals:
+  signals:
     void signMessage(QString addr);
     void verifyMessage(QString addr);
 };

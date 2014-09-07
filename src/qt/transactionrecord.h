@@ -10,13 +10,12 @@ class CWalletTx;
 
 /** UI model for transaction status. The transaction status is the part of a transaction that will change over time.
  */
-class TransactionStatus
-{
-public:
+class TransactionStatus {
+  public:
     TransactionStatus():
-            countsForBalance(false), sortKey(""),
-            matures_in(0), status(Offline), depth(0), open_for(0), cur_num_blocks(-1)
-    { }
+        countsForBalance(false), sortKey(""),
+        matures_in(0), status(Offline), depth(0), open_for(0), cur_num_blocks(-1) {
+    }
 
     enum Status {
         Confirmed,          /**< Have 6 or more confirmations (normal tx) or fully mature (mined tx) **/
@@ -57,11 +56,9 @@ public:
 /** UI model for a transaction. A core transaction can be represented by multiple UI transactions if it has
     multiple outputs.
  */
-class TransactionRecord
-{
-public:
-    enum Type
-    {
+class TransactionRecord {
+  public:
+    enum Type {
         Other,
         Generated,
         SendToAddress,
@@ -75,22 +72,19 @@ public:
     static const int RecommendedNumConfirmations = 10;
 
     TransactionRecord():
-            hash(), time(0), type(Other), address(""), debit(0), credit(0), idx(0)
-    {
+        hash(), time(0), type(Other), address(""), debit(0), credit(0), idx(0) {
     }
 
     TransactionRecord(uint256 hash, int64_t time):
-            hash(hash), time(time), type(Other), address(""), debit(0),
-            credit(0), idx(0)
-    {
+        hash(hash), time(time), type(Other), address(""), debit(0),
+        credit(0), idx(0) {
     }
 
     TransactionRecord(uint256 hash, int64_t time,
-                Type type, const std::string &address,
-                int64_t debit, int64_t credit):
-            hash(hash), time(time), type(type), address(address), debit(debit), credit(credit),
-            idx(0)
-    {
+                      Type type, const std::string &address,
+                      int64_t debit, int64_t credit):
+        hash(hash), time(time), type(type), address(address), debit(debit), credit(credit),
+        idx(0) {
     }
 
     /** Decompose CWallet transaction to model transaction records.
